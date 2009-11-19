@@ -20,11 +20,13 @@
     </em:targetApplication>
 
     <!-- Front End MetaData -->
-    <em:name>Elasticfox</em:name>
-    <em:description>A graphical interface to Amazon's EC2 web service.</em:description>
+    <em:name>Hybridfox</em:name>
+    <em:description>A graphical interface to Amazon's EC2 and Eucalyptus web service.</em:description>
     <em:creator>James Greenfield (icons originally by Ken Saunders http://www.mouserunner.com)</em:creator>
-    <em:homepageURL>http://ec2.amazonaws.com</em:homepageURL>
+    <em:homepageURL>http:/code.google.com/p/hybridfox</em:homepageURL>
+<!--
     <em:updateURL>https://s3.amazonaws.com/ec2-downloads/ec2ui.rdf</em:updateURL>
+-->
   </Description>
 
   <Description about="urn:mozilla:extension:file:ec2ui.jar"

@@ -19,13 +19,13 @@
 
   <vbox flex="1">
     <groupbox>
-      <description class="header">Elasticfox version __VERSION__ build __BUILD__ (EC2 API <html:span id="ec2ui.apiversion">API-VERSION</html:span>)</description>
-      <description><html:p>Elasticfox is a Firefox extension for interacting with Amazon's EC2 web service.</html:p></description>
-      <description><html:p><html:a target="_blank" href="" onclick="openURL('http://sourceforge.net/projects/elasticfox/'); return false" style="color: blue; text-decoration: underline">sourceforge.net/projects/elasticfox</html:a></html:p></description>
+      <description class="header">Hybridfox version __VERSION__ build __BUILD__ (EC2 API <html:span id="ec2ui.apiversion">API-VERSION</html:span>)</description>
+      <description><html:p>Hybridfox is a Firefox extension for interacting with Amazon's EC2 and Eucalyptus web service.</html:p></description>
+      <description><html:p><html:a target="_blank" href="" onclick="openURL('http://code.google.com/p/hybridfox/'); return false" style="color: blue; text-decoration: underline">code.google.com/p/hybridfox</html:a></html:p></description>
     </groupbox>
     <vbox>
       <description>Icons were provided by <html:a target="_blank" href="" onclick="openURL('http://www.mouserunner.com/'); return false" style="color: blue; text-decoration: underline">Ken Saunders</html:a>. </description>
-      <description>Elasticfox is licensed under the <html:a target="_blank" href="" onclick="openURL('http://www.apache.org/licenses/'); return false" style="color: blue; text-decoration: underline">Apache 2.0</html:a> license.</description>
+      <description>Hybridfox is licensed under the <html:a target="_blank" href="" onclick="openURL('http://www.apache.org/licenses/'); return false" style="color: blue; text-decoration: underline">Apache 2.0</html:a> license.</description>
     </vbox>
   </vbox>
 </dialog>

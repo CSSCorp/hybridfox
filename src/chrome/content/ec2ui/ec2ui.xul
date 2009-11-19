@@ -13,7 +13,7 @@
   <script type="application/x-javascript" src="chrome://ec2ui/content/client.js" />
 
   <menupopup id="menu_ToolsPopup">
-    <menuitem id="ec2ui_menu" oncommand="ec2ui_session.openMainWindow();" insertafter="javascriptConsole,devToolsSeparator" label="Elasticfox"/>
+    <menuitem id="ec2ui_menu" oncommand="ec2ui_session.openMainWindow();" insertafter="javascriptConsole,devToolsSeparator" label="Hybridfox"/>
   </menupopup>
   <!-- statusbar id="status-bar">
     <statusbarpanel id="efox-statusicon" label="Hello, World" onclick="ec2ui_session.openMainWindow();">

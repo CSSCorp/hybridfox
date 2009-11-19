@@ -4,7 +4,7 @@
 var XpiInstaller = {
 
     // --- Editable items begin ---
-    extFullName: 'Elasticfox', // The name displayed to the user (don't include the version)
+    extFullName: 'Hybridfox', // The name displayed to the user (don't include the version)
     extShortName: 'ec2ui', // The leafname of the JAR file (without the .jar part)
     extVersion: '__VERSION__.__BUILD__',
     extAuthor: 'Manoj Mehta',

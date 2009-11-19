@@ -234,7 +234,7 @@ var ec2ui_session =
             var promptService =
                 Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
                 .getService(Components.interfaces.nsIPromptService);
-            var text = "Would you like to provide Elasticfox with your AWS Credentials?";
+            var text = "Would you like to provide Hybridfox with your AWS Credentials?";
 
             // if the user says no, the return value will not be 0.
             // In this case, just fall out
@@ -437,7 +437,7 @@ var ec2ui_session =
             var promptService =
                 Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
                 .getService(Components.interfaces.nsIPromptService);
-            var text = "Would you like to provide Elasticfox with an EC2 Endpoint?";
+            var text = "Would you like to provide Hybridfox with an EC2 Endpoint?";
 
             // if the user says no, the return value will not be 0.
             // in this case, just fall out.

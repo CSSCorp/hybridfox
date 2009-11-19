@@ -32,7 +32,7 @@ fi
 
 export PKG_VERSION=1.6
 export PKG_RELEASE=$(get_pkg_release)
-export PKG_NAME=elasticfox
+export PKG_NAME=hybridfox
 export BASE=$PKG_NAME-$PKG_VERSION.$PKG_RELEASE
 
 echo "+ Bulding $PKG_NAME version $PKG_VERSION-$PKG_RELEASE"
