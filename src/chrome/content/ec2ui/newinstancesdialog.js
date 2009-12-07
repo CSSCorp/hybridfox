@@ -37,6 +37,10 @@ var ec2_InstanceLauncher = {
         if (this.retVal.properties == "") {
             this.retVal.properties = null;
         }
+        	
+		// cmb: This adds the public/private addressing param to the return object.
+		this.retVal.addressingType = (document.getElementById("ec2ui.newinstances.addressingType").checked==true) ? "public" : "private";
+        
         this.retVal.ok = true;
 
         return true;

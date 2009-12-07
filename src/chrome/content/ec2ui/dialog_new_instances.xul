@@ -69,6 +69,10 @@
           <label control="ec2ui.newinstances.properties" value="Additional Info:" />
           <textbox id="ec2ui.newinstances.properties" size="40" />
         </row>
+        <row>
+          <label control="ec2ui.newinstances.addressingType" value="Public Address:" />
+          <checkbox id="ec2ui.newinstances.addressingType" checked="false" />
+        </row>
         <groupbox flex="1">
           <caption label="&ec2ui.captions.images.launchsecgroups.label;" />
           <grid flex="1">

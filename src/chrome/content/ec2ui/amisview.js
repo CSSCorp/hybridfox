@@ -111,6 +111,7 @@ var ec2ui_AMIsTreeView = {
                retVal.properties,
                retVal.instanceType,
                retVal.placement,
+               retVal.addressingType,
                this.newInstanceCallback);
         }
     },

@@ -502,7 +502,7 @@ var ec2ui_controller = {
         return list;
     },
 
-    runInstances : function (imageId, kernelId, ramdiskId, minCount, maxCount, keyName, securityGroups, userData, properties, instanceType, placement, callback) {
+    runInstances : function (imageId, kernelId, ramdiskId, minCount, maxCount, keyName, securityGroups, userData, properties, instanceType, placement, addressingType, callback) {
         var params = []
         region = getActiveRegion(ec2ui_session.getActiveEndpoint());
         //Just checking for eucalyptus or not
@@ -552,6 +552,7 @@ var ec2ui_controller = {
         if (placement.availabilityZone != null && placement.availabilityZone != "") {
             params.push(["Placement.AvailabilityZone", placement.availabilityZone]);
         }
+        params.push(["AddressingType", addressingType]);	//cmb: make the instance request with addressing type included.
         ec2_httpclient.queryEC2("RunInstances", params, this, true, "onCompleteRunInstances", callback);
     },
 
