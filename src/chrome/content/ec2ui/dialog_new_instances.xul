@@ -71,7 +71,7 @@
         </row>
         <row>
           <label control="ec2ui.newinstances.addressingType" value="Public Address:" />
-          <checkbox id="ec2ui.newinstances.addressingType" checked="false" />
+          <checkbox id="ec2ui.newinstances.addressingType" checked="true" />
         </row>
         <groupbox flex="1">
           <caption label="&ec2ui.captions.images.launchsecgroups.label;" />
