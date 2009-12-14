@@ -265,6 +265,11 @@ var ec2_InstanceLauncher = {
             // editable menulists
         }
 
+        //Since EC2 doesn't support private addressing, disable it when the region is US or EU.
+        if (region.search(/^us$/i) != -1 || region.search(/^eu$/i) != -1 ) {
+        	document.getElementById("ec2ui.newinstances.addressingType").disabled="true";
+        }
+        
         this.refreshDisplay();
     },
 
