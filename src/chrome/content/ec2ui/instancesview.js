@@ -799,7 +799,7 @@ var ec2ui_InstancesTreeView = {
            null,
            instance.instanceType,
            instance.placement,
-           "private",
+           "public",
            wrap);
     },
 
