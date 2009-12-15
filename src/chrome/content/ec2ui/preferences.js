@@ -164,6 +164,7 @@ var ec2ui_prefs = {
     CONCURRENT_S3_CONN  : "ec2ui.concurrent.S3.conns",
     PROMPT_OPEN_PORT    : "ec2ui.prompt.open.port",
     OPEN_CONNECTION_PORT: "ec2ui.open.connection.port",
+    NEW_US_WEST_ENTRY   : "ec2ui.new.us.west.entry.1.6.13",
     endpoints           : null,
 
     prefs : null,
@@ -571,12 +572,22 @@ var ec2ui_prefs = {
         var url = 'https://us-west-1.ec2.amazonaws.com';
         
         var pos = endpointJson.search(url);
-        if (pos == -1) { //US West region entry absent
+        var flag = this.isNewUsWestEntryAdded();
+        
+        if (pos==-1 && flag==false) { 
             var len = endpointJson.length;
             var UsWestJson = "'us-west-1':({'name':'us-west-1','url':'https://us-west-1.ec2.amazonaws.com'})";
             var newEndpointJson = endpointJson.substring(0, len-2) + "," + UsWestJson + "})";
-            alert(newEndpointJson);
             this.setStringPreference(this.ENDPOINTS, newEndpointJson);
+            this.setNewUsWestEntryFlag();
         }
+    },
+    
+    isNewUsWestEntryAdded : function() {
+        return this.getBoolPreference(this.NEW_US_WEST_ENTRY, false);
+    },
+    
+    setNewUsWestEntryFlag : function() {
+        this.setBoolPreference(this.NEW_US_WEST_ENTRY, true);
     }
 }
