@@ -201,6 +201,7 @@ var ec2ui_prefs = {
             this.setConcurrentS3Conns(this.getConcurrentS3Conns());
             this.setPromptForPortOpening(this.getPromptForPortOpening());
             this.setOpenConnectionPort(this.getOpenConnectionPort());
+            this.addNewUsWestRegion();
         }
     },
 
@@ -562,5 +563,20 @@ var ec2ui_prefs = {
 
     setBoolPreference : function(name, value) {
         this.prefs.setBoolPref(name, value);
+    },
+    
+    //add the new US West region
+    addNewUsWestRegion : function () {
+        var endpointJson = this.getStringPreference(this.ENDPOINTS, null);
+        var url = 'https://us-west-1.ec2.amazonaws.com';
+        
+        var pos = endpointJson.search(url);
+        if (pos == -1) { //US West region entry absent
+            var len = endpointJson.length;
+            var UsWestJson = "'us-west-1':({'name':'us-west-1','url':'https://us-west-1.ec2.amazonaws.com'})";
+            var newEndpointJson = endpointJson.substring(0, len-2) + "," + UsWestJson + "})";
+            alert(newEndpointJson);
+            this.setStringPreference(this.ENDPOINTS, newEndpointJson);
+        }
     }
 }
