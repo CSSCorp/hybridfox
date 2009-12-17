@@ -237,6 +237,7 @@ var ec2ui_controller = {
     },
 
     onCompleteDescribeImages : function (objResponse) {
+        this.descImagesInProgress = false;
         var xmlDoc = objResponse.xmlDoc;
 
         var list = new Array();
@@ -273,7 +274,6 @@ var ec2ui_controller = {
 
         this.addResourceTags(list, ec2ui_session.model.resourceMap.images, "id");
         ec2ui_model.updateImages(list);
-        this.descImagesInProgress = false;
         if (objResponse.callback)
             objResponse.callback(list);
     },
