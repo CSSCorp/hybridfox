@@ -356,10 +356,11 @@ var fileCopyStatus = {
 };
 
 var regExs = {
-    "ami" : new RegExp("^ami-[0-9a-f]{8}$"),
-    "aki" : new RegExp("^aki-[0-9a-f]{8}$"),
-    "ari" : new RegExp("^ari-[0-9a-f]{8}$"),
-    "all" : new RegExp("^a[kmr]i-[0-9a-f]{8}$")
+	// Allow emi/eki/eri for Eucalyptus
+    "ami" : new RegExp("^[ae]mi-[0-9a-f]{8}$"),
+    "aki" : new RegExp("^[ae]ki-[0-9a-f]{8}$"),
+    "ari" : new RegExp("^[ae]ri-[0-9a-f]{8}$"),
+    "all" : new RegExp("^[ae][kmr]i-[0-9a-f]{8}$")
 };
 
 // ec2ui_utils is akin to a static class
