@@ -9,7 +9,8 @@ var ec2_httpclient = {
     secretKey : null,
     timers : {},
 
-    USER_AGENT : "Elasticfox/__VERSION__-__BUILD__",
+	// Change the name since Eucalyptus 1.6.2 has a problem with Elasticfox.
+    USER_AGENT : "elasticfox/__VERSION__-__BUILD__",
 
     API_VERSION : "2009-03-01",
 
