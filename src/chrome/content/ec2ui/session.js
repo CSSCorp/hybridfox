@@ -154,14 +154,18 @@ var ec2ui_session =
             eval("ec2ui_SnapshotTreeView." + toCall);
             break;
         case "Bundle Tasks":
-            eval("ec2ui_BundleTasksTreeView." + toCall);
+        	if (this.isAmazonEndpoint()) {
+            	eval("ec2ui_BundleTasksTreeView." + toCall);
+			}
             break;
         case "Availability Zones":
             eval("ec2ui_AvailZoneTreeView." + toCall);
             break;
         case "Reserved Instances":
-            eval("ec2ui_LeaseOfferingsTreeView." + toCall);
-            eval("ec2ui_ReservedInstancesTreeView." + toCall);
+        	if (this.isAmazonEndpoint()) {
+				eval("ec2ui_LeaseOfferingsTreeView." + toCall);
+				eval("ec2ui_ReservedInstancesTreeView." + toCall);
+			}
             break;
         default:
             log ("This is an invalid tab: " + tabs.selectedItem.label);
@@ -517,5 +521,12 @@ var ec2ui_session =
         } else {
             getBrowser().selectedBrowser.contentDocument.location = url;
         }
-    }
+    },
+    isAmazonEndpoint: function () {
+    	var activeEndpointUrl = this.getActiveEndpoint().url;
+    	if (activeEndpointUrl.search(/ec2\.amazonaws\.com(\/)?$/)!=-1) { //if active endpoint url ends with "ec2.amazonaws.com"
+    		return true;
+		}
+		return false;
+	}
 };
