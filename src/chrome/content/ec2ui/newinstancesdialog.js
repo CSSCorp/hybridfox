@@ -159,34 +159,31 @@ var ec2_InstanceLauncher = {
         var typeMenu = document.getElementById("ec2ui.newinstances.instancetypelist");
         // Add the instance sizes based on AMI architecture
         if (this.image.arch == "x86_64") {
-            //Just checking for eucalyptus or not
-            region = getActiveRegion(this.ec2ui_session.getActiveEndpoint());
-            if (region.search(/^us$/i) == -1 && region.search(/^eu$/i) == -1 ) {
-                typeMenu.appendItem("m1.small", "m1.small");
-                typeMenu.appendItem("c1.medium", "c1.medium");
+            //Just checking for EC2 or not
+            if (this.ec2ui_session.isAmazonEndpointSelected()) {
                 typeMenu.appendItem("m1.large", "m1.large");
                 typeMenu.appendItem("m1.xlarge", "m1.xlarge");
                 typeMenu.appendItem("c1.xlarge", "c1.xlarge");
             }
             else {
-                typeMenu.appendItem("m1.large", "m1.large");
-                typeMenu.appendItem("m1.xlarge", "m1.xlarge");
-                typeMenu.appendItem("c1.xlarge", "c1.xlarge");
-                
-            }
-        } else {
-            //Just checking for eucalyptus or not
-            region = getActiveRegion(this.ec2ui_session.getActiveEndpoint());
-            if (region.search(/^us$/i) == -1 && region.search(/^eu$/i) == -1 ) {
                 typeMenu.appendItem("m1.small", "m1.small");
                 typeMenu.appendItem("c1.medium", "c1.medium");
                 typeMenu.appendItem("m1.large", "m1.large");
                 typeMenu.appendItem("m1.xlarge", "m1.xlarge");
                 typeMenu.appendItem("c1.xlarge", "c1.xlarge");
+            }
+        } else {
+            //Just checking for EC2 or not
+            if (this.ec2ui_session.isAmazonEndpointSelected()) {
+                typeMenu.appendItem("m1.small", "m1.small");
+                typeMenu.appendItem("c1.medium", "c1.medium");
             }
             else { 
                 typeMenu.appendItem("m1.small", "m1.small");
                 typeMenu.appendItem("c1.medium", "c1.medium");
+                typeMenu.appendItem("m1.large", "m1.large");
+                typeMenu.appendItem("m1.xlarge", "m1.xlarge");
+                typeMenu.appendItem("c1.xlarge", "c1.xlarge");
             }
         }
         typeMenu.selectedIndex = 0;
@@ -265,11 +262,11 @@ var ec2_InstanceLauncher = {
             // editable menulists
         }
 
-    	//Since EC2 doesn't support private addressing, disable it when the region is US or EU.
-    	if (region.search(/^us/i) != -1 || region.search(/^eu[^c]/i) != -1 ) {
-    		document.getElementById("ec2ui.newinstances.addressingType").disabled="true";
-    	} else {
+    	//Since EC2 doesn't support private addressing, disable it when the endpoint is not of Amazon.
+    	if (this.ec2ui_session.isAmazonEndpointSelected()) {
     		document.getElementById("ec2ui.newinstances.addressingType").removeAttribute("disabled");
+    	} else {
+    		document.getElementById("ec2ui.newinstances.addressingType").disabled="true";
     	}
 
         this.refreshDisplay();

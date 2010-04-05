@@ -154,7 +154,7 @@ var ec2ui_session =
             eval("ec2ui_SnapshotTreeView." + toCall);
             break;
         case "Bundle Tasks":
-        	if (this.isAmazonEndpoint()) {
+        	if (this.isAmazonEndpointSelected()) {
             	eval("ec2ui_BundleTasksTreeView." + toCall);
 			}
             break;
@@ -162,7 +162,7 @@ var ec2ui_session =
             eval("ec2ui_AvailZoneTreeView." + toCall);
             break;
         case "Reserved Instances":
-        	if (this.isAmazonEndpoint()) {
+        	if (this.isAmazonEndpointSelected()) {
 				eval("ec2ui_LeaseOfferingsTreeView." + toCall);
 				eval("ec2ui_ReservedInstancesTreeView." + toCall);
 			}
@@ -522,7 +522,7 @@ var ec2ui_session =
             getBrowser().selectedBrowser.contentDocument.location = url;
         }
     },
-    isAmazonEndpoint: function () {
+    isAmazonEndpointSelected: function () {
     	var activeEndpointUrl = this.getActiveEndpoint().url;
     	if (activeEndpointUrl.search(/ec2\.amazonaws\.com(\/)?$/)!=-1) { //if active endpoint url ends with "ec2.amazonaws.com"
     		return true;
