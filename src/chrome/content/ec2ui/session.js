@@ -522,11 +522,12 @@ var ec2ui_session =
             getBrowser().selectedBrowser.contentDocument.location = url;
         }
     },
+    
     isAmazonEndpointSelected: function () {
     	var activeEndpointUrl = this.getActiveEndpoint().url;
-    	if (activeEndpointUrl.search(/ec2\.amazonaws\.com(\/)?$/)!=-1) { //if active endpoint url ends with "ec2.amazonaws.com"
-    		return true;
-		}
-		return false;
+    	if (activeEndpointUrl.search(/\.amazonaws\.com(\/)?$/)!=-1) { //if active endpoint url ends with ".amazonaws.com"
+	    return true;
+	}
+	return false;
 	}
 };
