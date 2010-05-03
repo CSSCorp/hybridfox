@@ -1,5 +1,7 @@
 Hybridfoxfox Changelog
 --------------------
+1.6.000025
+- FEATURE: Added support for high memory Amazon instances
 
 1.6.000024
 - FEATURE: supports Amazon Asia Pacific region.
