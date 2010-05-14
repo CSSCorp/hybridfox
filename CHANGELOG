@@ -1,5 +1,8 @@
-Hybridfoxfox Changelog
+Hybridfox Changelog
 --------------------
+1.6.000027
+- FIX: Can't add region of local Eucalyptus
+
 1.6.000025
 - FEATURE: Added support for high memory Amazon instances
 

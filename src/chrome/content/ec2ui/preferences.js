@@ -407,8 +407,11 @@ var ec2ui_prefs = {
             // Unpack the map and return it
             var endpointmap = eval(packedMap);
 
-            if (endpointmap['us-east-1'].version == null) {
-                return new WrappedMapEndpoints(endpointmap, this);
+            // Check for older, version style endpoints
+            for (region in endpointmap) {
+                if (endpointmap[region].version == null) {
+                    return new WrappedMapEndpoints(endpointmap, this);
+                }
             }
         }
 
