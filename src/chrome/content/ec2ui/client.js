@@ -166,13 +166,11 @@ var ec2_httpclient = {
 
     queryEC2Impl : function (action, params, objActions, isSync, reqType, callback) {
         var curTime = new Date();
-        //Just checking for eucalyptus or not
-        region = getActiveRegion(ec2ui_session.getActiveEndpoint());
-        if (region.search(/^us$/i) == -1 && region.search(/^eu$/i) == -1 ) {
-            var formattedTime = this.formatDate(curTime, "yyyy-MM-ddThh:mm:ss");
+        if (ec2ui_session.isAmazonEndpointSelected()) {
+            var formattedTime = this.formatDate(curTime, "yyyy-MM-ddThh:mm:ssZ");
         }
         else {
-            var formattedTime = this.formatDate(curTime, "yyyy-MM-ddThh:mm:ssZ");
+            var formattedTime = this.formatDate(curTime, "yyyy-MM-ddThh:mm:ss");
         }
 
         var sigValues = new Array();

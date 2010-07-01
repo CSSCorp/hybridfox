@@ -1018,18 +1018,19 @@ outer:
         //extract the ip address from the public dns name
         //Just checking for eucalyptus or not
         region = getActiveRegion(ec2ui_session.getActiveEndpoint());
-        if (region.search(/^us$/i) == -1 && region.search(/^eu$/i) == -1 ) {
+        if (ec2ui_session.isAmazonEndpointSelected()) {
+	    var parts = instance.publicDnsName.split('-');
+            return parts[1] + "." + parts[2] + "." + parts[3] + "." + parseInt(parts[4]);
+                 
+        }
+        else {
             if (/^\d+\.\d+\.\d+\.\d+$/.test(instance.publicDnsName)) {
                 return instance.publicDnsName;
             } else {
                  //extract the ip address from the public dns name
                 var parts = instance.publicDnsName.split('-');
                 return parts[1] + "." + parts[2] + "." + parts[3] + "." + parseInt(parts[4]);
-            }        
-        }
-        else {
-            var parts = instance.publicDnsName.split('-');
-            return parts[1] + "." + parts[2] + "." + parts[3] + "." + parseInt(parts[4]);
+            }   
         }
     },
 
