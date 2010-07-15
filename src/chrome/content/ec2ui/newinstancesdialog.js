@@ -265,11 +265,11 @@ var ec2_InstanceLauncher = {
             // editable menulists
         }
 
-    	//Since EC2 doesn't support private addressing, disable it when the endpoint is not of Amazon.
+    	//Since EC2 doesn't support private addressing, disable it when the endpoint is of Amazon.
     	if (this.ec2ui_session.isAmazonEndpointSelected()) {
-    		document.getElementById("ec2ui.newinstances.addressingType").removeAttribute("disabled");
-    	} else {
     		document.getElementById("ec2ui.newinstances.addressingType").disabled="true";
+    	} else {
+    		document.getElementById("ec2ui.newinstances.addressingType").removeAttribute("disabled");
     	}
 
         this.refreshDisplay();
