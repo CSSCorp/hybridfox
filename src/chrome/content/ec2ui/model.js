@@ -71,7 +71,7 @@ function Volume(id, size, snapshotId, zone, status, createTime, instanceId, devi
 
 function Instance(resId, ownerId, groupList, instanceId, imageId, kernelId,
         ramdiskId, state, publicDnsName, privateDnsName, keyName, reason,
-        amiLaunchIdx, instanceType, launchTime, placement, platform, tag) {
+        amiLaunchIdx, instanceType, launchTime, placement, platform, monitoringState, tag) {
     this.resId = resId;
     this.ownerId = ownerId;
     this.groupList = groupList;
@@ -93,6 +93,7 @@ function Instance(resId, ownerId, groupList, instanceId, imageId, kernelId,
 
     this.placement = placement;
     this.platform = platform;
+    this.monitoringState = monitoringState;
     if (tag) this.tag = tag;
 }
 

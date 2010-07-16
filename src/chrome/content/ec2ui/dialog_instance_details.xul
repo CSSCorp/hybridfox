@@ -54,6 +54,10 @@
           <textbox id="ec2ui.instance.privatednsname" size="50" readonly="true" />
         </row>
         <row>
+          <label control="ec2ui.instance.monitoring" value="Monitoring:" />
+          <textbox id="ec2ui.instance.monitoring" size="50" readonly="true" />
+        </row>
+        <row>
           <label control="ec2ui.instance.keyname" value="Key Name:" />
           <textbox id="ec2ui.instance.keyname" size="50" readonly="true" />
         </row>

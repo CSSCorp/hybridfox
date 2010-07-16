@@ -29,6 +29,13 @@
           <menuitem oncommand="ec2ui_InstancesTreeView.terminateInstance();"
             label="Terminate" />
           <menuseparator />
+          <menuitem id="instances.context.monitor"
+            oncommand="ec2ui_InstancesTreeView.monitorInstance();"
+            label="Monitor" />
+          <menuitem id="instances.context.unmonitor"
+            oncommand="ec2ui_InstancesTreeView.unmonitorInstance();"
+            label="Unmonitor" />
+          <menuseparator />
           <menuitem oncommand="ec2ui_InstancesTreeView.fetchConsoleOutput();"
             label="Show Console Output" />
           <menuitem id="instances.context.getPassword"
@@ -105,6 +112,9 @@
           <splitter class="tree-splitter" />
           <treecol id="instance.privateDnsName" label="&ec2ui.instances.privateDnsName.label;"
             flex="9" persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter" />
+          <treecol id="instance.monitoringState" label="&ec2ui.instances.monitoringState.label;"
+            flex="2" persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
           <treecol id="instance.keyName" label="&ec2ui.instances.keyName.label;"
             flex="3" persist="width ordinal hidden sortDirection" />

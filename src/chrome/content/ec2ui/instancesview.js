@@ -15,6 +15,7 @@ var ec2ui_InstancesTreeView = {
        'instance.amiLaunchIdx',
        'instance.instanceType',
        'instance.launchTimeDisp',
+       'instance.monitoringState',
        'instance.placement.availabilityZone',
        'instance.tag',
     ],
@@ -759,17 +760,24 @@ var ec2ui_InstancesTreeView = {
         if (fDisabled) return;
 
         var instance = this.instanceList[index];
+        var monitoring = instance.monitoringState;
+        var disableMonitor = monitoring.toLowerCase().match(/^enabled/);
+        var disableUnmonitor = monitoring.toLowerCase().match(/^disabled/);
+        
         fDisabled = !isWindows(instance.platform);
 
         // If this is not a Windows Instance, Disable the following
         // context menu items.
         document.getElementById("instances.context.bundle").disabled = fDisabled;
         document.getElementById("instances.context.getPassword").disabled = fDisabled;
+        document.getElementById("instances.context.monitor").disabled = disableMonitor;
+        document.getElementById("instances.context.unmonitor").disabled = disableUnmonitor;
 
         // These context menu items don't apply to Windows instances
         // so enable them.
     },
-
+    
+    
     launchMore : function() {
         var index =  this.selection.currentIndex;
         if (index == -1) return;
@@ -801,6 +809,48 @@ var ec2ui_InstancesTreeView = {
            instance.placement,
            "public",
            wrap);
+    },
+    
+    monitorInstance : function() {
+        var instanceIds = this.getSelectedInstanceIds();
+        if (instanceIds.length == 0)
+            return;
+
+        var confirmed = confirm("Monitor instances: "+ instanceIds.join(', ') +"?");
+        
+        if (!confirmed)
+            return;
+        
+        var me = this;
+        var wrap = function() {
+            if (ec2ui_prefs.isRefreshOnChangeEnabled()) {
+                me.refresh();
+                me.selectByInstanceIds();
+            }
+        }
+        
+        ec2ui_session.controller.monitorInstances(instanceIds, wrap);
+    },
+
+    unmonitorInstance : function() {
+        var instanceIds = this.getSelectedInstanceIds();
+        if (instanceIds.length == 0)
+            return;
+        
+        var confirmed = confirm("Unmonitor instances: "+ instanceIds.join(', ') +"?");
+
+        if (!confirmed)
+            return;
+        
+        var me = this;
+        var wrap = function() {
+            if (ec2ui_prefs.isRefreshOnChangeEnabled()) {
+                me.refresh();
+                me.selectByInstanceIds();
+            }
+        }
+        
+        ec2ui_session.controller.unmonitorInstances(instanceIds, wrap);
     },
 
     terminateInstance : function() {

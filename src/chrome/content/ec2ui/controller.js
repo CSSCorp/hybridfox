@@ -464,6 +464,9 @@ var ec2ui_controller = {
             var reason = getNodeValueByName(instanceItems[j], "reason");
             var amiLaunchIdx = getNodeValueByName(instanceItems[j], "amiLaunchIndex");
             var instanceType = getNodeValueByName(instanceItems[j], "instanceType");
+            var monitoring = instanceItems[j].getElementsByTagName("monitoring")[0];
+            var monitoringState = getNodeValueByName(monitoring, "state");
+            
             var launchTime = new Date();
             launchTime.setISO8601(getNodeValueByName(instanceItems[j], "launchTime"));
 
@@ -496,7 +499,8 @@ var ec2ui_controller = {
                                    instanceType,
                                    launchTime,
                                    placement,
-                                   platform));
+                                   platform,
+                                   monitoringState));
         }
 
         return list;
@@ -580,6 +584,68 @@ var ec2ui_controller = {
                 for (var j = 0; j < resList.length; j++) {
                     list.push(resList[j]);
                 }
+            }
+        }
+
+        if (objResponse.callback)
+            objResponse.callback(list);
+    },
+    
+    monitorInstances : function (instanceIds, callback) {
+        var params = []
+        
+        for(var i in instanceIds) {
+            params.push(["InstanceId."+(i+1), instanceIds[i]]);
+        }
+        ec2_httpclient.queryEC2("MonitorInstances", params, this, true, "onCompleteMonitorInstances", callback);
+    },
+
+    onCompleteMonitorInstances : function (objResponse) {
+        var xmlDoc = objResponse.xmlDoc;
+
+        var list = new Array();
+        var items = xmlDoc.evaluate("/",
+                                    xmlDoc,
+                                    this.getNsResolver(),
+                                    XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
+                                    null);
+        for(var i=0 ; i < items.snapshotLength; i++) {
+            var instancesSet = items.snapshotItem(i).getElementsByTagName("instancesSet")[0];
+            var instanceItems = instancesSet.getElementsByTagName("item");
+            for (var j = 0; j < instanceItems.length; j++) {
+                var instanceId = getNodeValueByName(instanceItems[j], "instanceId");
+                list.push({id:instanceId});
+            }
+        }
+
+        if (objResponse.callback)
+            objResponse.callback(list);
+    },
+
+    unmonitorInstances : function (instanceIds, callback) {
+        var params = []
+        
+        for(var i in instanceIds) {
+            params.push(["InstanceId."+(i+1), instanceIds[i]]);
+        }
+        ec2_httpclient.queryEC2("UnmonitorInstances", params, this, true, "onCompleteUnmonitorInstances", callback);
+    },
+
+    onCompleteUnmonitorInstances : function (objResponse) {
+        var xmlDoc = objResponse.xmlDoc;
+
+        var list = new Array();
+        var items = xmlDoc.evaluate("/",
+                                    xmlDoc,
+                                    this.getNsResolver(),
+                                    XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
+                                    null);
+        for(var i=0 ; i < items.snapshotLength; i++) {
+            var instancesSet = items.snapshotItem(i).getElementsByTagName("instancesSet")[0];
+            var instanceItems = instancesSet.getElementsByTagName("item");
+            for (var j = 0; j < instanceItems.length; j++) {
+                var instanceId = getNodeValueByName(instanceItems[j], "instanceId");
+                list.push({id:instanceId});
             }
         }
 
