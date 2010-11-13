@@ -322,7 +322,7 @@ var ec2ui_session =
 
     getResourceTag : function(id) {
         var tag = "";
-        if (id.match(ec2ui_InstancesTreeView.imageIdRegex)) {
+        if (id.match(ec2ui_InstancesTreeView.instanceIdRegex)) {
             tag = this.instanceTags.get(id);
         } else if (id.match(ec2ui_VolumeTreeView.imageIdRegex)) {
             tag = this.volumeTags.get(id);

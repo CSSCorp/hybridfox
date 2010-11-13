@@ -119,7 +119,7 @@ var BaseImagesView = {
 
     refresh : function() {
         ec2ui_session.showBusyCursor(true);
-        ec2ui_session.controller.describeImages();
+        ec2ui_session.controller.describeImages(true);
         ec2ui_session.showBusyCursor(false);
     },
 
@@ -170,7 +170,7 @@ var BaseImagesView = {
         this.treeBox.rowCountChanged(0, -this.imageList.length);
         this.imageList = imageList;
         this.treeBox.rowCountChanged(0, this.imageList.length);
-        // this.sort();
+        this.sort();
 
         // reselect old selection
         if (this.selectedImageId) {

@@ -114,6 +114,7 @@ var ec2ui_VolumeTreeView = {
 
     createVolume : function (snap) {
         var retVal = {ok:null};
+        if (!snap) snap = null;
         window.openDialog("chrome://ec2ui/content/dialog_new_volume.xul",
                           null,
                           "chrome,centerscreen,modal",

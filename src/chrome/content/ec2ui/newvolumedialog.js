@@ -56,14 +56,16 @@ var ec2_VolumeCreator = {
             snap = snapshots[i];
             if (snap.status == "completed") {
                 snapshotIdMenu.appendItem(snap.id);
-                if (snap.id == srcSnap.id) {
-                    snapshotIdMenu.selectedIndex = i;
+                if (srcSnap && 
+					snap.id == srcSnap.id) {
+					snapshotIdMenu.selectedIndex = i;
                 }
             }
         }
         // To accommodate the <NONE> element added at the head of the list
         snapshotIdMenu.selectedIndex += 1;
-
-        document.getElementById("ec2ui.newvolume.tag").value = srcSnap.tag || "";
+		if (srcSnap) {
+			document.getElementById("ec2ui.newvolume.tag").value = srcSnap.tag || "";
+		}
     }
 }

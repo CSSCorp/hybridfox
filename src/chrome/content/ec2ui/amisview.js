@@ -54,10 +54,6 @@ var ec2ui_AMIsTreeView = {
             clearTimeout(this.searchTimer);
         }
 
-        if (!this.searchField) {
-            this.searchField = document.getElementById('ec2ui.images.search');
-        }
-
         this.searchTimer = setTimeout(this.invalidate, 500);
     },
 

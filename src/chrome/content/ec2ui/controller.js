@@ -230,14 +230,10 @@ var ec2ui_controller = {
 
     describeImages : function (isSync, callback) {
         if (!isSync) isSync = false;
-        if (!this.descImagesInProgress) {
-            this.descImagesInProgress = true;
-            ec2_httpclient.queryEC2("DescribeImages", [], this, isSync, "onCompleteDescribeImages", callback);
-        }
+        ec2_httpclient.queryEC2("DescribeImages", [], this, isSync, "onCompleteDescribeImages", callback);
     },
 
     onCompleteDescribeImages : function (objResponse) {
-        this.descImagesInProgress = false;
         var xmlDoc = objResponse.xmlDoc;
 
         var list = new Array();
@@ -818,12 +814,12 @@ var ec2ui_controller = {
         // If a region wasn't passed, get the ACL for an
         // object in the currently active region
         if (!region) {
-            region = getActiveRegion(ec2ui_session.getActiveEndpoint());
+            region = ec2ui_session.getActiveEndpoint().name;
         }
 
         region = region.toLowerCase();
 
-        if (region == "eu") {
+        if (region.indexOf("eu") == 0) {
             suffix = ".s3-external-3.amazonaws.com";
         } else {
             suffix = ".s3.amazonaws.com";
@@ -1045,7 +1041,7 @@ var ec2ui_controller = {
 
     doesS3BucketExist : function(bucket, region) {
         var fileName = "/" + bucket + "/";
-        var s3url = this.getS3URL(bucket, region);
+        var s3url = this.getS3URL(bucket, region) + "/?max-keys=0";
         var fSuccess = false;
         var httpRsp = ec2_httpclient.makeS3HTTPRequest("HEAD",
                                                        fileName,

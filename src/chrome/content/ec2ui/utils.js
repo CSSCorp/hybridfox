@@ -315,7 +315,7 @@ function getActiveRegion(endpoint) {
 }
 
 function isWindows(platform) {
-    return platform.toLowerCase().match(/^windows/);
+	return platform.match(ec2ui_utils.winRegex);
 }
 
 function secondsToDays(secs) {
@@ -386,5 +386,8 @@ var ec2ui_utils = {
             session.setResourceTag(res[attr], res.tag);
         }
     },
+    
+    winRegex : new RegExp(/^Windows/i),
+    macRegex : new RegExp(/^Mac/),
 };
 

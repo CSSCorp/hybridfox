@@ -29,8 +29,9 @@ var ec2ui_S3_KeyCopier = {
     },
 
     logOutput : function(out) {
-        this.output.appendItem(out);
-        this.output.ensureIndexIsVisible(this.output.getRowCount());
+		var output = this.getProgressOutput();
+        output.appendItem(out);
+        output.ensureIndexIsVisible(this.output.getRowCount());
     },
 
     getCurrentOperation : function() {
@@ -244,6 +245,7 @@ var ec2ui_S3_KeyCopier = {
     },
 
     cancelDialog : function() {
+		this.indicateBusy(false);
         document.getElementById("ec2ui.dialog.copy.S3.keys").cancelDialog();
     },
 
@@ -336,8 +338,9 @@ var ec2ui_S3_KeyCopier = {
             clearTimeout(this.refreshTimer);
         } else {
             log("Starting Copy Timer");
-            var me = this;
+
             // Set the UI up to refresh just once
+            var me = this;
             this.refreshTimer = setTimeout(function() { me.startMigration(); }, 50);
         }
     },
@@ -358,8 +361,6 @@ var ec2ui_S3_KeyCopier = {
         this.currentKey = 0;
         this.totalCopyComplete = 0;
         this.createConnections();
-
         this.startCopyTimer();
-        this.output = this.getProgressOutput();
     }
 }

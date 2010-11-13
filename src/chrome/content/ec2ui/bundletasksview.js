@@ -101,7 +101,6 @@ var ec2ui_BundleTasksTreeView = {
             clearTimeout(this.searchTimer);
         }
 
-        var me = this;
         this.searchTimer = setTimeout(this.invalidate, 500);
     },
 

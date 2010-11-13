@@ -254,11 +254,16 @@ var ec2_httpclient = {
         var sigValues = new Array();
         sigValues.push(new Array("Request-Type", requestType));
         sigValues.push(new Array("Content-MD5", ""));
-        if (content && content.length > 0) {
-            sigValues.push(new Array("Content-Type", "binary/octet-stream; charset=UTF-8"));
-        } else {
-            sigValues.push(new Array("Content-Type", "binary/octet-stream"));
-        }
+        
+        var contType = "binary/octet-stream";
+        if (content &&
+			content.length > 0 &&
+			("@mozilla.org/login-manager;1" in Components.classes)) {
+				// This is firefox 3+, so an automatic content-encoding is added
+				contType = contType + "; charset=UTF-8";
+		}		
+        
+        sigValues.push(new Array("Content-Type", contType));
         sigValues.push(new Array("Date", curTime));
 
         if (copySource) {

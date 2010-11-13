@@ -573,7 +573,7 @@ var ec2ui_InstancesTreeView = {
             var key_template = ec2ui_prefs.getPrivateKeyTemplate();
             key_template = key_template.replace(/\${keyname}/g, instance.keyName);
             var prvKeyFile = key_template.replace(/\${home}/g, home || "");
-            if (!navigator.platform.match(/^Win/)) {
+			if (!isWindows(navigator.platform)) {
                 prvKeyFile = prvKeyFile.replace(/\s/g, "\\ ");
             }
         }
@@ -743,8 +743,10 @@ var ec2ui_InstancesTreeView = {
     },
 
     refresh : function() {
+		this.selectionChanged();
         ec2ui_session.showBusyCursor(true);
         ec2ui_session.controller.describeInstances();
+        this.sort();
         ec2ui_session.showBusyCursor(false);
     },
 
@@ -1091,7 +1093,7 @@ outer:
         if (idx >= 0) {
             searchStr = keyName;
         } else {
-            if (navigator.platform.match(/^Win/)) {
+			if (isWindows(navigator.platform)) {
                 searchStr = "\\";
             } else {
                 searchStr = "/";
@@ -1101,7 +1103,7 @@ outer:
         newTemplate = keyFile.substring(0,
                                         keyFile.lastIndexOf(searchStr));
 
-        if (navigator.platform.match(/^Win/)) {
+		if (isWindows(navigator.platform)) {
             newTemplate = newTemplate + "${keyname}.ppk";
         } else {
             newTemplate = newTemplate + "${keyname}";
@@ -1123,7 +1125,7 @@ outer:
         if (isWindows(instance.platform)) {
             argStr = ec2ui_prefs.getRDPArgs();
             cmd = ec2ui_prefs.getRDPCommand();
-            if (navigator.platform.indexOf("Mac") == 0) {
+            if (navigator.platform.match(ec2ui_utils.macRegex)) {
                 // On Mac OS X, we use a totally different connection mechanism
                 // that isn't particularly extensible
                 this.getAdminPassword(false, instance);
@@ -1154,7 +1156,7 @@ outer:
             var keyFile = ec2ui_prefs.getSSHKeyTemplate();
             keyFile = keyFile.replace(/\${keyname}/g, instance.keyName);
             keyFile = keyFile.replace(/\${home}/g, home || "");
-            if (!navigator.platform.match(/^Win/)) {
+            if (!isWindows(navigator.platform)) {
                 keyFile = keyFile.replace(/\s/g, "\\ ");
             }
 
@@ -1323,6 +1325,7 @@ outer:
             // it has been started.
             this.stopRefreshTimer();
         }
+        this.sort();
     }
 };
 
