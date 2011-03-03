@@ -166,6 +166,7 @@ var ec2ui_prefs = {
     OPEN_CONNECTION_PORT: "ec2ui.open.connection.port",
     NEW_US_WEST_ENTRY   : "ec2ui.new.us.west.entry.1.6.13",
     NEW_APAC_ENTRY      : "ec2ui.new.apac.entry.1.6.24",
+    NEW_TOC_ENTRY       : "ec2ui.new.toc.entry.1.6.25",
     endpoints           : null,
 
     prefs : null,
@@ -205,6 +206,7 @@ var ec2ui_prefs = {
             this.setOpenConnectionPort(this.getOpenConnectionPort());
             this.addNewUsWestRegion();
             this.addNewApacRegion();
+	    this.addNewTocRegion();	
         }
     },
 
@@ -432,6 +434,7 @@ var ec2ui_prefs = {
             endpointmap['us-west-1'] = new Endpoint('us-west-1', 'https://us-west-1.ec2.amazonaws.com');
             endpointmap['eu-west-1'] = new Endpoint('eu-west-1', 'https://eu-west-1.ec2.amazonaws.com');
             endpointmap['ap-southeast-1'] = new Endpoint('ap-southeast-1', 'https://ec2.ap-southeast-1.amazonaws.com');
+            endpointmap['ap-northeast-1'] = new Endpoint('ap-northeast-1', 'https://ec2.ap-northeast-1.amazonaws.com');
         }
 
         return new WrappedMapEndpoints(endpointmap, this);
@@ -613,6 +616,8 @@ var ec2ui_prefs = {
             this.setNewApacEntryFlag();
         }
     },
+
+   
     
     isNewApacEntryAdded : function() {
         return this.getBoolPreference(this.NEW_APAC_ENTRY, false);
@@ -620,5 +625,29 @@ var ec2ui_prefs = {
     
     setNewApacEntryFlag : function() {
         this.setBoolPreference(this.NEW_APAC_ENTRY, true);
+    },
+
+     addNewTocRegion : function () {
+        var endpointJson = this.getStringPreference(this.ENDPOINTS, null);
+        var url = 'https://ec2.ap-northeast-1.amazonaws.com';
+        
+        var pos = endpointJson.search(url);
+        var flag = this.isNewTocEntryAdded();
+        
+        if (pos==-1 && flag==false) { 
+            var len = endpointJson.length;
+            var TocJson = "'ap-northeast-1':({'name':'ap-northeast-1','url':'" + url + "'})";
+            var newEndpointJson = endpointJson.substring(0, len-2) + "," + TocJson + "})";
+            this.setStringPreference(this.ENDPOINTS, newEndpointJson);
+            this.setNewTocEntryFlag();
+        }
+    },
+
+    isNewTocEntryAdded : function() {
+        return this.getBoolPreference(this.NEW_TOC_ENTRY, false);
+    },
+    
+    setNewTocEntryFlag : function() {
+        this.setBoolPreference(this.NEW_TOC_ENTRY, true);
     }
 }
