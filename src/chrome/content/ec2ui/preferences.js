@@ -166,7 +166,7 @@ var ec2ui_prefs = {
     OPEN_CONNECTION_PORT: "ec2ui.open.connection.port",
     NEW_US_WEST_ENTRY   : "ec2ui.new.us.west.entry.1.6.13",
     NEW_APAC_ENTRY      : "ec2ui.new.apac.entry.1.6.24",
-    NEW_TOC_ENTRY       : "ec2ui.new.toc.entry.1.6.25",
+    NEW_JAP_ENTRY       : "ec2ui.new.jap.entry.1.6.25",
     endpoints           : null,
 
     prefs : null,
@@ -206,7 +206,7 @@ var ec2ui_prefs = {
             this.setOpenConnectionPort(this.getOpenConnectionPort());
             this.addNewUsWestRegion();
             this.addNewApacRegion();
-	    this.addNewTocRegion();	
+            this.addNewJapRegion();	
         }
     },
 
@@ -617,8 +617,6 @@ var ec2ui_prefs = {
         }
     },
 
-   
-    
     isNewApacEntryAdded : function() {
         return this.getBoolPreference(this.NEW_APAC_ENTRY, false);
     },
@@ -627,27 +625,27 @@ var ec2ui_prefs = {
         this.setBoolPreference(this.NEW_APAC_ENTRY, true);
     },
 
-     addNewTocRegion : function () {
+    addNewJapRegion : function () {
         var endpointJson = this.getStringPreference(this.ENDPOINTS, null);
         var url = 'https://ec2.ap-northeast-1.amazonaws.com';
         
         var pos = endpointJson.search(url);
-        var flag = this.isNewTocEntryAdded();
+        var flag = this.isNewJapEntryAdded();
         
         if (pos==-1 && flag==false) { 
             var len = endpointJson.length;
-            var TocJson = "'ap-northeast-1':({'name':'ap-northeast-1','url':'" + url + "'})";
-            var newEndpointJson = endpointJson.substring(0, len-2) + "," + TocJson + "})";
+            var JapJson = "'ap-northeast-1':({'name':'ap-northeast-1','url':'" + url + "'})";
+            var newEndpointJson = endpointJson.substring(0, len-2) + "," + JapJson + "})";
             this.setStringPreference(this.ENDPOINTS, newEndpointJson);
-            this.setNewTocEntryFlag();
+            this.setNewJapEntryFlag();
         }
     },
 
-    isNewTocEntryAdded : function() {
-        return this.getBoolPreference(this.NEW_TOC_ENTRY, false);
+    isNewJapEntryAdded : function() {
+        return this.getBoolPreference(this.NEW_JAP_ENTRY, false);
     },
     
-    setNewTocEntryFlag : function() {
-        this.setBoolPreference(this.NEW_TOC_ENTRY, true);
+    setNewJapEntryFlag : function() {
+        this.setBoolPreference(this.NEW_JAP_ENTRY, true);
     }
 }
