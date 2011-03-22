@@ -117,7 +117,7 @@ var ec2ui_KeypairTreeView = {
             fp.appendFilter("PEM Files","*.pem");
             fp.defaultString = name+".pem";
         } else {
-            fp.defaultString = "id-" + name;
+            fp.defaultString = "id_" + name;
         }
         fp.appendFilters(nsIFilePicker.filterAll);
         //fp.displayDirectory(nsILocalFile instance);

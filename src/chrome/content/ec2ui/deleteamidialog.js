@@ -33,8 +33,10 @@ var ec2ui_AMIDeleter = {
         // Remove the manifest.xml from the prefix
         prefix = prefix.substring(0, prefix.indexOf(".manifest.xml"));
         // Enumerate the items with prefix from source bucket
+        var region = controller.getS3BucketLocation(sourceB);
         var srcKeys = controller.getS3KeyListWithPrefixInBucket(prefix,
-                                                                sourceB);
+                                                                sourceB,
+																region);
         var progressMet = this.getProgressMeter();
         this.getCurrentOperation().value = "Deleting AMI parts...";
 

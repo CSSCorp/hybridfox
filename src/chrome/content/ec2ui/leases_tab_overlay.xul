@@ -57,7 +57,7 @@
             <treecol id="offering.usagePrice" label="&ec2ui.offerings.usagePrice.label;" flex="1"
               persist="width ordinal hidden sortDirection" />
             <splitter class="tree-splitter" />
-            <treecol id="offering.description" label="&ec2ui.offerings.description.label;"
+            <treecol id="offering.description" label="&ec2ui.description.label;"
               flex="2" persist="width ordinal hidden sortDirection" />
             <splitter class="tree-splitter" />
           </treecols>
@@ -117,7 +117,7 @@
             <treecol id="rsvdInst.count" label="&ec2ui.rsvdInst.count.label;" flex="1"
               persist="width ordinal hidden sortDirection" />
             <splitter class="tree-splitter" />
-            <treecol id="rsvdInst.description" label="&ec2ui.rsvdInst.description.label;"
+            <treecol id="rsvdInst.description" label="&ec2ui.description.label;"
               flex="2" persist="width ordinal hidden sortDirection" />
             <splitter class="tree-splitter" />
             <treecol id="rsvdInst.state" label="&ec2ui.rsvdInst.state.label;" flex="1"

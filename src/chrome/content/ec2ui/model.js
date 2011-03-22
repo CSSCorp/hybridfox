@@ -1,8 +1,9 @@
 // "Classes" representing objects like AMIs, Instances etc.
-function Credential(name, accessKey, secretKey) {
+function Credential(name, accessKey, secretKey, regionPref) {
     this.name = name;
     this.accessKey = accessKey;
     this.secretKey = secretKey;
+    this.regionPref = regionPref;
 }
 
 function AccountIdName(id, name) {
@@ -10,8 +11,9 @@ function AccountIdName(id, name) {
     this.displayname = name;
 }
 
-function Endpoint(name, url) {
+function Endpoint(name, type, url) {
     this.name = name;
+    this.type = type;
     this.url = url;
 
     this.toJSONString = function() {
@@ -31,7 +33,8 @@ function Endpoint(name, url) {
     return this;
 }
 
-function AMI(id, location, state, owner, isPublic, arch, platform, aki, ari, tag) {
+function AMI(id, location, state, owner, isPublic, arch, platform, aki, ari, rootDeviceType, ownerAlias, name, description, snapshotId, tag) {
+
     this.id = id;
     this.location = location;
     this.state = state;
@@ -42,14 +45,25 @@ function AMI(id, location, state, owner, isPublic, arch, platform, aki, ari, tag
     if (tag) this.tag = tag;
     this.aki = aki;
     this.ari = ari;
+    this.rootDeviceType = rootDeviceType;
+    this.ownerAlias = ownerAlias;
+    this.name = name;
+    this.description = description;
+    this.snapshotId = snapshotId;
 }
 
-function Snapshot(id, volumeId, status, startTime, progress, tag) {
+function Snapshot(id, volumeId, status, startTime, progress, volumeSize, description, owner, ownerAlias, tag) {
+
     this.id = id;
     this.volumeId = volumeId;
     this.status = status;
     this.startTime = startTime.strftime('%Y-%m-%d %H:%M:%S');
     this.progress = progress;
+    this.description = description;
+    this.volumeSize = volumeSize;
+    this.owner = owner;
+    this.ownerAlias = ownerAlias;
+	
     if (tag) this.tag = tag;
 }
 
@@ -70,8 +84,9 @@ function Volume(id, size, snapshotId, zone, status, createTime, instanceId, devi
 }
 
 function Instance(resId, ownerId, groupList, instanceId, imageId, kernelId,
-        ramdiskId, state, publicDnsName, privateDnsName, keyName, reason,
-        amiLaunchIdx, instanceType, launchTime, placement, platform, monitoringState, tag) {
+        ramdiskId, state, publicDnsName, privateDnsName, privateIpAddress, keyName, reason,
+        amiLaunchIdx, instanceType, launchTime, placement, platform, tag, vpcId, subnetId, rootDeviceType) {
+		
     this.resId = resId;
     this.ownerId = ownerId;
     this.groupList = groupList;
@@ -82,6 +97,7 @@ function Instance(resId, ownerId, groupList, instanceId, imageId, kernelId,
     this.state = state;
     this.publicDnsName = publicDnsName;
     this.privateDnsName = privateDnsName;
+    this.privateIpAddress = privateIpAddress;
     this.keyName = keyName;
     this.reason = reason;
     this.amiLaunchIdx = amiLaunchIdx;
@@ -93,8 +109,11 @@ function Instance(resId, ownerId, groupList, instanceId, imageId, kernelId,
 
     this.placement = placement;
     this.platform = platform;
+    this.vpcId = vpcId;
+    this.subnetId = subnetId;
     this.monitoringState = monitoringState;
     if (tag) this.tag = tag;
+    this.rootDeviceType = rootDeviceType;
 }
 
 function KeyPair(name, fingerprint) {
@@ -170,6 +189,68 @@ function ReservedInstance(id, type, az, start, duration, fPrice, uPrice, count, 
     this.state = state;
 }
 
+function Vpc(id, cidr, state, dhcpOptionsId, tag) {
+    this.id = id;
+    this.cidr = cidr;
+    this.state = state;
+    this.dhcpOptionsId = dhcpOptionsId;
+    if (tag) this.tag = tag;
+}
+
+function Subnet(id, vpcId, cidr, state, availableIp, availabilityZone, tag) {
+    this.id = id;
+    this.vpcId = vpcId;
+    this.cidr = cidr;
+    this.state = state;
+    this.availableIp = availableIp;
+    this.availabilityZone = availabilityZone;
+    if (tag) this.tag = tag;
+}
+
+function DhcpOptions(id, options, tag) {
+    this.id = id;
+    this.options = options;
+    if (tag) this.tag = tag;
+}
+
+function VpnConnection(id, vgwId, cgwId, type, state, config, attachments, tag) {
+    this.id = id;
+    this.vgwId = vgwId;
+    this.cgwId = cgwId;
+    this.type = type;
+    this.state = state;
+    this.config = config;
+    this.attachments = attachments;
+
+    if (tag) this.tag = tag;
+}
+
+function VpnGateway(id, availabilityZone, state, type, attachments, tag) {
+    this.id = id;
+    this.availabilityZone = availabilityZone;
+    this.state = state;
+    this.type = type;
+    this.attachments = attachments;
+
+    if (tag) this.tag = tag;
+}
+
+function VpnGatewayAttachment(vpcId, vgwId, state) {
+    this.vpcId = vpcId;
+    this.vgwId = vgwId;
+    this.state = state;
+}
+
+function CustomerGateway(id, ipAddress, bgpAsn, state, type, tag) {
+    this.id = id;
+    this.ipAddress = ipAddress;
+    this.bgpAsn = bgpAsn;
+    this.state = state;
+    this.type = type;
+
+    if (tag) this.tag = tag;
+}
+
 String.prototype.trim = function() {
     return this.replace(/^\s+|\s+$/g,"");
 }
@@ -190,12 +271,26 @@ var ec2ui_model = {
     bundleTasks       : null,
     offerings         : null,
     reservedInstances : null,
+    subnets           : null,
+    vpcs              : null,
+    dhcpOptions       : null,
+    vpnConnections    : null,
+    vpnGateways       : null,
+    customerGateways  : null,
+	
     resourceMap     : {
-        instances : 0,
-        volumes   : 1,
-        snapshots : 2,
-        images    : 3,
-        eips      : 4,
+        instances        : 0,
+        volumes          : 1,
+        snapshots        : 2,
+        images           : 3,
+        eips             : 4,
+        vpcs             : 5,
+        subnets          : 6,
+        dhcpOptions      : 7,
+        vpnConnections   : 8,
+        vpnGateways      : 9,
+        customerGateways : 10
+		
     },
 
     amiIdManifestMap : {},
@@ -213,6 +308,12 @@ var ec2ui_model = {
         this.updateBundleTasks(null);
         this.updateLeaseOfferings(null);
         this.updateReservedInstances(null);
+        this.updateVpcs(null);
+        this.updateSubnets(null);
+        this.updateDhcpOptions(null);
+        this.updateVpnConnections(null);
+        this.updateVpnGateways(null);
+        this.updateCustomerGateways(null);
     },
 
     notifyComponents : function(interest) {
@@ -227,6 +328,78 @@ var ec2ui_model = {
             this.componentInterests[interest] = [];
         }
         this.componentInterests[interest].push(component);
+    },
+
+    updateVpcs : function(list) {
+        this.vpcs = list;
+        this.notifyComponents("vpcs");
+    },
+
+    getVpcs : function() {
+        if (this.vpcs == null) {
+            ec2ui_session.controller.describeVpcs();
+        }
+        return this.vpcs;
+    },
+
+    updateSubnets : function(list) {
+        this.subnets = list;
+        this.notifyComponents("subnets");
+    },
+
+    getSubnets : function() {
+        if (this.subnets == null) {
+            ec2ui_session.controller.describeSubnets();
+        }
+        return this.subnets;
+    },
+
+    updateDhcpOptions : function(list) {
+        this.dhcpOptions = list;
+        this.notifyComponents("dhcpOptions");
+    },
+
+    getDhcpOptions : function() {
+        if (this.dhcpOptions == null) {
+            ec2ui_session.controller.describeDhcpOptions();
+        }
+        return this.dhcpOptions;
+    },
+
+    updateVpnConnections : function(list) {
+        this.vpnConnections = list;
+        this.notifyComponents("vpnConnections");
+    },
+
+    getVpnConnections : function() {
+        if (this.vpnConnections == null) {
+            ec2ui_session.controller.describeVpnConnections();
+        }
+        return this.vpnConnections;
+    },
+
+    updateVpnGateways : function(list) {
+        this.vpnGateways = list;
+        this.notifyComponents("vpnGateways");
+    },
+
+    getVpnGateways : function() {
+        if (this.vpnGateways == null) {
+            ec2ui_session.controller.describeVpnGateways();
+        }
+        return this.vpnGateways;
+    },
+
+    updateCustomerGateways : function(list) {
+        this.customerGateways = list;
+        this.notifyComponents("customerGateways");
+    },
+
+    getCustomerGateways : function() {
+        if (this.customerGateways == null) {
+            ec2ui_session.controller.describeCustomerGateways();
+        }
+        return this.customerGateways;
     },
 
     getVolumes : function() {

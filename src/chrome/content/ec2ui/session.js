@@ -14,6 +14,12 @@ var ec2ui_session =
     snapshotTags    : null,
     imageTags       : null,
     eipTags         : null,
+    vpcTags         : null,
+    subnetTags      : null,
+    dhcpOptionsTags : null,
+    vgwTags         : null,
+    cgwTags         : null,
+    vpnTags         : null,
     client          : null,
     refreshedTabs   : new Array(),
 
@@ -37,6 +43,13 @@ var ec2ui_session =
             document.getElementById("ec2ui.bundleTasks.view").view = ec2ui_BundleTasksTreeView;
             document.getElementById("ec2ui.offerings.view").view = ec2ui_LeaseOfferingsTreeView;
             document.getElementById("ec2ui.rsvdInst.view").view = ec2ui_ReservedInstancesTreeView;
+            document.getElementById("ec2ui.vpcs.view").view = ec2ui_VpcTreeView;
+            document.getElementById("ec2ui.subnets.view").view = ec2ui_SubnetTreeView;
+            document.getElementById("ec2ui.dhcpoptions.view").view = ec2ui_DhcpoptsTreeView;
+            document.getElementById("ec2ui.vpngateways.view").view = ec2ui_VpnGatewayTreeView;
+            document.getElementById("ec2ui.vpnconnections.view").view = ec2ui_VpnConnectionTreeView;
+            document.getElementById("ec2ui.customergateways.view").view = ec2ui_CustomerGatewayTreeView;
+            document.getElementById("ec2ui.vpnattachments.view").view = ec2ui_VpnAttachmentTreeView;
 
             // Enable about:blank to work if noscript is installed
             if("@maone.net/noscript-service;1" in Components.classes) {
@@ -130,6 +143,8 @@ var ec2ui_session =
             }
         }
 
+	    region = getActiveRegion(ec2ui_session.getActiveEndpoint());
+
         switch (tabs.selectedItem.label) {
         case 'Instances':
             eval("ec2ui_InstancesTreeView." + toCall);
@@ -154,7 +169,8 @@ var ec2ui_session =
             eval("ec2ui_SnapshotTreeView." + toCall);
             break;
         case "Bundle Tasks":
-        	if (this.isAmazonEndpointSelected()) {
+          	if (region.type == "ec2") {
+			
             	eval("ec2ui_BundleTasksTreeView." + toCall);
 			}
             break;
@@ -162,9 +178,24 @@ var ec2ui_session =
             eval("ec2ui_AvailZoneTreeView." + toCall);
             break;
         case "Reserved Instances":
-        	if (this.isAmazonEndpointSelected()) {
+          	if (region.type == "ec2") {
 				eval("ec2ui_LeaseOfferingsTreeView." + toCall);
 				eval("ec2ui_ReservedInstancesTreeView." + toCall);
+			}
+            break;
+        case "Virtual Private Clouds":
+          	if (region.type == "ec2") {
+				eval("ec2ui_VpcTreeView." + toCall);
+				eval("ec2ui_SubnetTreeView." + toCall);
+				eval("ec2ui_DhcpoptsTreeView." + toCall);
+			}
+            break;
+        case "VPN Connections":
+          	if (region.type == "ec2") {
+				eval("ec2ui_VpnConnectionTreeView." + toCall);
+				eval("ec2ui_VpnGatewayTreeView." + toCall);
+				eval("ec2ui_CustomerGatewayTreeView." + toCall);
+				eval("ec2ui_VpnAttachmentTreeView." + toCall);
 			}
             break;
         default:
@@ -218,6 +249,26 @@ var ec2ui_session =
         var activeCred = this.getActiveCredential();
 
         if (activeCred != null) {
+			var regionPref = activeCred.regionPref;
+			if (regionPref != null && regionPref != "") {
+              this.endpointmap = ec2ui_prefs.getEndpointMap();
+              var endpointlist = this.endpointmap.toArray(function(k,v){return new Endpoint(k, v.type, v.url)});
+              for(var i in endpointlist) {
+			    if (endpointlist[i].name == regionPref) {
+                  document.getElementById("ec2ui.active.endpoints.list").selectedIndex = i;
+                  var activeEndpoint = this.getActiveEndpoint();
+
+                  if (activeEndpoint != null) {
+                      ec2ui_prefs.setLastUsedEndpoint(activeEndpoint.name);
+                      ec2ui_prefs.setServiceType(activeEndpoint.type);
+                      ec2ui_prefs.setServiceURL(activeEndpoint.url);
+                      this.client.setEndpoint(activeEndpoint);
+				  }
+				  
+//				  this.switchEndpoints();
+				}
+			  }
+			}
             ec2ui_prefs.setLastUsedAccount(activeCred.name);
             this.client.setCredentials(activeCred.accessKey, activeCred.secretKey);
             this.loadAllTags();
@@ -271,7 +322,7 @@ var ec2ui_session =
 
     getEndpoints : function () {
         return this.endpointmap.toArray(function(k,v) {
-                                            return new Endpoint(k, v.url)
+                                            return new Endpoint(k, v.type, v.url)
                                         });
     },
 
@@ -281,7 +332,7 @@ var ec2ui_session =
         activeEndpointsMenu.removeAllItems();
 
         var lastUsedEndpoint = ec2ui_prefs.getLastUsedEndpoint();
-        var endpointlist = this.endpointmap.toArray(function(k,v){return new Endpoint(k, v.url)});
+        var endpointlist = this.endpointmap.toArray(function(k,v){return new Endpoint(k, v.type, v.url)});
 
         for(var i in endpointlist) {
             activeEndpointsMenu.insertItemAt(
@@ -301,6 +352,12 @@ var ec2ui_session =
         this.volumeTags = ec2ui_prefs.getVolumeTags();
         this.snapshotTags = ec2ui_prefs.getSnapshotTags();
         this.eipTags = ec2ui_prefs.getEIPTags();
+        this.vpcTags = ec2ui_prefs.getVpcTags();
+        this.subnetTags = ec2ui_prefs.getSubnetTags();
+        this.dhcpOptionsTags = ec2ui_prefs.getDhcpOptionsTags();
+        this.vpnTags = ec2ui_prefs.getVpnConnectionTags();
+        this.cgwTags = ec2ui_prefs.getCustomerGatewayTags();
+        this.vgwTags = ec2ui_prefs.getVpnGatewayTags();
     },
 
     setResourceTag : function(id, tag) {
@@ -317,6 +374,18 @@ var ec2ui_session =
             this.snapshotTags.put(id, tag, "setSnapshotTags");
         } else if (id.match(ec2ui_ElasticIPTreeView.imageIdRegex)) {
             this.eipTags.put(id, tag, "setEIPTags");
+        } else if (id.match(ec2ui_VpcTreeView.imageIdRegex)) {
+            this.vpcTags.put(id, tag, "setVpcTags");
+        } else if (id.match(ec2ui_SubnetTreeView.imageIdRegex)) {
+            this.subnetTags.put(id, tag, "setSubnetTags");
+        } else if (id.match(ec2ui_DhcpoptsTreeView.imageIdRegex)) {
+            this.dhcpOptionsTags.put(id, tag, "setDhcpOptionsTags");
+        } else if (id.match(ec2ui_VpnConnectionTreeView.imageIdRegex)) {
+            this.vpnTags.put(id, tag, "setVpnConnectionTags");
+        } else if (id.match(ec2ui_VpnGatewayTreeView.imageIdRegex)) {
+            this.vgwTags.put(id, tag, "setVpnGatewayTags");
+        } else if (id.match(ec2ui_CustomerGatewayTreeView.imageIdRegex)) {
+            this.cgwTags.put(id, tag, "setCustomerGatewayTags");
         }
     },
 
@@ -332,6 +401,18 @@ var ec2ui_session =
             tag = this.imageTags.get(id);
         } else if (id.match(ec2ui_ElasticIPTreeView.imageIdRegex)) {
             tag = this.eipTags.get(id);
+        } else if (id.match(ec2ui_VpcTreeView.imageIdRegex)) {
+            tag = this.vpcTags.get(id);
+        } else if (id.match(ec2ui_SubnetTreeView.imageIdRegex)) {
+            tag = this.subnetTags.get(id);
+        } else if (id.match(ec2ui_DhcpoptsTreeView.imageIdRegex)) {
+            tag = this.dhcpOptionsTags.get(id);
+        } else if (id.match(ec2ui_VpnConnectionTreeView.imageIdRegex)) {
+            tag = this.vpnTags.get(id);
+        } else if (id.match(ec2ui_VpnGatewayTreeView.imageIdRegex)) {
+            tag = this.vgwTags.get(id);
+        } else if (id.match(ec2ui_CustomerGatewayTreeView.imageIdRegex)) {
+            tag = this.cgwTags.get(id);
         }
 
         if (tag) return unescape(tag);
@@ -350,6 +431,18 @@ var ec2ui_session =
             return this.imageTags;
         case this.model.resourceMap.eips:
             return this.eipTags;
+        case this.model.resourceMap.vpcs:
+            return this.vpcTags;
+        case this.model.resourceMap.subnets:
+            return this.subnetTags;
+        case this.model.resourceMap.dhcpOptions:
+            return this.dhcpOptionsTags;
+        case this.model.resourceMap.vpnConnections:
+            return this.vpnTags;
+        case this.model.resourceMap.vpnGateways:
+            return this.vgwTags;
+        case this.model.resourceMap.customerGateways:
+            return this.cgwTags;
         default:
             return null;
         }
@@ -401,6 +494,59 @@ var ec2ui_session =
             // Retrieve the appropriate data structure from the store
             this.eipTags = ec2ui_prefs.getEIPTags();
             break;
+        case this.model.resourceMap.vpcs:
+            // The Tags must first be persisted to the prefs store
+            ec2ui_prefs.setVpcTags(tags);
+
+            this.vpcTags = null;
+            // Retrieve the appropriate data structure from the store
+            this.vpcTags = ec2ui_prefs.getVpcTags();
+            break;
+
+        case this.model.resourceMap.subnets:
+            // The Tags must first be persisted to the prefs store
+            ec2ui_prefs.setSubnetTags(tags);
+
+            this.subnetTags = null;
+            // Retrieve the appropriate data structure from the store
+            this.subnetTags = ec2ui_prefs.getSubnetTags();
+            break;
+
+        case this.model.resourceMap.dhcpOptions:
+            // The Tags must first be persisted to the prefs store
+            ec2ui_prefs.setDhcpOptionsTags(tags);
+
+            this.dhcpOptionsTags = null;
+            // Retrieve the appropriate data structure from the store
+            this.dhcpOptionsTags = ec2ui_prefs.getDhcpOptionsTags();
+            break;
+
+        case this.model.resourceMap.vpnConnections:
+            // The Tags must first be persisted to the prefs store
+            ec2ui_prefs.setVpnConnectionTags(tags);
+
+            this.vpnTags = null;
+            // Retrieve the appropriate data structure from the store
+            this.vpnTags = ec2ui_prefs.getVpnConnectionTags();
+            break;
+
+        case this.model.resourceMap.vpnGateways:
+            // The Tags must first be persisted to the prefs store
+            ec2ui_prefs.setVpnGatewayTags(tags);
+
+            this.vgwTags = null;
+            // Retrieve the appropriate data structure from the store
+            this.vgwTags = ec2ui_prefs.getVpnGatewayTags();
+            break;
+
+        case this.model.resourceMap.customerGateways:
+            // The Tags must first be persisted to the prefs store
+            ec2ui_prefs.setCustomerGatewayTags(tags);
+
+            this.cgwTags = null;
+            // Retrieve the appropriate data structure from the store
+            this.cgwTags = ec2ui_prefs.getCustomerGatewayTags();
+            break;
         }
     },
 
@@ -410,17 +556,18 @@ var ec2ui_session =
             activeEndpointname = ec2ui_prefs.getLastUsedEndpoint();
         }
         if (this.endpointmap == null) {
-            return new Endpoint(activeEndpointname, ec2ui_prefs.getServiceURL());
+            return new Endpoint(activeEndpointname, ec2ui_prefs.getServiceType(), ec2ui_prefs.getServiceURL());
+			
         } else {
             return this.endpointmap.get(activeEndpointname);
         }
     },
-
     switchEndpoints : function () {
         var activeEndpoint = this.getActiveEndpoint();
 
         if (activeEndpoint != null) {
             ec2ui_prefs.setLastUsedEndpoint(activeEndpoint.name);
+            ec2ui_prefs.setServiceType(activeEndpoint.type);
             ec2ui_prefs.setServiceURL(activeEndpoint.url);
             this.client.setEndpoint(activeEndpoint);
             this.loadAllTags();
@@ -522,12 +669,4 @@ var ec2ui_session =
             getBrowser().selectedBrowser.contentDocument.location = url;
         }
     },
-    
-    isAmazonEndpointSelected: function () {
-    	var activeEndpointUrl = this.getActiveEndpoint().url;
-    	if (activeEndpointUrl.search(/\.amazonaws\.com(\/)?$/)!=-1) { //if active endpoint url ends with ".amazonaws.com"
-	    return true;
-	}
-	return false;
-	}
 };

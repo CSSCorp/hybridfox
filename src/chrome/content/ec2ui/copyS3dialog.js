@@ -31,7 +31,7 @@ var ec2ui_S3_KeyCopier = {
     logOutput : function(out) {
 		var output = this.getProgressOutput();
         output.appendItem(out);
-        output.ensureIndexIsVisible(this.output.getRowCount());
+        output.ensureIndexIsVisible(output.getRowCount());
     },
 
     getCurrentOperation : function() {

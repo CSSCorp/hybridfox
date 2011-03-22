@@ -136,6 +136,7 @@ function WrappedMap(map) {
 var ec2ui_prefs = {
     ACTIVE_USER_NAME    : "ec2ui.active.credentials.name",
     ACTIVE_ENDPOINT     : "ec2ui.active.endpoint",
+    API_VERSION         : "ec2ui.api_version",
     RDP_COMMAND         : "ec2ui.tools.rdp.command",
     RDP_ARGS            : "ec2ui.tools.rdp.args",
     SSH_COMMAND         : "ec2ui.tools.ssh.command",
@@ -150,6 +151,7 @@ var ec2ui_prefs = {
     REFRESH_BUNDLE_VIEW : "ec2ui.refreshBundleView.enabled",
     AUTOFETCH_LP        : "ec2ui.autofetchlaunchpermissions.enabled",
     OPEN_IN_NEW_TAB     : "ec2ui.usenewtab.enabled",
+    EC2_TYPE            : "ec2ui.type",
     EC2_URL             : "ec2ui.url",
     CURRENT_TAB         : "ec2ui.current.tab",
     REQUEST_TIMEOUT     : "ec2ui.timeout.request",
@@ -161,6 +163,12 @@ var ec2ui_prefs = {
     INSTANCE_TAGS       : "ec2ui.instancetags",
     VOLUME_TAGS         : "ec2ui.volumetags",
     SNAPSHOT_TAGS       : "ec2ui.snapshotTags",
+    VPC_TAGS            : "ec2ui.vpcTags",
+    SUBNET_TAGS         : "ec2ui.subnetTags",
+    VGW_TAGS            : "ec2ui.vgwTags",
+    VPN_TAGS            : "ec2ui.vpnTags",
+    CGW_TAGS            : "ec2ui.cgwTags",
+    DHCP_OPTIONS_TAGS   : "ec2ui.dhcpOptionsTags",
     CONCURRENT_S3_CONN  : "ec2ui.concurrent.S3.conns",
     PROMPT_OPEN_PORT    : "ec2ui.prompt.open.port",
     OPEN_CONNECTION_PORT: "ec2ui.open.connection.port",
@@ -201,6 +209,12 @@ var ec2ui_prefs = {
             this.setInstanceTags(this.getInstanceTags());
             this.setVolumeTags(this.getVolumeTags());
             this.setSnapshotTags(this.getSnapshotTags());
+            this.setVpcTags(this.getVpcTags());
+            this.setSubnetTags(this.getSubnetTags());
+            this.setDhcpOptionsTags(this.getDhcpOptionsTags());
+            this.setVpnGatewayTags(this.getVpnGatewayTags());
+            this.setCustomerGatewayTags(this.getCustomerGatewayTags());
+            this.setVpnConnectionTags(this.getVpnConnectionTags());
             this.setConcurrentS3Conns(this.getConcurrentS3Conns());
             this.setPromptForPortOpening(this.getPromptForPortOpening());
             this.setOpenConnectionPort(this.getOpenConnectionPort());
@@ -217,6 +231,7 @@ var ec2ui_prefs = {
     setSSHArgs : function(value) { this.setStringPreference(this.SSH_ARGS, value); },
     setSSHUser : function(value) { this.setStringPreference(this.SSH_USER, value); },
     setRequestTimeout : function(value) { this.setIntPreference(this.REQUEST_TIMEOUT, value); },
+    setServiceType : function(value) { this.setStringPreference(this.EC2_TYPE, value); },
     setServiceURL : function(value) { this.setStringPreference(this.EC2_URL, value); },
     setCurrentTab : function(value) { this.setIntPreference(this.CURRENT_TAB, value); },
     setDebugEnabled : function(enabled) { this.setBoolPreference(this.DEBUG_ENABLED, enabled); },
@@ -254,7 +269,8 @@ var ec2ui_prefs = {
     getSSHArgs : function() { return this.getStringPreference(this.SSH_ARGS, this.getDefaultSSHCommandArgs()[1]); },
     getSSHUser : function() { return this.getStringPreference(this.SSH_USER, "root"); },
     getRequestTimeout : function() { return this.getIntPreference(this.REQUEST_TIMEOUT, 15000); },
-    getServiceURL : function() { return this.getStringPreference(this.EC2_URL, "https://us-east-1.ec2.amazonaws.com"); },
+    getServiceType : function() { return this.getStringPreference(this.EC2_TYPE, "ec2"); },
+    getServiceURL : function() { return this.getStringPreference(this.EC2_URL, "https://ec2.us-east-1.amazonaws.com"); },
     getCurrentTab : function() { return this.getIntPreference(this.CURRENT_TAB, 0); },
     getLastEC2PKeyFile : function() { return this.getEC2PKeyForUser(this.getLastUsedAccount()); },
     isDebugEnabled : function() { return this.getBoolPreference(this.DEBUG_ENABLED, false); },
@@ -385,14 +401,13 @@ var ec2ui_prefs = {
         return new WrappedMapAccounts(unpackedMap, this);
     },
 
-    getDefaultEndpoints : function(session) {
+    getEC2Endpoints : function() {
         var me = this;
         var wrap = function (regionMap) {
-            log ("Endpoints callback");
+            log("Endpoints callback");
             me.endpoints = regionMap;
         }
-        // session.client.setEndpoint(new Endpoint('us-east-1', 'https://us-east-1.ec2.amazonaws.com', '2008-12-01'));
-        session.controller.describeRegions(wrap);
+        ec2ui_session.controller.describeRegions(wrap);
     },
 
     // These ones manage a pseudo-complex pref. This preference is a JSON
@@ -401,26 +416,39 @@ var ec2ui_prefs = {
         this.setStringPreference(this.ENDPOINTS, value.toJSONString());
     },
 
+	getLatestEndpointMap : function() {
+        var packedMap = this.getStringPreference(this.ENDPOINTS, null);;
+        var endpointmap = null;
+
+        if (packedMap != null && packedMap.length > 0) {
+            // Unpack the map and return it
+            endpointmap = eval(packedMap);
+        }
+        return new WrappedMapEndpoints(endpointmap, this);
+	},
+
     getEndpointMap : function() {
         var packedMap = this.getStringPreference(this.ENDPOINTS, null);
         var endpointmap = null;
 
         if (packedMap != null && packedMap.length > 0) {
             // Unpack the map and return it
-            var endpointmap = eval(packedMap);
-
-            // Check for older, version style endpoints
-            for (region in endpointmap) {
-                if (endpointmap[region].version == null) {
-                    return new WrappedMapEndpoints(endpointmap, this);
-                }
-            }
+            endpointmap = eval(packedMap);
         }
 
-        // Must overwrite the version style endpoints
-        if (this.endpoints == null) {
-            this.getDefaultEndpoints(ec2ui_session);
-            log ("Using default endpoints");
+        log("Retrieve endpoints from service");
+        this.getEC2Endpoints();
+
+        // Reconcile the endpointmap with the map retrieved from EC2
+        var map = this.endpoints;
+        for (k in map) {
+            if (map.hasOwnProperty(k)) {
+                var v = map[k];
+                if (v != null &&
+                    endpointmap[k] == null) {
+                    endpointmap[k] = v;
+                }
+            }
         }
 
         // there is a chance that we retrieved the endpoints from the API.
@@ -460,6 +488,30 @@ var ec2ui_prefs = {
         this.setTags(this.SNAPSHOT_TAGS, value);
     },
 
+    setVpcTags : function(value) {
+        this.setTags(this.VPC_TAGS, value);
+    },
+
+    setSubnetTags : function(value) {
+        this.setTags(this.SUBNET_TAGS, value);
+    },
+
+    setDhcpOptionsTags : function(value) {
+        this.setTags(this.DHCP_OPTIONS_TAGS, value);
+    },
+
+    setVpnGatewayTags : function(value) {
+        this.setTags(this.VGW_TAGS, value);
+    },
+
+    setCustomerGatewayTags : function(value) {
+        this.setTags(this.CGW_TAGS, value);
+    },
+
+    setVpnConnectionTags : function(value) {
+        this.setTags(this.VPN_TAGS, value);
+    },
+
     setTags : function(pref, value) {
         pref = pref + "." + this.getLastUsedAccount();
         // Get the current endpoint
@@ -486,6 +538,30 @@ var ec2ui_prefs = {
 
     getSnapshotTags : function() {
         return this.getTags(this.SNAPSHOT_TAGS);
+    },
+
+    getVpcTags : function() {
+        return this.getTags(this.VPC_TAGS);
+    },
+
+    getSubnetTags : function() {
+        return this.getTags(this.SUBNET_TAGS);
+    },
+
+    getDhcpOptionsTags : function() {
+        return this.getTags(this.DHCP_OPTIONS_TAGS);
+    },
+
+    getVpnGatewayTags : function() {
+        return this.getTags(this.VGW_TAGS);
+    },
+
+    getCustomerGatewayTags : function() {
+        return this.getTags(this.CGW_TAGS);
+    },
+
+    getVpnConnectionTags : function() {
+        return this.getTags(this.VPN_TAGS);
     },
 
     getTags : function(pref) {

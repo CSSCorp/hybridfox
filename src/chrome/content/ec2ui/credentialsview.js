@@ -38,8 +38,9 @@ var ec2ui_credentialsTreeView = {
     setAccountCredentials : function(creds) {
         this.treeBox.rowCountChanged(0, -this.credentials.length);
         this.credentials = new Array();
-        if (creds)
+        if (creds) {
             this.credentials = this.credentials.concat(creds);
+		}
         this.treeBox.rowCountChanged(0, this.credentials.length);
         this.treeBox.invalidate();
         this.selection.clearSelection();

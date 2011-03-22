@@ -69,6 +69,13 @@
             <toolbarbutton image="images/info.png" style="-moz-box-pack:center;"
               oncommand="ec2ui_VolumeTreeView.tag();"
               tooltiptext="Add Tag" />
+            <menulist id="ec2ui_SnapshotTreeView.snapshot.type" selectedIndex="0"
+              oncommand="ec2ui_SnapshotTreeView.snapshotTypeChanged();">
+              <menupopup>
+                <menuitem label="No Filter" value="all"/>
+                <menuitem label="My Snapshots" value="my_snapshots"/>
+              </menupopup>
+            </menulist>
           </hbox>
         </toolbar>
         <tree id="ec2ui.volumes.view" seltype="single" enableColumnDrag="true"
@@ -175,6 +182,17 @@
             <splitter class="tree-splitter" />
             <treecol id="snap.progress" label="&ec2ui.snapshots.progress.label;" flex="1"
               persist="width ordinal hidden sortDirection" />
+            <splitter class="tree-splitter" />
+            <treecol id="snap.volumeSize" label="&ec2ui.snapshots.volumeSize.label;" flex="1"
+              persist="width ordinal hidden sortDirection" />
+            <splitter class="tree-splitter" />
+            <treecol id="snap.description" label="&ec2ui.description.label;" flex="1"
+              persist="width ordinal hidden sortDirection" />
+            <splitter class="tree-splitter" />
+            <treecol id="snap.owner" label="&ec2ui.snapshots.owner.label;" flex="1"
+              persist="width ordinal hidden sortDirection" />
+            <treecol id="snap.ownerAlias" label="&ec2ui.snapshots.ownerAlias.label;" flex="1"
+              hidden="true" persist="width ordinal hidden sortDirection" />
             <splitter class="tree-splitter" />
             <treecol id="snap.tag" label="Tag" flex="1"
               persist="width ordinal hidden sortDirection" />

@@ -1,6 +1,6 @@
 var ec2ui_SnapshotTreeView = {
     COLNAMES: ['snap.id', 'snap.volumeId', 'snap.status', 'snap.startTime',
-              'snap.progress', 'snap.tag'],
+              'snap.progress', 'snap.volumeSize', 'snap.description', 'snap.owner', 'snap.ownerAlias', 'snap.tag'],
     imageIdRegex : new RegExp("^snap-"),
 
     getSearchText : function() {
@@ -15,10 +15,30 @@ var ec2ui_SnapshotTreeView = {
 
     invalidate : function() {
         var target = ec2ui_SnapshotTreeView;
-        target.displayImages(target.filterImages(ec2ui_model.snapshots));
+        target.filterAndDisplaySnapshots();
+    },
+
+    filterAndDisplaySnapshots : function() {
+        var type = document.getElementById("ec2ui_SnapshotTreeView.snapshot.type").value;
+        if (type == "my_snapshots") {
+            var groups = ec2ui_model.getSecurityGroups();
+            var group = groups[0];
+            var currentUser = ec2ui_session.lookupAccountId(group.ownerId);
+        }
+
+        var snapshots = ec2ui_model.snapshots;
+        snapshots = this.filterImages(snapshots, currentUser);
+
+        this.displayImages(snapshots);
+    },
+
+    snapshotTypeChanged : function() {
+        document.getElementById("ec2ui.snapshots.search").value = "";
+        this.filterAndDisplaySnapshots();
     },
 
     searchChanged : function(event) {
+        document.getElementById("ec2ui_SnapshotTreeView.snapshot.type").selectedIndex = 0;
         if (this.searchTimer) {
             clearTimeout(this.searchTimer);
         }
@@ -68,7 +88,8 @@ var ec2ui_SnapshotTreeView = {
             // Determine if there are any pending operations
             if (this.pendingUpdates()) {
                 this.startRefreshTimer("ec2ui_SnapshotTreeView",
-                                       this.refresh);
+                                       ec2ui_SnapshotTreeView.refresh);
+									   
             } else {
                 this.stopRefreshTimer("ec2ui_SnapshotTreeView");
             }

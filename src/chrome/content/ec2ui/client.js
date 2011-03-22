@@ -14,6 +14,8 @@ var ec2_httpclient = {
 
     API_VERSION : "2010-06-15",
 
+    VPN_CONFIG_PATH : "http://ec2-downloads.s3.amazonaws.com/",
+
     getNsResolver : function() {
         var client = this;
         return function(prefix) {
@@ -33,6 +35,8 @@ var ec2_httpclient = {
     setEndpoint : function (endpoint) {
         if (endpoint != null) {
             this.serviceURL = endpoint.url;
+			if (endpoint.type == "euca")
+				this.serviceURL = this.serviceURL + ":8773/services/Eucalyptus";
         }
     },
 
@@ -77,8 +81,7 @@ var ec2_httpclient = {
     },
 
     setEndpointURLForRegion : function(region) {
-        var reg = getActiveRegion(ec2ui_session.getActiveEndpoint());
-        region = region.toLowerCase();
+        var reg = ec2ui_utils.determineRegionFromString(ec2ui_session.getActiveEndpoint().name);
         log(reg + ": active region prefix");
         if (reg != region) {
             var newURL = null;
@@ -86,8 +89,10 @@ var ec2_httpclient = {
             var endpointlist = ec2ui_session.getEndpoints();
             for (var i = 0; i < endpointlist.length; ++i) {
                 var curr = endpointlist[i];
-                if (curr.name.indexOf(region) == 0) {
+                if (curr.name.indexOf(region) >= 0) {
                     newURL = curr.url;
+					if (curr.type == "euca")
+						newURL = newURL + ":8773/services/Eucalyptus/";
                     break;
                 }
             }
@@ -129,7 +134,7 @@ var ec2_httpclient = {
         var rsp = null;
         while(true) {
             try {
-                rsp = this.queryEC2Impl(action, params, objActions, isSync, reqType, callback);
+                rsp = this.queryEC2ImplNew(action, params, objActions, isSync, reqType, callback);
                 if (rsp.hasErrors) {
                     if (!this.errorDialog(
                         "EC2 responded with an error for "+action,
@@ -221,6 +226,90 @@ var ec2_httpclient = {
             xmlhttp.open("POST", url, !isSync);
             xmlhttp.setRequestHeader("User-Agent", this.USER_AGENT);
             xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xmlhttp.setRequestHeader("Content-Length", queryParams.length);
+            xmlhttp.setRequestHeader("Connection", "close");
+            this.startTimer(timerKey, 30000, xmlhttp.abort);
+            var me = this;
+            if (isSync) {
+                xmlhttp.onreadystatechange = empty;
+            } else {
+                xmlhttp.onreadystatechange = function () {
+                    me.handleAsyncResponse(xmlhttp, callback, reqType, objActions);
+                }
+            }
+
+            try {
+                xmlhttp.send(queryParams);
+                this.stopTimer(timerKey);
+            } catch(e) {
+                if (isSync && !this.stopTimer(timerKey)) {
+                    // A timer didn't exist, this is unexpected
+                    throw e;
+                }
+
+                var faultStr = "Please check your EC2 URL '" + url + "' for correctness, or delete the value in ec2ui.endpoints using about:config and retry.";
+                return this.newResponseObject(null, callback, reqType, true, "Request Error", faultStr, "");
+            }
+        }
+
+        return this.processXMLHTTPResponse(xmlhttp, reqType, isSync, timerKey, objActions, callback);
+    },
+
+    queryEC2ImplNew : function (action, params, objActions, isSync, reqType, callback) {
+        var curTime = new Date();
+        var formattedTime = this.formatDate(curTime, "yyyy-MM-ddThh:mm:00Z");
+
+        var sigValues = new Array();
+        sigValues.push(new Array("AWSAccessKeyId", this.accessCode));
+        sigValues.push(new Array("Action", action));
+        sigValues.push(new Array("SignatureVersion","2"));
+        sigValues.push(new Array("SignatureMethod","HmacSHA256"));
+        sigValues.push(new Array("Version",this.API_VERSION));
+        sigValues.push(new Array("Timestamp",formattedTime));
+
+        // Mix in the additional parameters. params must be an Array of tuples as for sigValues above
+        for (var i = 0; i < params.length; i++) {
+            sigValues.push(params[i]);
+        }
+
+        // Sort the parameters by their lowercase name
+        //sigValues.sort(this.sigParamCmp);
+        sigValues.sort();
+
+        // Construct the string to sign and query string
+		var uri = parseUri(this.serviceURL);
+        var queryParams = "";
+        for (var i = 0; i < sigValues.length; i++) {
+            queryParams += sigValues[i][0] + "=" + encodeURIComponent(sigValues[i][1]);
+            if (i < sigValues.length-1) {
+                queryParams += "&";
+			}
+        }
+
+        var strSig = "POST\n"+uri.host+"\n"+uri.path+"/\n"+queryParams;
+        log("StrSig ["+strSig+"]");
+        log("Params ["+queryParams+"]");
+
+        var sig = b64_hmac_sha256(this.secretKey, strSig);
+        log("Sig ["+sig+"]");
+
+        queryParams += "&Signature="+encodeURIComponent(sig);
+        var url = this.serviceURL + "/";
+
+        log("URL ["+url+"]");
+        log("QueryParams ["+queryParams+"]");
+
+        var timerKey = strSig+":"+formattedTime;
+
+        if (!ec2ui_prefs.isOfflineEnabled()) {
+            var xmlhttp = this.newInstance();
+            if (!xmlhttp) {
+                log("Could not create xmlhttp object");
+                return null;
+            }
+            xmlhttp.open("POST", url, !isSync);
+            xmlhttp.setRequestHeader("User-Agent", this.USER_AGENT);
+            xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
             xmlhttp.setRequestHeader("Content-Length", queryParams.length);
             xmlhttp.setRequestHeader("Connection", "close");
             this.startTimer(timerKey, 30000, xmlhttp.abort);

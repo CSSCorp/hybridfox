@@ -46,12 +46,12 @@
           <menulist id="ec2ui.newinstances.instancetypelist" />
         </row>
         <row>
-          <label control="ec2ui.newinstances.min" value="Minimum number of instances:" />
-          <textbox id="ec2ui.newinstances.min" size="40" value="1" />
-        </row>
-        <row>
-          <label control="ec2ui.newinstances.max" value="Maximum number of instances:" />
-          <textbox id="ec2ui.newinstances.max" size="40" value="1" />
+          <label control="ec2ui.newinstances.min" value="Number of instances - Min:" />
+          <hbox>
+            <textbox id="ec2ui.newinstances.min" size="10" value="1" />
+            <label control="ec2ui.newinstances.max" value="Max:" />
+            <textbox id="ec2ui.newinstances.max" size="10" value="1" />
+          </hbox>
         </row>
         <row>
           <label control="ec2ui.newinstances.tag" value="New Instance(s) Tag:" />
@@ -69,11 +69,39 @@
           <label control="ec2ui.newinstances.properties" value="Additional Info:" />
           <textbox id="ec2ui.newinstances.properties" size="40" />
         </row>
-        <row>
-          <label control="ec2ui.newinstances.addressingType" value="Public Address:" />
-          <checkbox id="ec2ui.newinstances.addressingType" checked="true" />
-        </row>
-        <groupbox flex="1">
+        <groupbox flex="1" id="ec2ui.newinstances.vpc.box">
+          <caption label="&ec2ui.captions.newinstances.vpc.label;" />
+          <grid flex="1">
+            <columns>
+              <column />
+              <column />
+            </columns>
+            <rows>
+              <row>
+                <label control="ec2ui.newinstances.usevpc"
+                  value="&ec2ui.captions.newinstances.usevpc.label;" />
+                <checkbox id="ec2ui.newinstances.usevpc"
+                  checked="false"
+                  oncommand="ec2_InstanceLauncher.useVpcChanged();"/>
+              </row>
+              <row>
+                <label control="ec2ui.newinstances.vpcId" value="VPC: "/>
+                <menulist id="ec2ui.newinstances.vpcId"
+                  oncommand="ec2_InstanceLauncher.vpcIdSelected();"/>
+              </row>
+              <row>
+                <label control="ec2ui.newinstances.subnetId" value="Subnet: "/>
+                <menulist id="ec2ui.newinstances.subnetId" />
+              </row>
+              <row>
+                <label control="ec2ui.newinstances.ipAddress" value="IP Address: "/>
+                <textbox id="ec2ui.newinstances.ipAddress" size="40" editable="true"/>
+              </row>
+
+            </rows>
+          </grid>
+        </groupbox>
+        <groupbox flex="1" id="ec2ui.newinstances.secgroups.box">
           <caption label="&ec2ui.captions.images.launchsecgroups.label;" />
           <grid flex="1">
             <columns>
@@ -110,7 +138,7 @@
         </groupbox>
         <groupbox flex="1">
           <caption label="&ec2ui.captions.images.launchparams.label;" />
-          <textbox id="ec2ui.newinstances.userdata" multiline="true" cols="50" rows="4" wrap="false"
+          <textbox id="ec2ui.newinstances.userdata" multiline="true" cols="50" rows="2" wrap="false"
             style="font-family: monospace;" />
           <hbox pack="end" flex="1">
             <button label="Open File" oncommand="ec2_InstanceLauncher.loadUserDataFromFile(false);" />

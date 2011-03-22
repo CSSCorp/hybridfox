@@ -18,6 +18,7 @@ var ec2_InstanceDetails = {
         document.getElementById("ec2ui.instance.ownerid").value = instance.ownerId;
         document.getElementById("ec2ui.instance.publicdnsname").value = instance.publicDnsName;
         document.getElementById("ec2ui.instance.privatednsname").value = instance.privateDnsName;
+        document.getElementById("ec2ui.instance.privateipaddress").value = instance.privateIpAddress;
         document.getElementById("ec2ui.instance.monitoring").value = instance.monitoringState;
         document.getElementById("ec2ui.instance.keyname").value = instance.keyName;
         document.getElementById("ec2ui.instance.reason").value = instance.reason;
@@ -26,6 +27,8 @@ var ec2_InstanceDetails = {
         document.getElementById("ec2ui.instance.launchTime").value = instance.launchTime.toString();
         document.getElementById("ec2ui.instance.availabilityZone").value = instance.placement.availabilityZone;
         document.getElementById("ec2ui.instance.platform").value = instance.platform;
+        document.getElementById("ec2ui.instance.vpcid").value = instance.vpcId;
+        document.getElementById("ec2ui.instance.subnetid").value = instance.subnetId;
         document.getElementById("ec2ui.instance.tag").value = instance.tag || "";
 
         var secGroups = document.getElementById("ec2ui.instance.securitygrouplist");

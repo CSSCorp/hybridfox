@@ -50,7 +50,7 @@
             persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
           <treecol id="securitygroup.description"
-            label="&ec2ui.secgroups.description.label;" flex="3"
+            label="&ec2ui.description.label;" flex="3"
             persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
         </treecols>

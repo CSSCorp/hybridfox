@@ -8,7 +8,8 @@ var ec2ui_controller = {
         region = region.toLowerCase();
 
         // Determine the current region
-        var activeReg = getActiveRegion(ec2ui_session.getActiveEndpoint());
+        var activeReg = ec2ui_utils.determineRegionFromString(ec2ui_session.getActiveEndpoint().name);
+		
         log(activeReg + ": active, requested: " + region);
 
         if (activeReg == region) {
@@ -184,14 +185,416 @@ var ec2ui_controller = {
             var status = getNodeValueByName(items.snapshotItem(i), "status");
             var startTime = new Date();
             startTime.setISO8601(getNodeValueByName(items.snapshotItem(i), "startTime"));
-            var progress = getNodeValueByName(items.snapshotItem(i), "progress");
-            list.push(new Snapshot(id, volumeId, status, startTime, progress));
+            var volumeSize = getNodeValueByName(items.snapshotItem(i), "volumeSize");
+            var description = getNodeValueByName(items.snapshotItem(i), "description");
+            var ownerId = getNodeValueByName(items.snapshotItem(i), "ownerId")
+            var ownerAlias = getNodeValueByName(items.snapshotItem(i), "ownerAlias")
+            list.push(new Snapshot(id, volumeId, status, startTime, progress, volumeSize, description, ownerId, ownerAlias));
+			
         }
 
         this.addResourceTags(list, ec2ui_session.model.resourceMap.snapshots, "id");
         ec2ui_model.updateSnapshots(list);
         if (objResponse.callback)
             objResponse.callback(list);
+    },
+
+    describeVpcs : function (isSync, callback) {
+        if (!isSync) isSync = false;
+        if (!this.descVpcsInProgress) {
+            this.descVpcsInProgress = true;
+            ec2_httpclient.queryEC2("DescribeVpcs", [], this, isSync, "onCompleteDescribeVpcs", callback);
+        }
+    },
+
+    onCompleteDescribeVpcs : function (objResponse) {
+        var xmlDoc = objResponse.xmlDoc;
+        var list = new Array();
+        var items = xmlDoc.evaluate("/ec2:DescribeVpcsResponse/ec2:vpcSet/ec2:item",
+                                    xmlDoc,
+                                    this.getNsResolver(),
+                                    XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
+                                    null);
+        for (var i = 0; i < items.snapshotLength; i++) {
+            var id = getNodeValueByName(items.snapshotItem(i), "vpcId");
+            var cidr = getNodeValueByName(items.snapshotItem(i), "cidrBlock");
+            var state = getNodeValueByName(items.snapshotItem(i), "state");
+            var dhcpopts = getNodeValueByName(items.snapshotItem(i), "dhcpOptionsId");
+            list.push(new Vpc(id, cidr, state, dhcpopts));
+        }
+
+        this.addResourceTags(list, ec2ui_session.model.resourceMap.vpcs, "id");
+        ec2ui_model.updateVpcs(list);
+        this.descVpcsInProgress = false;
+        if (objResponse.callback)
+            objResponse.callback(list);
+    },
+
+    createVpc : function (cidr, callback) {
+        ec2_httpclient.queryEC2("CreateVpc", [["CidrBlock", cidr]], this, true, "onCompleteCreateVpc", callback);
+    },
+
+    onCompleteCreateVpc : function (objResponse) {
+        if (objResponse.callback)
+            objResponse.callback();
+    },
+
+    deleteVpc : function (id, callback) {
+        ec2_httpclient.queryEC2("DeleteVpc", [["VpcId", id]], this, true, "onCompleteDeleteVpc", callback);
+    },
+
+    onCompleteDeleteVpc : function (objResponse) {
+        if (objResponse.callback)
+            objResponse.callback();
+    },
+
+    describeSubnets : function (isSync, callback) {
+        if (!isSync) isSync = false;
+        if (!this.descSubnetsInProgress) {
+            this.descSubnetsInProgress = true;
+            ec2_httpclient.queryEC2("DescribeSubnets", [], this, isSync, "onCompleteDescribeSubnets", callback);
+        }
+    },
+
+    onCompleteDescribeSubnets : function (objResponse) {
+        var xmlDoc = objResponse.xmlDoc;
+        var list = new Array();
+        var items = xmlDoc.evaluate("/ec2:DescribeSubnetsResponse/ec2:subnetSet/ec2:item",
+                                    xmlDoc,
+                                    this.getNsResolver(),
+                                    XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
+                                    null);
+        for (var i = 0; i < items.snapshotLength; i++) {
+            var id = getNodeValueByName(items.snapshotItem(i), "subnetId");
+            var vpcId = getNodeValueByName(items.snapshotItem(i), "vpcId");
+            var cidrBlock = getNodeValueByName(items.snapshotItem(i), "cidrBlock");
+            var state = getNodeValueByName(items.snapshotItem(i), "state");
+            var availableIp = getNodeValueByName(items.snapshotItem(i), "availableIpAddressCount");
+            var availabilityZone = getNodeValueByName(items.snapshotItem(i), "availabilityZone");
+            list.push(new Subnet(id,
+                                 vpcId,
+                                 cidrBlock,
+                                 state,
+                                 availableIp,
+                                 availabilityZone));
+        }
+
+        this.addResourceTags(list, ec2ui_session.model.resourceMap.subnets, "id");
+        ec2ui_model.updateSubnets(list);
+        this.descSubnetsInProgress = false;
+        if (objResponse.callback)
+            objResponse.callback(list);
+    },
+
+    createSubnet : function (vpcId, cidr, az, callback) {
+        ec2_httpclient.queryEC2("CreateSubnet", [["CidrBlock", cidr], ["VpcId", vpcId], ["AvailabilityZone", az]], this, true, "onCompleteCreateSubnet", callback);
+    },
+
+    onCompleteCreateSubnet : function (objResponse) {
+        if (objResponse.callback)
+            objResponse.callback();
+    },
+
+    deleteSubnet : function (id, callback) {
+        ec2_httpclient.queryEC2("DeleteSubnet", [["SubnetId", id]], this, true, "onCompleteDeleteSubnet", callback);
+    },
+
+    onCompleteDeleteSubnet : function (objResponse) {
+        if (objResponse.callback)
+            objResponse.callback();
+    },
+
+    describeDhcpOptions : function (isSync, callback) {
+        if (!isSync) isSync = false;
+        if (!this.descDhcpOptionsInProgress) {
+            this.descDhcpOptionsInProgress = true;
+            ec2_httpclient.queryEC2("DescribeDhcpOptions", [], this, isSync, "onCompleteDescribeDhcpOptions", callback);
+        }
+    },
+
+    onCompleteDescribeDhcpOptions : function (objResponse) {
+        var xmlDoc = objResponse.xmlDoc;
+        var list = new Array();
+        var items = xmlDoc.evaluate("/ec2:DescribeDhcpOptionsResponse/ec2:dhcpOptionsSet/ec2:item",
+                                    xmlDoc,
+                                    this.getNsResolver(),
+                                    XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
+                                    null);
+        for (var i = 0; i < items.snapshotLength; i++) {
+            var id = getNodeValueByName(items.snapshotItem(i), "dhcpOptionsId");
+            var options = new Array();
+
+            var optTags = items.snapshotItem(i).getElementsByTagName("dhcpConfigurationSet")[0];
+            var optItems = optTags.childNodes;
+            log ("Parsing DHCP Options: "+optItems.length+" option sets");
+
+            for (var j = 0; j < optItems.length; j++) {
+                if (optItems.item(j).nodeName == '#text') continue;
+                var key = getNodeValueByName(optItems.item(j), "key");
+                var values = new Array();
+
+                var valtags = optItems.item(j).getElementsByTagName("valueSet")[0];
+                var valItems = valtags.childNodes;
+                log ("Parsing DHCP Option "+key+": "+valItems.length+" values");
+
+                for (var k = 0; k < valItems.length; k++) {
+                    if (valItems.item(k).nodeName == '#text') continue;
+                    values.push(getNodeValueByName(valItems.item(k), "value"));
+                }
+                options.push(key + " = " + values.join(","))
+            }
+            list.push(new DhcpOptions(id, options.join("; ")));
+        }
+
+        this.addResourceTags(list, ec2ui_session.model.resourceMap.dhcpOptions, "id");
+        ec2ui_model.updateDhcpOptions(list);
+        this.descDhcpOptionsInProgress = false;
+        if (objResponse.callback)
+            objResponse.callback(list);
+    },
+
+    associateDhcpOptions : function (dhcpOptionsId, vpcId, callback) {
+       ec2_httpclient.queryEC2("AssociateDhcpOptions", [["DhcpOptionsId", dhcpOptionsId], ["VpcId", vpcId]], this, true, "onCompleteAssociateDhcpOptions", callback);
+    },
+
+    onCompleteAssociateDhcpOptions : function (objResponse) {
+        if (objResponse.callback)
+            objResponse.callback();
+    },
+
+    createDhcpOptions : function (opts, callback) {
+       var params = new Array();
+
+       for (var i = 0; i < opts.length; i++) {
+           if (opts[i][1] == null || opts[i][1].length == 0)
+               continue;
+
+           params.push(["DhcpConfiguration." + (i+1) + ".Key", opts[i][0]]);
+           for (var j = 0; j < opts[i][1].length; j++) {
+               params.push(["DhcpConfiguration." + (i+1) + ".Value." + (j+1),
+                            opts[i][1][j]]);
+           }
+       }
+
+       ec2_httpclient.queryEC2("CreateDhcpOptions", params, this, true, "onCompleteCreateDhcpOptions", callback);
+    },
+
+    onCompleteCreateDhcpOptions : function (objResponse) {
+        if (objResponse.callback)
+            objResponse.callback();
+    },
+
+    deleteDhcpOptions : function (id, callback) {
+        ec2_httpclient.queryEC2("DeleteDhcpOptions", [["DhcpOptionsId", id]], this, true, "onCompleteDeleteDhcpOptions", callback);
+    },
+
+    onCompleteDeleteDhcpOptions : function (objResponse) {
+        if (objResponse.callback)
+            objResponse.callback();
+    },
+
+    describeVpnGateways : function (isSync, callback) {
+        if (!isSync) isSync = false;
+        if (!this.descVpnGatewaysInProgress) {
+            this.descVpnGatewaysInProgress = true;
+            ec2_httpclient.queryEC2("DescribeVpnGateways", [], this, isSync, "onCompleteDescribeVpnGateways", callback);
+        }
+    },
+
+    onCompleteDescribeVpnGateways : function (objResponse) {
+        var xmlDoc = objResponse.xmlDoc;
+        var list = new Array();
+        var items = xmlDoc.evaluate("/ec2:DescribeVpnGatewaysResponse/ec2:vpnGatewaySet/ec2:item",
+                                    xmlDoc,
+                                    this.getNsResolver(),
+                                    XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
+                                    null);
+        for (var i = 0; i < items.snapshotLength; i++) {
+            var id = getNodeValueByName(items.snapshotItem(i), "vpnGatewayId");
+            var availabilityZone = getNodeValueByName(items.snapshotItem(i), "availabilityZone");
+            var type = getNodeValueByName(items.snapshotItem(i), "type");
+            var state = getNodeValueByName(items.snapshotItem(i), "state");
+            var attachments = new Array();
+
+            var atttags = items.snapshotItem(i).getElementsByTagName("attachments")[0].getElementsByTagName("item");
+            for (var j = 0; j < atttags.length; j++) {
+                var vpcId = getNodeValueByName(atttags[j], "vpcId");
+                var attstate = getNodeValueByName(atttags[j], "state");
+                var att = new VpnGatewayAttachment(vpcId, id, attstate)
+                attachments.push(att)
+            }
+            list.push(new VpnGateway(id,
+                                     availabilityZone,
+                                     state,
+                                     type,
+                                     attachments));
+        }
+
+        this.addResourceTags(list, ec2ui_session.model.resourceMap.vpnGateways, "id");
+        ec2ui_model.updateVpnGateways(list);
+        this.descVpnGatewaysInProgress = false;
+        if (objResponse.callback)
+            objResponse.callback(list);
+    },
+
+    createVpnGateway : function (type, az, callback) {
+        ec2_httpclient.queryEC2("CreateVpnGateway", [["Type", type], ["AvailabilityZone", az]], this, true, "onCompleteCreateVpnGateway", callback);
+    },
+
+    onCompleteCreateVpnGateway : function (objResponse) {
+        if (objResponse.callback)
+            objResponse.callback();
+    },
+
+    deleteVpnGateway : function (id, callback) {
+        ec2_httpclient.queryEC2("DeleteVpnGateway", [["VpnGatewayId", id]], this, true, "onCompleteDeleteVpnGateway", callback);
+    },
+
+    onCompleteDeleteVpnGateway : function (objResponse) {
+        if (objResponse.callback)
+            objResponse.callback();
+    },
+
+    describeCustomerGateways : function (isSync, callback) {
+        if (!isSync) isSync = false;
+        if (!this.descCustomerGatewaysInProgress) {
+            this.descCustomerGatewaysInProgress = true;
+            ec2_httpclient.queryEC2("DescribeCustomerGateways", [], this, isSync, "onCompleteDescribeCustomerGateways", callback);
+        }
+    },
+
+    onCompleteDescribeCustomerGateways : function (objResponse) {
+        var xmlDoc = objResponse.xmlDoc;
+        var list = new Array();
+        var items = xmlDoc.evaluate("/ec2:DescribeCustomerGatewaysResponse/ec2:customerGatewaySet/ec2:item",
+                                    xmlDoc,
+                                    this.getNsResolver(),
+                                    XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
+                                    null);
+        for (var i = 0; i < items.snapshotLength; i++) {
+            var id = getNodeValueByName(items.snapshotItem(i), "customerGatewayId");
+            var type = getNodeValueByName(items.snapshotItem(i), "type");
+            var state = getNodeValueByName(items.snapshotItem(i), "state");
+            var ipAddress = getNodeValueByName(items.snapshotItem(i), "ipAddress");
+            var bgpAsn = getNodeValueByName(items.snapshotItem(i), "bgpAsn");
+            list.push(new CustomerGateway(id,
+                                          ipAddress,
+                                          bgpAsn,
+                                          state,
+                                          type));
+        }
+
+        this.addResourceTags(list, ec2ui_session.model.resourceMap.customerGateways, "id");
+        ec2ui_model.updateCustomerGateways(list);
+        this.descCustomerGatewaysInProgress = false;
+        if (objResponse.callback)
+            objResponse.callback(list);
+    },
+
+    createCustomerGateway : function (type, ip, asn, callback) {
+        ec2_httpclient.queryEC2("CreateCustomerGateway", [["Type", type], ["IpAddress", ip], ["BgpAsn", asn]], this, true, "onCompleteCreateCustomerGateway", callback);
+    },
+
+    onCompleteCreateCustomerGateway : function (objResponse) {
+        if (objResponse.callback)
+            objResponse.callback();
+    },
+
+    deleteCustomerGateway : function (id, callback) {
+        ec2_httpclient.queryEC2("DeleteCustomerGateway", [["CustomerGatewayId", id]], this, true, "onCompleteDeleteCustomerGateway", callback);
+    },
+
+    onCompleteDeleteCustomerGateway : function (objResponse) {
+        if (objResponse.callback)
+            objResponse.callback();
+    },
+
+    describeVpnConnections : function (isSync, callback) {
+        if (!isSync) isSync = false;
+        if (!this.descVpnConnectionsInProgress) {
+            this.descVpnConnectionsInProgress = true;
+            ec2_httpclient.queryEC2("DescribeVpnConnections", [], this, isSync, "onCompleteDescribeVpnConnections", callback);
+        }
+    },
+
+    onCompleteDescribeVpnConnections : function (objResponse) {
+        var xmlDoc = objResponse.xmlDoc;
+
+        // required due to the size of the customer gateway config
+        // being very close to or in excess of 4096 bytes
+        xmlDoc.normalize();
+
+        var list = new Array();
+        var items = xmlDoc.evaluate("/ec2:DescribeVpnConnectionsResponse/ec2:vpnConnectionSet/ec2:item",
+                                    xmlDoc,
+                                    this.getNsResolver(),
+                                    XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
+                                    null);
+        for (var i = 0; i < items.snapshotLength; i++) {
+            var id = getNodeValueByName(items.snapshotItem(i), "vpnConnectionId");
+            var cgwId = getNodeValueByName(items.snapshotItem(i), "customerGatewayId");
+            var vgwId = getNodeValueByName(items.snapshotItem(i), "vpnGatewayId");
+            var type = getNodeValueByName(items.snapshotItem(i), "type");
+            var state = getNodeValueByName(items.snapshotItem(i), "state");
+            var ipAddress = getNodeValueByName(items.snapshotItem(i), "ipAddress");
+            // Required since Firefox limits nodeValue to 4096 bytes
+            var cgwtag = items.snapshotItem(i).getElementsByTagName("customerGatewayConfiguration")
+            var config = null;
+            if (cgwtag[0]) {
+               config = cgwtag[0].textContent;
+            }
+
+            var bgpAsn = getNodeValueByName(items.snapshotItem(i), "bgpAsn");
+
+            list.push(new VpnConnection(id,
+                                        vgwId,
+                                        cgwId,
+                                        type,
+                                        state,
+                                        config));
+        }
+
+        this.addResourceTags(list, ec2ui_session.model.resourceMap.vpnConnections, "id");
+        ec2ui_model.updateVpnConnections(list);
+        this.descVpnConnectionsInProgress = false;
+        if (objResponse.callback)
+            objResponse.callback(list);
+    },
+
+    createVpnConnection : function (type, cgwid, vgwid, callback) {
+        ec2_httpclient.queryEC2("CreateVpnConnection", [["Type", type], ["CustomerGatewayId", cgwid], ["VpnGatewayId", vgwid]], this, true, "onCompleteCreateVpnConnection", callback);
+    },
+
+    onCompleteCreateVpnConnection : function (objResponse) {
+        if (objResponse.callback)
+            objResponse.callback();
+    },
+
+    deleteVpnConnection : function (id, callback) {
+        ec2_httpclient.queryEC2("DeleteVpnConnection", [["VpnConnectionId", id]], this, true, "onCompleteDeleteVpnConnection", callback);
+    },
+
+    onCompleteDeleteVpnConnection : function (objResponse) {
+        if (objResponse.callback)
+            objResponse.callback();
+    },
+
+    attachVpnGatewayToVpc : function (vgwid, vpcid, callback) {
+        ec2_httpclient.queryEC2("AttachVpnGateway", [["VpnGatewayId", vgwid], ["VpcId", vpcid]], this, true, "onCompleteAttachVpnGatewayToVpc", callback);
+    },
+
+    onCompleteAttachVpnGatewayToVpc : function (objResponse) {
+        if (objResponse.callback)
+            objResponse.callback();
+    },
+
+    detachVpnGatewayFromVpc : function (vgwid, vpcid, callback) {
+        ec2_httpclient.queryEC2("DetachVpnGateway", [["VpnGatewayId", vgwid], ["VpcId", vpcid]], this, true, "onCompleteDetachVpnGatewayFromVpc", callback);
+    },
+
+    onCompleteDetachVpnGatewayFromVpc : function (objResponse) {
+        if (objResponse.callback)
+            objResponse.callback();
     },
 
     describeImage : function (imageId, callback) {
@@ -219,8 +622,16 @@ var ec2ui_controller = {
             // This value might not exist, but getNodeValueByName
             // returns "" in case the element is not defined.
             var platform = getNodeValueByName(item, "platform");
+            var aki = getNodeValueByName(item, "kernelId");
+            var ari = getNodeValueByName(item, "ramdiskId");
 
-            ami = new AMI(imageId, imageLocation, imageState, owner, (isPublic == 'true' ? 'public' : 'private'), platform);
+            var rdt = getNodeValueByName(item, "rootDeviceType");
+            var ownerAlias = getNodeValueByName(item, "imageOwnerAlias");
+            var name = getNodeValueByName(item, "name");
+            var description = getNodeValueByName(item, "description");
+            var snapshotId = getNodeValueByName(item, "snapshotId");
+
+            ami = new AMI(imageId, imageLocation, imageState, owner, (isPublic == 'true' ? 'public' : 'private'), platform, aki, ari, rdt, ownerAlias, name, description, snapshotId);
         }
 
         ec2ui_model.addToAmiManifestMap(ami);
@@ -228,9 +639,29 @@ var ec2ui_controller = {
             objResponse.callback(ami);
     },
 
+    createImage : function(instanceId, amiName, amiDescription, noReboot, callback) {
+        var noRebootVal = "false";
+        if (noReboot == true)
+            noRebootVal = "true";
+
+        ec2_httpclient.queryEC2("CreateImage", [["InstanceId", instanceId], ["Name", amiName], ["Description", amiDescription], ["NoReboot", noRebootVal]], this, true, "onCompleteCreateImage", callback);
+    },
+
+    onCompleteCreateImage : function (objResponse) {
+        var xmlDoc = objResponse.xmlDoc;
+        var id = getNodeValueByName(xmlDoc, "imageId");
+
+        if (objResponse.callback)
+            objResponse.callback(id);
+    },
+
     describeImages : function (isSync, callback) {
+		this.descImagesInProgress = false;
         if (!isSync) isSync = false;
-        ec2_httpclient.queryEC2("DescribeImages", [], this, isSync, "onCompleteDescribeImages", callback);
+		if (!this.descImagesInProgress) {
+			this.descImagesInProgress = true;
+        	ec2_httpclient.queryEC2("DescribeImages", [], this, isSync, "onCompleteDescribeImages", callback);
+		}
     },
 
     onCompleteDescribeImages : function (objResponse) {
@@ -250,6 +681,11 @@ var ec2ui_controller = {
             var owner = getNodeValueByName(items.snapshotItem(i), "imageOwnerId");
             var isPublic = getNodeValueByName(items.snapshotItem(i), "isPublic");
             var arch = getNodeValueByName(items.snapshotItem(i), "architecture");
+            var rdt = getNodeValueByName(items.snapshotItem(i), "rootDeviceType");
+            var ownerAlias = getNodeValueByName(items.snapshotItem(i), "imageOwnerAlias");
+            var name = getNodeValueByName(items.snapshotItem(i), "name");
+            var description = getNodeValueByName(items.snapshotItem(i), "description");
+            var snapshotId = getNodeValueByName(items.snapshotItem(i), "snapshotId");
 
             // These value might not exist, but getNodeValueByName
             // returns "" in case the element is not defined.
@@ -265,7 +701,12 @@ var ec2ui_controller = {
                           arch,
                           platform,
                           aki,
-                          ari));
+						  ari,
+                          rdt,
+                          ownerAlias,
+                          name,
+                          description,
+                          snapshotId));
         }
 
         this.addResourceTags(list, ec2ui_session.model.resourceMap.images, "id");
@@ -456,6 +897,9 @@ var ec2ui_controller = {
 
             var dnsName = getNodeValueByName(instanceItems[j], "dnsName");
             var privateDnsName = getNodeValueByName(instanceItems[j], "privateDnsName");
+            var privateIpAddress = getNodeValueByName(instanceItems[j], "privateIpAddress");
+            var vpcId = getNodeValueByName(instanceItems[j], "vpcId");
+            var subnetId = getNodeValueByName(instanceItems[j], "subnetId");
             var keyName = getNodeValueByName(instanceItems[j], "keyName");
             var reason = getNodeValueByName(instanceItems[j], "reason");
             var amiLaunchIdx = getNodeValueByName(instanceItems[j], "amiLaunchIndex");
@@ -478,6 +922,7 @@ var ec2ui_controller = {
                 var kernelId = getNodeValueByName(instanceItems[j], "kernelId");
                 var ramdiskId = getNodeValueByName(instanceItems[j], "ramdiskId");
             }
+            var rdt = getNodeValueByName(instanceItems[j], "rootDeviceType");
 
             list.push(new Instance(resId,
                                    ownerId,
@@ -489,6 +934,7 @@ var ec2ui_controller = {
                                    stateName,
                                    dnsName,
                                    privateDnsName,
+                                   privateIpAddress,
                                    keyName,
                                    reason,
                                    amiLaunchIdx,
@@ -496,16 +942,20 @@ var ec2ui_controller = {
                                    launchTime,
                                    placement,
                                    platform,
+								   null,
+								   vpcId,
+								   subnetId,
+								   rdt,
                                    monitoringState));
         }
 
         return list;
     },
 
-    runInstances : function (imageId, kernelId, ramdiskId, minCount, maxCount, keyName, securityGroups, userData, properties, instanceType, placement, addressingType, callback) {
+    runInstances : function (imageId, kernelId, ramdiskId, minCount, maxCount, keyName, securityGroups, userData, properties, instanceType, placement, subnetId, ipAddress, callback) {
         var params = []
         //Just checking for ec2 or not
-        if (ec2ui_session.isAmazonEndpointSelected()) {
+       	if (region.type == "ec2") {
             params.push(["ImageId", imageId]);
             if (kernelId != null && kernelId != "") {
                 params.push(["KernelId", kernelId]);
@@ -550,7 +1000,14 @@ var ec2ui_controller = {
         if (placement.availabilityZone != null && placement.availabilityZone != "") {
             params.push(["Placement.AvailabilityZone", placement.availabilityZone]);
         }
-        params.push(["AddressingType", addressingType]);	//cmb: make the instance request with addressing type included.
+        if (subnetId != null) {
+            params.push(["SubnetId", subnetId]);
+
+            if (ipAddress != null && ipAddress != "") {
+                params.push(["PrivateIpAddress", ipAddress]);
+            }
+        }
+		
         ec2_httpclient.queryEC2("RunInstances", params, this, true, "onCompleteRunInstances", callback);
     },
 
@@ -660,6 +1117,70 @@ var ec2ui_controller = {
     onCompleteTerminateInstances : function (objResponse) {
         var xmlDoc = objResponse.xmlDoc;
 
+        var list = new Array();
+        var items = xmlDoc.evaluate("/",
+                                    xmlDoc,
+                                    this.getNsResolver(),
+                                    XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
+                                    null);
+        for(var i=0 ; i < items.snapshotLength; i++) {
+            var instancesSet = items.snapshotItem(i).getElementsByTagName("instancesSet")[0];
+            var instanceItems = instancesSet.getElementsByTagName("item");
+            for (var j = 0; j < instanceItems.length; j++) {
+                var instanceId = getNodeValueByName(instanceItems[j], "instanceId");
+                list.push({id:instanceId});
+            }
+        }
+
+        if (objResponse.callback)
+            objResponse.callback(list);
+    },
+
+    stopInstances : function (instanceIds, force, callback) {
+        var params = []
+        for(var i in instanceIds) {
+            params.push(["InstanceId."+(i+1), instanceIds[i]]);
+        }
+        if (force == true) {
+            params.push(["Force", "true"]);
+        }
+        ec2_httpclient.queryEC2("StopInstances", params, this, true, "onCompleteStopInstances", callback);
+    },
+
+    onCompleteStopInstances : function (objResponse) {
+        var xmlDoc = objResponse.xmlDoc;
+
+        var list = new Array();
+        var items = xmlDoc.evaluate("/",
+                                    xmlDoc,
+                                    this.getNsResolver(),
+                                    XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
+                                    null);
+        for(var i=0 ; i < items.snapshotLength; i++) {
+            var instancesSet = items.snapshotItem(i).getElementsByTagName("instancesSet")[0];
+            var instanceItems = instancesSet.getElementsByTagName("item");
+            for (var j = 0; j < instanceItems.length; j++) {
+                var instanceId = getNodeValueByName(instanceItems[j], "instanceId");
+                list.push({id:instanceId});
+            }
+        }
+
+        if (objResponse.callback)
+            objResponse.callback(list);
+    },
+
+    startInstances : function (instanceIds, callback) {
+        var params = []
+        for(var i in instanceIds) {
+            params.push(["InstanceId."+(i+1), instanceIds[i]]);
+        }
+        ec2_httpclient.queryEC2("StartInstances", params, this, true, "onCompleteStartInstances", callback);
+    },
+
+    onCompleteStartInstances : function (objResponse) {
+        var xmlDoc = objResponse.xmlDoc;
+
+        log("onCompleteStartInstances invoked");
         var list = new Array();
         var items = xmlDoc.evaluate("/",
                                     xmlDoc,
@@ -1064,44 +1585,53 @@ var ec2ui_controller = {
 
     // Returns the bucket location or null
     getS3BucketLocation : function(bucket) {
+        var fExist = false;
+        var reg = null;
         var mult = 1;
         for (var i = 0; i < 3; ++i) {
             if (this.doesS3BucketExist(bucket)) {
+                fExist = true;
                 break;
             }
             // Sleep before trying again
             sleep(1000 * mult);
         }
 
-        var httpRsp = null;
+        if (fExist) {
+			var httpRsp = null;
 
-        mult = 1;
-        for (i = 0; i < 3; ++i) {
-            httpRsp = ec2_httpclient.makeS3HTTPRequest("GET",
-                                                       "/" + bucket + "/?location",
-                                                       this.getS3URL(bucket) + "/?location");
+			mult = 1;
+			for (i = 0; i < 3; ++i) {
+				httpRsp = ec2_httpclient.makeS3HTTPRequest("GET",
+														   "/" + bucket + "/?location",
+														   this.getS3URL(bucket) + "/?location");
 
-            if (!httpRsp.hasErrors) {
-                var respXML = httpRsp.xmlhttp.responseXML;
-                if (respXML) {
-                    var loc = getNodeValueByName(respXML, "LocationConstraint") || "";
-                    if (loc.length == 0) {
-                        loc = "US";
-                    }
-                    return loc;
-                }
-            }
-            // Sleep before trying again
-            sleep(1000 * mult);
-            mult += mult;
+				if (!httpRsp.hasErrors) {
+					var respXML = httpRsp.xmlhttp.responseXML;
+					if (respXML) {
+						var loc = getNodeValueByName(respXML, "LocationConstraint") || "";
+						if (loc.length == 0) {
+							loc = "US-EAST-1";
+						}
+                        reg = ec2ui_utils.determineRegionFromString(loc);
+					}
+				}
+				// Sleep before trying again
+				sleep(1000 * mult);
+				mult += mult;
+			}
         }
 
-        return null;
+        return reg;
     },
 
     // Returns true/false based on whether the bucket could be created
     createS3Bucket : function(bucket, region) {
         var fileName = "/" + bucket + "/";
+        if (!region) {
+            region = ec2ui_utils.determineRegionFromString(ec2ui_session.getActiveEndpoint().name);
+        }
+
         var s3url = this.getS3URL(bucket, region);
         var fSuccess = false;
         var httpRsp = null;
@@ -1121,9 +1651,12 @@ var ec2ui_controller = {
 
         // It doesn't exist, so create it
         if (!fSuccess) {
-            if (region && region == "EU") {
+            if (region && region == "EU-WEST-1") {
                 content = "<CreateBucketConstraint><LocationConstraint>EU</LocationConstraint></CreateBucketConstraint>";
+            } else if (region == "US-WEST-1") {
+                content = "<CreateBucketConstraint><LocationConstraint>us-west-1</LocationConstraint></CreateBucketConstraint>";
             }
+			
 
             log(s3url + ": URL, Content: " + content || "");
             httpRsp = ec2_httpclient.makeS3HTTPRequest(
@@ -1512,12 +2045,14 @@ var ec2ui_controller = {
         for (var i = 0; i < items.snapshotLength; ++i)
         {
             var name = getNodeValueByName(items.snapshotItem(i), "regionName");
+            var type = getNodeValueByName(items.snapshotItem(i), "regionType");
             var url = getNodeValueByName(items.snapshotItem(i), "regionEndpoint");
             if (url.indexOf("https://") != 0) {
                 url = "https://" + url;
             }
-            endPointMap[name] = new Endpoint(name, url);
-            log("name: " + name + ", url: " + url);
+            endPointMap[name] = new Endpoint(name, type, url);
+            log("name: " + name + ", type:" + type + ", url: " + url);
+			
         }
 
         if (objResponse.callback) {

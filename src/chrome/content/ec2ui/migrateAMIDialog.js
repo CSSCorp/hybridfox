@@ -34,10 +34,9 @@ var ec2_AMIMigrator = {
 
     regionChanged : function() {
         var parts = this.image.location.split('/');
-        var reg = this.getRegionList().selectedItem.label;
-        reg = reg.split("-")[0];
-        this.regionSelected = reg.toUpperCase();
-        this.getDestBucketName().value = parts[0] + "-" + reg;
+        var reg = ec2ui_utils.determineRegionFromString(this.getRegionList().selectedItem.label);
+        this.regionSelected = reg;
+        this.getDestBucketName().value = parts[0] + "-" + reg.toLowerCase();
     },
 
     migrateAMI : function() {
@@ -95,10 +94,10 @@ var ec2_AMIMigrator = {
 
         document.getElementById("ec2ui.migrateAMI.id").value = this.image.id;
         var reg = this.getRegionList().selectedItem.label;
-        reg = reg.split("-")[0];
-        this.regionSelected = reg.toUpperCase();
+        reg = ec2ui_utils.determineRegionFromString(reg);
+        this.regionSelected = reg;
         this.getSourceBucketName().value = parts[0];
-        this.getDestBucketName().value = parts[0] + "-" + reg;
+        this.getDestBucketName().value = parts[0] + "-" + reg.toLowerCase();
         this.getPrefix().value = parts[1].substring(0, parts[1].indexOf(".manifest.xml"));
     }
 }

@@ -35,11 +35,13 @@ var ec2ui_endpointManager = {
 
     saveEndpoint : function() {
         var name = document.getElementById("ec2ui.endpoints.name").value.trim() || "";
+        var type = document.getElementById("ec2ui.endpoints.type").selectedItem.value;
         var url = document.getElementById("ec2ui.endpoints.url").value.trim() || "";
         if (name.length == 0) return;
+        if (type.length == 0) return;
         if (url.length == 0) return;
 
-        this.endpointmap.put(name, new Endpoint(name, url));
+        this.endpointmap.put(name, new Endpoint(name, type, url));
         ec2ui_endpointsTreeView.setMapping(this.endpointmap);
     },
 
@@ -47,6 +49,12 @@ var ec2ui_endpointManager = {
         var sel = ec2ui_endpointsTreeView.getSelectedEndPoint();
         if (sel != null) {
             document.getElementById("ec2ui.endpoints.name").value = sel.name;
+			if (sel.type == ("ec2")) {
+            	document.getElementById("ec2ui.endpoints.type").selectedIndex = 0;
+			}
+			else {
+            	document.getElementById("ec2ui.endpoints.type").selectedIndex = 1;
+			}
             document.getElementById("ec2ui.endpoints.url").value = sel.url;
         }
     }

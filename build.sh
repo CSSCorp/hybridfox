@@ -30,7 +30,7 @@ else
     export SED_ARGS="-i"
 fi
 
-export PKG_VERSION=1.6
+export PKG_VERSION=1.7
 export PKG_RELEASE=$(get_pkg_release)
 export PKG_NAME=hybridfox
 export BASE=$PKG_NAME-$PKG_VERSION.$PKG_RELEASE

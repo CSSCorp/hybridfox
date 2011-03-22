@@ -21,6 +21,7 @@
       <tree id="ec2ui.endpoints.view" onselect="ec2ui_endpointManager.selectMapping();" flex="1" rows="5">
         <treecols>
           <treecol id="endpoint.name" label="Endpoint Name" flex="1" persist="width ordinal hidden" />
+          <treecol id="endpoint.type" label="Type" flex="1" persist="width ordinal hidden" />
           <treecol id="endpoint.url" label="Endpoint URL" flex="1" persist="width ordinal hidden" />
           <!--
           <treecol id="endpoint.version" label="API Version" flex="1" persist="width ordinal hidden" />
@@ -34,11 +35,19 @@
       <columns>
         <column />
         <column />
+        <column />
       </columns>
       <rows>
         <row>
           <label control="ec2ui.endpoints.name" value="Region Name:" />
           <textbox id="ec2ui.endpoints.name" size="20" />
+        </row>
+        <row>
+          <label control="ec2ui.endpoints.type" value="Type:" />
+		  <radiogroup id="ec2ui.endpoints.type" orient="horizontal">
+		    <radio id="ec2ui.endpoints.type.ec2" label="EC2" value="ec2" selected="false" />
+		    <radio id="ec2ui.endpoints.type.euca" label="Eucalyptus" value="euca" selected="true"/>
+		  </radiogroup>
         </row>
         <row>
           <label control="ec2ui.endpoints.url" value="Endpoint URL:" />

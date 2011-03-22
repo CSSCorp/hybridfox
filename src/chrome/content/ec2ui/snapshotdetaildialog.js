@@ -7,5 +7,9 @@ var ec2_SnapshotDetails = {
         document.getElementById("ec2ui.snapshot.startTime").value = snapshot.startTime;
         document.getElementById("ec2ui.snapshot.progress").value = snapshot.progress;
         document.getElementById("ec2ui.snapshot.tag").value = snapshot.tag || "";
+        document.getElementById("ec2ui.snapshot.owner").value = snapshot.owner || "";
+        document.getElementById("ec2ui.snapshot.ownerAlias").value = snapshot.ownerAlias || "";
+        document.getElementById("ec2ui.snapshot.description").value = snapshot.description;
+        document.getElementById("ec2ui.snapshot.volumeSize").value = snapshot.volumeSize;
     }
 }

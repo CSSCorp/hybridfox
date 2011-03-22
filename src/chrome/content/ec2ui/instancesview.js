@@ -9,6 +9,7 @@ var ec2ui_InstancesTreeView = {
        'instance.state',
        'instance.publicDnsName',
        'instance.privateDnsName',
+       'instance.privateIpAddress',
        'instance.keyName',
        'instance.groups',
        'instance.reason',
@@ -17,7 +18,11 @@ var ec2ui_InstancesTreeView = {
        'instance.launchTimeDisp',
        'instance.monitoringState',
        'instance.placement.availabilityZone',
+       'instance.platform',
        'instance.tag',
+       'instance.vpcId',
+       'instance.subnetId',
+       'instance.rootDeviceType'
     ],
     treeBox: null,
     selection: null,
@@ -196,7 +201,7 @@ var ec2ui_InstancesTreeView = {
         if (column.indexOf("ownerId") > 0) {
             detail = ec2ui_session.lookupAccountId(detail);
         }
-        return detail || ""
+        return detail || "";
     },
 
     showBundleDialog : function() {
@@ -213,6 +218,7 @@ var ec2ui_InstancesTreeView = {
                               ec2ui_session,
                               retVal);
 
+            ec2ui_session.showBusyCursor(true);
             if (retVal.ok) {
                 // Does the bucket exist?
                 if (!ec2ui_session.controller.doesS3BucketExist(retVal.bucketName)) {
@@ -226,7 +232,8 @@ var ec2ui_InstancesTreeView = {
             }
 
             if (retVal.ok) {
-                var reg = getActiveRegion(ec2ui_session.getActiveEndpoint());
+                var reg = ec2ui_utils.determineRegionFromString(ec2ui_session.getActiveEndpoint().name);
+				
                 bucketReg = ec2ui_session.controller.getS3BucketLocation(retVal.bucketName) || reg;
                 bucketReg = bucketReg.toLowerCase();
                 log(reg + ": active region ");
@@ -251,6 +258,8 @@ var ec2ui_InstancesTreeView = {
             }
         } while (!retVal.ok);
 
+        ec2ui_session.showBusyCursor(false);
+
         if (retVal.ok) {
             var wrap = function(list) {
                 if (list == null) return;
@@ -272,6 +281,33 @@ var ec2ui_InstancesTreeView = {
                                                     retVal.prefix,
                                                     ec2ui_session.getActiveCredential(),
                                                     wrap);
+        }
+    },
+
+    showCreateImageDialog : function() {
+        var retVal = {ok:null,amiName:null,amiDescription:null,noReboot:null};
+        var instance = this.getSelectedInstance();
+        if (instance == null) return;
+
+        window.openDialog("chrome://ec2ui/content/dialog_create_image.xul",
+                          null,
+                          "chrome,centerscreen,modal",
+                          instance.id,
+                          ec2ui_session,
+                          retVal);
+
+        if (retVal.ok) {
+            var wrap = function(id) {
+                alert("A new EBS-backed AMI is being created and will\n"+
+                      "be available in a moment.\n\n"+
+                      "The AMI ID is: "+id);
+            }
+
+            ec2ui_session.controller.createImage(instance.id,
+                                                 retVal.amiName,
+                                                 retVal.amiDescription,
+                                                 retVal.noReboot,
+                                                 wrap);
         }
     },
 
@@ -768,15 +804,37 @@ var ec2ui_InstancesTreeView = {
         
         fDisabled = !isWindows(instance.platform);
 
-        // If this is not a Windows Instance, Disable the following
-        // context menu items.
-        document.getElementById("instances.context.bundle").disabled = fDisabled;
-        document.getElementById("instances.context.getPassword").disabled = fDisabled;
+        // Windows-based enable/disable
+        if (isWindows(instance.platform)) {
+          document.getElementById("instances.context.getPassword").disabled = false;
+        } else {
+          document.getElementById("instances.context.getPassword").disabled = true;
+        }
+
+        if (isEbsRootDeviceType(instance.rootDeviceType)) {
+            document.getElementById("instances.context.bundle").disabled = true;
+            document.getElementById("instances.context.createimage").disabled = false;
+        } else {
+            document.getElementById("instances.context.createimage").disabled = true;
+
+            if (isWindows(instance.platform)) {
+                document.getElementById("instances.context.bundle").disabled = false;
+            } else {
+                document.getElementById("instances.context.bundle").disabled = true;
+            }
+        }
+		
         document.getElementById("instances.context.monitor").disabled = disableMonitor;
         document.getElementById("instances.context.unmonitor").disabled = disableUnmonitor;
 
-        // These context menu items don't apply to Windows instances
-        // so enable them.
+        // These items are only valid for instances with EBS-backed
+        // root devices.
+        var optDisabled = !isEbsRootDeviceType(instance.rootDeviceType);
+        document.getElementById("instances.context.start").disabled = optDisabled;
+        document.getElementById("instances.context.stop").disabled = optDisabled;
+        document.getElementById("instances.context.forceStop").disabled = optDisabled;
+        document.getElementById("instances.button.start").disabled = optDisabled;
+        document.getElementById("instances.button.stop").disabled = optDisabled;
     },
     
     
@@ -809,7 +867,8 @@ var ec2ui_InstancesTreeView = {
            null,
            instance.instanceType,
            instance.placement,
-           "public",
+           instance.subnetId,
+           null,
            wrap);
     },
     
@@ -872,6 +931,47 @@ var ec2ui_InstancesTreeView = {
             }
         }
         ec2ui_session.controller.terminateInstances(instanceIds, wrap);
+    },
+
+    stopInstance : function() {
+        this.doStopInstances(false);
+    },
+
+    forceStopInstance : function() {
+        this.doStopInstances(true);
+    },
+
+    doStopInstances : function(force) {
+        var instanceIds = this.getSelectedInstanceIds();
+        if (instanceIds.length == 0)
+            return;
+
+        var confirmed = confirm("Stop instances: "+ instanceIds.join(', ')+"?");
+        if (!confirmed)
+            return;
+
+        var wrap = function() {
+            if (ec2ui_prefs.isRefreshOnChangeEnabled()) {
+                ec2ui_InstancesTreeView.refresh();
+                ec2ui_InstancesTreeView.selectByInstanceIds();
+            }
+        }
+        ec2ui_session.controller.stopInstances(instanceIds, force, wrap);
+    },
+
+    startInstance : function() {
+        var instanceIds = this.getSelectedInstanceIds();
+        if (instanceIds.length == 0)
+            return;
+
+        var me = this;
+        var wrap = function() {
+            if (ec2ui_prefs.isRefreshOnChangeEnabled()) {
+                ec2ui_InstancesTreeView.refresh();
+                ec2ui_InstancesTreeView.selectByInstanceIds();
+            }
+        }
+        ec2ui_session.controller.startInstances(instanceIds, wrap);
     },
 
     fetchConsoleOutput : function(callback, instance) {
@@ -1120,7 +1220,11 @@ outer:
         var argStr = ec2ui_prefs.getSSHArgs();
         var cmd = ec2ui_prefs.getSSHCommand();
         var hostname = this.getIPFromHostname(instance);
-        this.openConnectionPort(instance);
+        if (isVpc(instance)) {
+           hostname = instance.privateIpAddress;
+        } else {
+           this.openConnectionPort(instance);
+        }
 
         if (isWindows(instance.platform)) {
             argStr = ec2ui_prefs.getRDPArgs();

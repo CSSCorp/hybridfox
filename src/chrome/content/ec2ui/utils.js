@@ -136,6 +136,10 @@ function copyToClipboard(text) {
 Date.prototype.setISO8601 = function (string) {
    var regexp = "([0-9]{4})(-([0-9]{2})(-([0-9]{2})" + "(T([0-9]{2}):([0-9]{2})(:([0-9]{2})(\.([0-9]+))?)?" + "(Z|(([-+])([0-9]{2}):([0-9]{2})))?)?)?)?";
    var d = string.match(new RegExp(regexp));
+   if (d == null) {
+      this.setTime(null);
+      return;
+   }
    var offset = 0; var date = new Date(d[1], 0, 1);
    if (d[3]) {
       date.setMonth(d[3] - 1);
@@ -318,6 +322,14 @@ function isWindows(platform) {
 	return platform.match(ec2ui_utils.winRegex);
 }
 
+function isEbsRootDeviceType(rootDeviceType) {
+    return (rootDeviceType == 'ebs');
+}
+
+function isVpc(instance) {
+    return (instance.vpcId != '');
+}
+
 function secondsToDays(secs) {
     var dur = parseInt(secs);
     // duration is provided in seconds. Let's convert it to years
@@ -389,5 +401,25 @@ var ec2ui_utils = {
     
     winRegex : new RegExp(/^Windows/i),
     macRegex : new RegExp(/^Mac/),
+
+    determineRegionFromString : function(str) {
+        var region = "US-EAST-1";
+        if (!str) {
+            return region;
+        }
+
+        str = str.toLowerCase();
+        // If str starts with:
+        // us-east-1: region is US-EAST-1
+        // us-west-1: region is US-WEST-1
+        // eu-west-1: region is EU-WEST-1
+        if (str.indexOf("us-west-1") >= 0) {
+            region = "US-WEST-1";
+        } else if (str.indexOf("eu-west-1") >= 0 || str == "eu") {
+            region = "EU-WEST-1";
+        }
+
+        return region;
+    }
 };
 

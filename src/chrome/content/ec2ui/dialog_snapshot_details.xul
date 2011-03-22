@@ -26,6 +26,22 @@
           <textbox id="ec2ui.snapshot.volumeId" size="40" readonly="true" />
         </row>
         <row>
+          <label control="ec2ui.snapshot.description" value="&ec2ui.description.label;" />
+          <textbox id="ec2ui.snapshot.description" size="40" readonly="true" />
+        </row>
+        <row>
+          <label control="ec2ui.snapshot.volumeSize" value="&ec2ui.snapshots.volumeSize.label;" />
+          <textbox id="ec2ui.snapshot.volumeSize" size="40" readonly="true" />
+        </row>
+        <row>
+          <label control="ec2ui.snapshot.owner" value="&ec2ui.snapshots.owner.label;" />
+          <textbox id="ec2ui.snapshot.owner" size="40" readonly="true" />
+        </row>
+        <row>
+          <label control="ec2ui.snapshot.ownerAlias" value="&ec2ui.snapshots.ownerAlias.label;" />
+          <textbox id="ec2ui.snapshot.ownerAlias" size="40" readonly="true" />
+        </row>
+        <row>
           <label control="ec2ui.snapshot.status" value="&ec2ui.snapshots.status.label;" />
           <textbox id="ec2ui.snapshot.status" size="40" readonly="true" />
         </row>

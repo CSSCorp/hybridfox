@@ -43,7 +43,7 @@
           <textbox id="ec2ui.offering.usagePrice" size="40" readonly="true" />
         </row>
         <row>
-          <label control="ec2ui.offering.description" value="&ec2ui.offerings.description.label;:" />
+          <label control="ec2ui.offering.description" value="&ec2ui.description.label;:" />
           <textbox id="ec2ui.offering.description" multiline="true" cols="50" rows="3"
             wrap="true" style="font-family: monospace;" readonly="true"/>
         </row>

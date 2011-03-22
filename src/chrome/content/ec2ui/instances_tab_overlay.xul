@@ -15,6 +15,9 @@
           <menuitem oncommand="ec2ui_InstancesTreeView.tag(event);"
             label="Add Tag" />
           <menuseparator />
+          <menuitem id="instances.context.start"
+            oncommand="ec2ui_InstancesTreeView.startInstance();"
+            label="Start" />
           <menuitem oncommand="ec2ui_InstancesTreeView.launchMore();"
             label="Launch More of these" />
           <menuitem oncommand="ec2ui_InstancesTreeView.associateWithEIP();"
@@ -23,11 +26,20 @@
             label="Attach an EBS Volume" />
           <menuitem id="instances.context.bundle"
             oncommand="ec2ui_InstancesTreeView.showBundleDialog();"
-            label="Bundle into an AMI" />
+            label="Bundle into an S3 AMI" />
+          <menuitem id="instances.context.createimage"
+            oncommand="ec2ui_InstancesTreeView.showCreateImageDialog();"
+            label="Create Image (EBS AMI)" />
           <menuitem oncommand="ec2ui_InstancesTreeView.rebootInstance();"
             label="Reboot" />
           <menuitem oncommand="ec2ui_InstancesTreeView.terminateInstance();"
             label="Terminate" />
+          <menuitem id="instances.context.stop"
+            oncommand="ec2ui_InstancesTreeView.stopInstance();"
+            label="Stop" />
+          <menuitem id="instances.context.forceStop"
+            oncommand="ec2ui_InstancesTreeView.forceStopInstance();"
+            label="Force Stop" />
           <menuseparator />
           <menuitem id="instances.context.monitor"
             oncommand="ec2ui_InstancesTreeView.monitorInstance();"
@@ -48,10 +60,12 @@
             label="Copy Public DNS Name to clipboard" />
           <menuitem oncommand="ec2ui_InstancesTreeView.copyToClipBoard('privateDnsName');"
             label="Copy Private DNS Name to clipboard" />
+          <menuitem oncommand="ec2ui_InstancesTreeView.copyToClipBoard('privateIpAddress');"
+            label="Copy Private IP Address to clipboard" />
           <menuseparator />
           <menuitem id="instances.context.connect"
             oncommand="ec2ui_InstancesTreeView.connectToSelectedInstances();"
-            label="Connect to Public DNS Name" />
+            label="Connect to Instance" />
         </popup>
       </popupset>
       <toolbar style="padding: 0px 3px; -moz-box-align: center">
@@ -62,9 +76,19 @@
           <toolbarbutton image="images/refresh.png"
             oncommand="ec2ui_InstancesTreeView.refresh()"
             tooltiptext="&ec2ui.refresh.tip;" />
+          <toolbarseparator />
+          <toolbarbutton image="images/start.png" style="-moz-box-pack:center;"
+            oncommand="ec2ui_InstancesTreeView.startInstance();"
+            id="instances.button.start"
+            tooltiptext="&ec2ui.instances.start.tip;" />
+          <toolbarbutton image="images/stop.png" style="-moz-box-pack:center;"
+            oncommand="ec2ui_InstancesTreeView.stopInstance();"
+            id="instances.button.stop"
+            tooltiptext="&ec2ui.instances.stop.tip;" />
           <toolbarbutton image="images/reboot.png" style="-moz-box-pack:center;"
             oncommand="ec2ui_InstancesTreeView.rebootInstance();"
             tooltiptext="&ec2ui.instances.reboot.tip;" />
+          <toolbarseparator />
           <toolbarbutton image="images/powerdown.png" style="-moz-box-pack:center;"
             oncommand="ec2ui_InstancesTreeView.terminateInstance();"
             tooltiptext="&ec2ui.instances.powerdown.tip;" />
@@ -104,6 +128,12 @@
           <treecol id="instance.ramdiskId" label="&ec2ui.instances.ramdiskId.label;"
             flex="2" persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
+          <treecol id="instance.vpcId" label="&ec2ui.instances.vpcId.label;"
+            flex="9" persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter" />
+          <treecol id="instance.subnetId" label="&ec2ui.instances.subnetId.label;"
+            flex="9" persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter" />
           <treecol id="instance.state" label="&ec2ui.instances.state.label;"
             flex="3" persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
@@ -111,6 +141,9 @@
             flex="9" persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
           <treecol id="instance.privateDnsName" label="&ec2ui.instances.privateDnsName.label;"
+            flex="9" persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter" />
+          <treecol id="instance.privateIpAddress" label="&ec2ui.instances.privateIpAddress.label;"
             flex="9" persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
           <treecol id="instance.monitoringState" label="&ec2ui.instances.monitoringState.label;"
@@ -136,6 +169,10 @@
           <splitter class="tree-splitter" />
           <treecol id="instance.placement.availabilityZone"
             label="&ec2ui.availabilityZone.label;" flex="1"
+            persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter" />
+          <treecol id="instance.rootDeviceType"
+            label="&ec2ui.instances.rootDeviceType.label;" flex="1"
             persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
           <treecol id="instance.tag" label="Tag" flex="1"
