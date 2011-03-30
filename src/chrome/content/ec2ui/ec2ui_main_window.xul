@@ -109,10 +109,10 @@
         <tab label="&ec2ui.tabs.eips.label;" />
         <tab label="&ec2ui.tabs.volumes.label;" />
         <tab label="&ec2ui.tabs.bundleTasks.label;" />
+        <tab label="&ec2ui.tabs.leases.label;" />
         <tab label="&ec2ui.tabs.vpcs.label;" />
         <tab label="&ec2ui.tabs.vpns.label;" />
         <tab label="&ec2ui.tabs.availzones.label;" />
-        <tab label="&ec2ui.tabs.leases.label;" />
       </tabs>
       <tabpanels flex="1">
         <tabpanel id="instances_tab"/>
@@ -122,8 +122,10 @@
         <tabpanel id="eip_tab"/>
         <tabpanel id="volumes_tab"/>
         <tabpanel id="bundle_tasks_tab"/>
-        <tabpanel id="availzones_tab"/>
         <tabpanel id="leases_tab"/>
+        <tabpanel id="vpcs_tab"/>
+        <tabpanel id="vpns_tab"/>
+        <tabpanel id="availzones_tab"/>
       </tabpanels>
     </tabbox>
   </vbox>

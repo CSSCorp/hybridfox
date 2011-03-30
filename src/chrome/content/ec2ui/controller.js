@@ -955,7 +955,7 @@ var ec2ui_controller = {
     runInstances : function (imageId, kernelId, ramdiskId, minCount, maxCount, keyName, securityGroups, userData, properties, instanceType, placement, subnetId, ipAddress, callback) {
         var params = []
         //Just checking for ec2 or not
-       	if (region.type == "ec2") {
+        if (isAmazonEndpoint(region)) {
             params.push(["ImageId", imageId]);
             if (kernelId != null && kernelId != "") {
                 params.push(["KernelId", kernelId]);

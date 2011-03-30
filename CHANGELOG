@@ -1,5 +1,10 @@
 Hybridfox Changelog
 --------------------
+1.7.000000
+- FEATURE: VPC support
+- FEATURE: version 2 signing to better authenticate with ec2 and eucalyptus
+- FEATURE: support endpoint type and preferred endpoint for nicer UI
+
 1.6.000027
 - FIX: Can't add region of local Eucalyptus
 

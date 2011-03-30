@@ -87,6 +87,7 @@ var ec2_httpclient = {
             var newURL = null;
             // Determine the region's EC2 URL
             var endpointlist = ec2ui_session.getEndpoints();
+			region = region.toLowerCase();
             for (var i = 0; i < endpointlist.length; ++i) {
                 var curr = endpointlist[i];
                 if (curr.name.indexOf(region) >= 0) {
@@ -169,6 +170,7 @@ var ec2_httpclient = {
         return retry.value;
     },
 
+	// version 1 signing
     queryEC2Impl : function (action, params, objActions, isSync, reqType, callback) {
         var curTime = new Date();
         if (ec2ui_session.isAmazonEndpointSelected()) {
@@ -255,6 +257,7 @@ var ec2_httpclient = {
         return this.processXMLHTTPResponse(xmlhttp, reqType, isSync, timerKey, objActions, callback);
     },
 
+	// version 2 signing
     queryEC2ImplNew : function (action, params, objActions, isSync, reqType, callback) {
         var curTime = new Date();
         var formattedTime = this.formatDate(curTime, "yyyy-MM-ddThh:mm:00Z");
@@ -287,6 +290,7 @@ var ec2_httpclient = {
         }
 
         var strSig = "POST\n"+uri.host+"\n"+uri.path+"/\n"+queryParams;
+//        var strSig = "POST\n"+uri.host+"\n"+uri.path+((uri.path.length==0)?"/":"")+"\n"+queryParams;
         log("StrSig ["+strSig+"]");
         log("Params ["+queryParams+"]");
 

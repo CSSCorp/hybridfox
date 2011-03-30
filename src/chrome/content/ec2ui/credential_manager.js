@@ -171,7 +171,7 @@ var ec2ui_credentialManager = {
                                              null,
                                              this.REALM,
                                              prevCred.name,
-                                             prevCred.accessKey + ";;" + prevCred.secretKey,
+                                             prevCred.accessKey + ";;" + prevCred.secretKey + ";;" + prevCred.regionPref,
                                              "",
                                              ""
                                             );
@@ -193,9 +193,6 @@ var ec2ui_credentialManager = {
 
         ec2ui_credentialsTreeView.setAccountCredentials(this.credentials);
     },
-
-	setRegionPref : function () {
-	},
 
     packAccountNames : function(credentials) {
         var names = new Array();

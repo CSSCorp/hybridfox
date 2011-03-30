@@ -169,8 +169,7 @@ var ec2ui_session =
             eval("ec2ui_SnapshotTreeView." + toCall);
             break;
         case "Bundle Tasks":
-          	if (region.type == "ec2") {
-			
+            if (isAmazonEndpoint(region)) {
             	eval("ec2ui_BundleTasksTreeView." + toCall);
 			}
             break;
@@ -178,20 +177,20 @@ var ec2ui_session =
             eval("ec2ui_AvailZoneTreeView." + toCall);
             break;
         case "Reserved Instances":
-          	if (region.type == "ec2") {
+            if (isAmazonEndpoint(region)) {
 				eval("ec2ui_LeaseOfferingsTreeView." + toCall);
 				eval("ec2ui_ReservedInstancesTreeView." + toCall);
 			}
             break;
         case "Virtual Private Clouds":
-          	if (region.type == "ec2") {
+            if (isAmazonEndpoint(region)) {
 				eval("ec2ui_VpcTreeView." + toCall);
 				eval("ec2ui_SubnetTreeView." + toCall);
 				eval("ec2ui_DhcpoptsTreeView." + toCall);
 			}
             break;
         case "VPN Connections":
-          	if (region.type == "ec2") {
+            if (isAmazonEndpoint(region)) {
 				eval("ec2ui_VpnConnectionTreeView." + toCall);
 				eval("ec2ui_VpnGatewayTreeView." + toCall);
 				eval("ec2ui_CustomerGatewayTreeView." + toCall);
@@ -605,6 +604,7 @@ var ec2ui_session =
                     {})) {
                 // Reset the endpoint stored in the client and prefs
                 this.client.setEndpoint(new Endpoint());
+                ec2ui_prefs.setServiceType("ec2");
                 ec2ui_prefs.setServiceURL("");
             } else {
                 this.manageEndpoints();
@@ -668,5 +668,5 @@ var ec2ui_session =
         } else {
             getBrowser().selectedBrowser.contentDocument.location = url;
         }
-    },
+    }
 };

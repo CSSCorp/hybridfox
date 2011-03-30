@@ -9,8 +9,10 @@ function get_dir_revision() {
     local last_rev
 
     # Generate a release number for the entire branch
-    last_rev=$(svn info $1 2>&1 | grep 'Last Changed Rev')
-    pkg_release=${last_rev#Last Changed Rev: }
+    last_rev=$(hg log $1 -b default -l 1 | grep 'changeset')
+    changeset=${last_rev#*:}
+    pkg_release=${changeset%:*}
+	
     if [ -z "$pkg_release" ] ; then
     pkg_release=0
     fi

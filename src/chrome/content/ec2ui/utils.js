@@ -330,6 +330,12 @@ function isVpc(instance) {
     return (instance.vpcId != '');
 }
 
+function isAmazonEndpoint(region) {
+	if (region == null) return true;
+	if (region.type == 'ec2') return true;
+	return false;
+}
+
 function secondsToDays(secs) {
     var dur = parseInt(secs);
     // duration is provided in seconds. Let's convert it to years
