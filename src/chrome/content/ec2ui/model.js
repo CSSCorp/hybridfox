@@ -85,7 +85,7 @@ function Volume(id, size, snapshotId, zone, status, createTime, instanceId, devi
 
 function Instance(resId, ownerId, groupList, instanceId, imageId, kernelId,
         ramdiskId, state, publicDnsName, privateDnsName, privateIpAddress, keyName, reason,
-        amiLaunchIdx, instanceType, launchTime, placement, platform, tag, vpcId, subnetId, rootDeviceType) {
+        amiLaunchIdx, instanceType, launchTime, placement, platform, monitoringState, tag, vpcId, subnetId, rootDeviceType) {
 		
     this.resId = resId;
     this.ownerId = ownerId;

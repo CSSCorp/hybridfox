@@ -942,6 +942,7 @@ var ec2ui_controller = {
                                    launchTime,
                                    placement,
                                    platform,
+								   monitoringState,
 								   null,
 								   vpcId,
 								   subnetId,

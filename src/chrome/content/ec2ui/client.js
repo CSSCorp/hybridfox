@@ -290,6 +290,7 @@ var ec2_httpclient = {
         }
 
         var strSig = "POST\n"+uri.host+"\n"+uri.path+"/\n"+queryParams;
+//        var strSig = "POST\n"+uri.host+"\n"+uri.path+"\n"+queryParams;
 //        var strSig = "POST\n"+uri.host+"\n"+uri.path+((uri.path.length==0)?"/":"")+"\n"+queryParams;
         log("StrSig ["+strSig+"]");
         log("Params ["+queryParams+"]");
