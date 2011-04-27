@@ -185,6 +185,7 @@ var ec2ui_controller = {
             var status = getNodeValueByName(items.snapshotItem(i), "status");
             var startTime = new Date();
             startTime.setISO8601(getNodeValueByName(items.snapshotItem(i), "startTime"));
+            var progress = getNodeValueByName(items.snapshotItem(i), "progress");
             var volumeSize = getNodeValueByName(items.snapshotItem(i), "volumeSize");
             var description = getNodeValueByName(items.snapshotItem(i), "description");
             var ownerId = getNodeValueByName(items.snapshotItem(i), "ownerId")
