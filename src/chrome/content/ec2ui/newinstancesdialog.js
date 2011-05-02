@@ -225,8 +225,9 @@ var ec2_InstanceLauncher = {
         this.image = window.arguments[0];
         this.ec2ui_session = window.arguments[1];
         this.retVal = window.arguments[2];
-
-        // Get the list of keypair names visible to this user.
+        var image = window.arguments[0];
+	var rootdevice = image.rootDeviceType;
+	// Get the list of keypair names visible to this user.
         // This will trigger a DescribeKeyPairs if the model
         // doesn't have any keypair info yet. If there are no keypairs,
         // this dialog shouldn't be initialized any further.
@@ -246,16 +247,27 @@ var ec2_InstanceLauncher = {
 
         var typeMenu = document.getElementById("ec2ui.newinstances.instancetypelist");
         // Add the instance sizes based on AMI architecture
-	    region = getActiveRegion(this.ec2ui_session.getActiveEndpoint());
+	    region = this.ec2ui_session.getActiveEndpoint();
         if (this.image.arch == "x86_64") {
             //Just checking for EC2 or not
             if (region.type == "ec2") {
+		if(rootdevice == "ebs"){
+		typeMenu.appendItem("t1.micro", "t1.micro");
                 typeMenu.appendItem("m1.large", "m1.large");
                 typeMenu.appendItem("m1.xlarge", "m1.xlarge");
                 typeMenu.appendItem("c1.xlarge", "c1.xlarge");
                 typeMenu.appendItem("m2.xlarge", "m2.xlarge");
                 typeMenu.appendItem("m2.2xlarge", "m2.2xlarge");
                 typeMenu.appendItem("m2.4xlarge", "m2.4xlarge");
+		}
+		else {
+		typeMenu.appendItem("m1.large", "m1.large");
+                typeMenu.appendItem("m1.xlarge", "m1.xlarge");
+                typeMenu.appendItem("c1.xlarge", "c1.xlarge");
+                typeMenu.appendItem("m2.xlarge", "m2.xlarge");
+                typeMenu.appendItem("m2.2xlarge", "m2.2xlarge");
+                typeMenu.appendItem("m2.4xlarge", "m2.4xlarge");    
+		}
             }
             else {
                 typeMenu.appendItem("m1.small", "m1.small");
@@ -267,8 +279,16 @@ var ec2_InstanceLauncher = {
         } else {
             //Just checking for EC2 or not
             if (region.type == "ec2") {
+		if(rootdevice == "ebs"){
+		typeMenu.appendItem("t1.micro", "t1.micro");
                 typeMenu.appendItem("m1.small", "m1.small");
-                typeMenu.appendItem("c1.medium", "c1.medium");
+                typeMenu.appendItem("c1.medium", "c1.medium");  
+		}
+		else{
+		typeMenu.appendItem("m1.small", "m1.small");
+                typeMenu.appendItem("c1.medium", "c1.medium"); 
+		}
+		
             }
             else { 
                 typeMenu.appendItem("m1.small", "m1.small");

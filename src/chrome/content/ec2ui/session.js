@@ -611,6 +611,11 @@ var ec2ui_session =
             }
         }
     },
+    
+    isAmazonEndpointSelected: function () {
+       var endpoint = this.getActiveEndpoint();
+        return endpoint.type == "ec2";
+    },
 
     manageCredentials : function () {
         window.openDialog("chrome://ec2ui/content/dialog_manage_credentials.xul", null, "chrome,centerscreen, modal");
