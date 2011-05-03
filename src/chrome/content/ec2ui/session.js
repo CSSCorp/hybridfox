@@ -169,7 +169,7 @@ var ec2ui_session =
             eval("ec2ui_SnapshotTreeView." + toCall);
             break;
         case "Bundle Tasks":
-            if (isAmazonEndpoint(region)) {
+            if (this.isAmazonEndpointSelected()) {
             	eval("ec2ui_BundleTasksTreeView." + toCall);
 			}
             break;
@@ -177,20 +177,20 @@ var ec2ui_session =
             eval("ec2ui_AvailZoneTreeView." + toCall);
             break;
         case "Reserved Instances":
-            if (isAmazonEndpoint(region)) {
+            if (this.isAmazonEndpointSelected()) {
 				eval("ec2ui_LeaseOfferingsTreeView." + toCall);
 				eval("ec2ui_ReservedInstancesTreeView." + toCall);
 			}
             break;
         case "Virtual Private Clouds":
-            if (isAmazonEndpoint(region)) {
+            if (this.isAmazonEndpointSelected()) {
 				eval("ec2ui_VpcTreeView." + toCall);
 				eval("ec2ui_SubnetTreeView." + toCall);
 				eval("ec2ui_DhcpoptsTreeView." + toCall);
 			}
             break;
         case "VPN Connections":
-            if (isAmazonEndpoint(region)) {
+            if (this.isAmazonEndpointSelected()) {
 				eval("ec2ui_VpnConnectionTreeView." + toCall);
 				eval("ec2ui_VpnGatewayTreeView." + toCall);
 				eval("ec2ui_CustomerGatewayTreeView." + toCall);
