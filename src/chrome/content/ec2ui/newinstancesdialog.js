@@ -247,7 +247,7 @@ var ec2_InstanceLauncher = {
 
         var typeMenu = document.getElementById("ec2ui.newinstances.instancetypelist");
         // Add the instance sizes based on AMI architecture
-	    region = this.ec2ui_session.getActiveEndpoint();
+	region = this.ec2ui_session.getActiveEndpoint();
         if (this.image.arch == "x86_64") {
             //Just checking for EC2 or not
             if (region.type == "ec2") {
@@ -276,7 +276,8 @@ var ec2_InstanceLauncher = {
                 typeMenu.appendItem("m1.xlarge", "m1.xlarge");
                 typeMenu.appendItem("c1.xlarge", "c1.xlarge");
             }
-        } else {
+        }
+	else {
             //Just checking for EC2 or not
             if (region.type == "ec2") {
 		if(rootdevice == "ebs"){
@@ -288,8 +289,7 @@ var ec2_InstanceLauncher = {
 		typeMenu.appendItem("m1.small", "m1.small");
                 typeMenu.appendItem("c1.medium", "c1.medium"); 
 		}
-		
-            }
+	    }
             else { 
                 typeMenu.appendItem("m1.small", "m1.small");
                 typeMenu.appendItem("c1.medium", "c1.medium");

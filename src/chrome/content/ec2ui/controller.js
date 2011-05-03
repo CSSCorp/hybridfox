@@ -960,14 +960,15 @@ var ec2ui_controller = {
         if (isAmazonEndpoint(region)) {
 	    var region = ec2ui_session.getActiveEndpoint();
 	    if (region.type == "ec2") {
-            params.push(["ImageId", imageId]);
-            if (kernelId != null && kernelId != "") {
+                params.push(["ImageId", imageId]);
+                if (kernelId != null && kernelId != "") {
                 params.push(["KernelId", kernelId]);
-            }
-            if (ramdiskId != null && ramdiskId != "") {
+                }
+                if (ramdiskId != null && ramdiskId != "") {
                 params.push(["RamdiskId", ramdiskId]);
+                }
             }
-        }}
+	}
         else {
             params.push(["ImageId", imageId.replace("ami-","emi-")]);
             if (kernelId != null && kernelId != "") {
@@ -978,7 +979,7 @@ var ec2ui_controller = {
             }
         }
         
-        params.push(["InstanceType", instanceType]);
+	params.push(["InstanceType", instanceType]);
         params.push(["MinCount", minCount]);
         params.push(["MaxCount", maxCount]);
         if (keyName != null && keyName != "") {
