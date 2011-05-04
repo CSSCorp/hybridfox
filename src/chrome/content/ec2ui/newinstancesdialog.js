@@ -259,6 +259,8 @@ var ec2_InstanceLauncher = {
                 typeMenu.appendItem("m2.xlarge", "m2.xlarge");
                 typeMenu.appendItem("m2.2xlarge", "m2.2xlarge");
                 typeMenu.appendItem("m2.4xlarge", "m2.4xlarge");
+		typeMenu.appendItem("cc1.4xlarge", "cc1.4xlarge");
+		typeMenu.appendItem("cg1.4xlarge", "cg1.4xlarge");
 		}
 		else {
 		typeMenu.appendItem("m1.large", "m1.large");
@@ -266,7 +268,9 @@ var ec2_InstanceLauncher = {
                 typeMenu.appendItem("c1.xlarge", "c1.xlarge");
                 typeMenu.appendItem("m2.xlarge", "m2.xlarge");
                 typeMenu.appendItem("m2.2xlarge", "m2.2xlarge");
-                typeMenu.appendItem("m2.4xlarge", "m2.4xlarge");    
+                typeMenu.appendItem("m2.4xlarge", "m2.4xlarge");
+		typeMenu.appendItem("cc1.4xlarge", "cc1.4xlarge");
+		typeMenu.appendItem("cg1.4xlarge", "cg1.4xlarge");
 		}
             }
             else {
