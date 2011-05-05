@@ -10,9 +10,9 @@ var ec2_httpclient = {
     timers : {},
 
 	// Change the name since Eucalyptus 1.6.2 has a problem with Elasticfox.
-    USER_AGENT : "elasticfox/__VERSION__-__BUILD__",
+    USER_AGENT : "Hybridfox/__VERSION__-__BUILD__",
 
-    API_VERSION : "2010-06-15",
+    API_VERSION : "2010-08-31",
 
     VPN_CONFIG_PATH : "http://ec2-downloads.s3.amazonaws.com/",
 
@@ -290,8 +290,6 @@ var ec2_httpclient = {
         }
 
         var strSig = "POST\n"+uri.host+"\n"+uri.path+"/\n"+queryParams;
-//        var strSig = "POST\n"+uri.host+"\n"+uri.path+"\n"+queryParams;
-//        var strSig = "POST\n"+uri.host+"\n"+uri.path+((uri.path.length==0)?"/":"")+"\n"+queryParams;
         log("StrSig ["+strSig+"]");
         log("Params ["+queryParams+"]");
 
@@ -583,3 +581,4 @@ var ec2_httpclient = {
         return true;
     }
 }
+

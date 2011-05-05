@@ -958,17 +958,14 @@ var ec2ui_controller = {
         var params = []
         //Just checking for ec2 or not
         if (isAmazonEndpoint(region)) {
-	    var region = ec2ui_session.getActiveEndpoint();
-	    if (region.type == "ec2") {
-                params.push(["ImageId", imageId]);
-                if (kernelId != null && kernelId != "") {
+            params.push(["ImageId", imageId]);
+            if (kernelId != null && kernelId != "") {
                 params.push(["KernelId", kernelId]);
-                }
-                if (ramdiskId != null && ramdiskId != "") {
-                params.push(["RamdiskId", ramdiskId]);
-                }
             }
-	}
+            if (ramdiskId != null && ramdiskId != "") {
+                params.push(["RamdiskId", ramdiskId]);
+            }
+        }
         else {
             params.push(["ImageId", imageId.replace("ami-","emi-")]);
             if (kernelId != null && kernelId != "") {
