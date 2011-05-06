@@ -1512,27 +1512,27 @@ var ec2ui_controller = {
         var xmlDoc = objResponse.xmlDoc;
         if(ec2ui_session.isAmazonEndpointSelected())
         {
-        var items = xmlDoc.evaluate("/ec2:DescribeRegionsResponse/ec2:regionInfo/ec2:item",
+            var items = xmlDoc.evaluate("/ec2:DescribeRegionsResponse/ec2:regionInfo/ec2:item",
                                     xmlDoc,
                                     this.getNsResolver(),
                                     XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
                                     null);
-        var endPointMap = new Object();
-        for (var i = 0; i < items.snapshotLength; ++i)
-        {
-            var name = getNodeValueByName(items.snapshotItem(i), "regionName");
-            var url = getNodeValueByName(items.snapshotItem(i), "regionEndpoint");
-            if (url.indexOf("https://") != 0) {
-                url = "https://" + url;
+            var endPointMap = new Object();
+                for (var i = 0; i < items.snapshotLength; ++i)
+                {
+                    var name = getNodeValueByName(items.snapshotItem(i), "regionName");
+                    var url = getNodeValueByName(items.snapshotItem(i), "regionEndpoint");
+                    if (url.indexOf("https://") != 0) {
+                        url = "https://" + url;
+                    }
+                    endPointMap[name] = new Endpoint(name, url);
+                    log("name: " + name + ", url: " + url);
+                }
+   
+            if (objResponse.callback) {
+                objResponse.callback(endPointMap);
             }
-            endPointMap[name] = new Endpoint(name, url);
-            log("name: " + name + ", url: " + url);
         }
-
-        if (objResponse.callback) {
-            objResponse.callback(endPointMap);
-        }
-    }
     },
 
     onResponseComplete : function (responseObject) {

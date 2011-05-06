@@ -67,8 +67,8 @@ var ec2_VolumeCreator = {
         snapshotIdMenu.selectedIndex += 1;  
 	}
         
-		if (srcSnap) {
-			document.getElementById("ec2ui.newvolume.tag").value = srcSnap.tag || "";
-		}
+	if (srcSnap) {
+	    document.getElementById("ec2ui.newvolume.tag").value = srcSnap.tag || "";
+	}
     }
 }

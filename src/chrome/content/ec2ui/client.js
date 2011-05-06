@@ -78,13 +78,13 @@ var ec2_httpclient = {
     },
 
     setEndpointURLForRegion : function(region) {
-         var reg = ec2ui_utils.determineRegionFromString(ec2ui_session.getActiveEndpoint().name);
+        var reg = ec2ui_utils.determineRegionFromString(ec2ui_session.getActiveEndpoint().name);
         log(reg + ": active region prefix");
         if (reg != region) {
             var newURL = null;
             // Determine the region's EC2 URL
             var endpointlist = ec2ui_session.getEndpoints();
-			region = region.toLowerCase();
+	    region = region.toLowerCase();
             for (var i = 0; i < endpointlist.length; ++i) {
                 var curr = endpointlist[i];
                 if (curr.name.indexOf(region) >= 0) {

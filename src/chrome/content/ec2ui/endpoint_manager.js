@@ -49,15 +49,15 @@ var ec2ui_endpointManager = {
         var sel = ec2ui_endpointsTreeView.getSelectedEndPoint();
         if (sel != null) {
             document.getElementById("ec2ui.endpoints.name").value = sel.name;
-			if (sel.type == ("ec2")) {
-            	document.getElementById("ec2ui.endpoints.type").selectedIndex = 0;
-			}
-			else if(sel.type == ("euca")){
-            	document.getElementById("ec2ui.endpoints.type").selectedIndex = 1;
-			}
-                        else if(sel.type == ("nova")){
-            	document.getElementById("ec2ui.endpoints.type").selectedIndex = 2;
-			}
+		if (sel.type == ("ec2")) {
+            	    document.getElementById("ec2ui.endpoints.type").selectedIndex = 0;
+		}
+		else if(sel.type == ("euca")){
+            	    document.getElementById("ec2ui.endpoints.type").selectedIndex = 1;
+		}
+                else if(sel.type == ("nova")){
+            	    document.getElementById("ec2ui.endpoints.type").selectedIndex = 2;
+                }
             document.getElementById("ec2ui.endpoints.url").value = sel.url;
         }
     }

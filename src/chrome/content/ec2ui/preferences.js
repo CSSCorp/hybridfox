@@ -391,9 +391,9 @@ var ec2ui_prefs = {
     getEC2Endpoints : function() {
             var me = this;
             var wrap = function (regionMap) {
-            log("Endpoints callback");
-            me.endpoints = regionMap;
-        }
+                log("Endpoints callback");
+                me.endpoints = regionMap;
+            }
     },
 
     // These ones manage a pseudo-complex pref. This preference is a JSON

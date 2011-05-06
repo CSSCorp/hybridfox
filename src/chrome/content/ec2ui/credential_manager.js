@@ -5,16 +5,16 @@ var ec2ui_credentialManager = {
 	endpointmap : null,
 
     initDialog : function() {
-		ec2ui_prefs.init();
+	ec2ui_prefs.init();
         document.getElementById("ec2ui.credentials.view").view = ec2ui_credentialsTreeView;
         this.credentials = this.loadCredentials();
-		this.loadRegionsList();
+	this.loadRegionsList();
         ec2ui_credentialsTreeView.setAccountCredentials(this.credentials);
         document.getElementById("ec2ui.credentials.account").select();
     },
 
     indexOfAccountName : function(name) {
-		name = name.trim();
+	name = name.trim();
         for (var i = 0; i < this.credentials.length; i++) {
             if (this.credentials[i].name.trim() == name) {
                 return i;
@@ -128,8 +128,8 @@ var ec2ui_credentialManager = {
         var name = document.getElementById("ec2ui.credentials.account").value.trim();
         var akid = document.getElementById("ec2ui.credentials.akid").value.trim();
         var secretKey = document.getElementById("ec2ui.credentials.secretkey").value.trim();
-		var tmp = document.getElementById("ec2ui.credentials.regionpref").selectedItem;
-		var regionPref = (tmp==null)?"":tmp.value;
+	var tmp = document.getElementById("ec2ui.credentials.regionpref").selectedItem;
+	var regionPref = (tmp==null)?"":tmp.value;
         var prevCred = null;
 
         if (name == null || name == "") return;
@@ -208,14 +208,14 @@ var ec2ui_credentialManager = {
             document.getElementById("ec2ui.credentials.account").value = sel.name;
             document.getElementById("ec2ui.credentials.akid").value = sel.accessKey;
             document.getElementById("ec2ui.credentials.secretkey").value = sel.secretKey;
-			log("region pref :"+sel.regionPref);
-			var endpointlist = this.endpointmap.toArray(function(k,v){return new Endpoint(k,v.type,v.url)});
+	    log("region pref :"+sel.regionPref);
+	    var endpointlist = this.endpointmap.toArray(function(k,v){return new Endpoint(k,v.type,v.url)});
             document.getElementById("ec2ui.credentials.regionpref").selectedIndex = -1;
-			for (var i in endpointlist) {
-			  if (endpointlist[i].name == sel.regionPref) {
-                document.getElementById("ec2ui.credentials.regionpref").selectedIndex = i;
-			  }
-			}
+		for (var i in endpointlist) {
+		    if (endpointlist[i].name == sel.regionPref) {
+                        document.getElementById("ec2ui.credentials.regionpref").selectedIndex = i;
+		    }
+		}
         }
     }
 }

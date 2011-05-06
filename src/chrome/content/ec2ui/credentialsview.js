@@ -53,7 +53,6 @@ var ec2ui_credentialsTreeView = {
 
     getSelectedCredentials : function() {
         var index =  this.selection.currentIndex;
-
         if (index == -1) return null;
         return this.credentials[index];
     }
