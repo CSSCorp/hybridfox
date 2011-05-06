@@ -2037,29 +2037,30 @@ var ec2ui_controller = {
 
     onCompleteDescribeRegions : function (objResponse) {
         var xmlDoc = objResponse.xmlDoc;
-
-        var items = xmlDoc.evaluate("/ec2:DescribeRegionsResponse/ec2:regionInfo/ec2:item",
+        if(ec2ui_session.isAmazonEndpointSelected())
+        {
+            var items = xmlDoc.evaluate("/ec2:DescribeRegionsResponse/ec2:regionInfo/ec2:item",
                                     xmlDoc,
                                     this.getNsResolver(),
                                     XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
                                     null);
-        var endPointMap = new Object();
-        for (var i = 0; i < items.snapshotLength; ++i)
-        {
-            var name = getNodeValueByName(items.snapshotItem(i), "regionName");
-            var type = getNodeValueByName(items.snapshotItem(i), "regionType");
-            var url = getNodeValueByName(items.snapshotItem(i), "regionEndpoint");
-            if (url.indexOf("https://") != 0) {
-                url = "https://" + url;
-            }
-            endPointMap[name] = new Endpoint(name, type, url);
-            log("name: " + name + ", type:" + type + ", url: " + url);
-			
-        }
+            var endPointMap = new Object();
+            for (var i = 0; i < items.snapshotLength; ++i)
+            {
+                var name = getNodeValueByName(items.snapshotItem(i), "regionName");
+                var type = getNodeValueByName(items.snapshotItem(i), "regionType");
+		var url = getNodeValueByName(items.snapshotItem(i), "regionEndpoint");
+                    if (url.indexOf("https://") != 0) {
+                    url = "https://" + url;
+                    }
+                endPointMap[name] = new Endpoint(name, type, url);
+                log("name: " + name + ", type:" + type + ", url: " + url);
+	    }
 
-        if (objResponse.callback) {
+            if (objResponse.callback) {
             objResponse.callback(endPointMap);
-        }
+            }
+	}
     },
 
     onResponseComplete : function (responseObject) {
