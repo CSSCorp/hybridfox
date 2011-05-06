@@ -2,17 +2,21 @@ var ec2ui_credentialManager = {
     REALM : "chrome://ec2ui/",
     HOST  : "chrome://ec2ui/",
     credentials : new Array(),
+	endpointmap : null,
 
     initDialog : function() {
+		ec2ui_prefs.init();
         document.getElementById("ec2ui.credentials.view").view = ec2ui_credentialsTreeView;
         this.credentials = this.loadCredentials();
+		this.loadRegionsList();
         ec2ui_credentialsTreeView.setAccountCredentials(this.credentials);
         document.getElementById("ec2ui.credentials.account").select();
     },
 
     indexOfAccountName : function(name) {
+		name = name.trim();
         for (var i = 0; i < this.credentials.length; i++) {
-            if (this.credentials[i].name == name) {
+            if (this.credentials[i].name.trim() == name) {
                 return i;
             }
         }
@@ -35,7 +39,9 @@ var ec2ui_credentialManager = {
                     var pass = e.getNext().QueryInterface(Components.interfaces.nsIPassword);
                     if (pass.host == this.HOST) {
                         var credentials = pass.password.split(";;");
-                        accountCredentials.push(new Credential(pass.user, credentials[0], credentials[1]));
+						var regionPref = (credentials.length>2)?credentials[2]:" ";
+                        accountCredentials.push(new Credential(pass.user, credentials[0], credentials[1], regionPref));
+						
                     }
                 } catch (ex) {
                     // do something if decrypting the password failed--probably a continue
@@ -50,18 +56,33 @@ var ec2ui_credentialManager = {
             var logins = loginManager.findLogins({}, this.HOST, "", this.REALM);
             for (var i = 0; i < logins.length; i++) {
                 var credentials = logins[i].password.split(";;");
-                accountCredentials.push(new Credential(logins[i].username, credentials[0], credentials[1]));
+				var regionPref = (credentials.length>2)?credentials[2]:" ";
+                accountCredentials.push(new Credential(logins[i].username, credentials[0], credentials[1], regionPref));
             }
         }
 
         return accountCredentials;
     },
 
+    loadRegionsList : function () {
+		this.endpointmap = ec2ui_prefs.getLatestEndpointMap();
+		var regionMenu = document.getElementById("ec2ui.credentials.regionpref");
+		regionMenu.removeAllItems();
+
+		var endpointlist = this.endpointmap.toArray(function(k,v){return new Endpoint(k,v.type,v.url)});
+		for (var i in endpointlist) {
+		  regionMenu.insertItemAt(i, endpointlist[i].name, endpointlist[i].name);
+//		  if (lastUsedEndpoint == endpointlist[i].name) {
+//		    regionMenu.selectedIndex = i;
+//		  }
+		}
+	},
+
     removeAccount : function() {
-        var name = document.getElementById("ec2ui.credentials.account").value;
+        var name = document.getElementById("ec2ui.credentials.account").value.trim();
         var akid = document.getElementById("ec2ui.credentials.akid").value.trim();
         var secretKey = document.getElementById("ec2ui.credentials.secretkey").value.trim();
-        if (trim(name).length > 0) {
+        if (name.length > 0) {
             var index = this.indexOfAccountName(name);
             if (index != -1) {
                 this.credentials.splice(index, 1);
@@ -107,15 +128,17 @@ var ec2ui_credentialManager = {
         var name = document.getElementById("ec2ui.credentials.account").value.trim();
         var akid = document.getElementById("ec2ui.credentials.akid").value.trim();
         var secretKey = document.getElementById("ec2ui.credentials.secretkey").value.trim();
+		var tmp = document.getElementById("ec2ui.credentials.regionpref").selectedItem;
+		var regionPref = (tmp==null)?"":tmp.value;
         var prevCred = null;
 
         if (name == null || name == "") return;
         if (akid == null || akid == "") return;
         if (secretKey == null || secretKey == "") return;
 
-        var credentialStr =  akid + ";;" + secretKey;
+        var credentialStr =  akid + ";;" + secretKey + ";;" + regionPref;
         var index = this.indexOfAccountName(name);
-        var cred = new Credential(name, akid, secretKey);
+        var cred = new Credential(name, akid, secretKey, regionPref);
         if (index == -1) {
             this.credentials.push(cred);
         } else {
@@ -148,7 +171,7 @@ var ec2ui_credentialManager = {
                                              null,
                                              this.REALM,
                                              prevCred.name,
-                                             prevCred.accessKey + ";;" + prevCred.secretKey,
+                                             prevCred.accessKey + ";;" + prevCred.secretKey + ";;" + prevCred.regionPref,
                                              "",
                                              ""
                                             );
@@ -185,6 +208,14 @@ var ec2ui_credentialManager = {
             document.getElementById("ec2ui.credentials.account").value = sel.name;
             document.getElementById("ec2ui.credentials.akid").value = sel.accessKey;
             document.getElementById("ec2ui.credentials.secretkey").value = sel.secretKey;
+			log("region pref :"+sel.regionPref);
+			var endpointlist = this.endpointmap.toArray(function(k,v){return new Endpoint(k,v.type,v.url)});
+            document.getElementById("ec2ui.credentials.regionpref").selectedIndex = -1;
+			for (var i in endpointlist) {
+			  if (endpointlist[i].name == sel.regionPref) {
+                document.getElementById("ec2ui.credentials.regionpref").selectedIndex = i;
+			  }
+			}
         }
-    },
+    }
 }

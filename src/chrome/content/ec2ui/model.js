@@ -1,8 +1,9 @@
 // "Classes" representing objects like AMIs, Instances etc.
-function Credential(name, accessKey, secretKey) {
+function Credential(name, accessKey, secretKey, regionPref) {
     this.name = name;
     this.accessKey = accessKey;
     this.secretKey = secretKey;
+    this.regionPref = regionPref;
 }
 
 function AccountIdName(id, name) {
@@ -10,8 +11,9 @@ function AccountIdName(id, name) {
     this.displayname = name;
 }
 
-function Endpoint(name, url) {
+function Endpoint(name, type, url) {
     this.name = name;
+    this.type = type;
     this.url = url;
 
     this.toJSONString = function() {
@@ -30,6 +32,7 @@ function Endpoint(name, url) {
 
     return this;
 }
+
 
 function AMI(id, location, state, owner, isPublic, arch, platform, aki, ari, tag) {
     this.id = id;

@@ -129,7 +129,7 @@ var ec2ui_session =
                 eval(tab + ".stopRefreshTimer()");
             }
         }
-
+        region = getActiveRegion(ec2ui_session.getActiveEndpoint());
         switch (tabs.selectedItem.label) {
         case 'Instances':
             eval("ec2ui_InstancesTreeView." + toCall);
@@ -151,7 +151,9 @@ var ec2ui_session =
             break;
         case "Volumes and Snapshots":
             eval("ec2ui_VolumeTreeView." + toCall);
-            eval("ec2ui_SnapshotTreeView." + toCall);
+	    if(this.isOpenstackEndpointSelected()){
+		eval("ec2ui_SnapshotTreeView." + toCall);
+	    }
             break;
         case "Bundle Tasks":
         	if (this.isAmazonEndpointSelected()) {
@@ -216,8 +218,24 @@ var ec2ui_session =
 
     switchCredentials : function () {
         var activeCred = this.getActiveCredential();
-
         if (activeCred != null) {
+	    var regionPref = activeCred.regionPref;
+	    if (regionPref != null && regionPref != "") {
+                this.endpointmap = ec2ui_prefs.getEndpointMap();
+                var endpointlist = this.endpointmap.toArray(function(k,v){return new Endpoint(k, v.type, v.url)});
+                for(var i in endpointlist) {
+		    if (endpointlist[i].name == regionPref) {
+                    document.getElementById("ec2ui.active.endpoints.list").selectedIndex = i;
+                    var activeEndpoint = this.getActiveEndpoint();
+                        if (activeEndpoint != null) {
+                            ec2ui_prefs.setLastUsedEndpoint(activeEndpoint.name);
+                            ec2ui_prefs.setServiceType(activeEndpoint.type);
+                            ec2ui_prefs.setServiceURL(activeEndpoint.url);
+                            this.client.setEndpoint(activeEndpoint);
+		        }
+	            }
+	        }
+	    }
             ec2ui_prefs.setLastUsedAccount(activeCred.name);
             this.client.setCredentials(activeCred.accessKey, activeCred.secretKey);
             this.loadAllTags();
@@ -271,7 +289,7 @@ var ec2ui_session =
 
     getEndpoints : function () {
         return this.endpointmap.toArray(function(k,v) {
-                                            return new Endpoint(k, v.url)
+                                            return new Endpoint(k, v.type, v.url)
                                         });
     },
 
@@ -281,7 +299,7 @@ var ec2ui_session =
         activeEndpointsMenu.removeAllItems();
 
         var lastUsedEndpoint = ec2ui_prefs.getLastUsedEndpoint();
-        var endpointlist = this.endpointmap.toArray(function(k,v){return new Endpoint(k, v.url)});
+        var endpointlist = this.endpointmap.toArray(function(k,v){return new Endpoint(k, v.type, v.url)});
 
         for(var i in endpointlist) {
             activeEndpointsMenu.insertItemAt(
@@ -410,17 +428,18 @@ var ec2ui_session =
             activeEndpointname = ec2ui_prefs.getLastUsedEndpoint();
         }
         if (this.endpointmap == null) {
-            return new Endpoint(activeEndpointname, ec2ui_prefs.getServiceURL());
+            return new Endpoint(activeEndpointname, ec2ui_prefs.getServiceType(), ec2ui_prefs.getServiceURL());
+			
         } else {
             return this.endpointmap.get(activeEndpointname);
         }
     },
-
     switchEndpoints : function () {
         var activeEndpoint = this.getActiveEndpoint();
 
         if (activeEndpoint != null) {
             ec2ui_prefs.setLastUsedEndpoint(activeEndpoint.name);
+            ec2ui_prefs.setServiceType(activeEndpoint.type);
             ec2ui_prefs.setServiceURL(activeEndpoint.url);
             this.client.setEndpoint(activeEndpoint);
             this.loadAllTags();
@@ -458,6 +477,7 @@ var ec2ui_session =
                     {})) {
                 // Reset the endpoint stored in the client and prefs
                 this.client.setEndpoint(new Endpoint());
+                ec2ui_prefs.setServiceType("ec2");
                 ec2ui_prefs.setServiceURL("");
             } else {
                 this.manageEndpoints();
@@ -524,10 +544,23 @@ var ec2ui_session =
     },
     
     isAmazonEndpointSelected: function () {
-    	var activeEndpointUrl = this.getActiveEndpoint().url;
-    	if (activeEndpointUrl.search(/\.amazonaws\.com(\/)?$/)!=-1) { //if active endpoint url ends with ".amazonaws.com"
+    	var activeEndpointType = this.getActiveEndpoint().type;
+    	if (activeEndpointType.search(/ec2/)!=-1) { //if active endpoint type ends with "ece"
 	    return true;
 	}
 	return false;
+    },
+    
+    isOpenstackEndpointSelected: function () {
+    	var activeEndpointType = this.getActiveEndpoint().type;
+    	if (activeEndpointType.search(/ec2/)!=-1) { //if active endpoint type ends with "ec2"
+	    return true;
+	}else
+	if (activeEndpointType.search(/euca/)!=-1) { //if active endpoint type ends with "ecua"
+	    return true;
 	}
+	return false;
+    }
+	
+    	
 };

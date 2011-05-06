@@ -2,6 +2,7 @@ function empty() { } ;
 
 var ec2_httpclient = {
     handler : null,
+    ec2ui_session : null,
     uri     : null,
     auxObj  : null,
     serviceURL : null,
@@ -10,9 +11,9 @@ var ec2_httpclient = {
     timers : {},
 
 	// Change the name since Eucalyptus 1.6.2 has a problem with Elasticfox.
-    USER_AGENT : "elasticfox/__VERSION__-__BUILD__",
+    USER_AGENT : "Hybridfox/__VERSION__-__BUILD__",
 
-    API_VERSION : "2010-06-15",
+    API_VERSION : "2010-08-31",
 
     getNsResolver : function() {
         var client = this;
@@ -77,18 +78,18 @@ var ec2_httpclient = {
     },
 
     setEndpointURLForRegion : function(region) {
-        var reg = getActiveRegion(ec2ui_session.getActiveEndpoint());
-        region = region.toLowerCase();
+         var reg = ec2ui_utils.determineRegionFromString(ec2ui_session.getActiveEndpoint().name);
         log(reg + ": active region prefix");
         if (reg != region) {
             var newURL = null;
             // Determine the region's EC2 URL
             var endpointlist = ec2ui_session.getEndpoints();
+			region = region.toLowerCase();
             for (var i = 0; i < endpointlist.length; ++i) {
                 var curr = endpointlist[i];
-                if (curr.name.indexOf(region) == 0) {
+                if (curr.name.indexOf(region) >= 0) {
                     newURL = curr.url;
-                    break;
+		    break;
                 }
             }
 
@@ -129,8 +130,8 @@ var ec2_httpclient = {
         var rsp = null;
         while(true) {
             try {
-                rsp = this.queryEC2Impl(action, params, objActions, isSync, reqType, callback);
-                if (rsp.hasErrors) {
+		rsp = this.queryEC2Impl(action, params, objActions, isSync, reqType, callback);    
+		if (rsp.hasErrors) {
                     if (!this.errorDialog(
                         "EC2 responded with an error for "+action,
                         rsp.faultCode,
@@ -249,7 +250,7 @@ var ec2_httpclient = {
 
         return this.processXMLHTTPResponse(xmlhttp, reqType, isSync, timerKey, objActions, callback);
     },
-
+    
     generateS3StringToSign : function(requestType, content, copySource, curTime, fileName) {
         var sigValues = new Array();
         sigValues.push(new Array("Request-Type", requestType));

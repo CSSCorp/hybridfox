@@ -8,7 +8,8 @@ var ec2ui_controller = {
         region = region.toLowerCase();
 
         // Determine the current region
-        var activeReg = getActiveRegion(ec2ui_session.getActiveEndpoint());
+        var activeReg = ec2ui_utils.determineRegionFromString(ec2ui_session.getActiveEndpoint().name);
+		
         log(activeReg + ": active, requested: " + region);
 
         if (activeReg == region) {
@@ -142,21 +143,23 @@ var ec2ui_controller = {
             createTime.setISO8601(getNodeValueByName(items.snapshotItem(i), "createTime"));
 
             // Zero out the values for attachment
-            var instanceId = "";
-            var device = "";
-            var attachStatus = "";
-            var attachTime = new Date();
-            // Make sure there is an attachment
-            if (items.snapshotItem(i).getElementsByTagName("attachmentSet")[0].firstChild) {
-                instanceId = getNodeValueByName(items.snapshotItem(i), "instanceId");
-                device = getNodeValueByName(items.snapshotItem(i), "device");
-                attachStatus = items.snapshotItem(i).getElementsByTagName("status")[1].firstChild;
-                if (attachStatus) {
-                    attachStatus = attachStatus.nodeValue;
+            if(items.snapshotItem(i).nodename){
+                var instanceId = "";
+                var device = "";
+                var attachStatus = "";
+                var attachTime = new Date();
+                // Make sure there is an attachment
+                if (items.snapshotItem(i).getElementsByTagName("attachmentSet")[0].firstChild) {
+                    instanceId = getNodeValueByName(items.snapshotItem(i), "instanceId");
+                    device = getNodeValueByName(items.snapshotItem(i), "device");
+                    attachStatus = items.snapshotItem(i).getElementsByTagName("status")[1].firstChild;
+                        if (attachStatus) {
+                        attachStatus = attachStatus.nodeValue;
+                        }
+                    attachTime.setISO8601(getNodeValueByName(items.snapshotItem(i), "attachTime"));
                 }
-                attachTime.setISO8601(getNodeValueByName(items.snapshotItem(i), "attachTime"));
             }
-            list.push(new Volume(id, size, snapshotId, zone, status, createTime, instanceId, device, attachStatus, attachTime));
+            list.push(new Volume(id, size, snapshotId, zone, status, createTime, instanceId || "", device || "", attachStatus || "", attachTime || ""));
         }
 
         this.addResourceTags(list, ec2ui_session.model.resourceMap.volumes, "id");
@@ -460,8 +463,10 @@ var ec2ui_controller = {
             var reason = getNodeValueByName(instanceItems[j], "reason");
             var amiLaunchIdx = getNodeValueByName(instanceItems[j], "amiLaunchIndex");
             var instanceType = getNodeValueByName(instanceItems[j], "instanceType");
-            var monitoring = instanceItems[j].getElementsByTagName("monitoring")[0];
-            var monitoringState = getNodeValueByName(monitoring, "state");
+            if (instanceItems[j].nodeName == '#text'){
+                var monitoring = instanceItems[j].getElementsByTagName("monitoring")[0];
+                var monitoringState = getNodeValueByName(monitoring, "state");
+            }
             
             var launchTime = new Date();
             launchTime.setISO8601(getNodeValueByName(instanceItems[j], "launchTime"));
@@ -496,7 +501,7 @@ var ec2ui_controller = {
                                    launchTime,
                                    placement,
                                    platform,
-                                   monitoringState));
+                                   monitoringState || ""));
         }
 
         return list;
@@ -571,9 +576,10 @@ var ec2ui_controller = {
             for (var j = 0; j < groupIds.length; j++) {
                 groups.push(groupIds[j].firstChild.nodeValue);
             }
-
-            var instancesSet = items.snapshotItem(i).getElementsByTagName("instancesSet")[0];
-            var instanceItems = instancesSet.childNodes;
+            if (items.snapshotItem(i).nodeName){
+                var instancesSet = items.snapshotItem(i).getElementsByTagName("instancesSet")[0];
+                var instanceItems = instancesSet.childNodes;
+            }
 
             if (instanceItems) {
                 var resList = this.unpackReservationInstances(resId, ownerId, groups, instanceItems);
@@ -668,10 +674,12 @@ var ec2ui_controller = {
                                     null);
         for(var i=0 ; i < items.snapshotLength; i++) {
             var instancesSet = items.snapshotItem(i).getElementsByTagName("instancesSet")[0];
-            var instanceItems = instancesSet.getElementsByTagName("item");
-            for (var j = 0; j < instanceItems.length; j++) {
-                var instanceId = getNodeValueByName(instanceItems[j], "instanceId");
-                list.push({id:instanceId});
+            if(instancesSet){
+                var instanceItems = instancesSet.getElementsByTagName("item");
+                for (var j = 0; j < instanceItems.length; j++) {
+                    var instanceId = getNodeValueByName(instanceItems[j], "instanceId");
+                    list.push({id:instanceId});
+                }  
             }
         }
 
@@ -1502,7 +1510,8 @@ var ec2ui_controller = {
 
     onCompleteDescribeRegions : function (objResponse) {
         var xmlDoc = objResponse.xmlDoc;
-
+        if(ec2ui_session.isAmazonEndpointSelected())
+        {
         var items = xmlDoc.evaluate("/ec2:DescribeRegionsResponse/ec2:regionInfo/ec2:item",
                                     xmlDoc,
                                     this.getNsResolver(),
@@ -1523,6 +1532,7 @@ var ec2ui_controller = {
         if (objResponse.callback) {
             objResponse.callback(endPointMap);
         }
+    }
     },
 
     onResponseComplete : function (responseObject) {

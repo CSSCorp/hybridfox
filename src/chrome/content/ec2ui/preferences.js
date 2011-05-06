@@ -150,6 +150,7 @@ var ec2ui_prefs = {
     REFRESH_BUNDLE_VIEW : "ec2ui.refreshBundleView.enabled",
     AUTOFETCH_LP        : "ec2ui.autofetchlaunchpermissions.enabled",
     OPEN_IN_NEW_TAB     : "ec2ui.usenewtab.enabled",
+    EC2_TYPE            : "ec2ui.type",
     EC2_URL             : "ec2ui.url",
     CURRENT_TAB         : "ec2ui.current.tab",
     REQUEST_TIMEOUT     : "ec2ui.timeout.request",
@@ -217,6 +218,7 @@ var ec2ui_prefs = {
     setSSHArgs : function(value) { this.setStringPreference(this.SSH_ARGS, value); },
     setSSHUser : function(value) { this.setStringPreference(this.SSH_USER, value); },
     setRequestTimeout : function(value) { this.setIntPreference(this.REQUEST_TIMEOUT, value); },
+    setServiceType : function(value) { this.setStringPreference(this.EC2_TYPE, value); },
     setServiceURL : function(value) { this.setStringPreference(this.EC2_URL, value); },
     setCurrentTab : function(value) { this.setIntPreference(this.CURRENT_TAB, value); },
     setDebugEnabled : function(enabled) { this.setBoolPreference(this.DEBUG_ENABLED, enabled); },
@@ -254,6 +256,7 @@ var ec2ui_prefs = {
     getSSHArgs : function() { return this.getStringPreference(this.SSH_ARGS, this.getDefaultSSHCommandArgs()[1]); },
     getSSHUser : function() { return this.getStringPreference(this.SSH_USER, "root"); },
     getRequestTimeout : function() { return this.getIntPreference(this.REQUEST_TIMEOUT, 15000); },
+    getServiceType : function() { return this.getStringPreference(this.EC2_TYPE, "ec2"); },
     getServiceURL : function() { return this.getStringPreference(this.EC2_URL, "https://us-east-1.ec2.amazonaws.com"); },
     getCurrentTab : function() { return this.getIntPreference(this.CURRENT_TAB, 0); },
     getLastEC2PKeyFile : function() { return this.getEC2PKeyForUser(this.getLastUsedAccount()); },
@@ -385,20 +388,29 @@ var ec2ui_prefs = {
         return new WrappedMapAccounts(unpackedMap, this);
     },
 
-    getDefaultEndpoints : function(session) {
-        var me = this;
-        var wrap = function (regionMap) {
-            log ("Endpoints callback");
+    getEC2Endpoints : function() {
+            var me = this;
+            var wrap = function (regionMap) {
+            log("Endpoints callback");
             me.endpoints = regionMap;
         }
-        // session.client.setEndpoint(new Endpoint('us-east-1', 'https://us-east-1.ec2.amazonaws.com', '2008-12-01'));
-        session.controller.describeRegions(wrap);
     },
 
     // These ones manage a pseudo-complex pref. This preference is a JSON
     // encoded JavaScript "map" mapping endpoints to friendly names.
     setEndpointMap : function(value) {
         this.setStringPreference(this.ENDPOINTS, value.toJSONString());
+    },
+    
+    getLatestEndpointMap : function() {
+        var packedMap = this.getStringPreference(this.ENDPOINTS, null);;
+        var endpointmap = null;
+
+        if (packedMap != null && packedMap.length > 0) {
+            // Unpack the map and return it
+            endpointmap = eval(packedMap);
+        }
+        return new WrappedMapEndpoints(endpointmap, this);
     },
 
     getEndpointMap : function() {
@@ -407,34 +419,34 @@ var ec2ui_prefs = {
 
         if (packedMap != null && packedMap.length > 0) {
             // Unpack the map and return it
-            var endpointmap = eval(packedMap);
+            endpointmap = eval(packedMap);
+        }
 
-            // Check for older, version style endpoints
-            for (region in endpointmap) {
-                if (endpointmap[region].version == null) {
-                    return new WrappedMapEndpoints(endpointmap, this);
+        log("Retrieve endpoints from service");
+        this.getEC2Endpoints();
+
+        // Reconcile the endpointmap with the map retrieved from EC2
+        var map = this.endpoints;
+        for (k in map) {
+            if (map.hasOwnProperty(k)) {
+                var v = map[k];
+                if (v != null &&
+                    endpointmap[k] == null) {
+                    endpointmap[k] = v;
                 }
             }
         }
-
-        // Must overwrite the version style endpoints
-        if (this.endpoints == null) {
-            this.getDefaultEndpoints(ec2ui_session);
-            log ("Using default endpoints");
-        }
-
-        // there is a chance that we retrieved the endpoints from the API.
-        endpointmap = this.endpoints;
 
         // You couldn't retrieve the default endpoints. Hard code them
         if (endpointmap == null) {
             log ("Generating endpoints");
             endpointmap = new Object();
-            endpointmap['us-east-1'] = new Endpoint('us-east-1', 'https://us-east-1.ec2.amazonaws.com');
-            endpointmap['us-west-1'] = new Endpoint('us-west-1', 'https://us-west-1.ec2.amazonaws.com');
-            endpointmap['eu-west-1'] = new Endpoint('eu-west-1', 'https://eu-west-1.ec2.amazonaws.com');
-            endpointmap['ap-southeast-1'] = new Endpoint('ap-southeast-1', 'https://ec2.ap-southeast-1.amazonaws.com');
-            endpointmap['ap-northeast-1'] = new Endpoint('ap-northeast-1', 'https://ec2.ap-northeast-1.amazonaws.com');
+            endpointmap['us-east-1'] = new Endpoint('us-east-1', 'ec2', 'https://us-east-1.ec2.amazonaws.com');
+            endpointmap['us-west-1'] = new Endpoint('us-west-1', 'ec2', 'https://us-west-1.ec2.amazonaws.com');
+            endpointmap['eu-west-1'] = new Endpoint('eu-west-1', 'ec2', 'https://eu-west-1.ec2.amazonaws.com');
+            endpointmap['ap-southeast-1'] = new Endpoint('ap-southeast-1', 'ec2', 'https://ec2.ap-southeast-1.amazonaws.com');
+            endpointmap['ap-northeast-1'] = new Endpoint('ap-northeast-1', 'ec2', 'https://ec2.ap-northeast-1.amazonaws.com');
+            endpointmap['ECC'] = new Endpoint('ECC', 'euca', 'http://ecc.eucalyptus.com');
         }
 
         return new WrappedMapEndpoints(endpointmap, this);

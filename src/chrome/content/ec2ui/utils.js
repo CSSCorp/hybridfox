@@ -314,8 +314,18 @@ function getActiveRegion(endpoint) {
     return endpoint.name.split("-")[0].toLowerCase();
 }
 
+function isEbsRootDeviceType(rootDeviceType) {
+    return (rootDeviceType == 'ebs');
+}
+
 function isWindows(platform) {
 	return platform.match(ec2ui_utils.winRegex);
+}
+
+function isAmazonEndpoint(region) {
+	if (region == null) return true;
+	if (region.type == 'ec2') return true;
+	return false;
 }
 
 function secondsToDays(secs) {
@@ -389,5 +399,25 @@ var ec2ui_utils = {
     
     winRegex : new RegExp(/^Windows/i),
     macRegex : new RegExp(/^Mac/),
+    
+    determineRegionFromString : function(str) {
+        var region = "US-EAST-1";
+        if (!str) {
+            return region;
+        }
+
+        str = str.toLowerCase();
+        // If str starts with:
+        // us-east-1: region is US-EAST-1
+        // us-west-1: region is US-WEST-1
+        // eu-west-1: region is EU-WEST-1
+        if (str.indexOf("us-west-1") >= 0) {
+            region = "US-WEST-1";
+        } else if (str.indexOf("eu-west-1") >= 0 || str == "eu") {
+            region = "EU-WEST-1";
+        }
+
+        return region;
+    }
 };
 

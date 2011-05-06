@@ -48,22 +48,25 @@ var ec2_VolumeCreator = {
         availZoneMenu.selectedIndex = 0;
 
         // snapshots
-        var snapshotIdMenu = document.getElementById("ec2ui.newvolume.snapshotId");
-        snapshotIdMenu.appendItem("<none>");
-        var snapshots = this.ec2ui_session.model.getSnapshots();
-        var snap = null;
-        for(var i in snapshots) {
-            snap = snapshots[i];
-            if (snap.status == "completed") {
-                snapshotIdMenu.appendItem(snap.id);
-                if (srcSnap && 
-					snap.id == srcSnap.id) {
-					snapshotIdMenu.selectedIndex = i;
+	if(this.ec2ui_session.isOpenstackEndpointSelected()){
+	    var snapshotIdMenu = document.getElementById("ec2ui.newvolume.snapshotId");
+            snapshotIdMenu.appendItem("<none>");
+            var snapshots = this.ec2ui_session.model.getSnapshots();
+            var snap = null;
+            for(var i in snapshots) {
+                snap = snapshots[i];
+                if (snap.status == "completed") {
+                    snapshotIdMenu.appendItem(snap.id);
+                    if (srcSnap && 
+			snap.id == srcSnap.id) {
+			snapshotIdMenu.selectedIndex = i;
+                    }
                 }
             }
-        }
         // To accommodate the <NONE> element added at the head of the list
-        snapshotIdMenu.selectedIndex += 1;
+        snapshotIdMenu.selectedIndex += 1;  
+	}
+        
 		if (srcSnap) {
 			document.getElementById("ec2ui.newvolume.tag").value = srcSnap.tag || "";
 		}
