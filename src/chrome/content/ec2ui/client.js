@@ -35,8 +35,6 @@ var ec2_httpclient = {
     setEndpoint : function (endpoint) {
         if (endpoint != null) {
             this.serviceURL = endpoint.url;
-			if (endpoint.type == "euca")
-				this.serviceURL = this.serviceURL + ":8773/services/Eucalyptus";
         }
     },
 
@@ -92,8 +90,6 @@ var ec2_httpclient = {
                 var curr = endpointlist[i];
                 if (curr.name.indexOf(region) >= 0) {
                     newURL = curr.url;
-					if (curr.type == "euca")
-						newURL = newURL + ":8773/services/Eucalyptus/";
                     break;
                 }
             }
