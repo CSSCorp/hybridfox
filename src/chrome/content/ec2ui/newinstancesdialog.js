@@ -54,7 +54,9 @@ var ec2_InstanceLauncher = {
         if (this.retVal.properties == "") {
             this.retVal.properties = null;
         }
-        	
+        
+	this.retVal.addressingType = (document.getElementById("ec2ui.newinstances.addressingType").checked==true) ? "public" : "private";
+	
         this.retVal.ok = true;
 
         return true;
@@ -271,8 +273,8 @@ var ec2_InstanceLauncher = {
                 typeMenu.appendItem("m2.4xlarge", "m2.4xlarge");
                 typeMenu.appendItem("cc1.4xlarge", "cc1.4xlarge");
                 typeMenu.appendItem("cg1.4xlarge", "cg1.4xlarge");
-        }
             }
+        }
             else {
                 typeMenu.appendItem("m1.small", "m1.small");
                 typeMenu.appendItem("c1.medium", "c1.medium");
@@ -387,7 +389,14 @@ var ec2_InstanceLauncher = {
             // The use of selectedIndex doesn't work predictably for
             // editable menulists
         }
-
+        
+	//Since EC2 doesn't support private addressing, disable it when the endpoint is of Amazon.
+    	if (this.ec2ui_session.isAmazonEndpointSelected()) {
+    		document.getElementById("ec2ui.newinstances.addressingType").disabled="true";
+    	} else {
+    		document.getElementById("ec2ui.newinstances.addressingType").removeAttribute("disabled");
+    	}
+	
         this.refreshDisplay();
     },
 

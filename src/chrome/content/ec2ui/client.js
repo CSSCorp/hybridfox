@@ -34,12 +34,7 @@ var ec2_httpclient = {
 
     setEndpoint : function (endpoint) {
         if (endpoint != null) {
-            if (endpoint.type == "euca") {
-                this.serviceURL = endpoint.url + ":8773/services/Eucalyptus";
-            }
-            else if (endpoint.type == "openstack") {
-                this.serviceURL = endpoint.url + "/services/Cloud";
-			}
+            this.serviceURL = endpoint.url;
         }
     },
 
@@ -95,13 +90,7 @@ var ec2_httpclient = {
                 var curr = endpointlist[i];
                 if (curr.name.indexOf(region) >= 0) {
                     newURL = curr.url;
-                    if (curr.type == "euca") {
-                        newURL = newURL + ":8773/services/Eucalyptus/";
-                    }
-                    else if (curr.type == "openstack") {
-                        newURL = newURL + "/services/Cloud/";
-                    }
-                    break;
+		    break;
                 }
             }
 

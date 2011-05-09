@@ -954,10 +954,10 @@ var ec2ui_controller = {
         return list;
     },
 
-    runInstances : function (imageId, kernelId, ramdiskId, minCount, maxCount, keyName, securityGroups, userData, properties, instanceType, placement, subnetId, ipAddress, callback) {
+    runInstances : function (imageId, kernelId, ramdiskId, minCount, maxCount, keyName, securityGroups, userData, properties, instanceType, placement, subnetId, ipAddress, addressingType, callback) {
         var params = []
         //Just checking for ec2 or not
-        if (isAmazonEndpoint(region)) {
+        if (ec2ui_session.isAmazonEndpointSelected()) {
             params.push(["ImageId", imageId]);
             if (kernelId != null && kernelId != "") {
                 params.push(["KernelId", kernelId]);
@@ -1009,6 +1009,7 @@ var ec2ui_controller = {
                 params.push(["PrivateIpAddress", ipAddress]);
             }
         }
+	params.push(["AddressingType", addressingType]);
 		
         ec2_httpclient.queryEC2("RunInstances", params, this, true, "onCompleteRunInstances", callback);
     },
