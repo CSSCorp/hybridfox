@@ -253,7 +253,7 @@ var ec2ui_controller = {
             var owner = getNodeValueByName(items.snapshotItem(i), "imageOwnerId");
             var isPublic = getNodeValueByName(items.snapshotItem(i), "isPublic");
             var arch = getNodeValueByName(items.snapshotItem(i), "architecture");
-
+            var rootDeviceType = getNodeValueByName(items.snapshotItem(i), "rootDeviceType");
             // These value might not exist, but getNodeValueByName
             // returns "" in case the element is not defined.
             var platform = getNodeValueByName(items.snapshotItem(i), "platform");
@@ -266,6 +266,7 @@ var ec2ui_controller = {
                           owner,
                           (isPublic == 'true' ? 'public' : 'private'),
                           arch,
+			  rootDeviceType,
                           platform,
                           aki,
                           ari));

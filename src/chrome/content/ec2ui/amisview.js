@@ -6,6 +6,7 @@ var ec2ui_AMIsTreeView = {
                'ami.isPublic',
                'ami.arch',
                'ami.platform',
+               'ami.rootDeviceType',
                'ami.tag'],
     launchPermissionList : new Array(),
     imageIdRegex : regExs["all"],
@@ -35,21 +36,87 @@ var ec2ui_AMIsTreeView = {
         // These context menu items don't apply to Windows instances
         // so enable them.
     },
-
+    
+    imageTypeChanged : function() {
+        document.getElementById("ec2ui.images.search").value = "";
+        this.displayImagesOfType();
+    },
+    
     displayImagesOfType : function () {
         var type = document.getElementById("ec2ui_AMIsTreeView.image.type");
-        if (type.value == "my_ami") {
+        // Initialize the owner display filter to the empty string
+        this.ownerDisplayFilter = "";
+        if (type.value == "my_ami" || type.value == "my_ami_rdt_ebs") {
             var groups = ec2ui_model.getSecurityGroups();
             var group = groups[0];
-            var searchStr = ec2ui_session.lookupAccountId(group.ownerId);
+            var currentUser = ec2ui_session.lookupAccountId(group.ownerId);
             this.imageIdRegex = regExs["ami"];
+
+            if (type.value == "my_ami")
+              this.rootDeviceType = "";
+            else
+              this.rootDeviceType = "ebs";
+        } else if (type.value == "amzn" || type.value == "amzn_rdt_ebs") {
+            this.ownerDisplayFilter = "amazon";
+
+            if (type.value == "amzn")
+              this.rootDeviceType = "";
+            else
+              this.rootDeviceType = "ebs";
+        } else if (type.value == "rdt_ebs") {
+            this.rootDeviceType = "ebs";
+            this.imageIdRegex = regExs["all"];
+        } else if (type.value == "rdt_is") {
+            this.rootDeviceType = "instance-store";
+            this.imageIdRegex = regExs["all"];
         } else {
             this.imageIdRegex = regExs[type.value];
+            this.rootDeviceType = "";
         }
-        this.displayImages(this.filterImages(ec2ui_model.images, searchStr));
+
+        var images = ec2ui_model.images;
+        images = this.filterRootDevice(images);
+        images = this.filterOwnerDisplay(images);
+        images = this.filterImages(images, currentUser);
+
+        this.displayImages(images);
+    },
+
+    filterRootDevice : function(images) {
+        if (this.rootDeviceType == "") {
+            return images;
+        }
+
+        var newList = new Array();
+
+        for(var i in images) {
+            var rdt = this.getImageDetail(images[i], "ami.rootDeviceType");
+            if (rdt == this.rootDeviceType) {
+                newList.push(images[i]);
+            }
+        }
+
+        return newList;
+    },
+
+    filterOwnerDisplay : function(images) {
+        if (this.ownerDisplayFilter == "") {
+            return images;
+        }
+
+        var newList = new Array();
+
+        for(var i in images) {
+            if (images[i].ownerAlias == this.ownerDisplayFilter) {
+                newList.push(images[i]);
+            }
+        }
+
+        return newList;
     },
 
     searchChanged : function(event) {
+        document.getElementById("ec2ui_AMIsTreeView.image.type").selectedIndex = 0;
         if (this.searchTimer) {
             clearTimeout(this.searchTimer);
         }

@@ -34,13 +34,14 @@ function Endpoint(name, type, url) {
 }
 
 
-function AMI(id, location, state, owner, isPublic, arch, platform, aki, ari, tag) {
+function AMI(id, location, state, owner, isPublic, arch, rootDeviceType, platform, aki, ari, tag) {
     this.id = id;
     this.location = location;
     this.state = state;
     this.owner = owner;
     this.isPublic = isPublic;
     this.arch = arch;
+    this.rootDeviceType = rootDeviceType;
     this.platform = platform;
     if (tag) this.tag = tag;
     this.aki = aki;

@@ -26,6 +26,7 @@
 <!ENTITY ec2ui.images.owner.label "Owner">
 <!ENTITY ec2ui.images.visibility.label "Visibility">
 <!ENTITY ec2ui.images.architecture.label "Architecture">
+<!ENTITY ec2ui.images.rootDeviceType.label "Rootdevice Type">
 
 <!ENTITY ec2ui.instances.resid.label "Reservation ID">
 <!ENTITY ec2ui.instances.owner.label "Owner">
