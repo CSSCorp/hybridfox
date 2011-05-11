@@ -45,8 +45,8 @@
         <row>
           <label control="ec2ui.endpoints.type" value="Type:" />
 		  <radiogroup id="ec2ui.endpoints.type" orient="horizontal">
-		    <radio id="ec2ui.endpoints.type.ec2" label="EC2" value="ec2" selected="false" />
-		    <radio id="ec2ui.endpoints.type.euca" label="Eucalyptus" value="euca" selected="true"/>
+		    <radio id="ec2ui.endpoints.type.ec2" label="EC2" value="ec2" selected="true" />
+		    <radio id="ec2ui.endpoints.type.euca" label="Eucalyptus" value="euca" selected="false"/>
 		  </radiogroup>
         </row>
         <row>

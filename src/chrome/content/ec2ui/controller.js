@@ -2049,7 +2049,7 @@ var ec2ui_controller = {
             for (var i = 0; i < items.snapshotLength; ++i)
             {
                 var name = getNodeValueByName(items.snapshotItem(i), "regionName");
-                var type = getNodeValueByName(items.snapshotItem(i), "regionType");
+                var type = "ec2";
 		var url = getNodeValueByName(items.snapshotItem(i), "regionEndpoint");
                     if (url.indexOf("https://") != 0) {
                     url = "https://" + url;

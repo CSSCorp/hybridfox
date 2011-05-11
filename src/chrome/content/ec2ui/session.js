@@ -143,7 +143,6 @@ var ec2ui_session =
             }
         }
 
-	    region = getActiveRegion(ec2ui_session.getActiveEndpoint());
 
         switch (tabs.selectedItem.label) {
         case 'Instances':
