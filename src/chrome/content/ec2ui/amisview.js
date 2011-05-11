@@ -82,7 +82,7 @@ var ec2ui_AMIsTreeView = {
             this.imageIdRegex = regExs["all"];
         } else if (type.value == "rdt_is") {
             this.rootDeviceType = "instance-store";
-            this.imageIdRegex = regExs["all"];
+            this.imageIdRegex = regExs["ami"];
         } else {
             this.imageIdRegex = regExs[type.value];
             this.rootDeviceType = "";
