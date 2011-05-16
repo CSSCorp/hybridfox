@@ -256,7 +256,12 @@ var ec2_httpclient = {
 	// version 2 signing
     queryEC2ImplNew : function (action, params, objActions, isSync, reqType, callback) {
         var curTime = new Date();
-        var formattedTime = this.formatDate(curTime, "yyyy-MM-ddThh:mm:00Z");
+        if (ec2ui_session.isAmazonEndpointSelected()) {
+            var formattedTime = this.formatDate(curTime, "yyyy-MM-ddThh:mm:ssZ");
+        }
+        else {
+            var formattedTime = this.formatDate(curTime, "yyyy-MM-ddThh:mm:ss");
+        }
 
         var sigValues = new Array();
         sigValues.push(new Array("AWSAccessKeyId", this.accessCode));
