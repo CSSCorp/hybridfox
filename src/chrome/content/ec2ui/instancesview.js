@@ -801,14 +801,18 @@ var ec2ui_InstancesTreeView = {
         var monitoring = instance.monitoringState;
         var disableMonitor = monitoring.toLowerCase().match(/^enabled/);
         var disableUnmonitor = monitoring.toLowerCase().match(/^disabled/);
-        
+        var state = instance.state;
+	var disablestop = state.toLowerCase().match(/^stopped/);
+	var disableStart = state.toLowerCase().match(/^running/);
+	var rootdevice = instance.rootDeviceType;
+        var rootdevicetype = rootdevice.toLowerCase().match(/^instance-store/);
         fDisabled = !isWindows(instance.platform);
 
         // Windows-based enable/disable
         if (isWindows(instance.platform)) {
-          document.getElementById("instances.context.getPassword").disabled = false;
+           document.getElementById("instances.context.getPassword").disabled = false;
         } else {
-          document.getElementById("instances.context.getPassword").disabled = true;
+           document.getElementById("instances.context.getPassword").disabled = true;
         }
 
         if (isEbsRootDeviceType(instance.rootDeviceType)) {
@@ -829,12 +833,21 @@ var ec2ui_InstancesTreeView = {
 
         // These items are only valid for instances with EBS-backed
         // root devices.
-        var optDisabled = !isEbsRootDeviceType(instance.rootDeviceType);
-        document.getElementById("instances.context.start").disabled = optDisabled;
-        document.getElementById("instances.context.stop").disabled = optDisabled;
-        document.getElementById("instances.context.forceStop").disabled = optDisabled;
-        document.getElementById("instances.button.start").disabled = optDisabled;
-        document.getElementById("instances.button.stop").disabled = optDisabled;
+        if(ec2ui_session.isAmazonEndpointSelected()){
+	    document.getElementById("instances.context.stop").disabled = disablestop;
+	    document.getElementById("instances.context.forceStop").disabled = disablestop;
+	    document.getElementById("instances.button.start").disabled = disableStart;
+	    document.getElementById("instances.button.stop").disabled = disablestop;
+	    document.getElementById("instances.context.stop").disabled = rootdevicetype;
+            document.getElementById("instances.context.forceStop").disabled = rootdevicetype;
+	    document.getElementById("instances.button.stop").disabled = rootdevicetype;
+	}
+	else{
+	    document.getElementById("instances.context.stop").disabled = true;
+	    document.getElementById("instances.context.forceStop").disabled = true;
+	    document.getElementById("instances.button.start").disabled = true;
+	    document.getElementById("instances.button.stop").disabled = true;
+	}
     },
     
     
