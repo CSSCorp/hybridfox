@@ -454,7 +454,7 @@ var ec2ui_prefs = {
             endpointmap['eu-west-1'] = new Endpoint('eu-west-1', 'ec2', 'https://eu-west-1.ec2.amazonaws.com');
             endpointmap['ap-southeast-1'] = new Endpoint('ap-southeast-1', 'ec2', 'https://ec2.ap-southeast-1.amazonaws.com');
             endpointmap['ap-northeast-1'] = new Endpoint('ap-northeast-1', 'ec2', 'https://ec2.ap-northeast-1.amazonaws.com');
-            endpointmap['ECC'] = new Endpoint('ECC', 'euca', 'http://ecc.eucalyptus.com');
+            endpointmap['ECC'] = new Endpoint('ECC', 'euca', 'http://ecc.eucalyptus.com:8773/services/Eucalyptus');
         }
 
         return new WrappedMapEndpoints(endpointmap, this);
