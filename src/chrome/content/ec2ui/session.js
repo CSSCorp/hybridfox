@@ -129,7 +129,7 @@ var ec2ui_session =
                 eval(tab + ".stopRefreshTimer()");
             }
         }
-        region = getActiveRegion(ec2ui_session.getActiveEndpoint());
+        
         switch (tabs.selectedItem.label) {
         case 'Instances':
             eval("ec2ui_InstancesTreeView." + toCall);

@@ -1585,21 +1585,22 @@ var ec2ui_controller = {
                                     XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
                                     null);
             var endPointMap = new Object();
-                for (var i = 0; i < items.snapshotLength; ++i)
-                {
-                    var name = getNodeValueByName(items.snapshotItem(i), "regionName");
-                    var url = getNodeValueByName(items.snapshotItem(i), "regionEndpoint");
+            for (var i = 0; i < items.snapshotLength; ++i)
+            {
+                var name = getNodeValueByName(items.snapshotItem(i), "regionName");
+                var type = "ec2";
+		var url = getNodeValueByName(items.snapshotItem(i), "regionEndpoint");
                     if (url.indexOf("https://") != 0) {
-                        url = "https://" + url;
+                    url = "https://" + url;
                     }
-                    endPointMap[name] = new Endpoint(name, url);
-                    log("name: " + name + ", url: " + url);
-                }
-   
+                endPointMap[name] = new Endpoint(name, type, url);
+                log("name: " + name + ", type:" + type + ", url: " + url);
+	    }
+
             if (objResponse.callback) {
-                objResponse.callback(endPointMap);
+            objResponse.callback(endPointMap);
             }
-        }
+	}
     },
 
     onResponseComplete : function (responseObject) {

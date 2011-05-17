@@ -165,9 +165,6 @@ var ec2ui_prefs = {
     CONCURRENT_S3_CONN  : "ec2ui.concurrent.S3.conns",
     PROMPT_OPEN_PORT    : "ec2ui.prompt.open.port",
     OPEN_CONNECTION_PORT: "ec2ui.open.connection.port",
-    NEW_US_WEST_ENTRY   : "ec2ui.new.us.west.entry.1.6.13",
-    NEW_APAC_ENTRY      : "ec2ui.new.apac.entry.1.6.24",
-    NEW_JAP_ENTRY       : "ec2ui.new.jap.entry.1.6.25",
     endpoints           : null,
 
     prefs : null,
@@ -205,9 +202,6 @@ var ec2ui_prefs = {
             this.setConcurrentS3Conns(this.getConcurrentS3Conns());
             this.setPromptForPortOpening(this.getPromptForPortOpening());
             this.setOpenConnectionPort(this.getOpenConnectionPort());
-            this.addNewUsWestRegion();
-            this.addNewApacRegion();
-            this.addNewJapRegion();	
         }
     },
 
@@ -389,11 +383,12 @@ var ec2ui_prefs = {
     },
 
     getEC2Endpoints : function() {
-            var me = this;
-            var wrap = function (regionMap) {
-                log("Endpoints callback");
-                me.endpoints = regionMap;
-            }
+        var me = this;
+        var wrap = function (regionMap) {
+            log("Endpoints callback");
+            me.endpoints = regionMap;
+        }
+        ec2ui_session.controller.describeRegions(wrap);
     },
 
     // These ones manage a pseudo-complex pref. This preference is a JSON
@@ -585,79 +580,6 @@ var ec2ui_prefs = {
 
     setBoolPreference : function(name, value) {
         this.prefs.setBoolPref(name, value);
-    },
-    
-    //add the new US West region
-    addNewUsWestRegion : function () {
-        var endpointJson = this.getStringPreference(this.ENDPOINTS, null);
-        var url = 'https://us-west-1.ec2.amazonaws.com';
-        
-        var pos = endpointJson.search(url);
-        var flag = this.isNewUsWestEntryAdded();
-        
-        if (pos==-1 && flag==false) { 
-            var len = endpointJson.length;
-            var UsWestJson = "'us-west-1':({'name':'us-west-1','url':'https://us-west-1.ec2.amazonaws.com'})";
-            var newEndpointJson = endpointJson.substring(0, len-2) + "," + UsWestJson + "})";
-            this.setStringPreference(this.ENDPOINTS, newEndpointJson);
-            this.setNewUsWestEntryFlag();
-        }
-    },
-    
-    isNewUsWestEntryAdded : function() {
-        return this.getBoolPreference(this.NEW_US_WEST_ENTRY, false);
-    },
-    
-    setNewUsWestEntryFlag : function() {
-        this.setBoolPreference(this.NEW_US_WEST_ENTRY, true);
-    },
-    
-    //add the new APAC region
-    addNewApacRegion : function () {
-        var endpointJson = this.getStringPreference(this.ENDPOINTS, null);
-        var url = 'https://ec2.ap-southeast-1.amazonaws.com';
-        
-        var pos = endpointJson.search(url);
-        var flag = this.isNewApacEntryAdded();
-        
-        if (pos==-1 && flag==false) { 
-            var len = endpointJson.length;
-            var ApacJson = "'ap-southeast-1':({'name':'ap-southeast-1','url':'" + url + "'})";
-            var newEndpointJson = endpointJson.substring(0, len-2) + "," + ApacJson + "})";
-            this.setStringPreference(this.ENDPOINTS, newEndpointJson);
-            this.setNewApacEntryFlag();
-        }
-    },
-
-    isNewApacEntryAdded : function() {
-        return this.getBoolPreference(this.NEW_APAC_ENTRY, false);
-    },
-    
-    setNewApacEntryFlag : function() {
-        this.setBoolPreference(this.NEW_APAC_ENTRY, true);
-    },
-
-    addNewJapRegion : function () {
-        var endpointJson = this.getStringPreference(this.ENDPOINTS, null);
-        var url = 'https://ec2.ap-northeast-1.amazonaws.com';
-        
-        var pos = endpointJson.search(url);
-        var flag = this.isNewJapEntryAdded();
-        
-        if (pos==-1 && flag==false) { 
-            var len = endpointJson.length;
-            var JapJson = "'ap-northeast-1':({'name':'ap-northeast-1','url':'" + url + "'})";
-            var newEndpointJson = endpointJson.substring(0, len-2) + "," + JapJson + "})";
-            this.setStringPreference(this.ENDPOINTS, newEndpointJson);
-            this.setNewJapEntryFlag();
-        }
-    },
-
-    isNewJapEntryAdded : function() {
-        return this.getBoolPreference(this.NEW_JAP_ENTRY, false);
-    },
-    
-    setNewJapEntryFlag : function() {
-        this.setBoolPreference(this.NEW_JAP_ENTRY, true);
     }
+    
 }

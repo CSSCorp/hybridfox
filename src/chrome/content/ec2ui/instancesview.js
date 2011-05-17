@@ -784,8 +784,10 @@ var ec2ui_InstancesTreeView = {
             document.getElementById("instances.context.start").disabled = disableStart;
             document.getElementById("instances.context.stop").disabled = disableStop;
             document.getElementById("instances.context.forceStop").disabled = disableStop;
-            document.getElementById("instances.context.stop").disabled = rootdevicetype;
-            document.getElementById("instances.context.forceStop").disabled = rootdevicetype;
+            if(rootdevicetype){
+                document.getElementById("instances.context.stop").disabled = true;
+                document.getElementById("instances.context.forceStop").disabled = true;
+            }
         } else {
             document.getElementById("instances.context.monitor").disabled = true;
             document.getElementById("instances.context.unmonitor").disabled = true;
