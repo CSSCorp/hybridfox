@@ -82,6 +82,8 @@ var ec2ui_credentialManager = {
         var name = document.getElementById("ec2ui.credentials.account").value.trim();
         var akid = document.getElementById("ec2ui.credentials.akid").value.trim();
         var secretKey = document.getElementById("ec2ui.credentials.secretkey").value.trim();
+	var tmp = document.getElementById("ec2ui.credentials.regionpref").selectedItem;
+	var regionPref = (tmp==null)?"":tmp.value;
         if (name.length > 0) {
             var index = this.indexOfAccountName(name);
             if (index != -1) {
@@ -113,7 +115,7 @@ var ec2ui_credentialManager = {
                                              null,
                                              this.REALM,
                                              name,
-                                             akid + ";;" + secretKey,
+                                             akid + ";;" + secretKey + ";;" + regionPref || "",
                                              "",
                                              ""
                                             );
