@@ -14,6 +14,7 @@ var ec2ui_InstancesTreeView = {
        'instance.reason',
        'instance.amiLaunchIdx',
        'instance.instanceType',
+       'instance.rootDeviceType',       
        'instance.launchTimeDisp',
        'instance.monitoringState',
        'instance.placement.availabilityZone',
@@ -765,15 +766,34 @@ var ec2ui_InstancesTreeView = {
         var monitoring = instance.monitoringState;
         var disableMonitor = monitoring.toLowerCase().match(/^enabled/);
         var disableUnmonitor = monitoring.toLowerCase().match(/^disabled/);
+        var startstop = instance.state;
+        var disableStart = startstop.toLowerCase().match(/^running/);
+        var disableStop = startstop.toLowerCase().match(/^stopped/);
+        var rootdevice = instance.rootDeviceType;
+        var rootdevicetype = rootdevice.toLowerCase().match(/^instance-store/);
         
         fDisabled = !isWindows(instance.platform);
 
         // If this is not a Windows Instance, Disable the following
         // context menu items.
-        document.getElementById("instances.context.bundle").disabled = fDisabled;
-        document.getElementById("instances.context.getPassword").disabled = fDisabled;
-        document.getElementById("instances.context.monitor").disabled = disableMonitor;
-        document.getElementById("instances.context.unmonitor").disabled = disableUnmonitor;
+        if(ec2ui_session.isAmazonEndpointSelected()){
+            document.getElementById("instances.context.bundle").disabled = fDisabled;
+            document.getElementById("instances.context.getPassword").disabled = fDisabled;
+            document.getElementById("instances.context.monitor").disabled = disableMonitor;
+            document.getElementById("instances.context.unmonitor").disabled = disableUnmonitor;
+            document.getElementById("instances.context.start").disabled = disableStart;
+            document.getElementById("instances.context.stop").disabled = disableStop;
+            document.getElementById("instances.context.forceStop").disabled = disableStop;
+            document.getElementById("instances.context.stop").disabled = rootdevicetype;
+            document.getElementById("instances.context.forceStop").disabled = rootdevicetype;
+        } else {
+            document.getElementById("instances.context.monitor").disabled = true;
+            document.getElementById("instances.context.unmonitor").disabled = true;
+            document.getElementById("instances.context.start").disabled = true;
+            document.getElementById("instances.context.stop").disabled = true;
+            document.getElementById("instances.context.forceStop").disabled = true;
+        }
+       
 
         // These context menu items don't apply to Windows instances
         // so enable them.
@@ -872,6 +892,47 @@ var ec2ui_InstancesTreeView = {
             }
         }
         ec2ui_session.controller.terminateInstances(instanceIds, wrap);
+    },
+    
+    stopInstance : function() {
+        this.doStopInstances(false);
+    },
+
+    forceStopInstance : function() {
+        this.doStopInstances(true);
+    },
+
+    doStopInstances : function(force) {
+        var instanceIds = this.getSelectedInstanceIds();
+        if (instanceIds.length == 0)
+            return;
+
+        var confirmed = confirm("Stop instances: "+ instanceIds.join(', ')+"?");
+        if (!confirmed)
+            return;
+
+        var wrap = function() {
+            if (ec2ui_prefs.isRefreshOnChangeEnabled()) {
+                ec2ui_InstancesTreeView.refresh();
+                ec2ui_InstancesTreeView.selectByInstanceIds();
+            }
+        }
+        ec2ui_session.controller.stopInstances(instanceIds, force, wrap);
+    },
+
+    startInstance : function() {
+        var instanceIds = this.getSelectedInstanceIds();
+        if (instanceIds.length == 0)
+            return;
+
+        var me = this;
+        var wrap = function() {
+            if (ec2ui_prefs.isRefreshOnChangeEnabled()) {
+                ec2ui_InstancesTreeView.refresh();
+                ec2ui_InstancesTreeView.selectByInstanceIds();
+            }
+        }
+        ec2ui_session.controller.startInstances(instanceIds, wrap);
     },
 
     fetchConsoleOutput : function(callback, instance) {

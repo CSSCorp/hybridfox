@@ -464,10 +464,11 @@ var ec2ui_controller = {
             var reason = getNodeValueByName(instanceItems[j], "reason");
             var amiLaunchIdx = getNodeValueByName(instanceItems[j], "amiLaunchIndex");
             var instanceType = getNodeValueByName(instanceItems[j], "instanceType");
-            if (instanceItems[j].nodeName == '#text'){
-                var monitoring = instanceItems[j].getElementsByTagName("monitoring")[0];
-                var monitoringState = getNodeValueByName(monitoring, "state");
-            }
+	    var rootDeviceType = getNodeValueByName(instanceItems[j], "rootDeviceType");
+            var monitoring = instanceItems[j].getElementsByTagName("monitoring")[0];
+	    if(monitoring){
+		var monitoringState = getNodeValueByName(monitoring, "state");
+	    }
             
             var launchTime = new Date();
             launchTime.setISO8601(getNodeValueByName(instanceItems[j], "launchTime"));
@@ -499,6 +500,7 @@ var ec2ui_controller = {
                                    reason,
                                    amiLaunchIdx,
                                    instanceType,
+				   rootDeviceType,
                                    launchTime,
                                    placement,
                                    platform,
@@ -681,6 +683,70 @@ var ec2ui_controller = {
                     var instanceId = getNodeValueByName(instanceItems[j], "instanceId");
                     list.push({id:instanceId});
                 }  
+            }
+        }
+
+        if (objResponse.callback)
+            objResponse.callback(list);
+    },
+    
+    stopInstances : function (instanceIds, force, callback) {
+        var params = []
+        for(var i in instanceIds) {
+            params.push(["InstanceId."+(i+1), instanceIds[i]]);
+        }
+        if (force == true) {
+            params.push(["Force", "true"]);
+        }
+        ec2_httpclient.queryEC2("StopInstances", params, this, true, "onCompleteStopInstances", callback);
+    },
+
+    onCompleteStopInstances : function (objResponse) {
+        var xmlDoc = objResponse.xmlDoc;
+
+        var list = new Array();
+        var items = xmlDoc.evaluate("/",
+                                    xmlDoc,
+                                    this.getNsResolver(),
+                                    XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
+                                    null);
+        for(var i=0 ; i < items.snapshotLength; i++) {
+            var instancesSet = items.snapshotItem(i).getElementsByTagName("instancesSet")[0];
+            var instanceItems = instancesSet.getElementsByTagName("item");
+            for (var j = 0; j < instanceItems.length; j++) {
+                var instanceId = getNodeValueByName(instanceItems[j], "instanceId");
+                list.push({id:instanceId});
+            }
+        }
+
+        if (objResponse.callback)
+            objResponse.callback(list);
+    },
+
+    startInstances : function (instanceIds, callback) {
+        var params = []
+        for(var i in instanceIds) {
+            params.push(["InstanceId."+(i+1), instanceIds[i]]);
+        }
+        ec2_httpclient.queryEC2("StartInstances", params, this, true, "onCompleteStartInstances", callback);
+    },
+
+    onCompleteStartInstances : function (objResponse) {
+        var xmlDoc = objResponse.xmlDoc;
+
+        log("onCompleteStartInstances invoked");
+        var list = new Array();
+        var items = xmlDoc.evaluate("/",
+                                    xmlDoc,
+                                    this.getNsResolver(),
+                                    XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
+                                    null);
+        for(var i=0 ; i < items.snapshotLength; i++) {
+            var instancesSet = items.snapshotItem(i).getElementsByTagName("instancesSet")[0];
+            var instanceItems = instancesSet.getElementsByTagName("item");
+            for (var j = 0; j < instanceItems.length; j++) {
+                var instanceId = getNodeValueByName(instanceItems[j], "instanceId");
+                list.push({id:instanceId});
             }
         }
 

@@ -29,6 +29,16 @@
           <menuitem oncommand="ec2ui_InstancesTreeView.terminateInstance();"
             label="Terminate" />
           <menuseparator />
+           <menuitem id="instances.context.stop"
+            oncommand="ec2ui_InstancesTreeView.stopInstance();"
+            label="Stop" />
+          <menuitem id="instances.context.forceStop"
+            oncommand="ec2ui_InstancesTreeView.forceStopInstance();"
+            label="Force Stop" />
+          <menuitem id="instances.context.start"
+            oncommand="ec2ui_InstancesTreeView.startInstance();"
+            label="Start" />
+          <menuseparator />
           <menuitem id="instances.context.monitor"
             oncommand="ec2ui_InstancesTreeView.monitorInstance();"
             label="Monitor" />
@@ -131,6 +141,9 @@
           <treecol id="instance.instanceType" label="&ec2ui.instances.instanceType.label;"
             flex="1" persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
+          <treecol id="instance.rootDeviceType" label="&ec2ui.instances.rootDeviceType.label;"
+            flex="1" persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter" />      
           <treecol id="instance.launchTimeDisp" label="&ec2ui.instances.launchTime.label;"
             flex="2" persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />

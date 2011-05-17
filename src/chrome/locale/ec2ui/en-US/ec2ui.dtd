@@ -43,6 +43,7 @@
 <!ENTITY ec2ui.instances.reason.label "Reason">
 <!ENTITY ec2ui.instances.amiLaunchIdx.label "Idx">
 <!ENTITY ec2ui.instances.instanceType.label "Type">
+<!ENTITY ec2ui.instances.rootDeviceType.label "Root Device">
 <!ENTITY ec2ui.instances.launchTime.label "Local Launch Time">
 
 <!ENTITY ec2ui.captions.kernels.akis.label "Kernel Images (AKIs)">

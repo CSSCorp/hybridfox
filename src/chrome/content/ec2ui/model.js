@@ -75,7 +75,7 @@ function Volume(id, size, snapshotId, zone, status, createTime, instanceId, devi
 
 function Instance(resId, ownerId, groupList, instanceId, imageId, kernelId,
         ramdiskId, state, publicDnsName, privateDnsName, keyName, reason,
-        amiLaunchIdx, instanceType, launchTime, placement, platform, monitoringState, tag) {
+        amiLaunchIdx, instanceType,rootDeviceType, launchTime, placement, platform, monitoringState, tag) {
     this.resId = resId;
     this.ownerId = ownerId;
     this.groupList = groupList;
@@ -90,6 +90,7 @@ function Instance(resId, ownerId, groupList, instanceId, imageId, kernelId,
     this.reason = reason;
     this.amiLaunchIdx = amiLaunchIdx;
     this.instanceType = instanceType;
+    this.rootDeviceType = rootDeviceType;
     this.launchTime = launchTime;
     this.launchTimeDisp = launchTime.strftime('%Y-%m-%d %H:%M:%S');
 
