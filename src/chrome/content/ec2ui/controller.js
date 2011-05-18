@@ -143,23 +143,25 @@ var ec2ui_controller = {
             createTime.setISO8601(getNodeValueByName(items.snapshotItem(i), "createTime"));
 
             // Zero out the values for attachment
-            if(items.snapshotItem(i).nodename){
-                var instanceId = "";
-                var device = "";
-                var attachStatus = "";
-                var attachTime = new Date();
-                // Make sure there is an attachment
-                if (items.snapshotItem(i).getElementsByTagName("attachmentSet")[0].firstChild) {
-                    instanceId = getNodeValueByName(items.snapshotItem(i), "instanceId");
-                    device = getNodeValueByName(items.snapshotItem(i), "device");
-                    attachStatus = items.snapshotItem(i).getElementsByTagName("status")[1].firstChild;
-                        if (attachStatus) {
-                        attachStatus = attachStatus.nodeValue;
-                        }
-                    attachTime.setISO8601(getNodeValueByName(items.snapshotItem(i), "attachTime"));
+            var instanceId = "";
+            var device = "";
+            var attachStatus = "";
+             var attachTime = new Date();
+	    
+	    var attachementset = items.snapshotItem(i).getElementsByTagName("attachmentSet");      
+                for (var k = 0; k < attachementset.length; k++)
+                {
+                  var instanceId = getNodeValueByName(attachementset[k], "instanceId");
+                  var device = getNodeValueByName(attachementset[k], "device");
+                  var attachStatus = getNodeValueByName(attachementset[k], "status");
+		  if (attachStatus) {
+                      attachTime.setISO8601(getNodeValueByName(attachementset[k], "attachTime"));
+                  }
                 }
-            }
-            list.push(new Volume(id, size, snapshotId, zone, status, createTime, instanceId || "", device || "", attachStatus || "", attachTime || ""));
+            // Make sure there is an attachment
+	
+	   
+            list.push(new Volume(id, size, snapshotId, zone, status, createTime, instanceId, device, attachStatus, attachTime || ""));
         }
 
         this.addResourceTags(list, ec2ui_session.model.resourceMap.volumes, "id");
