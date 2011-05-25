@@ -60,7 +60,7 @@ popd > /dev/null
 # make the chrome jar
 pushd build/$BASE/chrome > /dev/null
   rm -f ec2ui.jar
-  $JAVA_HOME/bin/jar cf ec2ui.jar content locale skin
+  "$JAVA_HOME/bin/jar" cf ec2ui.jar content locale skin
 popd > /dev/null
 
 # prepare source for bundling
