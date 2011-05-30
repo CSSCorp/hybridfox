@@ -23,7 +23,7 @@
         </row>
         <row>
           <label control="ec2ui.newvolume.snapshotId" value="&ec2ui.snapshots.id.label;" />
-          <menulist id="ec2ui.newvolume.snapshotId" editable="true" />
+          <menulist id="ec2ui.newvolume.snapshotId" editable="true" oncommand="ec2_VolumeCreator.selectionchanged();" />
         </row>
         <row>
           <label control="ec2ui.newvolume.availabilityzonelist" value="&ec2ui.availabilityZone.label;" />

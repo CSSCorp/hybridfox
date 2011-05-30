@@ -167,6 +167,9 @@
             <treecol id="snap.volumeId" label="&ec2ui.volumes.id.label;" flex="1"
               persist="width ordinal hidden sortDirection" />
             <splitter class="tree-splitter" />
+            <treecol id="snap.volumeSize" label="&ec2ui.volumes.size.label;" flex="1"
+              persist="width ordinal hidden sortDirection" />
+            <splitter class="tree-splitter" />
             <treecol id="snap.status" label="&ec2ui.snapshots.status.label;" flex="1"
               persist="width ordinal hidden sortDirection" />
             <splitter class="tree-splitter" />

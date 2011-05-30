@@ -10,7 +10,7 @@ var ec2_VolumeCreator = {
         if (this.retVal.snapshotId.length == 0 ||
                 this.retVal.snapshotId.indexOf("<none>") == 0) {
                 this.retVal.snapshotId = null;
-        }
+	}
 
         this.retVal.zone = document.getElementById("ec2ui.newvolume.availabilityzonelist").value;
 
@@ -38,8 +38,8 @@ var ec2_VolumeCreator = {
         var srcSnap = window.arguments[0];
         this.ec2ui_session = window.arguments[1];
         this.retVal = window.arguments[2];
-
-        // availability zones
+	
+	// availability zones
         var availZoneMenu = document.getElementById("ec2ui.newvolume.availabilityzonelist");
         var availZones = this.ec2ui_session.model.getAvailabilityZones();
         for(var i in availZones) {
@@ -60,15 +60,36 @@ var ec2_VolumeCreator = {
                     if (srcSnap && 
 			snap.id == srcSnap.id) {
 			snapshotIdMenu.selectedIndex = i;
-                    }
+		    }
                 }
-            }
-        // To accommodate the <NONE> element added at the head of the list
-        snapshotIdMenu.selectedIndex += 1;  
+	    }
+	// To accommodate the <NONE> element added at the head of the list
+        snapshotIdMenu.selectedIndex += 1;
 	}
+	var disablevolume = snapshotIdMenu.getAttribute('value');
+	if(disablevolume != "<none>"){
+	    var volume = document.getElementById("ec2ui.newvolume.size");
+	    volume.setAttribute('readonly','true');
+	}else {
+	    var volume = document.getElementById("ec2ui.newvolume.size");
+	    volume.setAttribute('readonly','false');
+	}
+	
         
 	if (srcSnap) {
 	    document.getElementById("ec2ui.newvolume.tag").value = srcSnap.tag || "";
+	}
+    },
+    
+    selectionchanged : function(){
+	var snapshotIdMenu = document.getElementById("ec2ui.newvolume.snapshotId");
+	var disablevolume = snapshotIdMenu.getAttribute('value');
+	if(disablevolume != "<none>"){
+	    var volume = document.getElementById("ec2ui.newvolume.size");
+	    volume.setAttribute('readonly','true');
+	}else {
+	    var volume = document.getElementById("ec2ui.newvolume.size");
+	    volume.setAttribute('readonly','false');
 	}
     }
 }

@@ -48,9 +48,10 @@ function AMI(id, location, state, owner, isPublic, arch, rootDeviceType, platfor
     this.ari = ari;
 }
 
-function Snapshot(id, volumeId, status, startTime, progress, tag) {
+function Snapshot(id, volumeId, volumeSize, status, startTime, progress, tag) {
     this.id = id;
     this.volumeId = volumeId;
+    this.volumeSize = volumeSize;
     this.status = status;
     this.startTime = startTime.strftime('%Y-%m-%d %H:%M:%S');
     this.progress = progress;
