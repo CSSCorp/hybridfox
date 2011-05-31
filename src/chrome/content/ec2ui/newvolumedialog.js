@@ -25,7 +25,7 @@ var ec2_VolumeCreator = {
         var val = (this.retVal.size != null) ? this.retVal.size : "";
         val = parseInt(val);
         var textbox = document.getElementById("ec2ui.newvolume.size");
-        if ((!isNaN(val) && val < 1) || (isNaN(val) && this.retVal.snapshotId == null)) {
+	if ((!isNaN(val) && val < 1) || (isNaN(val) && this.retVal.snapshotId == null)) {
             alert("Size must be >= 1 if a snapshot is not selected");
             textbox.select();
             return false;
@@ -52,12 +52,12 @@ var ec2_VolumeCreator = {
 	    var snapshotIdMenu = document.getElementById("ec2ui.newvolume.snapshotId");
             snapshotIdMenu.appendItem("<none>");
             var snapshots = this.ec2ui_session.model.getSnapshots();
-            var snap = null;
+	    var snap = null;
             for(var i in snapshots) {
-                snap = snapshots[i];
+		snap = snapshots[i];
                 if (snap.status == "completed") {
                     snapshotIdMenu.appendItem(snap.id);
-                    if (srcSnap && 
+		    if (srcSnap && 
 			snap.id == srcSnap.id) {
 			snapshotIdMenu.selectedIndex = i;
 		    }
@@ -69,10 +69,14 @@ var ec2_VolumeCreator = {
 	var disablevolume = snapshotIdMenu.getAttribute('value');
 	if(disablevolume != "<none>"){
 	    var volume = document.getElementById("ec2ui.newvolume.size");
-	    volume.setAttribute('readonly','true');
-	}else {
-	    var volume = document.getElementById("ec2ui.newvolume.size");
-	    volume.setAttribute('readonly','false');
+	    var snapshots = this.ec2ui_session.model.getSnapshots();
+	    for(var i in snapshots) {
+		var snapid = snapshots[i].id;
+		var volumesize = snapshots[i].volumeSize;
+		if(disablevolume == snapid){
+		volume.setAttribute('value',volumesize);	
+		}
+	    }
 	}
 	
         
@@ -80,16 +84,22 @@ var ec2_VolumeCreator = {
 	    document.getElementById("ec2ui.newvolume.tag").value = srcSnap.tag || "";
 	}
     },
-    
+ 
     selectionchanged : function(){
 	var snapshotIdMenu = document.getElementById("ec2ui.newvolume.snapshotId");
 	var disablevolume = snapshotIdMenu.getAttribute('value');
+	
 	if(disablevolume != "<none>"){
 	    var volume = document.getElementById("ec2ui.newvolume.size");
-	    volume.setAttribute('readonly','true');
-	}else {
-	    var volume = document.getElementById("ec2ui.newvolume.size");
-	    volume.setAttribute('readonly','false');
+	    var snapshots = this.ec2ui_session.model.getSnapshots();
+	    for(var i in snapshots) {
+		var snapid = snapshots[i].id;
+		var volumesize = snapshots[i].volumeSize;
+		if(disablevolume == snapid){
+		volume.setAttribute('value',volumesize);	
+		}
+	    }
+	   
 	}
     }
 }
