@@ -173,6 +173,14 @@ var ec2ui_AMIsTreeView = {
             retVal
             );
 
+        // Build block mapping parameter that required for overriding root volume.
+	var blockDeviceMappings = null;
+            if (retVal.overrideRootVolumeSize != "") {
+                blockDeviceMappings = [];
+                rootMapping = { deviceName : "/dev/sda1", volumeSize: retVal.overrideRootVolumeSize };
+                blockDeviceMappings.push(rootMapping);
+            }
+
         if (retVal.ok) {
             this.newInstanceTag = retVal.tag || "";
 
@@ -184,6 +192,7 @@ var ec2ui_AMIsTreeView = {
                retVal.maxCount,
                retVal.keyName,
                retVal.securityGroups,
+               blockDeviceMappings,
                retVal.userData,
                retVal.properties,
                retVal.instanceType,
