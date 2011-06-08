@@ -5,7 +5,7 @@
 <dialog id="ec2ui.dialog.about" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
   xmlns:html="http://www.w3.org/1999/xhtml"
   buttons="accept" ondialogaccept="return true;" onload="updateAPIVersion();"
-  title="About">
+  title="&ec2ui.dialog.title.about;">
 
   <script type="application/x-javascript">
   function openURL(url) {

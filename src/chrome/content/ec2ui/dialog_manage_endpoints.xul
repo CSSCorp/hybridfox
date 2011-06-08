@@ -6,9 +6,11 @@
   buttons="extra2,extra1,cancel" ondialogcancel="return true;"
   ondialogextra1="ec2ui_endpointManager.saveEndpoint();"
   ondialogextra2="ec2ui_endpointManager.removeEndpoint();"
-  buttonlabelcancel="Close" buttonlabelextra1="Add" buttonlabelextra2="Remove"
+  buttonlabelcancel="&ec2ui.dialog.button.cancel.manage.label;"
+  buttonlabelextra1="&ec2ui.dialog.button.extra1.manage.label;"
+  buttonlabelextra2="&ec2ui.dialog.button.extra2.manage.label;"
   defaultButton="extra1" buttonpack="start" buttonalign="start"
-  onload="ec2ui_endpointManager.initDialog();" title="Manage EC2 Regions">
+  onload="ec2ui_endpointManager.initDialog();" title="&ec2ui.dialog.title.manage_endpoints;">
 
   <script type="application/x-javascript" src="chrome://ec2ui/content/utils.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/preferences.js" />
@@ -20,11 +22,11 @@
     <vbox flex="1">
       <tree id="ec2ui.endpoints.view" onselect="ec2ui_endpointManager.selectMapping();" flex="1" rows="5">
         <treecols>
-          <treecol id="endpoint.name" label="Endpoint Name" flex="1" persist="width ordinal hidden" />
-          <treecol id="endpoint.type" label="Type" flex="1" persist="width ordinal hidden" />
-          <treecol id="endpoint.url" label="Endpoint URL" flex="1" persist="width ordinal hidden" />
+          <treecol id="endpoint.name" label="&ec2ui.endpoints.name.label;" flex="1" persist="width ordinal hidden" />
+          <treecol id="endpoint.type" label="&ec2ui.endpoints.type.label;" flex="1" persist="width ordinal hidden" />
+          <treecol id="endpoint.url" label="&ec2ui.endpoints.url.label;" flex="1" persist="width ordinal hidden" />
           <!--
-          <treecol id="endpoint.version" label="API Version" flex="1" persist="width ordinal hidden" />
+          <treecol id="endpoint.version" label="&ec2ui.endpoints.version.label;" flex="1" persist="width ordinal hidden" />
           -->
         </treecols>
         <treechildren />
@@ -38,11 +40,11 @@
       </columns>
       <rows>
         <row>
-          <label control="ec2ui.endpoints.name" value="Region Name:" />
+          <label control="ec2ui.endpoints.name" value="&ec2ui.endpoints.name.label;:" />
           <textbox id="ec2ui.endpoints.name" size="20" />
         </row>
         <row>
-          <label control="ec2ui.endpoints.type" value="Type:" />
+          <label control="ec2ui.endpoints.type" value="&ec2ui.endpoints.type.label;:" />
 		  <radiogroup id="ec2ui.endpoints.type" orient="horizontal">
 		    <radio id="ec2ui.endpoints.type.ec2" label="EC2" value="ec2" selected="true" />
 		    <radio id="ec2ui.endpoints.type.euca" label="Eucalyptus" value="euca" selected="false"/>
@@ -50,12 +52,12 @@
 		  </radiogroup>
         </row>
         <row>
-          <label control="ec2ui.endpoints.url" value="Endpoint URL:" />
+          <label control="ec2ui.endpoints.url" value="&ec2ui.endpoints.url.label;:" />
           <textbox id="ec2ui.endpoints.url" size="40" />
         </row>
         <!--
         <row>
-          <label control="ec2ui.endpoints.version" value="API Version:" />
+          <label control="ec2ui.endpoints.version" value="&ec2ui.endpoints.version.label;:" />
           <textbox id="ec2ui.endpoints.version" size="40" />
         </row>
         -->

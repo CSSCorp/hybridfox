@@ -130,47 +130,47 @@ var ec2ui_session =
             }
         }
         
-        switch (tabs.selectedItem.label) {
-        case 'Instances':
+        switch (tabs.selectedItem.id) {
+        case 'ec2ui.tabs.instances':
             eval("ec2ui_InstancesTreeView." + toCall);
             break;
-        case 'Images':
+        case 'ec2ui.tabs.images':
             this.showBusyCursor(true);
             this.model.getSecurityGroups();
             this.model.getImages();
             this.showBusyCursor(false);
             break;
-        case "KeyPairs":
+        case "ec2ui.tabs.keypairs":
             eval("ec2ui_KeypairTreeView." + toCall);
             break;
-        case "Security Groups":
+        case "ec2ui.tabs.secgroups":
             eval("ec2ui_SecurityGroupsTreeView." + toCall);
             break;
-        case "Elastic IPs":
+        case "ec2ui.tabs.eips":
             eval("ec2ui_ElasticIPTreeView." + toCall);
             break;
-        case "Volumes and Snapshots":
+        case "ec2ui.tabs.volumes":
             eval("ec2ui_VolumeTreeView." + toCall);
 	    if(this.isOpenstackEndpointSelected()){
 		eval("ec2ui_SnapshotTreeView." + toCall);
 	    }
             break;
-        case "Bundle Tasks":
+        case "ec2ui.tabs.bundleTasks":
         	if (this.isAmazonEndpointSelected()) {
             	eval("ec2ui_BundleTasksTreeView." + toCall);
 			}
             break;
-        case "Availability Zones":
+        case "ec2ui.tabs.availzones":
             eval("ec2ui_AvailZoneTreeView." + toCall);
             break;
-        case "Reserved Instances":
+        case "ec2ui.tabs.leases":
         	if (this.isAmazonEndpointSelected()) {
 				eval("ec2ui_LeaseOfferingsTreeView." + toCall);
 				eval("ec2ui_ReservedInstancesTreeView." + toCall);
 			}
             break;
         default:
-            log ("This is an invalid tab: " + tabs.selectedItem.label);
+            log ("This is an invalid tab: " + tabs.selectedItem.id);
             break;
         }
 

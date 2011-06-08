@@ -91,15 +91,15 @@
 
     <tabbox id="ec2ui.primary.tabs" flex="1">
       <tabs id="ec2ui.tabs" onselect="ec2ui_session.tabSelectionChanged(event);">
-        <tab label="&ec2ui.tabs.instances.label;" />
-        <tab label="&ec2ui.tabs.images.label;" />
-        <tab label="&ec2ui.tabs.keypairs.label;" />
-        <tab label="&ec2ui.tabs.secgroups.label;" />
-        <tab label="&ec2ui.tabs.eips.label;" />
-        <tab label="&ec2ui.tabs.volumes.label;" />
-        <tab label="&ec2ui.tabs.bundleTasks.label;" />
-        <tab label="&ec2ui.tabs.availzones.label;" />
-        <tab label="&ec2ui.tabs.leases.label;" />
+        <tab label="&ec2ui.tabs.instances.label;" id="ec2ui.tabs.instances" />
+        <tab label="&ec2ui.tabs.images.label;" id="ec2ui.tabs.images" />
+        <tab label="&ec2ui.tabs.keypairs.label;" id="ec2ui.tabs.keypairs" />
+        <tab label="&ec2ui.tabs.secgroups.label;" id="ec2ui.tabs.secgroups" />
+        <tab label="&ec2ui.tabs.eips.label;" id="ec2ui.tabs.eips" />
+        <tab label="&ec2ui.tabs.volumes.label;" id="ec2ui.tabs.volumes" />
+        <tab label="&ec2ui.tabs.bundleTasks.label;" id="ec2ui.tabs.bundleTasks" />
+        <tab label="&ec2ui.tabs.availzones.label;" id="ec2ui.tabs.availzones" />
+        <tab label="&ec2ui.tabs.leases.label;" id="ec2ui.tabs.leases" />
       </tabs>
       <tabpanels flex="1">
         <tabpanel id="instances_tab"/>

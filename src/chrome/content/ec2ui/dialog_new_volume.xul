@@ -4,7 +4,8 @@
 
 <dialog id="ec2ui.dialog.newvolume" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
   buttons="accept,cancel" ondialogaccept="return ec2_VolumeCreator.create();" ondialogcancel="return true;"
-  onload="ec2_VolumeCreator.init();" title="Create Volume" buttonlabelaccept="Create">
+  onload="ec2_VolumeCreator.init();" title="&ec2ui.dialog.title.new_volume;"
+  buttonlabelaccept="&ec2ui.dialog.button.accept.new_volume.label;">
 
   <script type="application/x-javascript" src="chrome://ec2ui/content/newvolumedialog.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/model.js" />
@@ -30,7 +31,7 @@
           <menulist id="ec2ui.newvolume.availabilityzonelist" />
         </row>
         <row>
-          <label control="ec2ui.newvolume.tag" value="Tag" />
+          <label control="ec2ui.newvolume.tag" value="&ec2ui.tag.label;" />
           <textbox id="ec2ui.newvolume.tag" size="40" />
         </row>
       </rows>

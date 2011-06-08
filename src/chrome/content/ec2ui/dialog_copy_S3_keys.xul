@@ -7,7 +7,7 @@
   xmlns:html="http://www.w3.org/1999/xhtml"
   buttons="cancel" ondialogcancel="return ec2ui_S3_KeyCopier.cancelTransfer();"
   onload="ec2ui_S3_KeyCopier.init();"
-  title="Elasticfox AMI Migrator">
+  title="&ec2ui.dialog.title.copy_S3_keys;">
 
   <script type="application/x-javascript"
     src="chrome://ec2ui/content/copyS3dialog.js" />
@@ -21,17 +21,17 @@
     src="chrome://ec2ui/content/utils.js" />
 
   <groupbox flex="1">
-    <caption label="AMI Migration Progress" />
+    <caption label="&ec2ui.copyS3.keys.captions.progress.label;" />
     <spacer style="height: 6px" />
     <progressmeter id="ec2ui.copy.S3.progress" value="0"
       style="height: 4px; margin: 4px;" mode="determined" />
     <spacer style="height: 10px" />
     <hbox>
-      <label style="font-weight: bold;" value="Current Operation:" />
-      <label id="ec2ui.copy.S3.current" value="Initializing..." />
+      <label style="font-weight: bold;" value="&ec2ui.copyS3.keys.currentOperation.label;:" />
+      <label id="ec2ui.copy.S3.current" value="&ec2ui.copyS3.keys.current.label;" />
     </hbox>
     <spacer style="height: 10px" />
-    <label style="font-weight: bold;" alue="File Transfer Status:" />
+    <label style="font-weight: bold;" value="&ec2ui.copyS3.keys.fileTransfer.label;:" />
     <spacer style="height: 4px" />
     <listbox id="ec2ui.copy.S3.output" rows="7"
       style="font-family: monospace; " />

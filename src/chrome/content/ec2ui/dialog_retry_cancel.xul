@@ -8,8 +8,8 @@
   ondialogaccept="return retry();"
   ondialogcancel="return cancel();"
   onload="init();"
-  title="Retry or Cancel?"
-  buttonlabelaccept="Retry">
+  title="&ec2ui.dialog.title.retry_cancel;"
+  buttonlabelaccept="&ec2ui.dialog.button.accept.retry_cancel.label;">
 
   <script type="application/x-javascript">
   function init() {
@@ -40,15 +40,15 @@
       </columns>
       <rows>
         <row>
-          <label value="Request ID:" />
+          <label value="&ec2ui.retrycancel.requestId.label;:" />
           <label id="ec2ui.retrycancel.requestId" value="" />
         </row>
         <row>
-          <label value="Fault Code:" />
+          <label value="&ec2ui.retrycancel.faultCode.label;:" />
           <label id="ec2ui.retrycancel.faultCode" value="" />
         </row>
         <row>
-          <label value="Details:" />
+          <label value="&ec2ui.retrycancel.details.label;:" />
           <textbox id="ec2ui.retrycancel.error" multiline="true" cols="50" rows="3" wrap="true"
             style="font-family: monospace;" readonly="true"/>
         </row>

@@ -7,7 +7,8 @@
   buttons="accept,cancel"
   ondialogaccept="return ec2_ImageRegistrar.registerImage();"
   ondialogcancel="return true;" onload="ec2_ImageRegistrar.init();"
-  title="Register a new AMI" buttonlabelaccept="Register AMI">
+  title="&ec2ui.dialog.title.register_image;"
+  buttonlabelaccept="&ec2ui.dialog.button.accept.register_image.label;">
 
   <script type="application/x-javascript"
     src="chrome://ec2ui/content/newimagedialog.js" />

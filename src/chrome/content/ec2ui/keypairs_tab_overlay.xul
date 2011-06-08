@@ -9,8 +9,8 @@
       <caption label="&ec2ui.captions.keypairs.label;" />
       <popupset>
         <menupopup id="keypair.tree.contextmenu">
-          <menuitem oncommand="ec2ui_KeypairTreeView.createKeypair()" label="Create a new keypair" />
-          <menuitem oncommand="ec2ui_KeypairTreeView.deleteSelected();" label="Delete this keypair" />
+          <menuitem oncommand="ec2ui_KeypairTreeView.createKeypair()" label="&ec2ui.keypairs.contextmenu.create.label;" />
+          <menuitem oncommand="ec2ui_KeypairTreeView.deleteSelected();" label="&ec2ui.keypairs.contextmenu.delete.label;" />
         </menupopup>
       </popupset>
       <toolbar style="padding: 0px 3px; -moz-box-align: center">

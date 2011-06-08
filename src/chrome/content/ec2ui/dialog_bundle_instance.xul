@@ -8,7 +8,7 @@
   buttons="accept,cancel"
   ondialogaccept="return ec2_InstanceBundler.bundleInstance();"
   ondialogcancel="return true;"
-  onload="ec2_InstanceBundler.init();" title="Bundle Instance into an AMI">
+  onload="ec2_InstanceBundler.init();" title="&ec2ui.dialog.title.bundle_instance;">
 
   <script type="application/x-javascript" src="chrome://ec2ui/content/bundleInstanceDialog.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/model.js" />
@@ -21,7 +21,7 @@
       </columns>
       <rows>
         <row>
-          <label control="ec2ui.bundleInstance.instanceid" value="Instance ID:" />
+          <label control="ec2ui.bundleInstance.instanceid" value="&ec2ui.instances.id.label;:" />
           <textbox id="ec2ui.bundleInstance.instanceid" readonly="true" />
         </row>
         <row>

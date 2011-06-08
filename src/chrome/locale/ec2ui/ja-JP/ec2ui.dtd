@@ -1,0 +1,396 @@
+<!ENTITY ec2ui.credentials.manage.label "証明書">
+<!ENTITY ec2ui.endpoints.manage.label "リージョン">
+<!ENTITY ec2ui.tools.manage.label "ツール">
+<!ENTITY ec2ui.accountids.manage.label "アカウントID">
+<!ENTITY ec2ui.about.label "About">
+
+<!ENTITY ec2ui.tabs.instances.label "インスタンス">
+<!ENTITY ec2ui.tabs.images.label "マシン・イメージ">
+<!ENTITY ec2ui.tabs.keypairs.label "キー・ペア">
+<!ENTITY ec2ui.tabs.secgroups.label "セキュリティグループ">
+<!ENTITY ec2ui.tabs.availzones.label "利用可能ゾーン">
+<!ENTITY ec2ui.tabs.eips.label "Elastic IP">
+<!ENTITY ec2ui.tabs.volumes.label "EBSボリュームとスナップショット">
+<!ENTITY ec2ui.tabs.bundleTasks.label "バンドル・タスク">
+<!ENTITY ec2ui.tabs.leases.label "リザーブド インスタンス">
+
+<!ENTITY ec2ui.captions.images.images.label "マシン・イメージ(AMIs)">
+<!ENTITY ec2ui.captions.images.attribs.label "起動権限">
+<!ENTITY ec2ui.captions.images.instances.label "起動中のインスタンス">
+<!ENTITY ec2ui.captions.images.launchsecgroups.label "セキュリティグループ">
+<!ENTITY ec2ui.captions.images.launchparams.label "ユーザ・データ">
+
+<!ENTITY ec2ui.images.id.label "イメージID">
+<!ENTITY ec2ui.images.manifest.label "マニフェスト名">
+<!ENTITY ec2ui.images.state.label "状態">
+<!ENTITY ec2ui.images.owner.label "オーナー">
+<!ENTITY ec2ui.images.visibility.label "可視性">
+<!ENTITY ec2ui.images.architecture.label "アーキテクチャ">
+<!ENTITY ec2ui.images.rootDeviceType.label "ルートデバイス">
+
+<!ENTITY ec2ui.instances.resid.label "リザーブID">
+<!ENTITY ec2ui.instances.owner.label "オーナー">
+<!ENTITY ec2ui.instances.groups.label "セキュリティグループ">
+<!ENTITY ec2ui.instances.id.label "インスタンスID">
+<!ENTITY ec2ui.instances.imageId.label "AMI">
+<!ENTITY ec2ui.instances.kernelId.label "AKI">
+<!ENTITY ec2ui.instances.ramdiskId.label "ARI">
+<!ENTITY ec2ui.instances.state.label "状態">
+<!ENTITY ec2ui.instances.publicDnsName.label "パブリックDNS">
+<!ENTITY ec2ui.instances.privateDnsName.label "プライベートDNS">
+<!ENTITY ec2ui.instances.monitoringState.label "モニタリング状態">
+<!ENTITY ec2ui.instances.keyName.label "キー・ペア">
+<!ENTITY ec2ui.instances.reason.label "理由">
+<!ENTITY ec2ui.instances.amiLaunchIdx.label "インデックス">
+<!ENTITY ec2ui.instances.instanceType.label "タイプ">
+<!ENTITY ec2ui.instances.rootDeviceType.label "ルートデバイス">
+<!ENTITY ec2ui.instances.launchTime.label "ローカル起動時間">
+
+<!ENTITY ec2ui.captions.kernels.akis.label "カーネル・イメージ (AKIs)">
+<!ENTITY ec2ui.captions.kernels.aris.label "ラムディスク・イメージ (ARIs)">
+
+<!ENTITY ec2ui.kernels.id.label "AKI ID">
+<!ENTITY ec2ui.ramdisks.id.label "ARI ID">
+<!ENTITY ec2ui.machines.id.label "AMI ID">
+<!ENTITY ec2ui.tag.label "タグ">
+
+<!ENTITY ec2ui.captions.keypairs.label "キー・ペア">
+<!ENTITY ec2ui.keypairs.name.label "キー・ペア名">
+<!ENTITY ec2ui.keypairs.fingerprint.label "フィンガープリント">
+
+<!ENTITY ec2ui.captions.azones.label "利用可能ゾーン">
+<!ENTITY ec2ui.azones.name.label "ゾーン名">
+<!ENTITY ec2ui.azones.state.label "状態">
+
+<!ENTITY ec2ui.captions.eip.label "Elastic IP">
+<!ENTITY ec2ui.eip.address.label "アドレス">
+<!ENTITY ec2ui.eips.address.label "IPアドレス">
+
+<!ENTITY ec2ui.captions.secgroups.groups.label "セキュリティグループ">
+<!ENTITY ec2ui.captions.secgroups.permissions.label "グループのルール">
+
+<!ENTITY ec2ui.permissions.protocol.label "プロトコル">
+<!ENTITY ec2ui.permissions.fromport.label "受信ポート開始範囲/ICMP タイプ">
+<!ENTITY ec2ui.permissions.toport.label "受信ポート終了範囲/ICMP コード">
+<!ENTITY ec2ui.permissions.groups.label "送信元ユーザ：グループ">
+<!ENTITY ec2ui.permissions.cidrs.label "送信元 CIDR">
+
+<!ENTITY ec2ui.captions.volumes.volumes.label "EBSボリューム">
+<!ENTITY ec2ui.captions.volumes.snapshots.label "スナップショット">
+
+<!ENTITY ec2ui.volumes.id.label "ボリュームID">
+<!ENTITY ec2ui.volumes.size.label "サイズ(GB)">
+<!ENTITY ec2ui.volumes.status.label "状態">
+<!ENTITY ec2ui.volumes.createTime.label "ローカル作成日">
+<!ENTITY ec2ui.volumes.attachment.device.label "デバイス名">
+<!ENTITY ec2ui.volumes.attachment.status.label "アタッチ状況">
+<!ENTITY ec2ui.volumes.attachment.attachTime.label "アタッチ時間">
+<!ENTITY ec2ui.volumes.attachment.description.device "Linux デバイス: /dev/sda から /dev/sdp">
+
+<!ENTITY ec2ui.snapshots.id.label "スナップショットID">
+<!ENTITY ec2ui.snapshots.status.label "状態">
+<!ENTITY ec2ui.snapshots.startTime.label "ローカル作業開始時間">
+<!ENTITY ec2ui.snapshots.progress.label "進行状況">
+
+<!ENTITY ec2ui.captions.bundleTasks.label "バンドル・タスク">
+
+<!ENTITY ec2ui.bundleTasks.id.label "バンドルID">
+<!ENTITY ec2ui.bundleTasks.state.label "バンドル状態">
+<!ENTITY ec2ui.bundleTasks.startTime.label "バンドル開始時間">
+<!ENTITY ec2ui.bundleTasks.updateTime.label "最終更新時間">
+<!ENTITY ec2ui.bundleTasks.s3.bucket.label "バケット名">
+<!ENTITY ec2ui.bundleTasks.s3.prefix.label "プリフィックス">
+<!ENTITY ec2ui.bundleTasks.errorMessage.label "エラー・メッセージ">
+
+<!ENTITY ec2ui.captions.leases.offerings.label "リザーブド インスタンスの提供">
+<!ENTITY ec2ui.captions.leases.rsvdInst.label "購入済みのリザーブド インスタンス">
+
+<!ENTITY ec2ui.offerings.id.label "提供 ID">
+<!ENTITY ec2ui.offerings.instType.label "インスタンス・タイプ">
+<!ENTITY ec2ui.offerings.duration.label "期間(年)">
+<!ENTITY ec2ui.offerings.fixedPrice.label "一括支払い料金/インスタンス (US$)">
+<!ENTITY ec2ui.offerings.usagePrice.label "利用料/インスタンス (US$)">
+<!ENTITY ec2ui.offerings.description.label "説明">
+<!ENTITY ec2ui.offerings.totalPrice.label "一括支払い料金合計額 (現在の予定額)">
+<!ENTITY ec2ui.offerings.captions.review.label "インスタンス数の指定を確認してから 続行 ボタンをクリックしてください">
+<!ENTITY ec2ui.offerings.captions.information.label "情報">
+<!ENTITY ec2ui.offerings.captions.payment.label "一括支払い料金詳細">
+<!ENTITY ec2ui.offerings.purchaseOffering.tip "購入">
+<!ENTITY ec2ui.offerings.contextmenu.purchase.label "リザーブド インスタンスの購入">
+
+<!ENTITY ec2ui.rsvdInst.id.label "リザーブド インスタンス ID">
+<!ENTITY ec2ui.rsvdInst.instType.label "インスタンス・タイプ">
+<!ENTITY ec2ui.rsvdInst.duration.label "期間(年)">
+<!ENTITY ec2ui.rsvdInst.remaining.label "残り日数">
+<!ENTITY ec2ui.rsvdInst.fixedPrice.label "一括支払い料金/インスタンス (US$)">
+<!ENTITY ec2ui.rsvdInst.usagePrice.label "利用料/インスタンス (US$)">
+<!ENTITY ec2ui.rsvdInst.count.label "インスタンス数">
+<!ENTITY ec2ui.rsvdInst.description.label "説明">
+<!ENTITY ec2ui.rsvdInst.state.label "状態">
+<!ENTITY ec2ui.rsvdInst.daysremaining.label "残日数">
+
+<!ENTITY ec2ui.platform.label "プラットフォーム">
+<!ENTITY ec2ui.availabilityZone.label "利用可能ゾーン">
+<!ENTITY ec2ui.addTag.label "タグ追加">
+
+<!ENTITY ec2ui.contextmenu.details.label "詳細">
+<!ENTITY ec2ui.contextmenu.copyid.label "IDをコピー">
+
+<!ENTITY ec2ui.images.contextmenu.register.label "AMIを登録">
+<!ENTITY ec2ui.images.contextmenu.deregister.label "AMIの登録解除">
+<!ENTITY ec2ui.images.contextmenu.migrate.label "AMIをマイグレートして登録">
+<!ENTITY ec2ui.images.contextmenu.delete.label "AMIの登録解除とファイル削除">
+<!ENTITY ec2ui.images.contextmenu.launch.label "このAMIでインスタンスを起動">
+
+<!ENTITY ec2ui.instances.contextmenu.launchmore.label "同様のインスタンスを追加起動">
+<!ENTITY ec2ui.instances.contextmenu.attachebs.label "EBSボリュームの取り付け">
+<!ENTITY ec2ui.instances.contextmenu.bundle.label "バンドルしてAMIを作成">
+<!ENTITY ec2ui.instances.contextmenu.reboot.label "再起動">
+<!ENTITY ec2ui.instances.contextmenu.terminate.label "停止">
+<!ENTITY ec2ui.instances.contextmenu.stop.label "一時停止">
+<!ENTITY ec2ui.instances.contextmenu.forcestop.label "強制一時停止">
+<!ENTITY ec2ui.instances.contextmenu.start.label "開始">
+<!ENTITY ec2ui.instances.contextmenu.monitor.label "監視">
+<!ENTITY ec2ui.instances.contextmenu.unmonitor.label "監視解除">
+<!ENTITY ec2ui.instances.contextmenu.console.label "コンソール出力を表示">
+<!ENTITY ec2ui.instances.contextmenu.password.label "管理者パスワードを取得">
+<!ENTITY ec2ui.instances.contextmenu.copyid.label "インスタンスIDをコピー">
+<!ENTITY ec2ui.instances.contextmenu.copypublic.label "パブリックDNSをコピー">
+<!ENTITY ec2ui.instances.contextmenu.copyprivate.label "プライベートDNSをコピー">
+<!ENTITY ec2ui.instances.contextmenu.connect.label "パブリックDNSへ接続">
+
+<!ENTITY ec2ui.addresses.contextmenu.associate.label "ElasticIPをインスタンスに関連付け">
+<!ENTITY ec2ui.addresses.contextmenu.disassociate.label "インスタンスへの関連付けを解除">
+<!ENTITY ec2ui.addresses.contextmenu.release.label "ElasticIPを返却">
+<!ENTITY ec2ui.addresses.contextmenu.copy.label "ElasticIPをコピー">
+
+<!ENTITY ec2ui.volume.contextmenu.createsnap.label "このEBSボリュームのスナップショットを作成">
+<!ENTITY ec2ui.volume.contextmenu.attach.label "ボリュームの取り付け">
+<!ENTITY ec2ui.volume.contextmenu.detach.label "ボリュームの取り外し">
+<!ENTITY ec2ui.volume.contextmenu.forcedetach.label "ボリュームの強制的取り外し">
+<!ENTITY ec2ui.volume.contextmenu.delete.label "ボリュームの削除">
+<!ENTITY ec2ui.volume.contextmenu.create.label "新しいボリュームの作成">
+<!ENTITY ec2ui.volume.contextmenu.copyvolid.label "ボリュームIDをコピー">
+
+<!ENTITY ec2ui.snapshot.contextmenu.createvol.label "このスナップショットから新しいボリュームを作成">
+<!ENTITY ec2ui.snapshot.contextmenu.delete.label "スナップショットを削除">
+<!ENTITY ec2ui.snapshot.contextmenu.copysnapid.label "スナップショットIDをコピー">
+
+<!ENTITY ec2ui.bundleTasks.contextmenu.register.label "AMIを登録">
+<!ENTITY ec2ui.bundleTasks.contextmenu.cancel.label "バンドル・タスクをキャンセル">
+<!ENTITY ec2ui.bundleTasks.contextmenu.copybunid.label "バンドルIDをコピー">
+
+<!ENTITY ec2ui.credentials.tip "証明書の管理">
+<!ENTITY ec2ui.endpoints.tip "クラウド・リージョンの管理">
+<!ENTITY ec2ui.tools.tip "ローカル・ツールの管理">
+<!ENTITY ec2ui.accountids.tip "アカウント名の管理">
+<!ENTITY ec2ui.about.tip "hybridfoxについて">
+
+<!ENTITY ec2ui.refresh.tip "更新">
+
+<!ENTITY ec2ui.images.powerup.tip "インスタンスの起動">
+<!ENTITY ec2ui.images.register.tip "AMIの登録">
+<!ENTITY ec2ui.images.deregister.tip "AMIの登録解除">
+
+<!ENTITY ec2ui.launchperms.add.tip "ユーザに起動権限を付与">
+<!ENTITY ec2ui.launchperms.remove.tip "選択したユーザの起動権限を削除">
+<!ENTITY ec2ui.launchperms.public.tip "全てのユーザに起動権限を付与">
+<!ENTITY ec2ui.launchperms.reset.tip "デフォルト権限にリセット">
+
+<!ENTITY ec2ui.instances.reboot.tip "選択したインスタンスを再起動">
+<!ENTITY ec2ui.instances.powerdown.tip "選択したインスタンスを停止">
+<!ENTITY ec2ui.instances.console.tip "コンソール出力を表示">
+<!ENTITY ec2ui.instances.connect.tip "インスタンスに接続">
+
+<!ENTITY ec2ui.keypairs.create.tip "新しいキー・ペアを作成">
+<!ENTITY ec2ui.keypairs.delete.tip "選択したキー・ペアを削除">
+<!ENTITY ec2ui.keypairs.contextmenu.create.label "新しいキー・ペアを作成">
+<!ENTITY ec2ui.keypairs.contextmenu.delete.label "選択したキー・ペアを削除">
+
+<!ENTITY ec2ui.eips.allocate.tip "新しいElasticIPを確保">
+<!ENTITY ec2ui.eips.associate.tip "選択したElasticIPをインスタンスに関連付け">
+<!ENTITY ec2ui.eips.disassociate.tip "選択したElasticIPのインスタンスへの関連付けを解除">
+<!ENTITY ec2ui.eips.release.tip "選択したElasticIPの返却">
+
+<!ENTITY ec2ui.secgroups.create.tip "セキュリティグループを作成">
+<!ENTITY ec2ui.secgroups.delete.tip "セキュリティグループを削除">
+
+<!ENTITY ec2ui.secgroups.ownerId.label "オーナー">
+<!ENTITY ec2ui.secgroups.name.label "セキュリティグループ名">
+<!ENTITY ec2ui.secgroups.description.label "説明">
+
+<!ENTITY ec2ui.secgroups.contextmenu.authorize.label "パーミッションの追加">
+<!ENTITY ec2ui.secgroups.contextmenu.create.label "新しいセキュリティグループを作成">
+<!ENTITY ec2ui.secgroups.contextmenu.delete.label "このセキュリティグループを削除">
+
+<!ENTITY ec2ui.permissions.authorize.tip "パーミッションの追加">
+<!ENTITY ec2ui.permissions.revoke.tip "パーミッションの削除">
+
+<!ENTITY ec2ui.permissions.contextmenu.revoke.label "パーミッションの削除">
+
+<!ENTITY ec2ui.createvolfromsnap.tip "このスナップショットから新しいボリュームを作成">
+<!ENTITY ec2ui.deletesnap.tip "このスナップショットを削除">
+<!ENTITY ec2ui.deletevol.tip "ボリュームを削除">
+<!ENTITY ec2ui.createvol.tip "新しいボリュームを作成">
+<!ENTITY ec2ui.createsnapfromvol.tip "このボリュームのスナップショットを作成">
+<!ENTITY ec2ui.attachvol.tip "このボリュームをインスタンスに取り付け">
+<!ENTITY ec2ui.detachvol.tip "このボリュームをインスタンスから取り外し">
+
+<!ENTITY ec2ui.cancelBundleTask.tip "バンドル・タスクをキャンセル">
+
+<!ENTITY ec2ui.instance.console.timestamp.label "タイムスタンプ">
+<!ENTITY ec2ui.instance.console.output.label "コンソール出力">
+
+<!ENTITY ec2ui.instances.detail.amimanifest.label "AMIのマニフェスト名">
+<!ENTITY ec2ui.instances.detail.monitoring.label "監視状態">
+<!ENTITY ec2ui.instances.detail.keyname.label "キー・ペア名">
+<!ENTITY ec2ui.instances.detail.securitygrouplist.label "セキュリティグループ">
+<!ENTITY ec2ui.instances.detail.reason.label "状態の理由">
+<!ENTITY ec2ui.instances.detail.amiLaunchIdx.label "AMIの起動インデックス">
+<!ENTITY ec2ui.instances.detail.instanceType.label "インスタンス・タイプ">
+<!ENTITY ec2ui.instances.detail.eip.label "Elastic IP">
+<!ENTITY ec2ui.instances.detail.volumelist.label "EBSボリューム">
+
+<!ENTITY ec2ui.copyS3.keys.captions.progress.label "AMIマイグレーションの進行状況">
+<!ENTITY ec2ui.copyS3.keys.currentOperation.label "現在の作業">
+<!ENTITY ec2ui.copyS3.keys.current.label "初期化中...">
+<!ENTITY ec2ui.copyS3.keys.fileTransfer.label "ファイル転送の状態">
+
+<!ENTITY ec2ui.deleteami.captions.progress.label "AMI削除の進行状況">
+<!ENTITY ec2ui.deleteami.currentOperation.label "現在の作業">
+<!ENTITY ec2ui.deleteami.current.label "初期化中...">
+
+<!ENTITY ec2ui.accountids.accountid.label "アカウントID">
+<!ENTITY ec2ui.accountids.displayname.label "表示名">
+
+<!ENTITY ec2ui.creds.account.label "アカウント名">
+<!ENTITY ec2ui.creds.akid.label "AWS アクセスキー">
+<!ENTITY ec2ui.creds.secretkey.label "AWS シークレットキー">
+<!ENTITY ec2ui.creds.region.label "優先リージョン">
+
+<!ENTITY ec2ui.endpoints.name.label "リージョン名">
+<!ENTITY ec2ui.endpoints.type.label "クラウド種別">
+<!ENTITY ec2ui.endpoints.url.label "エンドポイントURL">
+<!ENTITY ec2ui.endpoints.version.label "APIバージョン">
+
+<!ENTITY ec2ui.tools.ssh.command.label "SSH コマンド">
+<!ENTITY ec2ui.tools.ssh.args.label "SSH コマンド引数">
+<!ENTITY ec2ui.tools.ssh.key.label "SSH アクセスキー・テンプレート">
+<!ENTITY ec2ui.tools.key.template.label "EC2 プライベートキー・テンプレート">
+<!ENTITY ec2ui.tools.ssh.user.label "SSH ユーザ">
+<!ENTITY ec2ui.tools.rdp.command.label "RDP コマンド">
+<!ENTITY ec2ui.tools.rdp.args.label "RDP コマンド引数">
+<!ENTITY ec2ui.tools.description.home "${home} - ホームディレクトリ.">
+<!ENTITY ec2ui.tools.description.keyname "${keyname} - インスタンス起動に使用したキー・ペア名.">
+<!ENTITY ec2ui.tools.description.host "${host} - インスタンスのパブリックDNS.">
+<!ENTITY ec2ui.tools.description.key "${key} - (変換済みの) キー・ペアファイル名のテンプレート.">
+<!ENTITY ec2ui.tools.description.user "${user} - 登録済みユーザ名.">
+<!ENTITY ec2ui.tools.description.pass "${pass} - Windowsインスタンスの管理者パスワード.">
+
+<!ENTITY ec2ui.migrate.ami.regions.label "移動先リージョン">
+<!ENTITY ec2ui.migrate.ami.prefix.label "プリフィックス">
+
+<!ENTITY ec2ui.instances.lunch.ami.tag.label "AMI タグ">
+<!ENTITY ec2ui.instances.lunch.instancetypelist.label "インスタンス・タイプ">
+<!ENTITY ec2ui.instances.lunch.min.label "インスタンス起動数の最小値">
+<!ENTITY ec2ui.instances.lunch.max.label "インスタンス起動数の最大値">
+<!ENTITY ec2ui.instances.lunch.tag.label "起動インスタンスのタグ">
+<!ENTITY ec2ui.instances.lunch.keypairlist.label "キー・ペア">
+<!ENTITY ec2ui.instances.lunch.properties.label "追加情報">
+<!ENTITY ec2ui.instances.lunch.addressingType.label "パブリックIP割り当て">
+<!ENTITY ec2ui.instances.lunch.secgroups.unused.label "選択可能なグループ">
+<!ENTITY ec2ui.instances.lunch.secgroups.used.label "起動するグループ">
+<!ENTITY ec2ui.instances.lunch.button.userdata.openFile.label "ファイルを開く">
+<!ENTITY ec2ui.instances.lunch.button.userdata.openBinaryFile.label "バイナリファイルを開く">
+
+<!ENTITY ec2ui.newpermission.captions.new.label "セキュリティグループへ新しいパーミッションを追加">
+<!ENTITY ec2ui.newpermission.captions.protocol.label "プロトコルの詳細">
+<!ENTITY ec2ui.newpermission.captions.hostNetwork.label "ホスト/ネットワークの詳細">
+<!ENTITY ec2ui.newpermission.tab.external.label "外部接続">
+<!ENTITY ec2ui.newpermission.tab.group.label "グループ間接続">
+<!ENTITY ec2ui.newpermission.port.label "ポート番号">
+<!ENTITY ec2ui.newpermission.fromport.label "ポート番号範囲">
+<!ENTITY ec2ui.newpermission.toport.label "to">
+<!ENTITY ec2ui.newpermission.icmptype.label "ICMP タイプ">
+<!ENTITY ec2ui.newpermission.icmpcode.label "ICMP コード">
+<!ENTITY ec2ui.newpermission.user.label "ユーザID">
+<!ENTITY ec2ui.newpermission.group.label "グループ">
+<!ENTITY ec2ui.newpermission.radio.host.label "ホスト">
+<!ENTITY ec2ui.newpermission.radio.network.label "ネットワーク">
+<!ENTITY ec2ui.newpermission.button.getHost.label "自ホストのアドレスを取得">
+<!ENTITY ec2ui.newpermission.button.getNetwork.label "自ネットワークのアドレス範囲を取得">
+<!ENTITY ec2ui.newpermission.description.external "プロトコルとホスト/ネットワークを選択してください">
+<!ENTITY ec2ui.newpermission.description.group "許可したいユーザとグループを指定してください">
+
+<!ENTITY ec2ui.retrycancel.requestId.label "リクエストID">
+<!ENTITY ec2ui.retrycancel.faultCode.label "原因コード">
+<!ENTITY ec2ui.retrycancel.details.label "詳細">
+
+<!ENTITY ec2ui.secgroups.new.name.label "グループ名">
+<!ENTITY ec2ui.secgroups.new.description.label "説明">
+<!ENTITY ec2ui.secgroups.new.enableprot.host "このホストからの SSH と RDP 接続を自動作成する">
+<!ENTITY ec2ui.secgroups.new.enableprot.network "このネットワークからの SSH と RDP 接続を自動作成する">
+<!ENTITY ec2ui.secgroups.new.enableprot.none "パーミッションを手動で作成する">
+
+<!ENTITY ec2ui.images.menuitem.noFilter.label "フィルタなし">
+<!ENTITY ec2ui.images.menuitem.allAMIs.label "AMI">
+<!ENTITY ec2ui.images.menuitem.allAMIsEBS.label "EBSルートデバイスのAMI">
+<!ENTITY ec2ui.images.menuitem.allAMIsIS.label "インスタンス・ストアのAMI">
+<!ENTITY ec2ui.images.menuitem.myAMIs.label "自分のAMI">
+<!ENTITY ec2ui.images.menuitem.myAMIsEBS.label "自分のEBSルートデバイスのAMI">
+<!ENTITY ec2ui.images.menuitem.amazonAMIs.label "AmazonのAMI">
+<!ENTITY ec2ui.images.menuitem.amazonAMIsEBS.label "AmazonのEBSルートデバイスのAMI">
+<!ENTITY ec2ui.images.menuitem.allAKIs.label "AKI">
+<!ENTITY ec2ui.images.menuitem.allARIs.label "ARI">
+
+<!ENTITY ec2ui.instances.checkbox.terminated.label "停止済みインスタンスを表示しない">
+
+<!ENTITY ec2ui.dialog.title.about "Hybridfoxについて">
+<!ENTITY ec2ui.dialog.title.ami_details "AMIの詳細">
+<!ENTITY ec2ui.dialog.title.attach_ebs_volume "EBSボリュームをインスタンスに取り付け">
+<!ENTITY ec2ui.dialog.title.bundle_instance "インスタンスをバンドルしてAMIを作成">
+<!ENTITY ec2ui.dialog.title.bundle_task_details "バンドル・タスク 詳細">
+<!ENTITY ec2ui.dialog.title.console_output "インスタンスのコンソール出力">
+<!ENTITY ec2ui.dialog.title.copy_S3_keys "AMIのマイグレート">
+<!ENTITY ec2ui.dialog.title.create_security_group "セキュリティグループの新規作成">
+<!ENTITY ec2ui.dialog.title.delete_ami "AMIの削除">
+<!ENTITY ec2ui.dialog.title.eip_details "ElasticIP 詳細">
+<!ENTITY ec2ui.dialog.title.instance_details "インスタンス 詳細">
+<!ENTITY ec2ui.dialog.title.keypair_details "キー・ペア 詳細">
+<!ENTITY ec2ui.dialog.title.manage_accountids "アカウントIDの管理">
+<!ENTITY ec2ui.dialog.title.manage_credentials "証明書の管理">
+<!ENTITY ec2ui.dialog.title.manage_endpoints "クラウド・リージョンの管理">
+<!ENTITY ec2ui.dialog.title.manage_tools "ローカル・ツールの管理">
+<!ENTITY ec2ui.dialog.title.migrate_ami "AMIを別のリージョンへマイグレート">
+<!ENTITY ec2ui.dialog.title.new_attachment "EBSボリュームをインスタンスに取り付け">
+<!ENTITY ec2ui.dialog.title.new_instances "新しいインスタンスの起動">
+<!ENTITY ec2ui.dialog.title.new_permission "パーミッションの追加">
+<!ENTITY ec2ui.dialog.title.new_volume "EBSボリュームの作成">
+<!ENTITY ec2ui.dialog.title.offering_details "リザーブド インスタンスの提供 詳細">
+<!ENTITY ec2ui.dialog.title.permission_details "セキュリティグループ 詳細">
+<!ENTITY ec2ui.dialog.title.purchase_offering "リザーブド インスタンスの購入">
+<!ENTITY ec2ui.dialog.title.register_image "AMIを登録">
+<!ENTITY ec2ui.dialog.title.reserved_instances_details "リザーブド インスタンス 詳細">
+<!ENTITY ec2ui.dialog.title.retry_cancel "リトライ または キャンセル">
+<!ENTITY ec2ui.dialog.title.securitygroup_details "セキュリティグループ 詳細">
+<!ENTITY ec2ui.dialog.title.select_eip "ElasticIPをインスタンスに関連付け">
+<!ENTITY ec2ui.dialog.title.snapshot_details "スナップショット 詳細">
+<!ENTITY ec2ui.dialog.title.volume_details "EBSボリューム 詳細">
+
+<!ENTITY ec2ui.dialog.button.accept.attach_ebs_volume.label "取り付け">
+<!ENTITY ec2ui.dialog.button.accept.create_security_group.label "グループ作成">
+<!ENTITY ec2ui.dialog.button.accept.delete_ami.label "完了">
+<!ENTITY ec2ui.dialog.button.cancel.migrate_ami.label "キャンセル">
+<!ENTITY ec2ui.dialog.button.accept.migrate_ami.label "マイグレート">
+<!ENTITY ec2ui.dialog.button.accept.new_attachment.label "取り付け">
+<!ENTITY ec2ui.dialog.button.accept.new_instances.label "起動">
+<!ENTITY ec2ui.dialog.button.accept.new_permission.label "追加">
+<!ENTITY ec2ui.dialog.button.accept.new_volume.label "作成">
+<!ENTITY ec2ui.dialog.button.accept.purchase_offering.label "続行">
+<!ENTITY ec2ui.dialog.button.accept.register_image.label "AMI登録">
+<!ENTITY ec2ui.dialog.button.accept.retry_cancel.label "リトライ">
+<!ENTITY ec2ui.dialog.button.accept.select_eip.label "関連付け">
+
+<!ENTITY ec2ui.dialog.button.cancel.manage.label "閉じる">
+<!ENTITY ec2ui.dialog.button.extra1.manage.label "追加">
+<!ENTITY ec2ui.dialog.button.extra2.manage.label "削除">

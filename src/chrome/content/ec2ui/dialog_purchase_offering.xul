@@ -7,8 +7,8 @@
   xmlns:html="http://www.w3.org/1999/xhtml"
   buttons="accept,cancel" ondialogcancel="return true;"
   ondialogaccept="return ec2_OfferingPurchaser.purchase();"
-  buttonlabelaccept="Continue"
-  onload="ec2_OfferingPurchaser.init();" title="Purchase Reserved Instances">
+  buttonlabelaccept="&ec2ui.dialog.button.accept.purchase_offering.label;"
+  onload="ec2_OfferingPurchaser.init();" title="&ec2ui.dialog.title.purchase_offering;">
 
   <script type="application/x-javascript" src="chrome://ec2ui/content/purchaseofferingdialog.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/model.js" />
@@ -16,10 +16,10 @@
   <vbox flex="1">
     <hbox>
       <image src="images/cash.png"/>
-      <caption label="Review, Specify Number of Instances, and click Continue" />
+      <caption label="&ec2ui.offerings.captions.review.label;" />
   </hbox>
     <groupbox orient="vertical" pack="start" flex="1">
-      <caption label="Information" />
+      <caption label="&ec2ui.offerings.captions.information.label;" />
       <grid flex="1" align="baseline">
         <columns>
           <column />
@@ -57,7 +57,7 @@
       </grid>
     </groupbox>
     <groupbox orient="horizontal" pack="center" align="baseline" flex="1">
-      <caption label="One-time Payment Details" />
+      <caption label="&ec2ui.offerings.captions.payment.label;" />
       <vbox flex="1" pack="center" align="center">
         <grid flex="1" align="baseline">
           <columns>
@@ -79,7 +79,7 @@
               <html:hr />
             </row>
             <row>
-              <label control="ec2ui.purchase.offering.totalPrice" value="Total One-time Payment (Due Now):" />
+              <label control="ec2ui.purchase.offering.totalPrice" value="&ec2ui.offerings.totalPrice.label;:" />
               <textbox id="ec2ui.purchase.offering.totalPrice" size="10" readonly="true"/>
             </row>
           </rows>

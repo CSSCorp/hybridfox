@@ -4,7 +4,8 @@
 
 <dialog id="ec2ui.dialog.newpermission" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
   buttons="accept,cancel" ondialogaccept="return ec2_Authorizer.authorize();" ondialogcancel="return true;"
-  onload="ec2_Authorizer.init();" title="Grant New Permission" buttonlabelaccept="Add">
+  onload="ec2_Authorizer.init();" title="&ec2ui.dialog.title.new_permission;"
+  buttonlabelaccept="&ec2ui.dialog.button.accept.new_permission.label;">
 
   <script type="application/x-javascript" src="chrome://ec2ui/content/newpermissionauthorizer.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/model.js" />
@@ -12,23 +13,21 @@
 
   <groupbox flex="1" orient="vertical" id="ec2ui.newpermission.add.box">
     <caption id="ec2ui.newpermission.add.caption"
-      label="Add New Permission for Security Group: " />
+      label="&ec2ui.newpermission.captions.new.label;: " />
     <tabbox flex="1">
       <tabs id="ec2ui.newpermission.tabs">
-        <tab label="External" selected="true" />
-        <tab label="Group" />
+        <tab label="&ec2ui.newpermission.tab.external.label;" id="ec2ui.newpermission.external.tab" selected="true" />
+        <tab label="&ec2ui.newpermission.tab.group.label;" id="ec2ui.newpermission.group.tab" />
       </tabs>
 
       <tabpanels flex="1">
         <tabpanel id="ec2ui.newpermission.tab.external" orient="vertical"
           flex="1">
 
-          <description>
-            Select a protocol and specify a host/range
-          </description>
+          <description>&ec2ui.newpermission.description.external;</description>
 
           <groupbox orient="vertical" flex="1">
-            <caption label="Protocol Details" />
+            <caption label="&ec2ui.newpermission.captions.protocol.label;" />
             <grid flex="1">
               <columns>
                 <column />
@@ -89,7 +88,7 @@
                 <row>
                   <deck id="ec2ui.newpermission.deck.protocol" selectedIndex="0">
                     <hbox flex="1" align="pack">
-                      <label value="Protocol" />
+                      <label value="&ec2ui.permissions.protocol.label;" />
                       <menulist id="ec2ui.newpermission.protocol.menuitem" size="30" selectedIndex="0">
                         <menupopup>
                           <menuitem label="TCP/IP" value="tcp" />
@@ -98,7 +97,7 @@
                       </menulist>
                     </hbox>
                     <hbox flex="1" align="pack">
-                      <label value="Protocol" />
+                      <label value="&ec2ui.permissions.protocol.label;" />
                       <menulist id="ec2ui.newpermission.other" size="30" selectedIndex="0">
                         <menupopup>
                           <menuitem label="TCP/IP" value="tcp" oncommand="ec2_Authorizer.selectProtocolDataDeck(1);" />
@@ -112,19 +111,19 @@
                 <row>
                   <deck id="ec2ui.newpermission.deck.protocol.data" selectedIndex="0">
                     <hbox flex="1" align="pack">
-                      <label value="Port" />
+                      <label value="&ec2ui.newpermission.port.label;" />
                       <textbox id="ec2ui.newpermission.knownport" value="" size="10" />
                     </hbox>
                     <hbox flex="1" align="pack">
-                      <label control="ec2ui.newpermission.fromport" value="Port Range:" />
+                      <label control="ec2ui.newpermission.fromport" value="&ec2ui.newpermission.fromport.label;:" />
                       <textbox id="ec2ui.newpermission.fromport" value="0" size="10"/>
-                      <label control="ec2ui.newpermission.toport" value="to" />
+                      <label control="ec2ui.newpermission.toport" value="&ec2ui.newpermission.toport.label;" />
                       <textbox id="ec2ui.newpermission.toport" value="0" size="10"/>
                     </hbox>
                     <hbox flex="1" align="pack">
-                      <label control="ec2ui.newpermission.icmptype" value="ICMP Type" />
+                      <label control="ec2ui.newpermission.icmptype" value="&ec2ui.newpermission.icmptype.label;" />
                       <textbox id="ec2ui.newpermission.icmptype" value="-1" size="10" />
-                      <label control="ec2ui.newpermission.icmpcode" value="ICMP Code" />
+                      <label control="ec2ui.newpermission.icmpcode" value="&ec2ui.newpermission.icmpcode.label;" />
                       <textbox id="ec2ui.newpermission.icmpcode" value="-1" size="10" />
                     </hbox>
                   </deck>
@@ -134,7 +133,7 @@
           </groupbox>
 
           <groupbox orient="vertical" flex="1">
-            <caption label="Host/Network Details" />
+            <caption label="&ec2ui.newpermission.captions.hostNetwork.label;" />
             <radiogroup id="ec2ui.newpermission.hostnet.group" orient="vertical">
               <grid flex="1">
                 <columns>
@@ -144,15 +143,15 @@
                 </columns>
                 <rows>
                   <row>
-                    <radio id="host" value="host" label="Host" selected="true" />
+                    <radio id="host" value="host" label="&ec2ui.newpermission.radio.host.label;" selected="true" />
                     <textbox id="ec2ui.newpermission.source.host" />
-                    <button id="get-host-button" label="Get My Host Address"
+                    <button id="get-host-button" label="&ec2ui.newpermission.button.getHost.label;"
                       default="true" oncommand="ec2_Authorizer.getHostAddress();" />
                   </row>
                   <row>
-                    <radio id="range" value="range" label="Network" />
+                    <radio id="range" value="range" label="&ec2ui.newpermission.radio.network.label;" />
                     <textbox id="ec2ui.newpermission.source.range" />
-                    <button id="get-network-button" label="Get My Network Range"
+                    <button id="get-network-button" label="&ec2ui.newpermission.button.getNetwork.label;"
                       default="true" oncommand="ec2_Authorizer.getHostNetwork();" />
                   </row>
                 </rows>
@@ -164,9 +163,7 @@
         <tabpanel id="ec2ui.newpermission.tab.group" orient="vertical"
           flex="1">
 
-          <description>
-            Specify a User and Group you would like to authorize
-          </description>
+          <description>&ec2ui.newpermission.description.group;</description>
           <spacer style="height: 10px" />
           <grid flex="1">
             <columns>
@@ -175,11 +172,11 @@
             </columns>
             <rows>
               <row>
-                <label control="ec2ui.newpermission.source.user" value="User ID" />
+                <label control="ec2ui.newpermission.source.user" value="&ec2ui.newpermission.user.label;" />
                 <textbox id="ec2ui.newpermission.source.user" value="" />
               </row>
               <row>
-                <label control="ec2ui.newpermission.source.group" value="Group" />
+                <label control="ec2ui.newpermission.source.group" value="&ec2ui.newpermission.group.label;" />
                 <menulist id="ec2ui.newpermission.source.group" editable="true" selectedIndex="0"/>
               </row>
             </rows>

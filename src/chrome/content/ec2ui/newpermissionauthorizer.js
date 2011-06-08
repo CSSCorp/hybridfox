@@ -15,8 +15,8 @@ var ec2_Authorizer = {
     // Determine which security tab is selected
     var tabSelected = document.getElementById("ec2ui.newpermission.tabs").selectedItem;
 
-    switch (tabSelected.label) {
-      case "External":
+    switch (tabSelected.id) {
+      case "ec2ui.newpermission.external.tab":
       {
         // Need to get the IP etc.
         var radioSel = document.getElementById("ec2ui.newpermission.hostnet.group").selectedItem.value;
@@ -91,7 +91,7 @@ var ec2_Authorizer = {
 
         break;
       }
-      case "Group":
+      case "ec2ui.newpermission.group.tab":
       {
         if (!this.validateSourceUserGroup()) {
           return false;
@@ -210,7 +210,7 @@ var ec2_Authorizer = {
         return true;
     }
     var permCaption = document.getElementById("ec2ui.newpermission.add.caption");
-    permCaption.label = "Add New Permission for Security Group: " + this.group.name;
+    permCaption.label = permCaption.label + this.group.name;
 
     var user = document.getElementById("ec2ui.newpermission.source.user");
     user.value = this.group.ownerId;

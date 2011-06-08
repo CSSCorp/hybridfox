@@ -4,7 +4,7 @@
 
 <dialog id="ec2ui.dialog.volume.detail" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
   buttons="accept" ondialogaccept="return true;"
-  onload="ec2_VolumeDetails.init();" title="Volume Details">
+  onload="ec2_VolumeDetails.init();" title="&ec2ui.dialog.title.volume_details;">
 
   <script type="application/x-javascript" src="chrome://ec2ui/content/volumedetaildialog.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/model.js" />
@@ -58,7 +58,7 @@
           <textbox id="ec2ui.volume.attachTime" size="40" readonly="true" />
         </row>
         <row>
-          <label control="ec2ui.volume.tag" value="Tag" />
+          <label control="ec2ui.volume.tag" value="&ec2ui.tag.label;" />
           <textbox id="ec2ui.volume.tag" size="40" readonly="true" />
         </row>
       </rows>

@@ -15,14 +15,14 @@
             label="&ec2ui.addresses.contextmenu.associate.label;" />
           <menuitem id="addresses.context.disassociate"
             oncommand="ec2ui_ElasticIPTreeView.disassociateAddress();"
-            label="Disassociate this address" />
+            label="&ec2ui.addresses.contextmenu.disassociate.label;" />
           <menuitem oncommand="ec2ui_ElasticIPTreeView.releaseAddress();"
-            label="Release this address" />
+            label="&ec2ui.addresses.contextmenu.release.label;" />
           <menuseparator />
           <menuitem oncommand="ec2ui_ElasticIPTreeView.tag();"
-            label="Add Tag" />
+            label="&ec2ui.addTag.label;" />
           <menuitem oncommand="ec2ui_ElasticIPTreeView.copyToClipBoard('address');"
-            label="Copy Elastic IP to Clipboard" />
+            label="&ec2ui.addresses.contextmenu.copy.label;" />
         </menupopup>
       </popupset>
       <toolbar style="padding: 0px 3px; -moz-box-align: center">
@@ -49,7 +49,7 @@
           <treecol id="eip.instanceid" label="&ec2ui.instances.id.label;" flex="3"
             persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
-          <treecol id="eip.tag" label="Tag" flex="5"
+          <treecol id="eip.tag" label="&ec2ui.tag.label;" flex="5"
             persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
         </treecols>
