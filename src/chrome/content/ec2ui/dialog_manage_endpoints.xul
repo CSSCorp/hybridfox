@@ -43,11 +43,13 @@
         </row>
         <row>
           <label control="ec2ui.endpoints.type" value="Type:" />
-		  <radiogroup id="ec2ui.endpoints.type" orient="horizontal">
-		    <radio id="ec2ui.endpoints.type.ec2" label="EC2" value="ec2" selected="true" />
-		    <radio id="ec2ui.endpoints.type.euca" label="Eucalyptus" value="euca" selected="false"/>
-                    <radio id="ec2ui.endpoints.type.nova" label="Openstack" value="nova" selected="false"/>
-		  </radiogroup>
+	  <menulist id="ec2ui.endpoints.type">
+	     <menupopup>
+		<menuitem id="ec2ui.endpoints.type.ec2" label="EC2" value="ec2"/>
+		<menuitem id="ec2ui.endpoints.type.euca" label="Eucalyptus" value="euca"/>
+		<menuitem d="ec2ui.endpoints.type.nova" label="Openstack" value="nova"/>
+	     </menupopup>
+	    </menulist>
         </row>
         <row>
           <label control="ec2ui.endpoints.url" value="Endpoint URL:" />
