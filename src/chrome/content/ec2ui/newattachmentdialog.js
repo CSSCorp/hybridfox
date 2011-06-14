@@ -17,7 +17,7 @@ var ec2_VolumeAttacher = {
   validateDevice : function() {
     var textbox = document.getElementById("ec2ui.newattachment.device");
     if (textbox.value == "") {
-        alert("You must enter a device name (e.g. /dev/sdh)");
+        alert(ec2ui_utils.getMessageProperty("ec2ui.msg.attachebsvolumedialog.alert.validateDevice"));
         textbox.select();
         return false;
     }

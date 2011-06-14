@@ -256,13 +256,14 @@ var ec2ui_session =
             var promptService =
                 Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
                 .getService(Components.interfaces.nsIPromptService);
-            var text = "Would you like to provide Hybridfox with your AWS Credentials?";
+            var text = ec2ui_utils.getMessageProperty("ec2ui.msg.session.confirm.switchCredentials");
+            var promptsTitle = ec2ui_utils.getMessageProperty("ec2ui.msg.session.confirm.switchCredentials.title");
 
             // if the user says no, the return value will not be 0.
             // In this case, just fall out
             if (promptService.confirmEx(
                     window,
-                    "AWS Credentials Needed",
+                    promptsTitle,
                     text,
                     promptService.STD_YES_NO_BUTTONS |
                     promptService.BUTTON_POS_0_DEFAULT,
@@ -460,13 +461,14 @@ var ec2ui_session =
             var promptService =
                 Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
                 .getService(Components.interfaces.nsIPromptService);
-            var text = "Would you like to provide Hybridfox with an EC2 Endpoint?";
+            var text = ec2ui_utils.getMessageProperty("ec2ui.msg.session.confirm.switchEndpoints");
+            var confirmTitle = ec2ui_utils.getMessageProperty("ec2ui.msg.session.confirm.switchEndpoints.title");
 
             // if the user says no, the return value will not be 0.
             // in this case, just fall out.
             if (promptService.confirmEx(
                     window,
-                    "EC2 Endpoint Needed",
+                    confirmTitle,
                     text,
                     promptService.STD_YES_NO_BUTTONS |
                     promptService.BUTTON_POS_0_DEFAULT,

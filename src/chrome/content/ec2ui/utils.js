@@ -290,8 +290,8 @@ function sleep(msecs) {
 
 function tagResource(res, session, attr) {
     if (!attr) attr = "id";
-    var tag = prompt("Tag " + res[attr] + " with? (To untag, just clear the string)",
-                     res.tag || "");
+    var msg = ec2ui_utils.getMessageProperty("ec2ui.msg.util.prompt.tag.single", [ res[attr] ] );
+    var tag = prompt(msg, res.tag || "");
     if (tag == null)
         return;
 
@@ -376,6 +376,23 @@ var regExs = {
 // ec2ui_utils is akin to a static class
 var ec2ui_utils = {
 
+    _stringBundle : null,
+
+    getMessageProperty : function(key, replacements) {
+        if ( !this._stringBundle ) {
+            const BUNDLE_SVC = Components.classes['@mozilla.org/intl/stringbundle;1'].getService(Components.interfaces.nsIStringBundleService);
+            this._stringBundle = BUNDLE_SVC.createBundle("chrome://ec2ui/locale/ec2ui.properties");
+        }
+        try {
+            if ( !replacements )
+                return this._stringBundle.GetStringFromName(key);
+            else
+                return this._stringBundle.formatStringFromName(key, replacements, replacements.length);
+        } catch(e) {
+            return "";
+        }
+    },
+
     tagMultipleResources : function(list, session, attr) {
         if (!list || !session) return;
 
@@ -383,8 +400,8 @@ var ec2ui_utils = {
             attr = "id";
         }
 
-        var tag = prompt("Tag " + list[0][attr] + ", etc with? (To untag, just clear the string)",
-                         list[0].tag || "");
+        var msg = this.getMessageProperty("ec2ui.msg.util.tag.prompt.multiple", [ list[0][attr] ] );
+        var tag = prompt(msg, list[0].tag || "");
 
         if (tag == null) return;
 

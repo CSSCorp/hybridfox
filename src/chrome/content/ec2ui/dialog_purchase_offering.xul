@@ -12,6 +12,7 @@
 
   <script type="application/x-javascript" src="chrome://ec2ui/content/purchaseofferingdialog.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/model.js" />
+  <script type="application/x-javascript" src="chrome://ec2ui/content/utils.js" />
 
   <vbox flex="1">
     <hbox>

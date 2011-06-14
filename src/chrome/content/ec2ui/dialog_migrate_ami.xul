@@ -35,13 +35,13 @@
         </row>
         <row>
           <label control="ec2ui.migrateAMI.bucket.source"
-            value="Source Bucket:" />
+            value="&ec2ui.migrate.ami.bucket.source.label;:" />
           <textbox id="ec2ui.migrateAMI.bucketName.source" disabled="true"
             size="45" value="" />
         </row>
         <row>
           <label control="ec2ui.migrateAMI.bucket.dest"
-            value="Destination Bucket:" />
+            value="&ec2ui.migrate.ami.bucket.source.label;:" />
           <textbox id="ec2ui.migrateAMI.bucketName.dest"
             size="45" value="" />
         </row>

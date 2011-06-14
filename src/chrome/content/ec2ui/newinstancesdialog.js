@@ -50,7 +50,7 @@ var ec2_InstanceLauncher = {
         var textbox = document.getElementById("ec2ui.newinstances.min");
         var val = parseInt(textbox.value);
         if (val <= 0 || isNaN(val)) {
-            alert("Minimum value must be a positive integer");
+            alert(ec2ui_utils.getMessageProperty("ec2ui.msg.newinstancesdialog.alert.validateMin"));
             textbox.select();
             return false;
         }
@@ -62,14 +62,14 @@ var ec2_InstanceLauncher = {
         var maxtextbox = document.getElementById("ec2ui.newinstances.max");
         var maxval = parseInt(maxtextbox.value);
         if (maxval <= 0 || isNaN(maxval)) {
-            alert("Maximum value must be a positive integer");
+            alert(ec2ui_utils.getMessageProperty("ec2ui.msg.newinstancesdialog.alert.validateMax.1"));
             maxtextbox.select();
             return false;
         }
         var mintextbox = document.getElementById("ec2ui.newinstances.min");
         var minval = parseInt(mintextbox.value);
         if (minval > maxval) {
-            alert("Maximum value may not be smaller than minimum value");
+            alert(ec2ui_utils.getMessageProperty("ec2ui.msg.newinstancesdialog.alert.validateMax.2"));
             maxtextbox.select();
             return false;
         }
@@ -145,7 +145,7 @@ var ec2_InstanceLauncher = {
         // this dialog shouldn't be initialized any further.
         var keypairs = this.ec2ui_session.model.getKeypairs();
         if (keypairs == null) {
-            alert ("Please create a keypair before launching an instance");
+            alert (ec2ui_utils.getMessageProperty("ec2ui.msg.newinstancesdialog.alert.init"));
             return false;
         }
 

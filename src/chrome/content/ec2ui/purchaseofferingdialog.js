@@ -16,7 +16,7 @@ var ec2_OfferingPurchaser = {
         var val = parseInt(textbox.value);
         if (val <= 0 || isNaN(val)) {
             if (!fSilent) {
-                alert("Number of Instances must be a positive integer");
+                alert(ec2ui_utils.getMessageProperty("ec2ui.msg.purchaseofferingdialog.alert.validateInstanceCount"));
             }
             textbox.select();
             return false;

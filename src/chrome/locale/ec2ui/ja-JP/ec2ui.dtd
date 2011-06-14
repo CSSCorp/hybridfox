@@ -27,6 +27,7 @@
 <!ENTITY ec2ui.images.visibility.label "可視性">
 <!ENTITY ec2ui.images.architecture.label "アーキテクチャ">
 <!ENTITY ec2ui.images.rootDeviceType.label "ルートデバイス">
+<!ENTITY ec2ui.images.register.newimage.manifest.label "AMIのマニフェストパス">
 
 <!ENTITY ec2ui.instances.resid.label "リザーブID">
 <!ENTITY ec2ui.instances.owner.label "オーナー">
@@ -101,6 +102,9 @@
 <!ENTITY ec2ui.bundleTasks.s3.bucket.label "バケット名">
 <!ENTITY ec2ui.bundleTasks.s3.prefix.label "プリフィックス">
 <!ENTITY ec2ui.bundleTasks.errorMessage.label "エラー・メッセージ">
+
+<!ENTITY ec2ui.bundleInstance.s3.bucket.label "バケット名">
+<!ENTITY ec2ui.bundleInstance.s3.image.label "イメージ名">
 
 <!ENTITY ec2ui.captions.leases.offerings.label "リザーブド インスタンスの提供">
 <!ENTITY ec2ui.captions.leases.rsvdInst.label "購入済みのリザーブド インスタンス">
@@ -240,6 +244,7 @@
 
 <!ENTITY ec2ui.instance.console.timestamp.label "タイムスタンプ">
 <!ENTITY ec2ui.instance.console.output.label "コンソール出力">
+<!ENTITY ec2ui.instance.console.encoding.label "文字エンコーディング">
 
 <!ENTITY ec2ui.instances.detail.amimanifest.label "AMIのマニフェスト名">
 <!ENTITY ec2ui.instances.detail.monitoring.label "監視状態">
@@ -289,6 +294,8 @@
 
 <!ENTITY ec2ui.migrate.ami.regions.label "移動先リージョン">
 <!ENTITY ec2ui.migrate.ami.prefix.label "プリフィックス">
+<!ENTITY ec2ui.migrate.ami.bucket.source.label "移動元バケット">
+<!ENTITY ec2ui.migrate.ami.bucket.source.label "移動先バケット">
 
 <!ENTITY ec2ui.instances.lunch.ami.tag.label "AMI タグ">
 <!ENTITY ec2ui.instances.lunch.instancetypelist.label "インスタンス・タイプ">

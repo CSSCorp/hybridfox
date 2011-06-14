@@ -234,7 +234,7 @@ var ec2ui_InstancesTreeView = {
                 log(bucketReg + ": bucket's region ");
                 retVal.ok = (reg == bucketReg);
                 if (!retVal.ok) {
-                    alert ("You must specify a bucket in the '" + reg + "'. Please try again");
+                    alert (ec2ui_utils.getMessageProperty("ec2ui.msg.instancesview.alert.showBundleDialog.1", [reg]));
                     retVal.bucketName = "";
                 }
             }
@@ -247,7 +247,7 @@ var ec2ui_InstancesTreeView = {
                                                                         bucketReg);
 
                 if (!retVal.ok) {
-                    alert ("ERROR: It appears that you don't have write permissions on the bucket: " + retVal.bucketName);
+                    alert (ec2ui_utils.getMessageProperty("ec2ui.msg.instancesview.alert.showBundleDialog.2", [retVal.bucketName]));
                 }
             }
         } while (!retVal.ok);
@@ -290,7 +290,7 @@ var ec2ui_InstancesTreeView = {
         }
 
         if (!ret) {
-            alert ("Please wait till 'Windows is Ready to use' before attaching an EBS volume to instance: " + instance.id);
+            alert (ec2ui_utils.getMessageProperty("ec2ui.msg.instancesview.alert.isInstanceReadyToUse", [instance.id]));
         }
         return ret;
     },
@@ -313,7 +313,7 @@ var ec2ui_InstancesTreeView = {
         var volumes = ec2ui_session.model.getVolumes();
         if (volumes == null || volumes.length == 0) {
             // There are no volumes to attach to.
-            var fRet = confirm ("Would you like to create a new EBS volume to attach to this instance?");
+            var fRet = confirm (ec2ui_utils.getMessageProperty("ec2ui.msg.instancesview.confirm.attachEBSVolume"));
             if (fRet) {
                 fRet = ec2ui_VolumeTreeView.createVolume();
             }
@@ -368,7 +368,7 @@ var ec2ui_InstancesTreeView = {
         var addresses = ec2ui_session.model.getAddresses();
         if (addresses == null || addresses.length == 0) {
             // There are no addresses to associate with.
-            var fAddEIP = confirm ("Would you like to create a new Elastic IP to associate with this instance?");
+            var fAddEIP = confirm (ec2ui_utils.getMessageProperty("ec2ui.msg.instancesview.confirm.associateWithEIP"));
             if (fAddEIP) {
                 var tabPanel = document.getElementById("ec2ui.primary.tabs");
                 tabPanel.selectedIndex = 4;
@@ -407,7 +407,7 @@ var ec2ui_InstancesTreeView = {
     retrieveRSAKeyFromKeyFile : function(keyFile, fSilent) {
         var fileIn = FileIO.open(keyFile);
         if (!fileIn || !fileIn.exists()) {
-            alert ("Couldn't find EC2 Private Key File: " + keyFile);
+            alert (ec2ui_utils.getMessageProperty("ec2ui.msg.instancesview.alert.retrieveRSAKeyFromKeyFile.1", [keyFile]));
             return null;
         }
 
@@ -426,7 +426,7 @@ var ec2ui_InstancesTreeView = {
 
         if (startIdx >= endIdx) {
             if (!fSilent) {
-                alert ("Invalid EC2 Private Key");
+                alert (ec2ui_utils.getMessageProperty("ec2ui.msg.instancesview.alert.retrieveRSAKeyFromKeyFile.2"));
             }
             return null;
         }
@@ -505,7 +505,7 @@ var ec2ui_InstancesTreeView = {
 
         if (!fSuccess) {
             if (!fSilent) {
-                alert ("The Password has not been generated for this instance.");
+                alert (ec2ui_utils.getMessageProperty("ec2ui.msg.instancesview.alert.decodePassword"));
             }
             return null;
         }
@@ -518,15 +518,14 @@ var ec2ui_InstancesTreeView = {
 
         log("Getting file for key: " + keyName);
         fp.init(window,
-                "Select the EC2 Private Key File for key: " + keyName,
+                ec2ui_utils.getMessageProperty("ec2ui.msg.instancesview.promptForKeyFile.title", [keyName]),
                 nsIFilePicker.modeOpen);
 
         var res = fp.show();
         if (res == nsIFilePicker.returnOK) {
             keyFile = fp.file.path;
-            var msg = 'Would you like to use "' + keyFile;
-            msg = msg + '" as the default EC2 Private Key File for "';
-            msg = msg + ec2ui_session.getActiveCredential().name + '"?';
+            var msg = ec2ui_utils.getMessageProperty("ec2ui.msg.instancesview.confirm.promptForKeyFile",
+                                                     [keyFile, ec2ui_session.getActiveCredential().name]);
 
             var confirmed = confirm(msg);
             if (confirmed) {
@@ -549,7 +548,7 @@ var ec2ui_InstancesTreeView = {
         }
 
         if (output == null || output.length == 0) {
-            alert ("This instance is currently being configured. Please try again in a short while...");
+            alert (ec2ui_utils.getMessageProperty("ec2ui.msg.instancesview.alert.getInstancePasswordImpl.1"));
             this.instPassword = "";
             fSuccess = false;
             return;
@@ -609,9 +608,7 @@ var ec2ui_InstancesTreeView = {
                 // Private Key File was specified. Ask the user whether
                 // they would like to retry with a new private key file
 
-                var msg = "An error occurred while reading the EC2 Private Key from file: ";
-                msg = msg + prvKeyFile;
-                msg = msg + ". Would you like to retry with a different private key file?";
+                var msg = ec2ui_utils.getMessageProperty("ec2ui.msg.instancesview.confirm.getInstancePasswordImpl.1", [prvKeyFile]);
                 var fRetry = confirm (msg);
                 if (!fRetry) {
                     break;
@@ -636,14 +633,14 @@ var ec2ui_InstancesTreeView = {
                     this.instPassword = password;
                     copyToClipboard(password);
                     if (!fSilent) {
-                        alert ("Instance Administrator Password [" + password + "] has been saved to clipboard");
+                        alert (ec2ui_utils.getMessageProperty("ec2ui.msg.instancesview.alert.getInstancePasswordImpl.2", [password]));
                     }
                 } else if (!fSilent) {
                     fSuccess = false;
                     // Reset the instance's password to be the empty string.
                     this.instPassword = "";
                     // Need to retry with a new private key file
-                    var fRetry = confirm ("An error occurred while retrieving the password. Would you like to retry with a different private key file?");
+                    var fRetry = confirm (ec2ui_utils.getMessageProperty("ec2ui.msg.instancesview.confirm.getInstancePasswordImpl.2"));
                     if (!fRetry) {
                         break;
                     } else {
@@ -807,7 +804,8 @@ var ec2ui_InstancesTreeView = {
         if (index == -1) return;
 
         var instance = this.instanceList[index];
-        var count = prompt("How many more instances of "+instance.id+"?", "1");
+        var msg = ec2ui_utils.getMessageProperty("ec2ui.msg.instancesview.prompts.launchMore", [instance.id]);
+        var count = prompt(msg, "1");
         if (count == null || count.trim().length == 0)
             return;
 
@@ -840,7 +838,7 @@ var ec2ui_InstancesTreeView = {
         if (instanceIds.length == 0)
             return;
 
-        var confirmed = confirm("Monitor instances: "+ instanceIds.join(', ') +"?");
+        var confirmed = confirm(ec2ui_utils.getMessageProperty("ec2ui.msg.instancesview.confirm.monitorInstance", [instanceIds.join(', ')]));
         
         if (!confirmed)
             return;
@@ -861,7 +859,7 @@ var ec2ui_InstancesTreeView = {
         if (instanceIds.length == 0)
             return;
         
-        var confirmed = confirm("Unmonitor instances: "+ instanceIds.join(', ') +"?");
+        var confirmed = confirm(ec2ui_utils.getMessageProperty("ec2ui.msg.instancesview.confirm.unmonitorInstance", [instanceIds.join(', ')]));
 
         if (!confirmed)
             return;
@@ -882,7 +880,7 @@ var ec2ui_InstancesTreeView = {
         if (instanceIds.length == 0)
             return;
 
-        var confirmed = confirm("Terminate instances: "+ instanceIds.join(', ') +"?");
+        var confirmed = confirm(ec2ui_utils.getMessageProperty("ec2ui.msg.instancesview.confirm.terminateInstance", [instanceIds.join(', ')]));
         if (!confirmed)
             return;
 
@@ -909,7 +907,7 @@ var ec2ui_InstancesTreeView = {
         if (instanceIds.length == 0)
             return;
 
-        var confirmed = confirm("Stop instances: "+ instanceIds.join(', ')+"?");
+        var confirmed = confirm(ec2ui_utils.getMessageProperty("ec2ui.msg.instancesview.confirm.doStopInstances", [instanceIds.join(', ')]));
         if (!confirmed)
             return;
 
@@ -943,7 +941,7 @@ var ec2ui_InstancesTreeView = {
         }
 
         if (instance == null) {
-            alert ("Please select an instance");
+            alert (ec2ui_utils.getMessageProperty("ec2ui.msg.instancesview.alert.fetchConsoleOutput"));
             return;
         }
 
@@ -1052,18 +1050,19 @@ var ec2ui_InstancesTreeView = {
             var result = false;
             if (ec2ui_prefs.getPromptForPortOpening()) {
                 port = port.toString();
-                var msg = "Elasticfox needs to open " + transport.toUpperCase() + " port " + port;
-                msg = msg + " (" + protocol + ") in group '";
-                msg = msg + name + "' to continue. Click Ok to authorize this action";
+                var msg = ec2ui_utils.getMessageProperty("ec2ui.msg.instancesview.confirm.authorizeProtocolPortForGroup",
+                                                         [transport.toUpperCase(), port, protocol, name]);
+                var title = ec2ui_utils.getMessageProperty("ec2ui.msg.instancesview.confirm.authorizeProtocolPortForGroup.title");
+                var box = ec2ui_utils.getMessageProperty("ec2ui.msg.instancesview.confirm.authorizeProtocolPortForGroup.check");
 
                 // default the checkbox to false
                 var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
                     .getService(Components.interfaces.nsIPromptService);
                 var check = {value: false};
                 result = prompts.confirmCheck(window,
-                                              "EC2 Firewall Port Authorization",
+                                              title,
                                               msg,
-                                              "Do not ask me again",
+                                              box,
                                               check);
 
                 if (check.value) {
@@ -1289,7 +1288,7 @@ outer:
         try {
             process.init(file);
         } catch (e) {
-            alert ("Couldn't launch: " + cmd + "\n\n" + e.message);
+            alert (ec2ui_utils.getMessageProperty("ec2ui.msg.instancesview.alert.launchProcess.1", [cmd, e.message]));
             return;
         }
 
@@ -1300,7 +1299,7 @@ outer:
             // Second and third params are used to pass command-line arguments
             process.run(false, args, args.length);
         } catch (e) {
-            alert ("Couldn't launch: " + cmd + "\nWith arguments: " + args.join(" ") + "\n\n" + e.message);
+            alert (ec2ui_utils.getMessageProperty("ec2ui.msg.instancesview.alert.launchProcess.2", [cmd, args.join(" "), e.message]));
         }
     },
 
@@ -1314,7 +1313,7 @@ outer:
         if (instanceIds.length == 0)
             return;
 
-        var confirmed = confirm("Reboot "+instanceIds.length+" instance(s)?");
+        var confirmed = confirm(ec2ui_utils.getMessageProperty("ec2ui.msg.instancesview.confirm.rebootInstance", [instanceIds.length]));
         if (!confirmed)
             return;
 
@@ -1414,7 +1413,7 @@ RSADecryptObserver.prototype = {
             // Decryptor Thread.
             ec2ui_InstancesTreeView.instPassword = this.password;
             copyToClipboard(this.password);
-            alert ("Instance Administrator Password [" + this.password + "] has been saved to clipboard");
+            alert (ec2ui_utils.getMessageProperty("ec2ui.msg.instancesview.alert.RSADecryptObserver.run", [this.password]));
         } catch(err) {
             Components.utils.reportError(err);
         }

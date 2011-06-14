@@ -1219,7 +1219,8 @@ var ec2ui_controller = {
             respXML = httpRsp.xmlhttp.responseXML;
             var errorMsg = getNodeValueByName(respXML, "Message");
             var errorCode = getNodeValueByName(respXML, "Code");
-            alert ("Could not create S3 bucket. Error: " + errorCode + " - " + errorMsg);
+            var msg = ec2ui_utils.getMessageProperty("ec2ui.msg.controller.alert.createS3Bucket", [errorCode, errorMsg]);
+            alert (msg);
             var toSign = getNodeValueByName(respXML, "StringToSignBytes");
             toSign = "0x" + toSign;
             toSign = toSign.replace(/\s/g, " 0x");

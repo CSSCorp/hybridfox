@@ -8,10 +8,9 @@
   onload="ec2_InstanceConsole.init();"
   title="&ec2ui.dialog.title.console_output;">
 
-  <script type="application/x-javascript"
-    src="chrome://ec2ui/content/instanceconsoledialog.js" />
-  <script type="application/x-javascript"
-    src="chrome://ec2ui/content/model.js" />
+  <script type="application/x-javascript" src="chrome://ec2ui/content/instanceconsoledialog.js" />
+  <script type="application/x-javascript" src="chrome://ec2ui/content/model.js" />
+  <script type="application/x-javascript" src="chrome://ec2ui/content/utils.js" />
 
   <vbox flex="1">
     <grid flex="1">
@@ -30,11 +29,21 @@
         </row>
         <row>
           <label control="ec2ui.console.output" value="&ec2ui.instance.console.output.label;:" />
-          <textbox id="ec2ui.console.output" multiline="true" cols="70" rows="20"
+          <textbox id="ec2ui.console.decoded_output" multiline="true" cols="70" rows="20"
             wrap="false" style="font-family: monospace;" readonly="true"/>
+        </row>
+        <row>
+          <label control="ec2ui.console.encoding" value="&ec2ui.instance.console.encoding.label;:" />
+          <menulist id="ec2ui.console.encoding" selectedIndex="0"
+            oncommand="ec2_InstanceConsole.encodingChanged();">
+            <menupopup>
+              <menuitem label="None" value="None"/>
+            </menupopup>
+          </menulist>
         </row>
       </rows>
     </grid>
   </vbox>
+  <span hidden="true" id="ec2ui.console.output" />
 </dialog>
 

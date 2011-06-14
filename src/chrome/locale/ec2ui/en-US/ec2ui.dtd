@@ -27,6 +27,7 @@
 <!ENTITY ec2ui.images.visibility.label "Visibility">
 <!ENTITY ec2ui.images.architecture.label "Architecture">
 <!ENTITY ec2ui.images.rootDeviceType.label "Rootdevice Type">
+<!ENTITY ec2ui.images.register.newimage.manifest.label "AMI Manifest Path">
 
 <!ENTITY ec2ui.instances.resid.label "Reservation ID">
 <!ENTITY ec2ui.instances.owner.label "Owner">
@@ -101,6 +102,9 @@
 <!ENTITY ec2ui.bundleTasks.s3.bucket.label "S3 Bucket">
 <!ENTITY ec2ui.bundleTasks.s3.prefix.label "S3 Prefix">
 <!ENTITY ec2ui.bundleTasks.errorMessage.label "Error Message">
+
+<!ENTITY ec2ui.bundleInstance.s3.bucket.label "S3 Bucket Name">
+<!ENTITY ec2ui.bundleInstance.s3.image.label "Image Name">
 
 <!ENTITY ec2ui.captions.leases.offerings.label "Reserved Instances Offerings">
 <!ENTITY ec2ui.captions.leases.rsvdInst.label "Your Reserved Instances">
@@ -240,6 +244,7 @@
 
 <!ENTITY ec2ui.instance.console.timestamp.label "Timestamp">
 <!ENTITY ec2ui.instance.console.output.label "Console Output">
+<!ENTITY ec2ui.instance.console.encoding.label "Encoding">
 
 <!ENTITY ec2ui.instances.detail.amimanifest.label "AMI Manifest">
 <!ENTITY ec2ui.instances.detail.monitoring.label "Monitoring">
@@ -289,6 +294,8 @@
 
 <!ENTITY ec2ui.migrate.ami.regions.label "To Region">
 <!ENTITY ec2ui.migrate.ami.prefix.label "Prefix">
+<!ENTITY ec2ui.migrate.ami.bucket.source.label "Source Bucket">
+<!ENTITY ec2ui.migrate.ami.bucket.source.label "Destination Bucket">
 
 <!ENTITY ec2ui.instances.lunch.ami.tag.label "AMI Tag">
 <!ENTITY ec2ui.instances.lunch.instancetypelist.label "Instance Type">

@@ -7,10 +7,12 @@
     buttons="accept,cancel"
     ondialogaccept="return ec2_SecGroupCreator.createGroup();"
     ondialogcancel="return true;" onload="ec2_SecGroupCreator.init();"
-    title="&ec2ui.dialog.title.create_security_group;" buttonlabelaccept="&ec2ui.dialog.button.accept.create_security_group.label;">
+    title="&ec2ui.dialog.title.create_security_group;"
+    buttonlabelaccept="&ec2ui.dialog.button.accept.create_security_group.label;">
 
     <script type="application/x-javascript" src="chrome://ec2ui/content/createsecgroupdialog.js" />
     <script type="application/x-javascript" src="chrome://ec2ui/content/model.js" />
+    <script type="application/x-javascript" src="chrome://ec2ui/content/utils.js" />
 
     <vbox flex="1">
         <grid flex="1">

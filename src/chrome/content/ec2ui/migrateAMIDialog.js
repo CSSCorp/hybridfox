@@ -47,7 +47,7 @@ var ec2_AMIMigrator = {
         this.retVal.destB = bucketNameBox.value;
 
         if (!this.validateBucketName()) {
-            alert ("The Bucket Name must be all lower case");
+            alert (ec2ui_utils.getMessageProperty("ec2ui.msg.migrateAMIDialog.alert.migrateAMI"));
             bucketNameBox.select();
             return false;
         } else {

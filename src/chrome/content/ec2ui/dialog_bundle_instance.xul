@@ -12,6 +12,7 @@
 
   <script type="application/x-javascript" src="chrome://ec2ui/content/bundleInstanceDialog.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/model.js" />
+  <script type="application/x-javascript" src="chrome://ec2ui/content/utils.js" />
 
   <vbox flex="1">
     <grid flex="1">
@@ -26,13 +27,13 @@
         </row>
         <row>
           <label control="ec2ui.bundleInstance.bucketName"
-            value="S3 Bucket Name:" />
+            value="&ec2ui.bundleInstance.s3.bucket.label;:" />
           <textbox type="autocomplete" autocompletesearch="form-history"
             id="ec2ui.bundleInstance.bucketName" size="30" value="" />
         </row>
         <row>
           <label control="ec2ui.bundleInstance.prefix"
-            value="Image Name:" />
+            value="&ec2ui.bundleInstance.s3.image.label;:" />
           <textbox id="ec2ui.bundleInstance.prefix" size="30" value="" />
         </row>
       </rows>

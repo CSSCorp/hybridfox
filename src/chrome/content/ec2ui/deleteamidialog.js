@@ -36,7 +36,7 @@ var ec2ui_AMIDeleter = {
         var srcKeys = controller.getS3KeyListWithPrefixInBucket(prefix,
                                                                 sourceB);
         var progressMet = this.getProgressMeter();
-        this.getCurrentOperation().value = "Deleting AMI parts...";
+        this.getCurrentOperation().value = ec2ui_utils.getMessageProperty("ec2ui.msg.deleteamidialog.startDeletion.operation1");
 
         if (srcKeys != null) {
             var keyCount = srcKeys.length;
@@ -49,7 +49,7 @@ var ec2ui_AMIDeleter = {
             }
             this.retVal.ok = true;
         } else {
-            alert ("ERROR: You can only delete an AMI that you created.");
+            alert (ec2ui_utils.getMessageProperty("ec2ui.msg.deleteamidialog.alert.startDeletion"));
             this.retVal.ok = false;
         }
         this.cancelDialog();

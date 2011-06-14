@@ -42,7 +42,7 @@ var ec2ui_SnapshotTreeView = {
     deleteSnapshot : function () {
         var image = this.getSelectedImage();
         if (image == null) return;
-        var confirmed = confirm("Delete snapshot " + image.id + "?");
+        var confirmed = confirm(ec2ui_utils.getMessageProperty("ec2ui.msg.snapshotsview.confirm.deleteSnapshot", [image.id]));
         if (!confirmed)
             return;
         var me = this;

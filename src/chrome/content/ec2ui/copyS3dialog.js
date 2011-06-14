@@ -55,7 +55,7 @@ var ec2ui_S3_KeyCopier = {
         // Or, 3. it can be called after all the copies have been issued
 
         if (this.fContinue) {
-            ret = confirm("Are you sure you want to cancel the AMI migration?");
+            ret = confirm(ec2ui_utils.getMessageProperty("ec2ui.msg.copyS3dialog.confirm.cancelTransfer"));
             this.fContinue = !ret;
             this.params.ok = this.fContinue;
         }
@@ -78,7 +78,7 @@ var ec2ui_S3_KeyCopier = {
 
         // Let's migrate this AMI
         // Create the bucket if it doesn't exist.
-        currentOp.value = "Creating Destination Bucket: " + params.destB;
+        currentOp.value = ec2ui_utils.getMessageProperty("ec2ui.msg.copyS3dialog.startMigration.operation1", [params.destB] );
         if (controller.createS3Bucket(params.destB, params.region)) {
             // Get the created bucket's location
             this.logOutput(params.destB + ": Destination Bucket created");
@@ -88,11 +88,11 @@ var ec2ui_S3_KeyCopier = {
                 );
 
             if (bucketRegion == params.region) {
-                currentOp.value = "Retrieving Source Bucket ACLs";
+                currentOp.value = ec2ui_utils.getMessageProperty("ec2ui.msg.copyS3dialog.startMigration.operation2");
                 // Get the ACLs for the source bucket
                 var acl = controller.getS3ACL(params.sourceB);
                 this.logOutput("Source ACLs Retrieved");
-                currentOp.value = "Setting ACLs on Destination Bucket";
+                currentOp.value = ec2ui_utils.getMessageProperty("ec2ui.msg.copyS3dialog.startMigration.operation3");
                 // Set the ACL on the destination bucket
                 if (controller.setS3ACL(params.destB, "", bucketRegion, acl)) {
                     this.logOutput("Destination Bucket ACL set");
@@ -100,7 +100,7 @@ var ec2ui_S3_KeyCopier = {
                     this.logOutput("Could not set ACL on Destination Bucket");
                 }
 
-                currentOp.value = "Determining files/parts to Migrate...";
+                currentOp.value = ec2ui_utils.getMessageProperty("ec2ui.msg.copyS3dialog.startMigration.operation4");
                 // Enumerate the items with prefix from source bucket
                 this.srcKeys = controller.getS3KeyListWithPrefixInBucket(params.prefix,
                                                                          params.sourceB);
@@ -108,27 +108,27 @@ var ec2ui_S3_KeyCopier = {
                 if (this.srcKeys == null) {
                     fDismiss = true;
                     this.logOutput("Could not get list of files to migrate");;
-                    alert ("ERROR: Access denied to list AMI parts. You can only migrate an AMI that you created.");
+                    alert ( ec2ui_utils.getMessageProperty("ec2ui.msg.copyS3dialog.alert.startMigration.error1") );
                 } else if (this.srcKeys.length == 0) {
                     fDismiss = true;
-                    alert ("No keys to migrate. Aborting!");
+                    alert (ec2ui_utils.getMessageProperty("ec2ui.msg.copyS3dialog.alert.startMigration.error2"));
                 } else {
                     this.totalKeys = this.srcKeys.length;
                     this.logOutput("Number of items to migrate: " + this.totalKeys);
                     this.logOutput("Migrating Items with Prefix: " + params.prefix);
                     this.logOutput("Hit Cancel to stop.");
-                    currentOp.value = "Migrating Files to Destination Bucket...";
+                    currentOp.value = ec2ui_utils.getMessageProperty("ec2ui.msg.copyS3dialog.startMigration.operation5");
 
                     // Copy the keys
                     this.seedKeyMigration();
                 }
             } else {
-                alert ("ERROR: The bucket could not be created in the region you specificied.");
+                alert ( ec2ui_utils.getMessageProperty("ec2ui.msg.copyS3dialog.alert.startMigration.error3") );
                 fDismiss = true;
             }
         } else {
             this.logOutput("Could not create Bucket: " + params.destB);
-            alert("ERROR: Could not create Destination Bucket: " + params.destB);
+            alert( ec2ui_utils.getMessageProperty("ec2ui.msg.copyS3dialog.alert.startMigration.error4", [params.destB]) );
             fDismiss = true;
         }
 
@@ -145,7 +145,7 @@ var ec2ui_S3_KeyCopier = {
         var progressMet = this.getProgressMeter();
         var step = this.xmlhttps.length;
 
-        this.getCurrentOperation().value = "Applying Source ACL on Migrated items...";
+        this.getCurrentOperation().value = ec2ui_utils.getMessageProperty("ec2ui.msg.copyS3dialog.applySourceACLOnKeys.operation1");
         progressMet.value = 50;
 
         // Since the key names are the same,
@@ -234,7 +234,7 @@ var ec2ui_S3_KeyCopier = {
                 this.cleanupConnections();
                 this.params.ok = true;
             } else {
-                alert ("ERROR: All the parts of the image weren't migrated!");
+                alert (ec2ui_utils.getMessageProperty("ec2ui.msg.copyS3dialog.alert.finishMigration"));
                 this.params.ok = false;
             }
         } else {

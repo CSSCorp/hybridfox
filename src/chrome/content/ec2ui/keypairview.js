@@ -93,7 +93,7 @@ var ec2ui_KeypairTreeView = {
     },
 
     createKeypair : function () {
-        var name = prompt("Please provide a new keypair name");
+        var name = prompt(ec2ui_utils.getMessageProperty("ec2ui.msg.keypairview.prompt.createKeypair"));
         if (name == null)
             return;
         name = name.trim();
@@ -112,7 +112,8 @@ var ec2ui_KeypairTreeView = {
         var nsIFilePicker = Components.interfaces.nsIFilePicker;
         var fp = Components.classes["@mozilla.org/filepicker;1"].createInstance(nsIFilePicker);
         var fWin = navigator.platform.match(/^Win/);
-        fp.init(window, "Save new private key", nsIFilePicker.modeSave);
+        var fTitle = ec2ui_utils.getMessageProperty("ec2ui.msg.keypairview.saveKeypair.fWin.title");
+        fp.init(window, fTitle, nsIFilePicker.modeSave);
         if (fWin) {
             fp.appendFilter("PEM Files","*.pem");
             fp.defaultString = name+".pem";
@@ -150,7 +151,7 @@ var ec2ui_KeypairTreeView = {
     deleteSelected  : function () {
         var keypair = this.getSelectedKeyPair();
         if (keypair == null) return;
-        var confirmed = confirm("Delete key pair "+keypair.name+"?");
+        var confirmed = confirm(ec2ui_utils.getMessageProperty("ec2ui.msg.keypairview.confirm.deleteSelected", [keypair.name]));
         if (!confirmed)
             return;
 
