@@ -1,0 +1,32 @@
+﻿<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<!DOCTYPE window SYSTEM "chrome://ec2ui/locale/ec2ui.dtd">
+
+<dialog id="ec2ui.dialog.about" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  xmlns:html="http://www.w3.org/1999/xhtml"
+  buttons="accept" ondialogaccept="return true;" onload="updateAPIVersion();"
+  title="&ec2ui.dialog.title.about;">
+
+  <script type="application/x-javascript">
+  function openURL(url) {
+    window.close();
+    window.arguments[0].openURL(url);
+  }
+  function updateAPIVersion() {
+    document.getElementById("ec2ui.apiversion").innerHTML = window.arguments[0].getApiVersion();
+  }
+  </script>
+
+  <vbox flex="1">
+    <groupbox>
+      <description class="header">Hybridfox version __VERSION__ build __BUILD__ (EC2 API <html:span id="ec2ui.apiversion">API-VERSION</html:span>)</description>
+      <description><html:p>Hybridfox はWebブラウザから Amazon EC2 や Eucalyptus ウェブサービスを利用できる Firefox の拡張機能（アドオン）です</html:p></description>
+      <description><html:p><html:a target="_blank" href="" onclick="openURL('http://code.google.com/p/hybridfox/'); return false" style="color: blue; text-decoration: underline">code.google.com/p/hybridfox</html:a></html:p></description>
+      <description><html:p><html:a target="_blank" href="" onclick="openURL('http://labs.csscorp.com/'); return false" style="color: blue; text-decoration: underline">CSS Labs, CSS Corp Pvt Ltd</html:a></html:p></description>
+    </groupbox>
+    <vbox>
+      <description>アイコン提供 <html:a target="_blank" href="" onclick="openURL('http://www.mouserunner.com/'); return false" style="color: blue; text-decoration: underline">Ken Saunders</html:a>. </description>
+      <description>Hybridfox は <html:a target="_blank" href="" onclick="openURL('http://www.apache.org/licenses/'); return false" style="color: blue; text-decoration: underline">Apache 2.0</html:a> ライセンスのもとで公開されています</description>
+    </vbox>
+  </vbox>
+</dialog>
