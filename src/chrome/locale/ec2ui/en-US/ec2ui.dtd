@@ -75,6 +75,7 @@
 <!ENTITY ec2ui.permissions.toport.label "To Port/ICMP Code">
 <!ENTITY ec2ui.permissions.groups.label "Source User:Group">
 <!ENTITY ec2ui.permissions.cidrs.label "Source CIDR">
+<!ENTITY ec2ui.permissions.details.groups.label "Source (User,Group)">
 
 <!ENTITY ec2ui.captions.volumes.volumes.label "Created Volumes">
 <!ENTITY ec2ui.captions.volumes.snapshots.label "Saved Snapshots">

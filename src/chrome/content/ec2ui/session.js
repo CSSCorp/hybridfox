@@ -516,7 +516,7 @@ var ec2ui_session =
     },
 
     displayAbout : function () {
-        window.openDialog("chrome://ec2ui/content/dialog_about_jp.xul", null, "chrome,centerscreen,modal", ec2ui_session);
+        window.openDialog("chrome://ec2ui/content/dialog_about.xul", null, "chrome,centerscreen,modal", ec2ui_session);
     },
 
     openURL : function(url) {

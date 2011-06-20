@@ -34,7 +34,7 @@
 					<textbox id="ec2ui.permission.sourcecidr" size="40" readonly="true" />
 				</row>
 				<row>
-					<label control="ec2ui.permission.sourceusergroup" value="&ec2ui.permissions.groups.label;:" />
+					<label control="ec2ui.permission.sourceusergroup" value="&ec2ui.permissions.details.groups.label;:" />
 					<textbox id="ec2ui.permission.sourceusergroup" size="40" readonly="true" />
 				</row>
 			</rows>

@@ -68,7 +68,7 @@
               tooltiptext="&ec2ui.detachvol.tip;" />
             <toolbarbutton image="images/info.png" style="-moz-box-pack:center;"
               oncommand="ec2ui_VolumeTreeView.tag();"
-              tooltiptext="Add Tag" />
+              tooltiptext="&ec2ui.addTag.label;" />
           </hbox>
         </toolbar>
         <tree id="ec2ui.volumes.view" seltype="single" enableColumnDrag="true"
@@ -153,7 +153,7 @@
               tooltiptext="&ec2ui.deletesnap.tip;" />
             <toolbarbutton image="images/info.png" style="-moz-box-pack:center;"
               oncommand="ec2ui_SnapshotTreeView.tag();"
-              tooltiptext="Add Tag" />
+              tooltiptext="&ec2ui.addTag.label;" />
           </hbox>
         </toolbar>
         <tree id="ec2ui.snapshots.view" seltype="single" enableColumnDrag="true"

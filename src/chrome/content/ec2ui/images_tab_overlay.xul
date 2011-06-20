@@ -57,7 +57,7 @@
                 oncommand="ec2ui_AMIsTreeView.deregisterImage();" />
               <toolbarbutton image="images/info.png" style="-moz-box-pack:center;"
                 oncommand="ec2ui_AMIsTreeView.tag();"
-                tooltiptext="Add Tag" />
+                tooltiptext="&ec2ui.addTag.label;" />
              <menulist id="ec2ui_AMIsTreeView.image.type" selectedIndex="0"
                oncommand="ec2ui_AMIsTreeView.imageTypeChanged();">
                 <menupopup>

@@ -4,29 +4,39 @@
 
 <dialog id="ec2ui.dialog.about" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
   xmlns:html="http://www.w3.org/1999/xhtml"
-  buttons="accept" ondialogaccept="return true;" onload="updateAPIVersion();"
+  buttons="accept" ondialogaccept="return true;" onload="init();"
   title="&ec2ui.dialog.title.about;">
 
+  <script type="application/x-javascript" src="chrome://ec2ui/content/utils.js" />
   <script type="application/x-javascript">
   function openURL(url) {
     window.close();
     window.arguments[0].openURL(url);
   }
-  function updateAPIVersion() {
+  function init() {
     document.getElementById("ec2ui.apiversion").innerHTML = window.arguments[0].getApiVersion();
+
+    try {
+      document.getElementById("ec2ui.about.hybridfox").innerHTML = ec2ui_utils.getMessageProperty("ec2ui.msg.about.description.hybridfox");
+      var iconsProvideLink = document.getElementById("ec2ui.iconsProvide.link").innerHTML;
+      document.getElementById("ec2ui.about.iconsProvide").innerHTML = ec2ui_utils.getMessageProperty("ec2ui.msg.about.description.iconsProvide", [iconsProvideLink]);
+      var licenseLink = document.getElementById("ec2ui.license.link").innerHTML;
+      document.getElementById("ec2ui.about.license").innerHTML = ec2ui_utils.getMessageProperty("ec2ui.msg.about.description.license", [licenseLink]);
+     } catch (e) {
+     }
   }
   </script>
 
   <vbox flex="1">
     <groupbox>
       <description class="header">Hybridfox version __VERSION__ build __BUILD__ (EC2 API <html:span id="ec2ui.apiversion">API-VERSION</html:span>)</description>
-      <description><html:p>Hybridfox is a Firefox extension for interacting with Amazon's EC2 and Eucalyptus web service.</html:p></description>
+      <description><html:p id="ec2ui.about.hybridfox">Hybridfox is a Firefox extension for interacting with Amazon's EC2 and Eucalyptus web service.</html:p></description>
       <description><html:p><html:a target="_blank" href="" onclick="openURL('http://code.google.com/p/hybridfox/'); return false" style="color: blue; text-decoration: underline">code.google.com/p/hybridfox</html:a></html:p></description>
       <description><html:p><html:a target="_blank" href="" onclick="openURL('http://labs.csscorp.com/'); return false" style="color: blue; text-decoration: underline">CSS Labs, CSS Corp Pvt Ltd</html:a></html:p></description>
     </groupbox>
     <vbox>
-      <description>Icons were provided by <html:a target="_blank" href="" onclick="openURL('http://www.mouserunner.com/'); return false" style="color: blue; text-decoration: underline">Ken Saunders</html:a>. </description>
-      <description>Hybridfox is licensed under the <html:a target="_blank" href="" onclick="openURL('http://www.apache.org/licenses/'); return false" style="color: blue; text-decoration: underline">Apache 2.0</html:a> license.</description>
+      <description><html:span id="ec2ui.about.iconsProvide">Icons were provided by <html:span id="ec2ui.iconsProvide.link"><html:a target="_blank" href="" onclick="openURL('http://www.mouserunner.com/'); return false" style="color: blue; text-decoration: underline">Ken Saunders</html:a></html:span>. </html:span></description>
+      <description><html:span id="ec2ui.about.license">Hybridfox is licensed under the <html:span id="ec2ui.license.link"><html:a target="_blank" href="" onclick="openURL('http://www.apache.org/licenses/'); return false" style="color: blue; text-decoration: underline">Apache 2.0</html:a></html:span> license.</html:span></description>
     </vbox>
   </vbox>
 </dialog>

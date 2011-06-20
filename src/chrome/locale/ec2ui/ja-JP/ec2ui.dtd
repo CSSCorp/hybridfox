@@ -45,7 +45,7 @@
 <!ENTITY ec2ui.instances.amiLaunchIdx.label "インデックス">
 <!ENTITY ec2ui.instances.instanceType.label "タイプ">
 <!ENTITY ec2ui.instances.rootDeviceType.label "ルートデバイス">
-<!ENTITY ec2ui.instances.launchTime.label "ローカル起動時間">
+<!ENTITY ec2ui.instances.launchTime.label "ローカル起動時刻">
 
 <!ENTITY ec2ui.captions.kernels.akis.label "カーネル・イメージ (AKIs)">
 <!ENTITY ec2ui.captions.kernels.aris.label "ラムディスク・イメージ (ARIs)">
@@ -75,6 +75,7 @@
 <!ENTITY ec2ui.permissions.toport.label "受信ポート終了範囲/ICMP コード">
 <!ENTITY ec2ui.permissions.groups.label "送信元ユーザ：グループ">
 <!ENTITY ec2ui.permissions.cidrs.label "送信元 CIDR">
+<!ENTITY ec2ui.permissions.details.groups.label "送信元 (ユーザ, グループ)">
 
 <!ENTITY ec2ui.captions.volumes.volumes.label "EBSボリューム">
 <!ENTITY ec2ui.captions.volumes.snapshots.label "スナップショット">
@@ -82,23 +83,23 @@
 <!ENTITY ec2ui.volumes.id.label "ボリュームID">
 <!ENTITY ec2ui.volumes.size.label "サイズ(GB)">
 <!ENTITY ec2ui.volumes.status.label "状態">
-<!ENTITY ec2ui.volumes.createTime.label "ローカル作成日">
+<!ENTITY ec2ui.volumes.createTime.label "ローカル作成時刻">
 <!ENTITY ec2ui.volumes.attachment.device.label "デバイス名">
 <!ENTITY ec2ui.volumes.attachment.status.label "アタッチ状況">
-<!ENTITY ec2ui.volumes.attachment.attachTime.label "アタッチ時間">
+<!ENTITY ec2ui.volumes.attachment.attachTime.label "アタッチ時刻">
 <!ENTITY ec2ui.volumes.attachment.description.device "Linux デバイス: /dev/sda から /dev/sdp">
 
 <!ENTITY ec2ui.snapshots.id.label "スナップショットID">
 <!ENTITY ec2ui.snapshots.status.label "状態">
-<!ENTITY ec2ui.snapshots.startTime.label "ローカル作業開始時間">
+<!ENTITY ec2ui.snapshots.startTime.label "ローカル作成開始時刻">
 <!ENTITY ec2ui.snapshots.progress.label "進行状況">
 
 <!ENTITY ec2ui.captions.bundleTasks.label "バンドル・タスク">
 
 <!ENTITY ec2ui.bundleTasks.id.label "バンドルID">
 <!ENTITY ec2ui.bundleTasks.state.label "バンドル状態">
-<!ENTITY ec2ui.bundleTasks.startTime.label "バンドル開始時間">
-<!ENTITY ec2ui.bundleTasks.updateTime.label "最終更新時間">
+<!ENTITY ec2ui.bundleTasks.startTime.label "バンドル開始時刻">
+<!ENTITY ec2ui.bundleTasks.updateTime.label "最終更新時刻">
 <!ENTITY ec2ui.bundleTasks.s3.bucket.label "バケット名">
 <!ENTITY ec2ui.bundleTasks.s3.prefix.label "プリフィックス">
 <!ENTITY ec2ui.bundleTasks.errorMessage.label "エラー・メッセージ">
@@ -106,7 +107,7 @@
 <!ENTITY ec2ui.bundleInstance.s3.bucket.label "バケット名">
 <!ENTITY ec2ui.bundleInstance.s3.image.label "イメージ名">
 
-<!ENTITY ec2ui.captions.leases.offerings.label "リザーブド インスタンスの提供">
+<!ENTITY ec2ui.captions.leases.offerings.label "提供中のリザーブド インスタンス">
 <!ENTITY ec2ui.captions.leases.rsvdInst.label "購入済みのリザーブド インスタンス">
 
 <!ENTITY ec2ui.offerings.id.label "提供 ID">
@@ -247,7 +248,7 @@
 <!ENTITY ec2ui.instance.console.encoding.label "文字エンコーディング">
 
 <!ENTITY ec2ui.instances.detail.amimanifest.label "AMIのマニフェスト名">
-<!ENTITY ec2ui.instances.detail.monitoring.label "監視状態">
+<!ENTITY ec2ui.instances.detail.monitoring.label "モニタリング状態">
 <!ENTITY ec2ui.instances.detail.keyname.label "キー・ペア名">
 <!ENTITY ec2ui.instances.detail.securitygrouplist.label "セキュリティグループ">
 <!ENTITY ec2ui.instances.detail.reason.label "状態の理由">
