@@ -837,6 +837,7 @@ var ec2ui_InstancesTreeView = {
 	    document.getElementById("instances.context.stop").disabled = disablestop;
 	    document.getElementById("instances.context.forceStop").disabled = disablestop;
 	    document.getElementById("instances.button.start").disabled = disableStart;
+	    document.getElementById("instances.context.start").disabled = disableStart;
 	    document.getElementById("instances.button.stop").disabled = disablestop;
 	    document.getElementById("instances.context.stop").disabled = rootdevicetype;
             document.getElementById("instances.context.forceStop").disabled = rootdevicetype;
