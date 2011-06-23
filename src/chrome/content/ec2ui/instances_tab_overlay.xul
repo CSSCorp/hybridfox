@@ -15,9 +15,6 @@
           <menuitem oncommand="ec2ui_InstancesTreeView.tag(event);"
             label="Add Tag" />
           <menuseparator />
-          <menuitem id="instances.context.start"
-            oncommand="ec2ui_InstancesTreeView.startInstance();"
-            label="Start" />
           <menuitem oncommand="ec2ui_InstancesTreeView.launchMore();"
             label="Launch More of these" />
           <menuitem oncommand="ec2ui_InstancesTreeView.associateWithEIP();"
@@ -34,6 +31,10 @@
             label="Reboot" />
           <menuitem oncommand="ec2ui_InstancesTreeView.terminateInstance();"
             label="Terminate" />
+          <menuseparator />
+          <menuitem id="instances.context.start"
+            oncommand="ec2ui_InstancesTreeView.startInstance();"
+            label="Start" />
           <menuitem id="instances.context.stop"
             oncommand="ec2ui_InstancesTreeView.stopInstance();"
             label="Stop" />
@@ -77,14 +78,6 @@
             oncommand="ec2ui_InstancesTreeView.refresh()"
             tooltiptext="&ec2ui.refresh.tip;" />
           <toolbarseparator />
-          <toolbarbutton image="images/start.png" style="-moz-box-pack:center;"
-            oncommand="ec2ui_InstancesTreeView.startInstance();"
-            id="instances.button.start"
-            tooltiptext="&ec2ui.instances.start.tip;" />
-          <toolbarbutton image="images/stop.png" style="-moz-box-pack:center;"
-            oncommand="ec2ui_InstancesTreeView.stopInstance();"
-            id="instances.button.stop"
-            tooltiptext="&ec2ui.instances.stop.tip;" />
           <toolbarbutton image="images/reboot.png" style="-moz-box-pack:center;"
             oncommand="ec2ui_InstancesTreeView.rebootInstance();"
             tooltiptext="&ec2ui.instances.reboot.tip;" />

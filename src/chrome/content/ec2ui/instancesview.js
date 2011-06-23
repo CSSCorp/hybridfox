@@ -836,18 +836,18 @@ var ec2ui_InstancesTreeView = {
         if(ec2ui_session.isAmazonEndpointSelected()){
 	    document.getElementById("instances.context.stop").disabled = disablestop;
 	    document.getElementById("instances.context.forceStop").disabled = disablestop;
-	    document.getElementById("instances.button.start").disabled = disableStart;
 	    document.getElementById("instances.context.start").disabled = disableStart;
-	    document.getElementById("instances.button.stop").disabled = disablestop;
-	    document.getElementById("instances.context.stop").disabled = rootdevicetype;
-            document.getElementById("instances.context.forceStop").disabled = rootdevicetype;
-	    document.getElementById("instances.button.stop").disabled = rootdevicetype;
+	    if(rootdevicetype){
+                document.getElementById("instances.context.stop").disabled = true;
+		document.getElementById("instances.context.forceStop").disabled = true;
+		document.getElementById("instances.context.start").disabled = true;
+            }
 	}
 	else{
 	    document.getElementById("instances.context.stop").disabled = true;
 	    document.getElementById("instances.context.forceStop").disabled = true;
-	    document.getElementById("instances.button.start").disabled = true;
-	    document.getElementById("instances.button.stop").disabled = true;
+	    document.getElementById("instances.context.start").disabled = true;
+
 	}
     },
     
