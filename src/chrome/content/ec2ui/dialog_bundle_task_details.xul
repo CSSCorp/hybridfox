@@ -4,10 +4,11 @@
 
 <dialog id="ec2ui.dialog.bundleTask.detail" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
   buttons="accept" ondialogaccept="return true;"
-  onload="ec2_BundleTaskDetails.init();" title="Bundle Task Details">
+  onload="ec2_BundleTaskDetails.init();" title="&ec2ui.dialog.title.bundle_task_details;">
 
   <script type="application/x-javascript" src="chrome://ec2ui/content/bundletaskdetailsdialog.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/model.js" />
+  <script type="application/x-javascript" src="chrome://ec2ui/content/utils.js" />
 
   <vbox flex="1">
     <grid flex="1">
@@ -18,35 +19,35 @@
       </columns>
       <rows>
         <row>
-          <label control="ec2ui.bundleTask.id" value="Bundle ID:" />
+          <label control="ec2ui.bundleTask.id" value="&ec2ui.bundleTasks.id.label;:" />
           <textbox id="ec2ui.bundleTask.id" size="50" readonly="true" />
         </row>
         <row>
-          <label control="ec2ui.bundleTask.instanceId" value="Instance ID:" />
+          <label control="ec2ui.bundleTask.instanceId" value="&ec2ui.instances.id.label;:" />
           <textbox id="ec2ui.bundleTask.instanceId" size="50" readonly="true" />
         </row>
         <row>
-          <label control="ec2ui.bundleTask.state" value="State:" />
+          <label control="ec2ui.bundleTask.state" value="&ec2ui.bundleTasks.state.label;:" />
           <textbox id="ec2ui.bundleTask.state" size="50" readonly="true" />
         </row>
         <row>
-          <label control="ec2ui.bundleTask.startTime" value="Start Time:" />
+          <label control="ec2ui.bundleTask.startTime" value="&ec2ui.bundleTasks.startTime.label;:" />
           <textbox id="ec2ui.bundleTask.startTime" size="50" readonly="true" />
         </row>
         <row>
-          <label control="ec2ui.bundleTask.updateTime" value="Update Time:" />
+          <label control="ec2ui.bundleTask.updateTime" value="&ec2ui.bundleTasks.updateTime.label;:" />
           <textbox id="ec2ui.bundleTask.updateTime" size="50" readonly="true" />
         </row>
         <row>
-          <label control="ec2ui.bundleTask.s3bucket" value="S3 Bucket:" />
+          <label control="ec2ui.bundleTask.s3bucket" value="&ec2ui.bundleTasks.s3.bucket.label;:" />
           <textbox id="ec2ui.bundleTask.s3bucket" size="50" readonly="true" />
         </row>
         <row>
-          <label control="ec2ui.bundleTask.s3prefix" value="S3 Prefix:" />
+          <label control="ec2ui.bundleTask.s3prefix" value="&ec2ui.bundleTasks.s3.prefix.label;:" />
           <textbox id="ec2ui.bundleTask.s3prefix" size="50" readonly="true" />
         </row>
         <row>
-          <label control="ec2ui.bundleTask.errorMsg" value="Error Message:" />
+          <label control="ec2ui.bundleTask.errorMsg" value="&ec2ui.bundleTasks.errorMessage.label;:" />
           <textbox id="ec2ui.bundleTask.errorMsg" size="50" readonly="true" />
         </row>
       </rows>

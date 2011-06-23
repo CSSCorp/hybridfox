@@ -46,7 +46,9 @@ var ec2ui_DhcpoptsTreeView = {
         var opts = this.getSelectedImage();
         if (opts == null) return;
 
-        var confirmed = confirm("Delete " + opts.id + (opts.tag == null ? '' : " [" + opts.tag + "]") + "?");
+        var msg = ec2ui_utils.getMessageProperty("ec2ui.msg.dhcpoptionsview.confirm.deleteDhcpOptions",
+                                                  [opts.id, (opts.tag == null ? '' : " [" + opts.tag + "]")]);
+        var confirmed = confirm(msg);
         if (!confirmed) return;
 
         var me = this;

@@ -126,7 +126,7 @@ var ec2ui_PermissionsTreeView = {
         if (perms.length == 0)
             return;
 
-        var confirmed = confirm("Revoke selected permission(s) on group "+group.name+"?");
+        var confirmed = confirm(ec2ui_utils.getMessageProperty("ec2ui.msg.permissionsview.confirm.revokePermission", [group.name]));
         if (!confirmed)
             return;
 

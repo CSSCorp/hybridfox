@@ -6,7 +6,8 @@
   buttons="accept" 
   ondialogaccept="return ec2_VpnConnectionCustomerConfig.viewConfig();"
   ondialogcancel="return true;" 
-  title="View Customer Gateway Configuration" buttonlabelaccept="Get Config"
+  title="&ec2ui.dialog.title.vpnconnection_customer_config;"
+  buttonlabelaccept="&ec2ui.dialog.button.accept.vpnconnection_customer_config.label;"
   onload="ec2_VpnConnectionCustomerConfig.init();">
 
   <script type="application/x-javascript" src="chrome://ec2ui/content/vpnconnection_customer_config_dialog.js" />
@@ -21,7 +22,7 @@
       </columns>
       <rows>
         <row>
-          <label control="ec2ui.vpncustomerconfig.cgwtype" value="Device Type: " />
+          <label control="ec2ui.vpncustomerconfig.cgwtype" value="&ec2ui.vpncustomerconfig.cgwtype.label;:" />
           <menulist id="ec2ui.vpncustomerconfig.cgwtype" />
         </row>
       </rows>

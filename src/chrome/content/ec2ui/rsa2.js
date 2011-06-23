@@ -24,7 +24,7 @@ function RSASetPrivate(N,E,D) {
     this.d = parseBigInt(D,16);
   }
   else
-    alert("Invalid RSA private key");
+    alert(ec2ui_utils.getMessageProperty("ec2ui.msg.rsa2.alert.RSASetPrivate"));
 }
 
 // Set the private key fields N, e, d and CRT params from hex strings
@@ -40,7 +40,7 @@ function RSASetPrivateEx(N,E,D,P,Q,DP,DQ,C) {
     this.coeff = parseBigInt(C,16);
   }
   else
-    alert("Invalid RSA private key");
+    alert(ec2ui_utils.getMessageProperty("ec2ui.msg.rsa2.alert.RSASetPrivateEx"));
 }
 
 // Generate a new random private key B bits long, using public expt E

@@ -13,59 +13,59 @@
           <menuitem oncommand="ec2ui_InstancesTreeView.viewDetails(event);"
             label="&ec2ui.contextmenu.details.label;" />
           <menuitem oncommand="ec2ui_InstancesTreeView.tag(event);"
-            label="Add Tag" />
+            label="&ec2ui.addTag.label;" />
           <menuseparator />
           <menuitem id="instances.context.start"
             oncommand="ec2ui_InstancesTreeView.startInstance();"
-            label="Start" />
+            label="&ec2ui.instances.contextmenu.start.label;" />
           <menuitem oncommand="ec2ui_InstancesTreeView.launchMore();"
-            label="Launch More of these" />
+            label="&ec2ui.instances.contextmenu.launchmore.label;" />
           <menuitem oncommand="ec2ui_InstancesTreeView.associateWithEIP();"
             label="&ec2ui.addresses.contextmenu.associate.label;" />
           <menuitem oncommand="ec2ui_InstancesTreeView.attachEBSVolume();"
-            label="Attach an EBS Volume" />
+            label="&ec2ui.instances.contextmenu.attachebs.label;" />
           <menuitem id="instances.context.bundle"
             oncommand="ec2ui_InstancesTreeView.showBundleDialog();"
-            label="Bundle into an S3 AMI" />
+            label="&ec2ui.instances.contextmenu.bundle.label;" />
           <menuitem id="instances.context.createimage"
             oncommand="ec2ui_InstancesTreeView.showCreateImageDialog();"
-            label="Create Image (EBS AMI)" />
+            label="&ec2ui.instances.contextmenu.createimage.label;" />
           <menuitem oncommand="ec2ui_InstancesTreeView.rebootInstance();"
-            label="Reboot" />
+            label="&ec2ui.instances.contextmenu.reboot.label;" />
           <menuitem oncommand="ec2ui_InstancesTreeView.terminateInstance();"
-            label="Terminate" />
+            label="&ec2ui.instances.contextmenu.terminate.label;" />
           <menuitem id="instances.context.stop"
             oncommand="ec2ui_InstancesTreeView.stopInstance();"
-            label="Stop" />
+            label="&ec2ui.instances.contextmenu.stop.label;" />
           <menuitem id="instances.context.forceStop"
             oncommand="ec2ui_InstancesTreeView.forceStopInstance();"
-            label="Force Stop" />
+            label="&ec2ui.instances.contextmenu.forcestop.label;" />
           <menuseparator />
           <menuitem id="instances.context.monitor"
             oncommand="ec2ui_InstancesTreeView.monitorInstance();"
-            label="Monitor" />
+            label="&ec2ui.instances.contextmenu.monitor.label;" />
           <menuitem id="instances.context.unmonitor"
             oncommand="ec2ui_InstancesTreeView.unmonitorInstance();"
-            label="Unmonitor" />
+            label="&ec2ui.instances.contextmenu.unmonitor.label;" />
           <menuseparator />
           <menuitem oncommand="ec2ui_InstancesTreeView.fetchConsoleOutput();"
-            label="Show Console Output" />
+            label="&ec2ui.instances.contextmenu.console.label;" />
           <menuitem id="instances.context.getPassword"
             oncommand="ec2ui_InstancesTreeView.getAdminPassword(false);"
-            label="Get Administrator Password" />
+            label="&ec2ui.instances.contextmenu.password.label;" />
           <menuseparator />
           <menuitem oncommand="ec2ui_InstancesTreeView.copyToClipBoard('id');"
             label="&ec2ui.instances.contextmenu.copyid.label;" />
           <menuitem oncommand="ec2ui_InstancesTreeView.copyToClipBoard('publicDnsName');"
-            label="Copy Public DNS Name to clipboard" />
+            label="&ec2ui.instances.contextmenu.copypublic.label;" />
           <menuitem oncommand="ec2ui_InstancesTreeView.copyToClipBoard('privateDnsName');"
-            label="Copy Private DNS Name to clipboard" />
+            label="&ec2ui.instances.contextmenu.copyprivate.label;" />
           <menuitem oncommand="ec2ui_InstancesTreeView.copyToClipBoard('privateIpAddress');"
-            label="Copy Private IP Address to clipboard" />
+            label="&ec2ui.instances.contextmenu.copyprivateip.label;" />
           <menuseparator />
           <menuitem id="instances.context.connect"
             oncommand="ec2ui_InstancesTreeView.connectToSelectedInstances();"
-            label="Connect to Instance" />
+            label="&ec2ui.instances.contextmenu.connect.label;" />
         </menupopup>
       </popupset>
       <toolbar style="padding: 0px 3px; -moz-box-align: center">
@@ -100,8 +100,8 @@
             tooltiptext="&ec2ui.instances.connect.tip;" />
           <toolbarbutton image="images/info.png" style="-moz-box-pack:center;"
             oncommand="ec2ui_InstancesTreeView.tag();"
-            tooltiptext="Add Tag" />
-          <checkbox id="ec2ui.instances.noterminated" label="Don't show Terminated Instances"
+            tooltiptext="&ec2ui.addTag.label;" />
+          <checkbox id="ec2ui.instances.noterminated" label="&ec2ui.instances.checkbox.terminated.label;"
             checked="false" oncommand="ec2ui_InstancesTreeView.invalidate();"/>
         </hbox>
       </toolbar>
@@ -175,7 +175,7 @@
             label="&ec2ui.instances.rootDeviceType.label;" flex="1"
             persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
-          <treecol id="instance.tag" label="Tag" flex="1"
+          <treecol id="instance.tag" label="&ec2ui.tag.label;" flex="1"
             persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
           <treecol id="instance.platform" label="&ec2ui.platform.label;"

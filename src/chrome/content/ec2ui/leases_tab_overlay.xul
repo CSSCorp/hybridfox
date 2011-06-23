@@ -14,7 +14,7 @@
               label="&ec2ui.contextmenu.details.label;" />
             <menuseparator />
               <menuitem oncommand="ec2ui_LeaseOfferingsTreeView.purchaseOffering();"
-              label="Purchase Reserved Instances Offering" />
+              label="&ec2ui.offerings.contextmenu.purchase.label;" />
             <menuseparator />
             <menuitem oncommand="ec2ui_LeaseOfferingsTreeView.copyToClipBoard('id');"
               label="&ec2ui.contextmenu.copyid.label;" />
@@ -31,7 +31,7 @@
             <toolbarbutton image="images/cash.png"
               style="-moz-box-orient:horizontal;-moz-box-pack:center;"
               oncommand="ec2ui_LeaseOfferingsTreeView.purchaseOffering();"
-              tooltiptext="PurchaseOffering" />
+              tooltiptext="&ec2ui.offerings.purchaseOffering.tip;" />
           </hbox>
         </toolbar>
         <tree id="ec2ui.offerings.view" seltype="single" enableColumnDrag="true"

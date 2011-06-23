@@ -7,7 +7,8 @@
     buttons="accept,cancel"
     ondialogaccept="return ec2_VpnGatewayAttacher.attachVpnGateway();"
     ondialogcancel="return true;" onload="ec2_VpnGatewayAttacher.init();"
-    title="Attach VPN Gateway to VPC" buttonlabelaccept="Attach">
+    title="&ec2ui.dialog.title.attach_vpn_gateway;"
+    buttonlabelaccept="&ec2ui.dialog.button.accept.attach_vpn_gateway.label;">
 
     <script type="application/x-javascript" src="chrome://ec2ui/content/attach_vpn_gateway_dialog.js" />
     <script type="application/x-javascript" src="chrome://ec2ui/content/model.js" />
@@ -22,7 +23,7 @@
                 <!-- VPC -->
                 <row>
                     <label control="ec2ui.attachvpngateway.vpcid"
-                           value="Virtual Private Cloud: "/>
+                           value="&ec2ui.vpc.vpcid.label;:"/>
                     <hbox>
                         <menulist id="ec2ui.attachvpngateway.vpcid"/>
                     </hbox>
@@ -31,7 +32,7 @@
                <!-- VPN GW -->
                 <row>
                     <label control="ec2ui.attachvpngateway.vgwid"
-                           value="VPN Gateway: "/>
+                           value="&ec2ui.vpngateway.vgwid.label;:"/>
                     <hbox>
                         <menulist id="ec2ui.attachvpngateway.vgwid"/>
                     </hbox>

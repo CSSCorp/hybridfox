@@ -226,7 +226,8 @@ var ec2ui_BundleTasksTreeView = {
             return;
         }
 
-        var confirmed = confirm("Cancel bundle task:  " + selected.id + "?");
+        var msg = ec2ui_utils.getMessageProperty("ec2ui.msg.bundletasksview.confirm.cancelBundleTask", [selected.id]);
+        var confirmed = confirm(msg);
         if (!confirmed)
             return;
 
@@ -306,7 +307,7 @@ var ec2ui_BundleTasksTreeView = {
 
         // Ensure that bundling has run to completion
         if (selected.state != "complete") {
-            alert('Please wait for the Bundling State to be "complete" before Registering');
+            alert(ec2ui_utils.getMessageProperty("ec2ui.msg.bundletasksview.alert.registerNewImage"));
             return;
         }
 

@@ -7,7 +7,7 @@
     buttons="accept,cancel"
     ondialogaccept="return ec2_VpcCreator.createVpc();"
     ondialogcancel="return true;" onload="ec2_VpcCreator.init();"
-    title="Create a new VPC" buttonlabelaccept="Create VPC">
+    title="&ec2ui.dialog.title.create_vpc;" buttonlabelaccept="&ec2ui.dialog.button.accept.create_vpc.label;">
 
     <script type="application/x-javascript" src="chrome://ec2ui/content/createvpcdialog.js" />
     <script type="application/x-javascript" src="chrome://ec2ui/content/model.js" />
@@ -21,7 +21,7 @@
             <rows>
                 <row>
                     <label control="ec2ui.newvpc.cidr"
-                        value="CIDR Block:" />
+                        value="&ec2ui.newvpc.cidr.label;:" />
                     <hbox>
                         <textbox id="ec2ui.newvpc.cidr" size="20"
                             value="" />

@@ -6,9 +6,11 @@
   buttons="extra2,extra1,cancel" ondialogcancel="return true;"
   ondialogextra1="ec2ui_accountIdManager.saveAccount();"
   ondialogextra2="ec2ui_accountIdManager.removeAccount();"
-  buttonlabelcancel="Close" buttonlabelextra1="Add" buttonlabelextra2="Remove"
+  buttonlabelcancel="&ec2ui.dialog.button.cancel.manage.label;"
+  buttonlabelextra1="&ec2ui.dialog.button.extra1.manage.label;"
+  buttonlabelextra2="&ec2ui.dialog.button.extra2.manage.label;"
   defaultButton="extra1" buttonpack="end" buttonalign="end"
-  onload="ec2ui_accountIdManager.initDialog();" title="Manage Account IDs" >
+  onload="ec2ui_accountIdManager.initDialog();" title="&ec2ui.dialog.title.manage_accountids;" >
 
   <script type="application/x-javascript" src="chrome://ec2ui/content/preferences.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/model.js" />
@@ -20,9 +22,9 @@
     <tree id="ec2ui.accountids.view"
       onselect="ec2ui_accountIdManager.selectMapping();" flex="1" rows="5">
       <treecols>
-        <treecol id="accountids.accountid" label="Account ID"
+        <treecol id="accountids.accountid" label="&ec2ui.accountids.accountid.label;"
           flex="1" persist="width ordinal hidden" />
-        <treecol id="accountids.displayname" label="Display Name"
+        <treecol id="accountids.displayname" label="&ec2ui.accountids.displayname.label;"
           flex="1" persist="width ordinal hidden" />
       </treecols>
       <treechildren />
@@ -34,11 +36,11 @@
       </columns>
       <rows>
         <row>
-          <label control="ec2ui.accountids.accountid" value="Account ID:" />
+          <label control="ec2ui.accountids.accountid" value="&ec2ui.accountids.accountid.label;:" />
           <textbox id="ec2ui.accountids.accountid" size="20" />
         </row>
         <row>
-          <label control="ec2ui.accountids.displayname" value="Display Name:" />
+          <label control="ec2ui.accountids.displayname" value="&ec2ui.accountids.displayname.label;:" />
           <textbox id="ec2ui.accountids.displayname" size="40" />
         </row>
       </rows>

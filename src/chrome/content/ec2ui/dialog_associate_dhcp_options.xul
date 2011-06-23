@@ -7,10 +7,12 @@
     buttons="accept,cancel"
     ondialogaccept="return ec2_DhcpoptsAssociator.associateDhcpOptions();"
     ondialogcancel="return true;" onload="ec2_DhcpoptsAssociator.init();"
-    title="Associate DHCP Options to VPC" buttonlabelaccept="Associate">
+    title="&ec2ui.dialog.title.associate_dhcp_options;"
+    buttonlabelaccept="&ec2ui.dialog.button.accept.associate_dhcp_options.label;">
 
     <script type="application/x-javascript" src="chrome://ec2ui/content/associate_dhcp_options_dialog.js" />
     <script type="application/x-javascript" src="chrome://ec2ui/content/model.js" />
+    <script type="application/x-javascript" src="chrome://ec2ui/content/utils.js" />
 
     <vbox flex="1">
         <grid flex="1">
@@ -22,7 +24,7 @@
                 <!-- VPC -->
                 <row>
                     <label control="ec2ui.associatedhcpoptions.vpcid"
-                           value="Virtual Private Cloud: "/>
+                           value="&ec2ui.vpc.vpcid.label;:"/>
                     <hbox>
                         <menulist id="ec2ui.associatedhcpoptions.vpcid"/>
                     </hbox>
@@ -31,7 +33,7 @@
                 <!-- DHCP Options -->
                 <row>
                     <label control="ec2ui.associatedhcpoptions.dhcpoptionsid"
-                           value="DHCP Options Set: "/>
+                           value="&ec2ui.dhcpopts.associate.dhcpoptionsid.label;:"/>
                     <hbox>
                         <menulist id="ec2ui.associatedhcpoptions.dhcpoptionsid"/>
                     </hbox>

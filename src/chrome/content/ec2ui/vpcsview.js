@@ -75,7 +75,9 @@ var ec2ui_VpcTreeView = {
         var vpc = this.getSelectedImage();
         if (vpc == null) return;
 
-        var confirmed = confirm("Delete " + vpc.id + " (" + vpc.cidr + ")" + (vpc.tag == null ? '' : " [" + vpc.tag + "]") + "?");
+        var msg = ec2ui_utils.getMessageProperty("ec2ui.msg.vpcsview.confirm.deleteVpc",
+                                                 [vpc.id, vpc.cidr, (vpc.tag == null ? '' : " [" + vpc.tag + "]")]);
+        var confirmed = confirm(msg);
         if (!confirmed) return;
 
         var me = this;

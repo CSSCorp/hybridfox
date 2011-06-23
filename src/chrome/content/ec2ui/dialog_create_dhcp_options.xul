@@ -7,13 +7,15 @@
     buttons="accept,cancel"
     ondialogaccept="return ec2_DhcpoptsCreator.createDhcpOptions();"
     ondialogcancel="return true;" onload="ec2_DhcpoptsCreator.init();"
-    title="Create a new DHCP Options Set" buttonlabelaccept="Create DHCP Options Set">
+    title="&ec2ui.dialog.title.create_dhcp_options;"
+    buttonlabelaccept="&ec2ui.dialog.button.accept.create_dhcp_options.label;">
 
     <script type="application/x-javascript" src="chrome://ec2ui/content/create_dhcp_options_dialog.js" />
     <script type="application/x-javascript" src="chrome://ec2ui/content/model.js" />
+    <script type="application/x-javascript" src="chrome://ec2ui/content/utils.js" />
 
     <vbox flex="1">
-        <label value="Enter values for the DHCP options you wish to set."/>
+        <label value="&ec2ui.dhcpopts.create.vbox.label;"/>
         <grid flex="1">
             <columns>
                 <column />

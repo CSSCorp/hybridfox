@@ -4,7 +4,7 @@
 
 <dialog id="ec2ui.dialog.permission.detail" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
 	buttons="accept" ondialogaccept="return true;"
-	onload="ec2_PermissionDetails.init();" title="Security Group Details">
+	onload="ec2_PermissionDetails.init();" title="&ec2ui.dialog.title.permission_details;">
 
 	<script type="application/x-javascript" src="chrome://ec2ui/content/permissiondetaildialog.js" />
 	<script type="application/x-javascript" src="chrome://ec2ui/content/model.js" />
@@ -18,23 +18,23 @@
 			</columns>
 			<rows>
 				<row>
-					<label control="ec2ui.permission.protocol" value="Protocol:" />
+					<label control="ec2ui.permission.protocol" value="&ec2ui.permissions.protocol.label;:" />
 					<textbox id="ec2ui.permission.protocol" size="40" readonly="true" />
 				</row>
 				<row>
-					<label control="ec2ui.permission.fromport" value="From Port/ICMP Type:" />
+					<label control="ec2ui.permission.fromport" value="&ec2ui.permissions.fromport.label;:" />
 					<textbox id="ec2ui.permission.fromport" size="40" readonly="true" />
 				</row>
 				<row>
-					<label control="ec2ui.permission.toport" value="To Port/ICMP Code:" />
+					<label control="ec2ui.permission.toport" value="&ec2ui.permissions.toport.label;:" />
 					<textbox id="ec2ui.permission.toport" size="40" readonly="true" />
 				</row>
 				<row>
-					<label control="ec2ui.permission.sourcecidr" value="Source CIDR:" />
+					<label control="ec2ui.permission.sourcecidr" value="&ec2ui.permissions.cidrs.label;:" />
 					<textbox id="ec2ui.permission.sourcecidr" size="40" readonly="true" />
 				</row>
 				<row>
-					<label control="ec2ui.permission.sourceusergroup" value="Source (User,Group):" />
+					<label control="ec2ui.permission.sourceusergroup" value="&ec2ui.permissions.details.groups.label;:" />
 					<textbox id="ec2ui.permission.sourceusergroup" size="40" readonly="true" />
 				</row>
 			</rows>

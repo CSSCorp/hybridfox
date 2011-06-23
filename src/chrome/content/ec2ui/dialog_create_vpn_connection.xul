@@ -7,7 +7,8 @@
     buttons="accept,cancel"
     ondialogaccept="return ec2_VpnConnectionCreator.createVpnConnection();"
     ondialogcancel="return true;" onload="ec2_VpnConnectionCreator.init();"
-    title="Create a new VPN Connection" buttonlabelaccept="Create VPN Connection">
+    title="&ec2ui.dialog.title.create_vpn_connection;"
+    buttonlabelaccept="&ec2ui.dialog.button.accept.create_vpn_connection.label;">
 
     <script type="application/x-javascript" src="chrome://ec2ui/content/create_vpn_connection_dialog.js" />
     <script type="application/x-javascript" src="chrome://ec2ui/content/model.js" />
@@ -22,7 +23,7 @@
                 <!-- Peering Gateway -->
                 <row>
                     <label control="ec2ui.newvpnconnection.vgwid"
-                           value="VPN Gateway: "/>
+                           value="&ec2ui.vpngateway.vgwid.label;:"/>
                     <hbox>
                         <menulist id="ec2ui.newvpnconnection.vgwid"/>
                     </hbox>
@@ -31,7 +32,7 @@
                 <!-- Customer Gateway -->
                 <row>
                     <label control="ec2ui.newvpnconnection.cgwid"
-                           value="Customer Gateway: "/>
+                           value="&ec2ui.customergateway.cgwid.label;:"/>
                     <hbox>
                         <menulist id="ec2ui.newvpnconnection.cgwid"/>
                     </hbox>

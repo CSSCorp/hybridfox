@@ -15,7 +15,7 @@ var ec2_SecGroupCreator = {
     validateGroupName : function() {
         var textbox = document.getElementById("ec2ui.newsecgroup.name");
         if (textbox.value.trim().length == 0) {
-            alert("Please provide a group name");
+            alert(ec2ui_utils.getMessageProperty("ec2ui.msg.createsecgroupdialog.alert.validateGroupName"));
             textbox.select();
             return false;
         }
@@ -25,7 +25,7 @@ var ec2_SecGroupCreator = {
     validateGroupDesc : function() {
         var textbox = document.getElementById("ec2ui.newsecgroup.description");
         if (textbox.value.trim().length == 0) {
-            alert("Please provide a description");
+            alert(ec2ui_utils.getMessageProperty("ec2ui.msg.createsecgroupdialog.alert.validateGroupDesc"));
             textbox.select();
             return false;
         }

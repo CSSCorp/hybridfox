@@ -89,19 +89,19 @@ var ec2ui_LeaseOfferingsTreeView = {
                     prompts.BUTTON_TITLE_CANCEL * prompts.BUTTON_POS_2 +
                     prompts.BUTTON_POS_0_DEFAULT;
 
-                var msg = "You are about to purchase " + retVal.count;
-                msg = msg + " " + image.description + " Reserved Instance(s)";
-                msg = msg + " in the " + image.azone;
-                msg = msg + " Availability Zone for $";
-                msg = msg + retVal.count * parseInt(image.fixedPrice);
-                msg = msg + ". Are you sure?\n\nAn email will be sent to you shortly after we receive your order.";
+                var totalPrice = retVal.count * parseInt(image.fixedPrice);
+                var msg = ec2ui_utils.getMessageProperty("ec2ui.msg.leaseofferingsview.prompts.purchaseOffering",
+                                                         [retVal.count, image.description, image.azone, totalPrice]);
+                var promptstitle = ec2ui_utils.getMessageProperty("ec2ui.msg.leaseofferingsview.prompts.purchaseOffering.title");
+                var button1Title = ec2ui_utils.getMessageProperty("ec2ui.msg.leaseofferingsview.prompts.purchaseOffering.button1");
+                var button2Title = ec2ui_utils.getMessageProperty("ec2ui.msg.leaseofferingsview.prompts.purchaseOffering.button2");
 
                 var button = prompts.confirmEx(window,
-                                               "Confirm Reserved Instances Offering Purchase",
+                                               promptstitle,
                                                msg,
                                                flags,
-                                               "Edit Order",
-                                               "Place Order",
+                                               button1Title,
+                                               button2Title,
                                                "",
                                                null,
                                                {});

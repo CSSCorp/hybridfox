@@ -7,7 +7,8 @@
     buttons="accept,cancel"
     ondialogaccept="return ec2_SubnetCreator.createSubnet();"
     ondialogcancel="return true;" onload="ec2_SubnetCreator.init();"
-    title="Create a new Subnet" buttonlabelaccept="Create Subnet">
+    title="&ec2ui.dialog.title.create_subnet;"
+    buttonlabelaccept="&ec2ui.dialog.button.accept.create_subnet.label;">
 
     <script type="application/x-javascript" src="chrome://ec2ui/content/create_subnet_dialog.js" />
     <script type="application/x-javascript" src="chrome://ec2ui/content/model.js" />
@@ -22,7 +23,7 @@
                 <!-- Vpc -->
                 <row>
                     <label control="ec2ui.newsubnet.vpcid" 
-                           value="Virtual Private Cloud: "/>
+                           value="&ec2ui.vpc.vpcid.label;:"/>
                     <hbox>
                         <menulist id="ec2ui.newsubnet.vpcid"/>
                     </hbox>
@@ -30,7 +31,7 @@
 
                 <row>
                     <label control="ec2ui.newsubnet.cidr"
-                        value="Subnet CIDR Block:" />
+                        value="&ec2ui.newsubnet.cidr.label;:" />
                     <hbox>
                         <textbox id="ec2ui.newsubnet.cidr" size="20"
                             value="" />
@@ -40,7 +41,7 @@
                 <!-- Availability Zone -->
                 <row>
                     <label control="ec2ui.newsubnetaz"
-                        value="Availability Zone: "/>
+                        value="&ec2ui.availabilityZone.label;:"/>
                     <hbox>
                         <menulist id="ec2ui.newsubnet.az"/>
                     </hbox>

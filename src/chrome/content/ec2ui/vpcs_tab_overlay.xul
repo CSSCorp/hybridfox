@@ -12,7 +12,7 @@
           <menupopup id="ec2ui.vpcs.contextmenu"
             onpopupshowing="ec2ui_VpcTreeView.enableOrDisableItems();">
             <menuitem oncommand="ec2ui_VpcTreeView.tag(event);"
-              label="Add Tag" />
+              label="&ec2ui.addTag.label;" />
             <menuseparator />
             <!-- Create subnet -->
             <menuitem oncommand="ec2ui_VpcTreeView.createSubnet();"
@@ -55,7 +55,7 @@
               tooltiptext="&ec2ui.deletevpc.tip;" />
             <toolbarbutton image="images/info.png" style="-moz-box-pack:center;"
               oncommand="ec2ui_VpcTreeView.tag();"
-              tooltiptext="Add Tag" />
+              tooltiptext="&ec2ui.addTag.label;" />
           </hbox>
         </toolbar>
         <tree id="ec2ui.vpcs.view" seltype="single" enableColumnDrag="true"
@@ -74,7 +74,7 @@
             <treecol id="vpc.dhcpOptionsId" label="&ec2ui.vpcs.dhcpoptions.label;" flex="1"
               persist="width ordinal hidden sortDirection" />
             <splitter class="tree-splitter" />
-            <treecol id="vpc.tag" label="Tag" flex="1"
+            <treecol id="vpc.tag" label="&ec2ui.tag.label;" flex="1"
               persist="width ordinal hidden sortDirection" />
             <splitter class="tree-splitter" />
           </treecols>
@@ -90,7 +90,7 @@
         <popupset>
           <menupopup id="ec2ui.subnets.contextmenu">
             <menuitem oncommand="ec2ui_SubnetTreeView.tag(event);"
-              label="Add Tag" />
+              label="&ec2ui.addTag.label;" />
             <menuseparator />
             <menuitem oncommand="ec2ui_SubnetTreeView.deleteSubnet();"
                       label="&ec2ui.subnet.contextmenu.delete.label;" />
@@ -118,7 +118,7 @@
               tooltiptext="&ec2ui.deletesubnet.tip;" />
             <toolbarbutton image="images/info.png" style="-moz-box-pack:center;"
               oncommand="ec2ui_SubnetTreeView.tag();"
-              tooltiptext="Add Tag" />
+              tooltiptext="&ec2ui.addTag.label;" />
           </hbox>
         </toolbar>
         <tree id="ec2ui.subnets.view" seltype="single" enableColumnDrag="true"
@@ -140,10 +140,10 @@
             <treecol id="subnet.availableIp" label="&ec2ui.subnets.availableip.label;" flex="1"
               persist="width ordinal hidden sortDirection" />
             <splitter class="tree-splitter" />
-            <treecol id="subnet.availabilityZone" label="&ec2ui.subnets.availabilityzone.label;" flex="1"
+            <treecol id="subnet.availabilityZone" label="&ec2ui.availabilityZone.label;" flex="1"
               persist="width ordinal hidden sortDirection" />
             <splitter class="tree-splitter" />
-            <treecol id="subnet.tag" label="Tag" flex="1"
+            <treecol id="subnet.tag" label="&ec2ui.tag.label;" flex="1"
               persist="width ordinal hidden sortDirection" />
           </treecols>
           <treechildren context="ec2ui.subnets.contextmenu"/>
@@ -158,7 +158,7 @@
         <popupset>
           <menupopup id="ec2ui.dhcpopts.contextmenu">
             <menuitem oncommand="ec2ui_DhcpoptsTreeView.tag(event);"
-              label="Add Tag" />
+              label="&ec2ui.addTag.label;" />
             <menuseparator />
             <menuitem oncommand="ec2ui_DhcpoptsTreeView.deleteDhcpOptions();"
                       label="&ec2ui.dhcpopts.contextmenu.delete.label;" />
@@ -186,7 +186,7 @@
               tooltiptext="&ec2ui.deletedhcpoptions.tip;" />
             <toolbarbutton image="images/info.png" style="-moz-box-pack:center;"
               oncommand="ec2ui_DhcpoptsTreeView.tag();"
-              tooltiptext="Add Tag" />
+              tooltiptext="&ec2ui.addTag.label;" />
           </hbox>
         </toolbar>
         <tree id="ec2ui.dhcpoptions.view" seltype="single" enableColumnDrag="true"
@@ -199,7 +199,7 @@
             <treecol id="dhcpoption.options" label="&ec2ui.dhcpopts.options.label;" flex="1"
               persist="width ordinal hidden sortDirection" />
             <splitter class="tree-splitter" />
-            <treecol id="dhcpoption.tag" label="Tag" flex="1"
+            <treecol id="dhcpoption.tag" label="&ec2ui.tag.label;" flex="1"
               persist="width ordinal hidden sortDirection" />
           </treecols>
           <treechildren context="ec2ui.dhcpopts.contextmenu"/>

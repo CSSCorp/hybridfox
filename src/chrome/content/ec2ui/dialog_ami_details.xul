@@ -4,7 +4,7 @@
 
 <dialog id="ec2ui.dialog.ami.detail" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
   buttons="accept" ondialogaccept="return true;"
-  onload="ec2_AMIDetails.init();" title="AMI Details">
+  onload="ec2_AMIDetails.init();" title="&ec2ui.dialog.title.ami_details;">
 
   <script type="application/x-javascript" src="chrome://ec2ui/content/amidetaildialog.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/model.js" />
@@ -18,43 +18,43 @@
       </columns>
       <rows>
         <row>
-          <label control="ec2ui.ami.id" value="Image ID:" />
+          <label control="ec2ui.ami.id" value="&ec2ui.images.id.label;:" />
           <textbox id="ec2ui.ami.id" size="40" readonly="true" />
         </row>
         <row>
-          <label control="ec2ui.ami.location" value="Manifest:" />
+          <label control="ec2ui.ami.location" value="&ec2ui.images.manifest.label;:" />
           <textbox id="ec2ui.ami.location" size="40" readonly="true" />
         </row>
         <row>
-          <label control="ec2ui.ami.aki" value="AKI:" />
+          <label control="ec2ui.ami.aki" value="&ec2ui.kernels.id.label;:" />
           <textbox id="ec2ui.ami.aki" size="40" readonly="true" />
         </row>
         <row>
-          <label control="ec2ui.ami.ari" value="ARI:" />
+          <label control="ec2ui.ami.ari" value="&ec2ui.ramdisks.id.label;:" />
           <textbox id="ec2ui.ami.ari" size="40" readonly="true" />
         </row>
         <row>
-          <label control="ec2ui.ami.state" value="State:" />
+          <label control="ec2ui.ami.state" value="&ec2ui.images.state.label;:" />
           <textbox id="ec2ui.ami.state" size="40" readonly="true" />
         </row>
         <row>
-          <label control="ec2ui.ami.ownerid" value="Owner ID:" />
+          <label control="ec2ui.ami.ownerid" value="&ec2ui.images.owner.label;:" />
           <textbox id="ec2ui.ami.ownerid" size="40" readonly="true" />
         </row>
         <row>
-          <label control="ec2ui.ami.ispublic" value="Visibility:" />
+          <label control="ec2ui.ami.ispublic" value="&ec2ui.images.visibility.label;:" />
           <textbox id="ec2ui.ami.ispublic" size="40" readonly="true" />
         </row>
         <row>
-          <label control="ec2ui.ami.arch" value="Architecture:" />
+          <label control="ec2ui.ami.arch" value="&ec2ui.images.architecture.label;:" />
           <textbox id="ec2ui.ami.arch" size="40" readonly="true" />
         </row>
         <row>
-          <label control="ec2ui.ami.platform" value="Platform:" />
+          <label control="ec2ui.ami.platform" value="&ec2ui.platform.label;:" />
           <textbox id="ec2ui.ami.platform" size="40" readonly="true" />
         </row>
         <row>
-          <label control="ec2ui.ami.tag" value="Tag:" />
+          <label control="ec2ui.ami.tag" value="&ec2ui.tag.label;:" />
           <textbox id="ec2ui.ami.tag" size="40" readonly="true" />
         </row>
       </rows>

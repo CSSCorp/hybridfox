@@ -207,7 +207,7 @@ var ec2ui_AMIsTreeView = {
     callRegisterImageInRegion : function(manifest, region) {
         var me = this;
         var wrap = function(x) {
-            alert ("Image with Manifest: " + manifest + " was registered");
+            alert (ec2ui_utils.getMessageProperty("ec2ui.msg.amisview.alert.callRegisterImageInRegion", [manifest]));
             if (ec2ui_prefs.isRefreshOnChangeEnabled()) {
                 me.refresh();
                 me.selectByImageId(x);
@@ -240,7 +240,9 @@ var ec2ui_AMIsTreeView = {
         var image = this.imageList[index];
 
         if (fDelete == undefined) {
-            fDelete = confirm("Deregister AMI "+image.id+" ("+image.location+")?");
+            var msg = ec2ui_utils.getMessageProperty("ec2ui.msg.amisview.confirm.deregisterImage",
+                                                     [image.id, image.location]);
+            fDelete = confirm(msg);
         }
 
         if (!fDelete) {
@@ -268,7 +270,7 @@ var ec2ui_AMIsTreeView = {
 
         if (this.currentlyMigrating &&
             this.amiBeingMigrated == image.id) {
-            alert ("This AMI is currently being migrated!");
+            alert (ec2ui_utils.getMessageProperty("ec2ui.msg.amisview.alert.migrateImage"));
             return;
         }
 
@@ -315,12 +317,11 @@ var ec2ui_AMIsTreeView = {
 
         if (this.currentlyMigrating &&
             this.amiBeingMigrated == image.id) {
-            alert ("This AMI is currently being migrated. Please try *Deleting* it after the Migration.");
+            alert (ec2ui_utils.getMessageProperty("ec2ui.msg.amisview.alert.deleteImage"));
             return;
         }
 
-        var msg = "Are you sure you want to delete this AMI and all its parts from S3?";
-        msg = msg + " The AMI will be deregistered as well.";
+        var msg = ec2ui_utils.getMessageProperty("ec2ui.msg.amisview.confirm.deleteImage");
         var fDelete = confirm(msg);
 
         if (fDelete) {
@@ -349,8 +350,8 @@ var ec2ui_AMIsTreeView = {
         var ami = image.id;
         var snapshot = image.snapshotId;
 
-        var msg = "Are you sure you want to delete this AMI ("+ami+") "+
-                  "and the accompanying snapshot ("+snapshot+")?";
+        var msg = ec2ui_utils.getMessageProperty("ec2ui.msg.amisview.confirm.deleteSnapshotAndDeregister",
+                                                 [ami, snapshot]);
         var fDelete = confirm(msg);
 
         if (fDelete) {
@@ -422,7 +423,7 @@ var ec2ui_AMIsTreeView = {
     addLaunchPermission : function() {
         var image = this.getSelectedImage();
         if (image == null) return;
-        var name = prompt("Please provide an EC2 user ID");
+        var name = prompt(ec2ui_utils.getMessageProperty("ec2ui.msg.amisview.prompt.addLaunchPermission"));
         if (name == null) return;
         this.addNamedPermission(image, name);
     },
@@ -444,7 +445,8 @@ var ec2ui_AMIsTreeView = {
         var name = this.getSelectedLaunchPermission();
         if (name == null) return;
 
-        var confirmed = confirm("Revoke launch permissions for "+name+" on AMI "+image.id+"?");
+        var msg = ec2ui_utils.getMessageProperty("ec2ui.msg.amisview.confirm.removeLaunchPermission", [name, image.id]);
+        var confirmed = confirm(msg);
         if (!confirmed)
             return;
 
@@ -461,7 +463,8 @@ var ec2ui_AMIsTreeView = {
         var image = this.getSelectedImage();
         if (image == null) return;
 
-        var confirmed = confirm("Reset launch permissions for AMI "+image.id+"?");
+        var msg = ec2ui_utils.getMessageProperty("ec2ui.msg.amisview.confirm.resetLaunchPermissions", [image.id]);
+        var confirmed = confirm(msg);
         if (!confirmed)
             return;
 

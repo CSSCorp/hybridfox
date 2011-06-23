@@ -7,7 +7,8 @@
     buttons="accept,cancel"
     ondialogaccept="return ec2_VpnGatewayCreator.createVpnGateway();"
     ondialogcancel="return true;" onload="ec2_VpnGatewayCreator.init();"
-    title="Create a new VPN Gateway" buttonlabelaccept="Create VPN Gateway">
+    title="&ec2ui.dialog.title.create_vpn_gateway;"
+    buttonlabelaccept="&ec2ui.dialog.button.accept.create_vpn_gateway.label;">
 
     <script type="application/x-javascript" src="chrome://ec2ui/content/create_vpn_gateway_dialog.js" />
     <script type="application/x-javascript" src="chrome://ec2ui/content/model.js" />
@@ -22,7 +23,7 @@
                 <!-- Type -->
                 <row>
                     <label control="ec2ui.newvpngateway.type"
-                           value="Type: "/>
+                           value="&ec2ui.vpngateways.type.label;:"/>
                     <hbox><textbox id="ec2ui.newvpngateway.type" size="20"
                                    value=""/>
                     </hbox>
@@ -31,7 +32,7 @@
                 <!-- Availability Zone -->
                 <row>
                     <label control="ec2ui.newvpngateway.az"
-                        value="Availability Zone: "/>
+                        value="&ec2ui.availabilityZone.label;:"/>
                     <hbox>
                         <menulist id="ec2ui.newvpngateway.az"/>
                     </hbox>

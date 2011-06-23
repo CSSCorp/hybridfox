@@ -4,7 +4,8 @@
 
 <dialog id="ec2ui.dialog.newinstances" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
   buttons="accept,cancel" ondialogaccept="return ec2_InstanceLauncher.launch();" ondialogcancel="return true;"
-  onload="ec2_InstanceLauncher.init();" title="Launch new instance(s)" buttonlabelaccept="Launch">
+  onload="ec2_InstanceLauncher.init();" title="&ec2ui.dialog.title.new_instances;"
+  buttonlabelaccept="&ec2ui.dialog.button.accept.new_instances.label;">
 
   <script type="application/x-javascript" src="chrome://ec2ui/content/utils.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/newinstancesdialog.js" />
@@ -20,61 +21,61 @@
       </columns>
       <rows>
         <row>
-          <label control="ec2ui.newinstances.ami" value="AMI ID:" />
+          <label control="ec2ui.newinstances.ami" value="&ec2ui.machines.id.label;:" />
           <textbox id="ec2ui.newinstances.ami" size="40" value="1" readonly="true" />
         </row>
         <row>
-          <label control="ec2ui.newinstances.ami.tag" value="AMI Tag:" />
+          <label control="ec2ui.newinstances.ami.tag" value="&ec2ui.instances.lunch.ami.tag.label;:" />
           <textbox id="ec2ui.newinstances.ami.tag" size="40" value="1" readonly="true" />
         </row>
         <row>
-          <label control="ec2ui.newinstances.ami.location" value="AMI Manifest:" />
+          <label control="ec2ui.newinstances.ami.location" value="&ec2ui.instances.detail.amimanifest.label;:" />
           <textbox id="ec2ui.newinstances.ami.location" size="40" value="1" readonly="true" />
         </row>
         <row>
-          <label control="ec2ui.newinstances.aki" value="AKI ID:" />
+          <label control="ec2ui.newinstances.aki" value="&ec2ui.kernels.id.label;:" />
           <menulist id="ec2ui.newinstances.aki" size="40" value=""
             editable="true"/>
         </row>
         <row>
-          <label control="ec2ui.newinstances.ari" value="ARI ID:" />
+          <label control="ec2ui.newinstances.ari" value="&ec2ui.ramdisks.id.label;:" />
           <menulist id="ec2ui.newinstances.ari" size="40" value=""
             editable="true"/>
         </row>
         <row>
-          <label control="ec2ui.newinstances.instancetypelist" value="Instance Type:" />
+          <label control="ec2ui.newinstances.instancetypelist" value="&ec2ui.instances.lunch.instancetypelist.label;:" />
           <menulist id="ec2ui.newinstances.instancetypelist" />
         </row>
         <row>
-          <label control="ec2ui.newinstances.min" value="Number of instances - Min:" />
+          <label control="ec2ui.newinstances.min" value="&ec2ui.instances.lunch.min.label;:" />
           <hbox>
             <textbox id="ec2ui.newinstances.min" size="10" value="1" />
-            <label control="ec2ui.newinstances.max" value="Max:" />
+            <label control="ec2ui.newinstances.max" value="&ec2ui.instances.lunch.max.label;:" />
             <textbox id="ec2ui.newinstances.max" size="10" value="1" />
           </hbox>
         </row>
         <row>
-          <label control="ec2ui.newinstances.tag" value="New Instance(s) Tag:" />
+          <label control="ec2ui.newinstances.tag" value="&ec2ui.instances.lunch.tag.label;:" />
           <textbox id="ec2ui.newinstances.tag" size="40" value="" />
         </row>
         <row>
-          <label control="ec2ui.newinstances.keypairlist" value="KeyPair:" />
+          <label control="ec2ui.newinstances.keypairlist" value="&ec2ui.instances.lunch.keypairlist.label;:" />
           <menulist id="ec2ui.newinstances.keypairlist" />
         </row>
         <row>
-          <label control="ec2ui.newinstances.availabilityzonelist" value="Availability Zone:" />
+          <label control="ec2ui.newinstances.availabilityzonelist" value="&ec2ui.availabilityZone.label;:" />
           <menulist id="ec2ui.newinstances.availabilityzonelist" />
         </row>
         <row>
-          <label control="ec2ui.newinstances.properties" value="Additional Info:" />
+          <label control="ec2ui.newinstances.properties" value="&ec2ui.instances.lunch.properties.label;:" />
           <textbox id="ec2ui.newinstances.properties" size="40" />
-        </row>        
+        </row>
         <row>
-          <label control="ec2ui.newinstances.addressingType" value="Public Address:" />
+          <label control="ec2ui.newinstances.addressingType" value="&ec2ui.instances.lunch.addressingType.label;:" />
           <checkbox id="ec2ui.newinstances.addressingType" checked="true" />
         </row>
         <row>
-          <label control="ec2ui.newinstances.overrideRootVolumeSize" value="Override Root Volume Size:" />
+          <label control="ec2ui.newinstances.overrideRootVolumeSize" value="&ec2ui.instances.lunch.overrideRootVolumeSize.label;:" />
           <textbox id="ec2ui.newinstances.overrideRootVolumeSize" size="" />
         </row>
         <groupbox flex="1" id="ec2ui.newinstances.vpc.box">
@@ -87,22 +88,22 @@
             <rows>
               <row>
                 <label control="ec2ui.newinstances.usevpc"
-                  value="&ec2ui.captions.newinstances.usevpc.label;" />
+                  value="&ec2ui.captions.newinstances.usevpc.label;:" />
                 <checkbox id="ec2ui.newinstances.usevpc"
                   checked="false"
                   oncommand="ec2_InstanceLauncher.useVpcChanged();"/>
               </row>
               <row>
-                <label control="ec2ui.newinstances.vpcId" value="VPC: "/>
+                <label control="ec2ui.newinstances.vpcId" value="&ec2ui.instances.vpcId.label;: "/>
                 <menulist id="ec2ui.newinstances.vpcId"
                   oncommand="ec2_InstanceLauncher.vpcIdSelected();"/>
               </row>
               <row>
-                <label control="ec2ui.newinstances.subnetId" value="Subnet: "/>
+                <label control="ec2ui.newinstances.subnetId" value="&ec2ui.instances.subnetId.label;: "/>
                 <menulist id="ec2ui.newinstances.subnetId" />
               </row>
               <row>
-                <label control="ec2ui.newinstances.ipAddress" value="IP Address: "/>
+                <label control="ec2ui.newinstances.ipAddress" value="&ec2ui.customergateways.ipaddress.label;: "/>
                 <textbox id="ec2ui.newinstances.ipAddress" size="40" editable="true"/>
               </row>
 
@@ -119,9 +120,9 @@
             </columns>
             <rows>
               <row>
-                <label control="ec2ui.newinstances.secgroups.unused" value="Available Groups" />
+                <label control="ec2ui.newinstances.secgroups.unused" value="&ec2ui.instances.lunch.secgroups.unused.label;" />
                 <spacer flex="1" />
-                <label control="ec2ui.newinstances.secgroups.used" value="Launch in" />
+                <label control="ec2ui.newinstances.secgroups.used" value="&ec2ui.instances.lunch.secgroups.used.label;" />
               </row>
               <row>
                 <listbox rows="3" id="ec2ui.newinstances.secgroups.unused" seltype="multiple">
@@ -149,8 +150,8 @@
           <textbox id="ec2ui.newinstances.userdata" multiline="true" cols="50" rows="2" wrap="false"
             style="font-family: monospace;" />
           <hbox pack="end" flex="1">
-            <button label="Open File" oncommand="ec2_InstanceLauncher.loadUserDataFromFile(false);" />
-            <button label="Open Binary File" oncommand="ec2_InstanceLauncher.loadUserDataFromFile(true);" />
+            <button label="&ec2ui.instances.lunch.button.userdata.openFile.label;" oncommand="ec2_InstanceLauncher.loadUserDataFromFile(false);" />
+            <button label="&ec2ui.instances.lunch.button.userdata.openBinaryFile.label;" oncommand="ec2_InstanceLauncher.loadUserDataFromFile(true);" />
           </hbox>
         </groupbox>
       </rows>

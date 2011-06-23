@@ -46,7 +46,9 @@ var ec2ui_VpnAttachmentTreeView = {
         var att = this.getSelectedImage();
         if (att == null) return;
 
-        var confirmed = confirm("Delete attachment of " + att.vgwId + " to " + att.vpcId + "?");
+        var msg = ec2ui_utils.getMessageProperty("ec2ui.msg.vpnattachmentsview.confirm.deleteVpnAttachment",
+                                                 [att.vgwId, att.vpcId]);
+        var confirmed = confirm(msg);
         if (!confirmed) return;
 
         var me = this;

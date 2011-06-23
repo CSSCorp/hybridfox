@@ -133,8 +133,9 @@ var ec2_httpclient = {
             try {
                 rsp = this.queryEC2ImplNew(action, params, objActions, isSync, reqType, callback);
                 if (rsp.hasErrors) {
+                    var msg = ec2ui_utils.getMessageProperty("ec2ui.msg.client.dialog.queryEC2", [action]);
                     if (!this.errorDialog(
-                        "EC2 responded with an error for "+action,
+                        msg,
                         rsp.faultCode,
                         rsp.requestId,
                         rsp.faultString)) {
@@ -144,7 +145,7 @@ var ec2_httpclient = {
                    break;
                 }
             } catch (e) {
-                alert ("An error occurred while calling "+action+"\n"+e);
+                alert (ec2ui_utils.getMessageProperty("ec2ui.msg.client.alert.queryEC2", [action, e]));
                 rsp = null;
                 break;
             }
@@ -239,7 +240,7 @@ var ec2_httpclient = {
                     throw e;
                 }
 
-                var faultStr = "Please check your EC2 URL '" + url + "' for correctness, or delete the value in ec2ui.endpoints using about:config and retry.";
+                var faultStr = ec2ui_utils.getMessageProperty("ec2ui.msg.client.fault.queryEC2Impl", [url]);
                 return this.newResponseObject(null, callback, reqType, true, "Request Error", faultStr, "");
             }
         }
@@ -329,7 +330,7 @@ var ec2_httpclient = {
                     throw e;
                 }
 
-                var faultStr = "Please check your EC2 URL '" + url + "' for correctness, or delete the value in ec2ui.endpoints using about:config and retry.";
+                var faultStr = ec2ui_utils.getMessageProperty("ec2ui.msg.client.fault.queryEC2Impl", [url]);
                 return this.newResponseObject(null, callback, reqType, true, "Request Error", faultStr, "");
             }
         }
@@ -470,7 +471,7 @@ var ec2_httpclient = {
                 throw e;
             }
 
-            var faultStr = "Your request timed out. Please try again later.";
+            var faultStr = ec2ui_utils.getMessageProperty("ec2ui.msg.client.fault.makeS3HTTPRequest");
             return this.newResponseObject(null, callback, reqType, true, "Timeout", faultStr, "");
         }
 
@@ -517,7 +518,7 @@ var ec2_httpclient = {
 
     unpackXMLErrorRsp : function(xmlhttp, reqType, callback) {
         var faultCode = "Unknown";
-        var faultString = "An unknown error occurred.";
+        var faultString = ec2ui_utils.getMessageProperty("ec2ui.msg.client.fault.unpackXMLErrorRsp");
         var requestId = "";
         var xmlDoc = xmlhttp.responseXML;
 

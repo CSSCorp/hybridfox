@@ -135,7 +135,7 @@ var ec2ui_ElasticIPTreeView = {
     releaseAddress : function() {
         var eip = this.getSelectedEip();
         if (eip == null) return;
-        var confirmed = confirm("Release "+eip.address+"?");
+        var confirmed = confirm(ec2ui_utils.getMessageProperty("ec2ui.msg.eipview.confirm.releaseAddress", [eip.address]));
         if (!confirmed)
             return;
 
@@ -207,7 +207,7 @@ var ec2ui_ElasticIPTreeView = {
             if (eip == null) return;
 
             if (eip.instanceid != null && eip.instanceid != '') {
-                var confirmed = confirm("Address "+eip.address+" is already mapped to an instance, are you sure?");
+                var confirmed = confirm(ec2ui_utils.getMessageProperty("ec2ui.msg.eipview.confirm.associateAddress", [eip.address]));
                 if (!confirmed)
                     return;
             }
@@ -220,8 +220,8 @@ var ec2ui_ElasticIPTreeView = {
 
             var result = prompts.select(
                 null,
-                "Associate Address with Instance",
-                "Which Instance would you like to associate "+ eip.address +" with?",
+                ec2ui_utils.getMessageProperty("ec2ui.msg.eipview.prompts.associateAddress.title"),
+                ec2ui_utils.getMessageProperty("ec2ui.msg.eipview.prompts.associateAddress", [eip.address]),
                 instanceIds.length,
                 instanceIds,
                 selected
@@ -250,7 +250,7 @@ var ec2ui_ElasticIPTreeView = {
         if (eip == null) return;
         if (eip.instanceid == null || eip.instanceid == '') return;
 
-        var confirmed = confirm("Disassociate "+eip.address+" and instance "+eip.instanceid+"?");
+        var confirmed = confirm(ec2ui_utils.getMessageProperty("ec2ui.msg.eipview.confirm.disassociateAddress", [eip.address, eip.instanceid]));
         if (!confirmed)
             return;
 

@@ -11,7 +11,7 @@ var ec2_EIPSelector = {
     var eipSel = this.eipList[selected];
 
     if (eipSel.instanceid != null && eipSel.instanceid != '') {
-        var confirmed = confirm("Address " + eipSel.address + " is already mapped to an instance, are you sure?");
+        var confirmed = confirm(ec2ui_utils.getMessageProperty("ec2ui.msg.eipview.confirm.associateAddress", [eipSel.address]));
         if (!confirmed) {
             return false;
         }

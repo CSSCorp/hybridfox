@@ -8,10 +8,11 @@
   buttons="accept,cancel"
   ondialogaccept="return ec2_InstanceBundler.bundleInstance();"
   ondialogcancel="return true;"
-  onload="ec2_InstanceBundler.init();" title="Bundle Instance into an AMI">
+  onload="ec2_InstanceBundler.init();" title="&ec2ui.dialog.title.bundle_instance;">
 
   <script type="application/x-javascript" src="chrome://ec2ui/content/bundleInstanceDialog.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/model.js" />
+  <script type="application/x-javascript" src="chrome://ec2ui/content/utils.js" />
 
   <vbox flex="1">
     <grid flex="1">
@@ -21,18 +22,18 @@
       </columns>
       <rows>
         <row>
-          <label control="ec2ui.bundleInstance.instanceid" value="Instance ID:" />
+          <label control="ec2ui.bundleInstance.instanceid" value="&ec2ui.instances.id.label;:" />
           <textbox id="ec2ui.bundleInstance.instanceid" readonly="true" />
         </row>
         <row>
           <label control="ec2ui.bundleInstance.bucketName"
-            value="S3 Bucket Name:" />
+            value="&ec2ui.bundleInstance.s3.bucket.label;:" />
           <textbox type="autocomplete" autocompletesearch="form-history"
             id="ec2ui.bundleInstance.bucketName" size="30" value="" />
         </row>
         <row>
           <label control="ec2ui.bundleInstance.prefix"
-            value="Image Name:" />
+            value="&ec2ui.bundleInstance.s3.image.label;:" />
           <textbox id="ec2ui.bundleInstance.prefix" size="30" value="" />
         </row>
       </rows>

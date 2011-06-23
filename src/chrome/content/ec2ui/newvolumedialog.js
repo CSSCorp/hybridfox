@@ -26,7 +26,7 @@ var ec2_VolumeCreator = {
         val = parseInt(val);
         var textbox = document.getElementById("ec2ui.newvolume.size");
         if ((!isNaN(val) && val < 1) || (isNaN(val) && this.retVal.snapshotId == null)) {
-            alert("Size must be >= 1 if a snapshot is not selected");
+            alert(ec2ui_utils.getMessageProperty("ec2ui.msg.newvolumedialog.alert.validateSize"));
             textbox.select();
             return false;
         }

@@ -183,7 +183,7 @@ var ec2ui_SecurityGroupsTreeView = {
         var group = this.getSelectedGroup();
         if (group == null) return;
 
-        var confirmed = confirm("Delete group "+group.name+"?");
+        var confirmed = confirm(ec2ui_utils.getMessageProperty("ec2ui.msg.securitygroupsview.confirm.deleteSelected", [group.name]));
         if (!confirmed)
             return;
 

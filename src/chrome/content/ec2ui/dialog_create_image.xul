@@ -8,10 +8,11 @@
   buttons="accept,cancel"
   ondialogaccept="return ec2_CreateImageDialog.createImage();"
   ondialogcancel="return true;"
-  onload="ec2_CreateImageDialog.init();" title="Create EBS AMI of Instance">
+  onload="ec2_CreateImageDialog.init();" title="&ec2ui.dialog.title.create_image;">
 
   <script type="application/x-javascript" src="chrome://ec2ui/content/createImageDialog.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/model.js" />
+  <script type="application/x-javascript" src="chrome://ec2ui/content/utils.js" />
 
   <vbox flex="1">
     <grid flex="1">
@@ -21,21 +22,21 @@
       </columns>
       <rows>
         <row>
-          <label control="ec2ui.createImage.instanceid" value="Instance ID:" />
+          <label control="ec2ui.createImage.instanceid" value="&ec2ui.instances.id.label;:" />
           <textbox id="ec2ui.createImage.instanceid" readonly="true" />
         </row>
         <row>
-          <label control="ec2ui.createImage.amiName" value="AMI Name:" />
+          <label control="ec2ui.createImage.amiName" value="&ec2ui.instances.createImage.amiName.label;:" />
           <textbox type="autocomplete" autocompletesearch="form-history"
             id="ec2ui.createImage.amiName" size="30" value="" />
         </row>
         <row>
-          <label control="ec2ui.createImage.amiDescription" value="AMI Description:" />
+          <label control="ec2ui.createImage.amiDescription" value="&ec2ui.instances.createImage.amiDescription.label;:" />
           <textbox type="autocomplete" autocompletesearch="form-history"
             id="ec2ui.createImage.amiDescription" size="30" value="" />
         </row>
         <row>
-          <label control="ec2ui.createImage.noReboot" value="Snapshot without rebooting instance: "/>
+          <label control="ec2ui.createImage.noReboot" value="&ec2ui.instances.createImage.noReboot.label;:"/>
           <checkbox id="ec2ui.createImage.noReboot" checked="false"/>
         </row>
       </rows>

@@ -4,7 +4,8 @@
 
 <dialog id="ec2ui.dialog.newattachment" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
   buttons="accept,cancel" ondialogaccept="return ec2_VolumeAttacher.attach();" ondialogcancel="return true;"
-  onload="ec2_VolumeAttacher.init();" title="Attach Volume" buttonlabelaccept="Attach">
+  onload="ec2_VolumeAttacher.init();" title="&ec2ui.dialog.title.new_attachment;"
+  buttonlabelaccept="&ec2ui.dialog.button.accept.new_attachment.label;">
 
   <script type="application/x-javascript" src="chrome://ec2ui/content/newattachmentdialog.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/model.js" />
@@ -33,7 +34,7 @@
       </rows>
     </grid>
     <groupbox>
-      <description>Linux devices: /dev/sda through /dev/sdp</description>
+      <description>&ec2ui.volumes.attachment.description.device;</description>
     </groupbox>
   </vbox>
 </dialog>

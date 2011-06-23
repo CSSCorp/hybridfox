@@ -51,9 +51,11 @@ var ec2ui_VpnConnectionTreeView = {
         var nsIFilePicker = Components.interfaces.nsIFilePicker;
         var fp = Components.classes["@mozilla.org/filepicker;1"].createInstance(nsIFilePicker);
         var fWin = navigator.platform.match(/^Win/);
-        fp.init(window, "Save VPN Connection Configuration", nsIFilePicker.modeSave);
+        var fpTitle = ec2ui_utils.getMessageProperty("ec2ui.msg.vpnconnectionsview.fileDialog.saveConnectionConfiguration.title");
+        var textFilterName = ec2ui_utils.getMessageProperty("ec2ui.msg.vpnconnectionsview.fileDialog.saveConnectionConfiguration.filterName.text");
+        fp.init(window, fpTitle, nsIFilePicker.modeSave);
         if (fWin) {
-            fp.appendFilter("Text Documents","*.txt");
+            fp.appendFilter("textFilterName","*.txt");
             fp.defaultString = name+".txt";
         } else {
             fp.defaultString = name;
@@ -88,7 +90,7 @@ var ec2ui_VpnConnectionTreeView = {
         var vpn = this.getSelectedImage();
         if (vpn == null) return;
         if (vpn.config == null) {
-           alert("The Customer Gateway configuration for this VPN Connection is not present.")
+           alert(ec2ui_utils.getMessageProperty("ec2ui.msg.vpnconnectionsview.alert.getCustomerConfig"));
            return;
         }
 
@@ -118,7 +120,7 @@ var ec2ui_VpnConnectionTreeView = {
                 var result = getNodeValueByName(resultXml, "transformiix:result");
                 log ("Converted to config: "+result);
             } catch (e) {
-                alert("Exception while processing XSLT: "+e)
+                alert(ec2ui_utils.getMessageProperty("ec2ui.msg.vpnconnectionsview.alert.getCustomerConfig.xsltException", [e]));
             }
 
             // Display dialog box to save
@@ -154,7 +156,8 @@ var ec2ui_VpnConnectionTreeView = {
         var vpn = this.getSelectedImage();
         if (vpn == null) return;
 
-        var confirmed = confirm("Delete " + vpn.id + (vpn.tag == null ? '' :" [" + vpn.tag + "]") + "?");
+        var confirmed = confirm(ec2ui_utils.getMessageProperty("ec2ui.msg.vpnconnectionsview.confirm.deleteVpnConnection",
+                                                               [vpn.id, (vpn.tag == null ? '' :" [" + vpn.tag + "]")]));
         if (!confirmed) return;
 
         var me = this;

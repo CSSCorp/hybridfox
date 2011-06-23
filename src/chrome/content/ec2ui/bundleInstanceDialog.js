@@ -14,7 +14,7 @@ var ec2_InstanceBundler = {
     bundleInstance : function() {
         this.retVal.bucketName = this.getBucketName().value.trim();
         if (!this.validateBucketName()) {
-            alert ("The Bucket Name must be all lower case");
+            alert (ec2ui_utils.getMessageProperty("ec2ui.msg.bundleInstanceDialog.alert.bundleInstance1"));
             bucketNameBox.select();
             return false;
         }
@@ -23,7 +23,7 @@ var ec2_InstanceBundler = {
 
         if (this.retVal.bucketName.length == 0 ||
             this.retVal.prefix.length == 0) {
-            alert ("Please enter a name for both the S3 Bucket and the Image");
+            alert (ec2ui_utils.getMessageProperty("ec2ui.msg.bundleInstanceDialog.alert.bundleInstance2"));
             return false;
         }
 

@@ -25,7 +25,7 @@ function byte2Hex(b) {
 // PKCS#1 (type 2, random) pad input string s to n bytes, and return a bigint
 function pkcs1pad2(s,n) {
   if(n < s.length + 11) {
-    alert("Message too long for RSA");
+    alert(ec2ui_utils.getMessageProperty("ec2ui.msg.rsa.alert.pkcs1pad2"));
     return null;
   }
   var ba = new Array();
@@ -63,7 +63,7 @@ function RSASetPublic(N,E) {
     this.e = parseInt(E,16);
   }
   else
-    alert("Invalid RSA public key");
+    alert(ec2ui_utils.getMessageProperty("ec2ui.msg.rsa.alert.RSASetPublic"));
 }
 
 // Perform raw public operation on "x": return x^e (mod n)

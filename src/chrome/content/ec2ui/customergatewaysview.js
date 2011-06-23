@@ -71,7 +71,9 @@ var ec2ui_CustomerGatewayTreeView = {
         var cgw = this.getSelectedImage();
         if (cgw == null) return;
 
-        var confirmed = confirm("Delete " + cgw.id + " (" + cgw.ipAddress + ")" + (cgw.tag == null ? '' : " [" + cgw.tag + "]") + "?");
+        var msg = ec2ui_utils.getMessageProperty("ec2ui.msg.customergatewaysview.confirm.deleteCustomerGateway",
+                                                 [cgw.id, cgw.ipAddress, (cgw.tag == null ? '' : " [" + cgw.tag + "]")]);
+        var confirmed = confirm(msg);
         if (!confirmed) return;
 
         var me = this;

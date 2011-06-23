@@ -148,7 +148,7 @@ var ec2ui_VolumeTreeView = {
     deleteVolume : function () {
         var image = this.getSelectedImage();
         if (image == null) return;
-        var confirmed = confirm("Delete volume " + image.id + "?");
+        var confirmed = confirm(ec2ui_utils.getMessageProperty("ec2ui.msg.volumesview.confirm.deleteVolume", [image.id]));
         if (!confirmed)
             return;
         var wrap = function() {
@@ -255,7 +255,7 @@ var ec2ui_VolumeTreeView = {
     detachVolume : function () {
         var image = this.getSelectedImage();
         if (image == null) return;
-        var confirmed = confirm("Detach volume " + image.id + "?");
+        var confirmed = confirm(ec2ui_utils.getMessageProperty("ec2ui.msg.volumesview.confirm.detachVolume", [image.id]));
         if (!confirmed)
             return;
         var wrap = function() {
@@ -269,7 +269,7 @@ var ec2ui_VolumeTreeView = {
     forceDetachVolume : function () {
         var image = this.getSelectedImage();
         if (image == null) return;
-        var confirmed = confirm("Force detach volume " + image.id + "?");
+        var confirmed = confirm(ec2ui_utils.getMessageProperty("ec2ui.msg.volumesview.confirm.forceDetachVolume", [image.id]));
         if (!confirmed)
             return;
         var wrap = function() {

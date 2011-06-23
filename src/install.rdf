@@ -32,6 +32,6 @@
   <Description about="urn:mozilla:extension:file:ec2ui.jar"
                    em:package="content/ec2ui/"
                    em:skin="skin/classic/ec2ui/">
-    <em:locale>locale/ec2ui/en-US/</em:locale>
+    <em:locale>locale/ec2ui/ja-JP/</em:locale>
   </Description>
 </RDF>

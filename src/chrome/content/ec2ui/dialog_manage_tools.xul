@@ -4,7 +4,8 @@
 
 <dialog id="ec2ui.dialog.managetools" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
     buttons="accept" ondialogaccept="return ec2ui_toolsManager.saveDialog()"
-    onload="return ec2ui_toolsManager.initDialog();" title="Manage EC2 Tools" buttonlabelcancel="Close">
+    onload="return ec2ui_toolsManager.initDialog();" title="&ec2ui.dialog.title.manage_tools;"
+    buttonlabelcancel="&ec2ui.dialog.button.cancel.manage.label;">
 
     <script type="application/x-javascript" src="chrome://ec2ui/content/utils.js" />
     <script type="application/x-javascript" src="chrome://ec2ui/content/preferences.js" />
@@ -19,43 +20,43 @@
             </columns>
             <rows>
                 <row>
-                    <label control="ec2ui.tools.ssh.command" value="SSH Command:" />
+                    <label control="ec2ui.tools.ssh.command" value="&ec2ui.tools.ssh.command.label;:" />
                     <hbox>
                         <textbox id="ec2ui.tools.ssh.command" size="40" />
                     </hbox>
                 </row>
                 <row>
-                    <label control="ec2ui.tools.ssh.args" value="SSH Arguments:" />
+                    <label control="ec2ui.tools.ssh.args" value="&ec2ui.tools.ssh.args.label;:" />
                     <hbox>
                         <textbox id="ec2ui.tools.ssh.args" size="40" />
                     </hbox>
                 </row>
                 <row>
-                    <label control="ec2ui.tools.ssh.key" value="SSH Key Template:" />
+                    <label control="ec2ui.tools.ssh.key" value="&ec2ui.tools.ssh.key.label;:" />
                     <hbox>
                         <textbox id="ec2ui.tools.ssh.key" size="40" />
                     </hbox>
                 </row>
                 <row>
-                    <label control="ec2ui.tools.ec2.key.template" value="EC2 Private Key Template:" />
+                    <label control="ec2ui.tools.ec2.key.template" value="&ec2ui.tools.key.template.label;:" />
                     <hbox>
                         <textbox id="ec2ui.tools.ec2.key.template" size="40" />
                     </hbox>
                 </row>
                 <row>
-                    <label control="ec2ui.tools.ssh.user" value="SSH User:" />
+                    <label control="ec2ui.tools.ssh.user" value="&ec2ui.tools.ssh.user.label;:" />
                     <hbox>
                         <textbox id="ec2ui.tools.ssh.user" size="40" />
                     </hbox>
                 </row>
                 <row>
-                    <label control="ec2ui.tools.rdp.command" value="RDP Command:" />
+                    <label control="ec2ui.tools.rdp.command" value="&ec2ui.tools.rdp.command.label;:" />
                     <hbox>
                         <textbox id="ec2ui.tools.rdp.command" size="40" />
                     </hbox>
                 </row>
                 <row>
-                    <label control="ec2ui.tools.rdp.args" value="RDP Arguments:" />
+                    <label control="ec2ui.tools.rdp.args" value="&ec2ui.tools.rdp.args.label;:" />
                     <hbox>
                         <textbox id="ec2ui.tools.rdp.args" size="40" />
                     </hbox>
@@ -63,22 +64,22 @@
             </rows>
         </grid>
         <hbox>
-            <description>${home} - Your home directory.</description>
+            <description>&ec2ui.tools.description.home;</description>
         </hbox>
         <hbox>
-            <description>${keyname} - The EC2 keypair name the instance was launched with.</description>
+            <description>&ec2ui.tools.description.keyname;</description>
         </hbox>
         <hbox>
-            <description>${host} - The public DNS name of the EC2 instance.</description>
+            <description>&ec2ui.tools.description.host;</description>
         </hbox>
         <hbox>
-            <description>${key} - The (interpolated) key template.</description>
+            <description>&ec2ui.tools.description.key;</description>
         </hbox>
         <hbox>
-            <description>${user} - The configured user name.</description>
+            <description>&ec2ui.tools.description.user;</description>
         </hbox>
         <hbox>
-            <description>${pass} - The Administrator password for a Windows instance.</description>
+            <description>&ec2ui.tools.description.pass;</description>
         </hbox>
     </vbox>
 

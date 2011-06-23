@@ -3,4 +3,4 @@ content	ec2ui	chrome/content/ec2ui/
 
 skin	ec2ui	classic/1.0	chrome/skin/classic/ec2ui/
 
-locale	ec2ui	en-US	chrome/locale/ec2ui/en-US/
+locale	ec2ui	ja-JP	chrome/locale/ec2ui/ja-JP/

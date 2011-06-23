@@ -15,8 +15,8 @@ var ec2_Authorizer = {
     // Determine which security tab is selected
     var tabSelected = document.getElementById("ec2ui.newpermission.tabs").selectedItem;
 
-    switch (tabSelected.label) {
-      case "External":
+    switch (tabSelected.id) {
+      case "ec2ui.newpermission.external.tab":
       {
         // Need to get the IP etc.
         var radioSel = document.getElementById("ec2ui.newpermission.hostnet.group").selectedItem.value;
@@ -25,7 +25,7 @@ var ec2_Authorizer = {
         if (radioSel == "host") {
           textbox = document.getElementById("ec2ui.newpermission.source.host");
           if (textbox.value == "") {
-            alert("Please provide a source host");
+            alert(ec2ui_utils.getMessageProperty("ec2ui.msg.newpermissionauthorizer.alert.authorize.1"));
             textbox.select();
             return false;
           }
@@ -36,7 +36,7 @@ var ec2_Authorizer = {
         } else if (radioSel == "range") {
           textbox = document.getElementById("ec2ui.newpermission.source.range");
           if (textbox.value == "") {
-            alert("Please provide a source host range");
+            alert(ec2ui_utils.getMessageProperty("ec2ui.msg.newpermissionauthorizer.alert.authorize.2"));
             textbox.select();
             return false;
           }
@@ -79,7 +79,7 @@ var ec2_Authorizer = {
         if (newPerm.fromPort == "0" &&
             newPerm.toPort == "65535" &&
             newPerm.cidrIp == "0.0.0.0/0") {
-            var fOpen = confirm("This will effectively disable your firewall and open all ports to the world. Continue?");
+            var fOpen = confirm(ec2ui_utils.getMessageProperty("ec2ui.msg.newpermissionauthorizer.confirm.authorize"));
 
             // If the user chooses to change these settings,
             // bring the dialog back in focus.
@@ -91,7 +91,7 @@ var ec2_Authorizer = {
 
         break;
       }
-      case "Group":
+      case "ec2ui.newpermission.group.tab":
       {
         if (!this.validateSourceUserGroup()) {
           return false;
@@ -113,7 +113,7 @@ var ec2_Authorizer = {
   validateMinPort : function(minTextBox) {
     var val = parseInt(minTextBox.value);
     if (val < 0 || isNaN(val)) {
-      alert("Lower port range bound must be a non-negative integer");
+      alert(ec2ui_utils.getMessageProperty("ec2ui.msg.newpermissionauthorizer.alert.validateMinPort"));
       textbox.select();
       return false;
     }
@@ -123,14 +123,13 @@ var ec2_Authorizer = {
   validateMaxPort : function(maxTextBox, minTextBox) {
     maxval = parseInt(maxTextBox.value);
     if (maxval < 0 || isNaN(maxval)) {
-      alert("Upper port range bound must be a non-negative integer");
+      alert(ec2ui_utils.getMessageProperty("ec2ui.msg.newpermissionauthorizer.alert.validateMaxPort.1"));
       maxTexBbox.select();
       return false;
     }
     var minval = parseInt(minTextBox.value);
     if (minval > maxval) {
-      alert("Upper port range bound may not be smaller than lower bound");
-      alert("Maximum value may not be smaller than minimum value");
+      alert(ec2ui_utils.getMessageProperty("ec2ui.msg.newpermissionauthorizer.alert.validateMaxPort.2"));
       maxTextBox.select();
       return false;
     }
@@ -140,7 +139,7 @@ var ec2_Authorizer = {
   validateCIDR : function(cidrStr, textbox) {
     var cidrre = new RegExp("^\\d+\\.\\d+\\.\\d+\\.\\d+\\/\\d+$");
     if (cidrStr.match(cidrre) == null) {
-      alert("Malformed CIDR, expecting n.n.n.n/n or n.n.n.n");
+      alert(ec2ui_utils.getMessageProperty("ec2ui.msg.newpermissionauthorizer.alert.validateCIDR"));
       textbox.select();
       return false;
     }
@@ -150,13 +149,13 @@ var ec2_Authorizer = {
   validateSourceUserGroup : function() {
     var user = document.getElementById("ec2ui.newpermission.source.user");
     if (user.value == "") {
-      alert("Please provide a source user ID");
+      alert(ec2ui_utils.getMessageProperty("ec2ui.msg.newpermissionauthorizer.alert.validateSourceUserGroup.1"));
       user.select();
       return false;
     }
     var group = document.getElementById("ec2ui.newpermission.source.group");
     if (group.value == "") {
-      alert("Please provide a source security group name");
+      alert(ec2ui_utils.getMessageProperty("ec2ui.msg.newpermissionauthorizer.alert.validateSourceUserGroup.2"));
       group.select();
       return false;
     }
@@ -210,7 +209,7 @@ var ec2_Authorizer = {
         return true;
     }
     var permCaption = document.getElementById("ec2ui.newpermission.add.caption");
-    permCaption.label = "Add New Permission for Security Group: " + this.group.name;
+    permCaption.label = permCaption.label + this.group.name;
 
     var user = document.getElementById("ec2ui.newpermission.source.user");
     user.value = this.group.ownerId;

@@ -82,7 +82,8 @@ var ec2ui_VpnGatewayTreeView = {
         var vgw = this.getSelectedImage();
         if (vgw == null) return;
 
-        var confirmed = confirm("Delete " + vgw.id + (vgw.tag == null ? '' : " [" + vgw.tag + "]") + "?");
+        var confirmed = confirm(ec2ui_utils.getMessageProperty("ec2ui.msg.vpngatewaysview.confirm.deleteVpnGateway",
+                                                               [vgw.id, (vgw.tag == null ? '' : " [" + vgw.tag + "]")]));
         if (!confirmed) return;
 
         var me = this;

@@ -46,7 +46,9 @@ var ec2ui_SubnetTreeView = {
         var subnet = this.getSelectedImage();
         if (subnet == null) return;
 
-        var confirmed = confirm("Delete " + subnet.id + " (" + subnet.cidr + ")" + (subnet.tag == null ? '' : " [" + subnet.tag + "]") + "?");
+        var msg = ec2ui_utils.getMessageProperty("ec2ui.msg.subnetsview.confirm.deleteSubnet",
+                                                 [subnet.id, subnet.cidr, (subnet.tag == null ? '' : " [" + subnet.tag + "]")]);
+        var confirmed = confirm(msg);
         if (!confirmed) return;
 
         var me = this;

@@ -144,51 +144,51 @@ var ec2ui_session =
         }
 
 
-        switch (tabs.selectedItem.label) {
-        case 'Instances':
+        switch (tabs.selectedItem.id) {
+        case "ec2ui.tabs.instances":
             eval("ec2ui_InstancesTreeView." + toCall);
             break;
-        case 'Images':
+        case "ec2ui.tabs.images":
             this.showBusyCursor(true);
             this.model.getSecurityGroups();
             this.model.getImages();
             this.showBusyCursor(false);
             break;
-        case "KeyPairs":
+        case "ec2ui.tabs.keypairs":
             eval("ec2ui_KeypairTreeView." + toCall);
             break;
-        case "Security Groups":
+        case "ec2ui.tabs.secgroups":
             eval("ec2ui_SecurityGroupsTreeView." + toCall);
             break;
-        case "Elastic IPs":
+        case "ec2ui.tabs.eips":
             eval("ec2ui_ElasticIPTreeView." + toCall);
             break;
-        case "Volumes and Snapshots":
+        case "ec2ui.tabs.volumes":
             eval("ec2ui_VolumeTreeView." + toCall);
             eval("ec2ui_SnapshotTreeView." + toCall);
             break;
-        case "Bundle Tasks":
-            if (this.isAmazonEndpointSelected()) {
+        case "ec2ui.tabs.bundleTasks":
+        	if (this.isAmazonEndpointSelected()) {
             	eval("ec2ui_BundleTasksTreeView." + toCall);
 			}
             break;
-        case "Availability Zones":
+        case "ec2ui.tabs.availzones":
             eval("ec2ui_AvailZoneTreeView." + toCall);
             break;
-        case "Reserved Instances":
-            if (this.isAmazonEndpointSelected()) {
+        case "ec2ui.tabs.leases":
+        	if (this.isAmazonEndpointSelected()) {
 				eval("ec2ui_LeaseOfferingsTreeView." + toCall);
 				eval("ec2ui_ReservedInstancesTreeView." + toCall);
 			}
             break;
-        case "Virtual Private Clouds":
+        case "ec2ui.tabs.vpcs":
             if (this.isAmazonEndpointSelected()) {
 				eval("ec2ui_VpcTreeView." + toCall);
 				eval("ec2ui_SubnetTreeView." + toCall);
 				eval("ec2ui_DhcpoptsTreeView." + toCall);
 			}
             break;
-        case "VPN Connections":
+        case "ec2ui.tabs.vpns":
             if (this.isAmazonEndpointSelected()) {
 				eval("ec2ui_VpnConnectionTreeView." + toCall);
 				eval("ec2ui_VpnGatewayTreeView." + toCall);
@@ -287,13 +287,14 @@ var ec2ui_session =
             var promptService =
                 Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
                 .getService(Components.interfaces.nsIPromptService);
-            var text = "Would you like to provide Hybridfox with your AWS Credentials?";
+            var text = ec2ui_utils.getMessageProperty("ec2ui.msg.session.confirm.switchCredentials");
+            var promptsTitle = ec2ui_utils.getMessageProperty("ec2ui.msg.session.confirm.switchCredentials.title");
 
             // if the user says no, the return value will not be 0.
             // In this case, just fall out
             if (promptService.confirmEx(
                     window,
-                    "AWS Credentials Needed",
+                    promptsTitle,
                     text,
                     promptService.STD_YES_NO_BUTTONS |
                     promptService.BUTTON_POS_0_DEFAULT,
@@ -586,13 +587,14 @@ var ec2ui_session =
             var promptService =
                 Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
                 .getService(Components.interfaces.nsIPromptService);
-            var text = "Would you like to provide Hybridfox with an EC2 Endpoint?";
+            var text = ec2ui_utils.getMessageProperty("ec2ui.msg.session.confirm.switchEndpoints");
+            var confirmTitle = ec2ui_utils.getMessageProperty("ec2ui.msg.session.confirm.switchEndpoints.title");
 
             // if the user says no, the return value will not be 0.
             // in this case, just fall out.
             if (promptService.confirmEx(
                     window,
-                    "EC2 Endpoint Needed",
+                    confirmTitle,
                     text,
                     promptService.STD_YES_NO_BUTTONS |
                     promptService.BUTTON_POS_0_DEFAULT,
