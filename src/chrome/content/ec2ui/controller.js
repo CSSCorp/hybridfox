@@ -1595,8 +1595,9 @@ var ec2ui_controller = {
                     if (url.indexOf("https://") != 0) {
                     url = "https://" + url;
                     }
-                endPointMap[name] = new Endpoint(name, type, url);
-                log("name: " + name + ", type:" + type + ", url: " + url);
+		var elburl = "https://elasticloadbalancing."+ name +".amazonaws.com"     
+                endPointMap[name] = new Endpoint(name, type, url, elburl);
+                console.log("name: " + name + ", type:" + type + ", url: " + url + ",elburl: " + elburl);
 	    }
 
             if (objResponse.callback) {

@@ -433,14 +433,14 @@ var ec2ui_prefs = {
         }
 
         // You couldn't retrieve the default endpoints. Hard code them
-        if (endpointmap == null) {
-            log ("Generating endpoints");
+        if (endpointmap) {
+            console.log ("Generating endpoints");
             endpointmap = new Object();
-            endpointmap['us-east-1'] = new Endpoint('us-east-1', 'ec2', 'https://us-east-1.ec2.amazonaws.com');
-            endpointmap['us-west-1'] = new Endpoint('us-west-1', 'ec2', 'https://us-west-1.ec2.amazonaws.com');
-            endpointmap['eu-west-1'] = new Endpoint('eu-west-1', 'ec2', 'https://eu-west-1.ec2.amazonaws.com');
-            endpointmap['ap-southeast-1'] = new Endpoint('ap-southeast-1', 'ec2', 'https://ec2.ap-southeast-1.amazonaws.com');
-            endpointmap['ap-northeast-1'] = new Endpoint('ap-northeast-1', 'ec2', 'https://ec2.ap-northeast-1.amazonaws.com');
+            endpointmap['us-east-1'] = new Endpoint('us-east-1', 'ec2', 'https://us-east-1.ec2.amazonaws.com','https://elasticloadbalancing.us-east-1.amazonaws.com');
+            endpointmap['us-west-1'] = new Endpoint('us-west-1', 'ec2', 'https://us-west-1.ec2.amazonaws.com','https://elasticloadbalancing.us-west-1.amazonaws.com');
+            endpointmap['eu-west-1'] = new Endpoint('eu-west-1', 'ec2', 'https://eu-west-1.ec2.amazonaws.com','https://elasticloadbalancing.eu-west-1.amazonaws.com');
+            endpointmap['ap-southeast-1'] = new Endpoint('ap-southeast-1', 'ec2', 'https://ec2.ap-southeast-1.amazonaws.com','https://elasticloadbalancing.ap-southeast-1.amazonaws.com');
+            endpointmap['ap-northeast-1'] = new Endpoint('ap-northeast-1', 'ec2', 'https://ec2.ap-northeast-1.amazonaws.com','https://elasticloadbalancing.ap-northeast-1.amazonaws.com');
             endpointmap['ECC'] = new Endpoint('ECC', 'euca', 'http://ecc.eucalyptus.com');
         }
 

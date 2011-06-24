@@ -37,11 +37,13 @@ var ec2ui_endpointManager = {
         var name = document.getElementById("ec2ui.endpoints.name").value.trim() || "";
         var type = document.getElementById("ec2ui.endpoints.type").selectedItem.value;
         var url = document.getElementById("ec2ui.endpoints.url").value.trim() || "";
+	var elburl = document.getElementById("ec2ui.endpoints.elburl").value.trim() || "";
         if (name.length == 0) return;
         if (type.length == 0) return;
         if (url.length == 0) return;
+	if (elburl.length == 0) return;
 
-        this.endpointmap.put(name, new Endpoint(name, type, url));
+        this.endpointmap.put(name, new Endpoint(name, type, url, elburl));
         ec2ui_endpointsTreeView.setMapping(this.endpointmap);
     },
 
@@ -59,6 +61,7 @@ var ec2ui_endpointManager = {
             	    document.getElementById("ec2ui.endpoints.type").selectedIndex = 2;
                 }
             document.getElementById("ec2ui.endpoints.url").value = sel.url;
+	    document.getElementById("ec2ui.endpoints.elburl").value = sel.elburl;
         }
     }
 }

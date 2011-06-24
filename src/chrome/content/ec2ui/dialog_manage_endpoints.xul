@@ -23,6 +23,7 @@
           <treecol id="endpoint.name" label="Endpoint Name" flex="1" persist="width ordinal hidden" />
           <treecol id="endpoint.type" label="Type" flex="1" persist="width ordinal hidden" />
           <treecol id="endpoint.url" label="Endpoint URL" flex="1" persist="width ordinal hidden" />
+	  <treecol id="endpoint.elburl" label="Loadbalancer URL" hidden="true" flex="1" persist="width ordinal hidden" />
           <!--
           <treecol id="endpoint.version" label="API Version" flex="1" persist="width ordinal hidden" />
           -->
