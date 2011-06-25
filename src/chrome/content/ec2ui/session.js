@@ -307,7 +307,7 @@ var ec2ui_session =
 
     getEndpoints : function () {
         return this.endpointmap.toArray(function(k,v) {
-                                            return new Endpoint(k, v.type, v.url, v.elburl)
+                                            return new Endpoint(k, v.type, v.url)
                                         });
     },
 
@@ -317,7 +317,7 @@ var ec2ui_session =
         activeEndpointsMenu.removeAllItems();
 
         var lastUsedEndpoint = ec2ui_prefs.getLastUsedEndpoint();
-        var endpointlist = this.endpointmap.toArray(function(k,v){return new Endpoint(k, v.type, v.url, v.elburl)});
+        var endpointlist = this.endpointmap.toArray(function(k,v){return new Endpoint(k, v.type, v.url)});
 
         for(var i in endpointlist) {
             activeEndpointsMenu.insertItemAt(

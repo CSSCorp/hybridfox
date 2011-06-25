@@ -11,11 +11,10 @@ function AccountIdName(id, name) {
     this.displayname = name;
 }
 
-function Endpoint(name, type, url, elburl) {
+function Endpoint(name, type, url) {
     this.name = name;
     this.type = type;
     this.url = url;
-    this.elburl = elburl;
 
     this.toJSONString = function() {
         var pairs = new Array();

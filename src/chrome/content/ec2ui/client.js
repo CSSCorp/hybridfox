@@ -6,6 +6,8 @@ var ec2_httpclient = {
     uri     : null,
     auxObj  : null,
     serviceURL : null,
+    regions : null,
+    elbURL  : null,
     accessCode : null,
     secretKey : null,
     timers : {},
@@ -34,6 +36,8 @@ var ec2_httpclient = {
     setEndpoint : function (endpoint) {
         if (endpoint != null) {
             this.serviceURL = endpoint.url;
+	    this.regions    = endpoint.name;
+	    this.elbURL     = "https://elasticloadbalancing."+this.regions+".amazonaws.com"
         }
     },
 

@@ -9,7 +9,7 @@ function get_dir_revision() {
     local last_rev
 
     # Generate a release number for the entire branch
-    last_rev=$(hg log $1 -b default -l 1 | grep 'changeset')
+    last_rev=$(hg log $1 -b hfx-ext -l 1 | grep 'changeset')
     changeset=${last_rev#*:}
     pkg_release=${changeset%:*}
     if [ -z "$pkg_release" ] ; then
@@ -33,7 +33,7 @@ fi
 
 export PKG_VERSION=1.6
 export PKG_RELEASE=$(get_pkg_release)
-export PKG_NAME=hybridfox
+export PKG_NAME=hybridfox-ext
 export BASE=$PKG_NAME-$PKG_VERSION.$PKG_RELEASE
 
 echo "+ Bulding $PKG_NAME version $PKG_VERSION-$PKG_RELEASE"
