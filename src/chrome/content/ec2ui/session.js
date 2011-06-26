@@ -37,6 +37,7 @@ var ec2ui_session =
             document.getElementById("ec2ui.bundleTasks.view").view = ec2ui_BundleTasksTreeView;
             document.getElementById("ec2ui.offerings.view").view = ec2ui_LeaseOfferingsTreeView;
             document.getElementById("ec2ui.rsvdInst.view").view = ec2ui_ReservedInstancesTreeView;
+	    document.getElementById("ec2ui.loadbalancer.view").view = ec2ui_LoadbalancerTreeView;
 
             // Enable about:blank to work if noscript is installed
             if("@maone.net/noscript-service;1" in Components.classes) {
@@ -184,6 +185,13 @@ var ec2ui_session =
 				this.showBusyCursor(true);
 				this.model.getLeaseOfferings();
 				this.model.getReservedInstances();
+				this.showBusyCursor(false);
+			}
+            break;
+	case "Loadbalancer":
+	    if (this.isAmazonEndpointSelected()) {
+				this.showBusyCursor(true);
+				this.model.getLoadbalancer();
 				this.showBusyCursor(false);
 			}
             break;

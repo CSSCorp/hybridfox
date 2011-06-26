@@ -175,6 +175,21 @@ function ReservedInstance(id, type, az, start, duration, fPrice, uPrice, count, 
     this.state = state;
 }
 
+//Loadbalancer
+
+function LoadBalancer(LoadBalancerName,CreatedTime,DNSName,Instances,
+                      Interval,Timeout,HealthyThreshold,UnhealthyThreshold,Target){
+    this.LoadBalancerName = LoadBalancerName;
+    this.CreatedTime = CreatedTime;
+    this.DNSName = DNSName;
+    this.InstanceId = Instances;
+    this.Interval = Interval;
+    this.Timeout = Timeout;
+    this.HealthyThreshold = HealthyThreshold;
+    this.UnhealthyThreshold = UnhealthyThreshold;
+    this.Target = Target;
+}
+
 String.prototype.trim = function() {
     return this.replace(/^\s+|\s+$/g,"");
 }
@@ -195,6 +210,7 @@ var ec2ui_model = {
     bundleTasks       : null,
     offerings         : null,
     reservedInstances : null,
+    loadbalancer      : null,
     resourceMap     : {
         instances : 0,
         volumes   : 1,
@@ -218,6 +234,7 @@ var ec2ui_model = {
         this.updateBundleTasks(null);
         this.updateLeaseOfferings(null);
         this.updateReservedInstances(null);
+        this.updateLoadbalancer(null);
     },
 
     notifyComponents : function(interest) {
@@ -410,5 +427,18 @@ var ec2ui_model = {
             ec2ui_session.controller.describeReservedInstances();
         }
         return this.reservedInstances;
-    }
+    },
+    
+    updateLoadbalancer : function(list) {
+        this.loadbalancer = list;
+        this.notifyComponents("loadbalancer");
+    },
+
+    getLoadbalancer : function() {
+        if (this.loadbalancer == null) {
+            ec2ui_session.controller.describeLoadBalancers();
+        }
+        return this.loadbalancer;
+    },
+    
 }

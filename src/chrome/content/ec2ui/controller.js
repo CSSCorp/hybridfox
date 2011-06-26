@@ -1613,5 +1613,61 @@ var ec2ui_controller = {
         }
 
         eval("this."+responseObject.requestType+"(responseObject)");
-    }
+    },
+    
+    describeLoadBalancers : function (callback) {
+        ec2_httpclient.queryELB("DescribeLoadBalancers", [], this, true, "onCompleteDescribeLoadBalancers", callback);
+    },
+
+    onCompleteDescribeLoadBalancers : function (objResponse) {
+        var xmlDoc = objResponse.xmlDoc;
+        var list = new Array();
+        var items = xmlDoc.getElementsByTagName("member");
+        for (var i = 0; i < items.length; i++)
+        {
+            var LoadBalancerName = getNodeValueByName(items[i], "LoadBalancerName");
+            var CreatedTime = getNodeValueByName(items[i], "CreatedTime");
+            var DNSName = getNodeValueByName(items[i], "DNSName");
+	    var Instances = new Array();
+            var InstanceId = items[i].getElementsByTagName("InstanceId");
+            for (var j = 0; j < InstanceId.length; j++) {
+                Instances.push(InstanceId[j].firstChild.nodeValue);
+            }
+	    var HealthCheck = items[i].getElementsByTagName("HealthCheck");      
+                for (var k = 0; k < HealthCheck.length; k++)
+                {
+                  var Interval = getNodeValueByName(HealthCheck[k], "Interval");
+                  var Timeout = getNodeValueByName(HealthCheck[k], "Timeout");
+                  var HealthyThreshold = getNodeValueByName(HealthCheck[k], "HealthyThreshold");
+                  var UnhealthyThreshold = getNodeValueByName(HealthCheck[k], "UnhealthyThreshold");
+                  var Target = getNodeValueByName(HealthCheck[k], "Target");
+                }
+            if (LoadBalancerName != '' && CreatedTime != '')
+            {
+            list.push(new LoadBalancer(LoadBalancerName,CreatedTime, DNSName,Instances,Interval,
+				       Timeout,
+				       HealthyThreshold,
+				       UnhealthyThreshold,
+				       Target));
+            }
+        }
+        ec2ui_model.updateLoadbalancer(list);
+        if (objResponse.callback)
+            objResponse.callback(list);
+    },
+    
+    deleteLoadBalancer : function(LoadBalancerName,callback){
+       params = []
+       params.push(["LoadBalancerName", LoadBalancerName]);
+       ec2_httpclient.queryELB("DeleteLoadBalancer", params, this, true, "oncompleteDeleteLoadBalancer", callback);
+        
+    },
+    
+    oncompleteDeleteLoadBalancer : function(objResponse){
+        var xmlDoc = objResponse.xmlDoc;
+        var items = getNodeValueByName(xmlDoc, "member");
+        if (objResponse.callback)
+            objResponse.callback(items);
+        
+    },
 };

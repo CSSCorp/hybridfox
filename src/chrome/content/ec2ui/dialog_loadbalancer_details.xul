@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<!DOCTYPE window SYSTEM "chrome://ec2ui/locale/ec2ui.dtd">
+
+<dialog id="ec2ui.dialog.loadbalancer.detail" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	onload="ec2_LoadbalancerDetails.init();" ondialogaccept="return true;" title="Loadbalancer Details">
+
+	<script type="application/x-javascript" src="chrome://ec2ui/content/loadbalancerdetailsdialog.js" />
+	<script type="application/x-javascript" src="chrome://ec2ui/content/model.js" />
+
+	<vbox flex="1">
+		<grid flex="1">
+			<columns>
+				<column />
+				<column />
+				<column />
+                                <column />
+			</columns>
+			<rows>
+				<row>
+					<label control="ec2ui.loadbalancer.LoadBalancerName" value="Loadbalancer Name:" />
+					<textbox id="ec2ui.loadbalancer.LoadBalancerName" size="40" readonly="true" />
+				</row>
+				<row>
+					<label control="ec2ui.loadbalancer.CreatedTime" value="Creation Time:" />
+					<textbox id="ec2ui.loadbalancer.CreatedTime" size="40" readonly="true" />
+				</row>
+                                <row>
+					<label control="ec2ui.loadbalancer.DNSName" value="DNS Name:" />
+					<textbox id="ec2ui.loadbalancer.DNSName" size="40" readonly="true" />
+				</row>
+				<row>
+					<label control="ec2ui.loadbalancer.Interval" value="Interval:" />
+					<textbox id="ec2ui.loadbalancer.Interval" size="40" readonly="true" />
+				</row>
+				<row>
+					<label control="ec2ui.loadbalancer.Target" value="Target:" />
+					<textbox id="ec2ui.loadbalancer.Target" size="40" readonly="true" />
+				</row>
+				<row>
+					<label control="ec2ui.loadbalancer.HealthyThreshold" value="HealthyThreshold:" />
+					<textbox id="ec2ui.loadbalancer.HealthyThreshold" size="40" readonly="true" />
+				</row>
+				<row>
+					<label control="ec2ui.loadbalancer.UnhealthyThreshold" value="UnhealthyThreshold:" />
+					<textbox id="ec2ui.loadbalancer.UnhealthyThreshold" size="40" readonly="true" />
+				</row>
+				<row>
+					<label control="ec2ui.loadbalancer.Timeout" value="Timeout:" />
+					<textbox id="ec2ui.loadbalancer.Timeout" size="40" readonly="true" />
+				</row>
+                                <row>
+					<label control="ec2ui.loadbalancer.Instances" value="Instances:" />
+					<textbox id="ec2ui.loadbalancer.Instances" size="40" readonly="true" />
+				</row>
+			
+			</rows>
+		</grid>
+	</vbox>
+</dialog>
