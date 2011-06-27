@@ -1633,30 +1633,40 @@ var ec2ui_controller = {
             for (var j = 0; j < InstanceId.length; j++) {
                 Instances.push(InstanceId[j].firstChild.nodeValue);
             }
+
+	    var listener = items[i].getElementsByTagName("ListenerDescriptions");
+            for (var k = 0; k < listener.length; k++)
+            {
+                var Protocol = getNodeValueByName(listener[k], "Protocol");
+                var LoadBalancerPort = getNodeValueByName(listener[k], "LoadBalancerPort");
+                var InstancePort = getNodeValueByName(listener[k], "InstancePort");
+            }
   
             var HealthCheck = items[i].getElementsByTagName("HealthCheck");      
-                for (var k = 0; k < HealthCheck.length; k++)
-                {
-                  var Interval = getNodeValueByName(HealthCheck[k], "Interval");
-                  var Timeout = getNodeValueByName(HealthCheck[k], "Timeout");
-                  var HealthyThreshold = getNodeValueByName(HealthCheck[k], "HealthyThreshold");
-                  var UnhealthyThreshold = getNodeValueByName(HealthCheck[k], "UnhealthyThreshold");
-                  var Target = getNodeValueByName(HealthCheck[k], "Target");
-                }
-
-	    var AvailabilityZones = items[i].getElementsByTagName("AvailabilityZones");
-
-		for (var k = 0; k < AvailabilityZones.length; k++)
-                {
-                  var azone = getNodeValueByName(AvailabilityZones[k], "member");
-
-               }
-	
+            for (var k = 0; k < HealthCheck.length; k++)
+            {
+                var Interval = getNodeValueByName(HealthCheck[k], "Interval");
+                var Timeout = getNodeValueByName(HealthCheck[k], "Timeout");
+                var HealthyThreshold = getNodeValueByName(HealthCheck[k], "HealthyThreshold");
+                var UnhealthyThreshold = getNodeValueByName(HealthCheck[k], "UnhealthyThreshold");
+                var Target = getNodeValueByName(HealthCheck[k], "Target");
+            }
+            
+	    var azone = new Array();
+            var AvailabilityZones = items[i].getElementsByTagName("AvailabilityZones");      
+            for (var k = 0; k < AvailabilityZones.length; k++)
+            {
+	        var zone = AvailabilityZones[k].getElementsByTagName("member");
+		for (var j = 0; j < zone.length; j++) {
+		    azone.push(zone[j].firstChild.nodeValue);
+		}
+	    }
 
 	    if (LoadBalancerName != '' && CreatedTime != '')
             {
-            list.push(new LoadBalancer(LoadBalancerName,CreatedTime, DNSName,Instances,Interval,
-				       Timeout,
+            list.push(new LoadBalancer(LoadBalancerName,CreatedTime, DNSName,
+				       Instances,Protocol,LoadBalancerPort,InstancePort,
+				       Interval,Timeout,
 				       HealthyThreshold,
 				       UnhealthyThreshold,
 				       Target,
@@ -1727,7 +1737,6 @@ var ec2ui_controller = {
 	params = []
 	params.push(["LoadBalancerName", LoadBalancerName]);
 	var instanceid = Instances;
-	alert(instanceid);
 	var newStr = instanceid.substring(",", instanceid.length-1);
 	
 	    params.push(["Instances.member.InstanceId", newStr]);

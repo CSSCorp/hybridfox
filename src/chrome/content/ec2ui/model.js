@@ -178,12 +178,16 @@ function ReservedInstance(id, type, az, start, duration, fPrice, uPrice, count, 
 //Loadbalancer
 
 function LoadBalancer(LoadBalancerName,CreatedTime,DNSName,Instances,
+                      Protocol,LoadBalancerPort,InstancePort,
                       Interval,Timeout,HealthyThreshold,UnhealthyThreshold,Target,
                       azone){
     this.LoadBalancerName = LoadBalancerName;
     this.CreatedTime = CreatedTime;
     this.DNSName = DNSName;
     this.InstanceId = Instances;
+    this.Protocol = Protocol;
+    this.LoadBalancerPort = LoadBalancerPort;
+    this.InstancePort = InstancePort;
     this.Interval = Interval;
     this.Timeout = Timeout;
     this.HealthyThreshold = HealthyThreshold;

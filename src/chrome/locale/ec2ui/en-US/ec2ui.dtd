@@ -210,6 +210,9 @@
 <!ENTITY ec2ui.loadbalancer.HealthyThreshold.label "Healthy">
 <!ENTITY ec2ui.loadbalancer.UnhealthyThreshold.label "Unhealthy">
 <!ENTITY ec2ui.loadbalancer.Target.label "Target">
+<!ENTITY ec2ui.loadbalancer.Protocol.label "Protocol">
+<!ENTITY ec2ui.loadbalancer.LoadBalancerPort.label "Loadbalancer Port">
+<!ENTITY ec2ui.loadbalancer.InstancePort.label "Instance Port">
 
 <!ENTITY ec2ui.create.loadbalancer.tip "Create Loadbalancer">
 

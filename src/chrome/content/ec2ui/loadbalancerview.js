@@ -1,5 +1,6 @@
 var ec2ui_LoadbalancerTreeView = {
     COLNAMES : ['loadbalancer.LoadBalancerName','loadbalancer.CreatedTime','loadbalancer.DNSName','loadbalancer.InstanceId',
+                'loadbalancer.Protocol','loadbalancer.LoadBalancerPort','loadbalancer.InstancePort',
                 'loadbalancer.Interval','loadbalancer.Timeout','loadbalancer.HealthyThreshold','loadbalancer.UnhealthyThreshold',
                 'loadbalancer.Target','loadbalancer.zone'],
     treeBox : null,
@@ -253,6 +254,15 @@ var ec2ui_LoadbalancerTreeView = {
             ec2ui_session.controller.Disableazonewithloadbalancer(retVal.LoadBalancerName,retVal.Zone,wrap);
         } 
         
+    },
+    
+    copyToClipBoard : function(fieldName) {
+        var loadbalancer = this.getSelectedLoadbalancer();
+        if (loadbalancer == null) {
+            return;
+        }
+
+        copyToClipboard(loadbalancer[fieldName]);
     },
     
   
