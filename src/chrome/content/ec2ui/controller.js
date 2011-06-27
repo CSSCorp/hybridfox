@@ -1596,7 +1596,7 @@ var ec2ui_controller = {
                     url = "https://" + url;
                     }
 	        endPointMap[name] = new Endpoint(name, type, url);
-                console.log("name: " + name + ", type:" + type + ", url: " + url);
+                log("name: " + name + ", type:" + type + ", url: " + url);
 	    }
 
             if (objResponse.callback) {
@@ -1633,7 +1633,8 @@ var ec2ui_controller = {
             for (var j = 0; j < InstanceId.length; j++) {
                 Instances.push(InstanceId[j].firstChild.nodeValue);
             }
-	    var HealthCheck = items[i].getElementsByTagName("HealthCheck");      
+  
+            var HealthCheck = items[i].getElementsByTagName("HealthCheck");      
                 for (var k = 0; k < HealthCheck.length; k++)
                 {
                   var Interval = getNodeValueByName(HealthCheck[k], "Interval");
@@ -1642,13 +1643,24 @@ var ec2ui_controller = {
                   var UnhealthyThreshold = getNodeValueByName(HealthCheck[k], "UnhealthyThreshold");
                   var Target = getNodeValueByName(HealthCheck[k], "Target");
                 }
-            if (LoadBalancerName != '' && CreatedTime != '')
+
+	    var AvailabilityZones = items[i].getElementsByTagName("AvailabilityZones");
+
+		for (var k = 0; k < AvailabilityZones.length; k++)
+                {
+                  var azone = getNodeValueByName(AvailabilityZones[k], "member");
+
+               }
+	
+
+	    if (LoadBalancerName != '' && CreatedTime != '')
             {
             list.push(new LoadBalancer(LoadBalancerName,CreatedTime, DNSName,Instances,Interval,
 				       Timeout,
 				       HealthyThreshold,
 				       UnhealthyThreshold,
-				       Target));
+				       Target,
+				       azone));
             }
         }
         ec2ui_model.updateLoadbalancer(list);
@@ -1670,4 +1682,137 @@ var ec2ui_controller = {
             objResponse.callback(items);
         
     },
+    
+    CreateLoadBalancer : function (LoadBalancerName,Protocol,elbport,instanceport,callback) {
+	var params = []
+	params.push(["LoadBalancerName", LoadBalancerName]);
+	params.push(["AvailabilityZones.member.1", "us-east-1a"]);
+	params.push(["Listeners.member.Protocol", Protocol]);
+	if (Protocol == "HTTPS")
+	{
+	    params.push(["Listeners.member.SSLCertificateId", "arn:aws:iam::322191361670:server-certificate/testCert"]);
+	}
+	params.push(["Listeners.member.LoadBalancerPort", elbport]);
+	params.push(["Listeners.member.InstancePort", instanceport]);
+	ec2_httpclient.queryELB("CreateLoadBalancer", params, this, true, "onCompleteCreateLoadBalancer", callback);
+    },
+
+    onCompleteCreateLoadBalancer: function (objResponse) {
+        var xmlDoc = objResponse.xmlDoc;
+        var items = getNodeValueByName(xmlDoc, "member");
+        if (objResponse.callback)
+            objResponse.callback(items);
+    },
+    
+    ConfigureHealthCheck : function(LoadBalancerName,pingprotocol,pingport,pingpath,Interval,Timeout,HealthyThreshold,UnhealthyThreshold,callback){
+       var params = []
+       params.push(["HealthCheck.Target" , pingprotocol+":"+pingport+"/"+pingpath]);
+       params.push(["LoadBalancerName", LoadBalancerName]);
+       params.push(["HealthCheck.Interval", Interval]);
+       params.push(["HealthCheck.Timeout", Timeout]);
+       params.push(["HealthCheck.HealthyThreshold", HealthyThreshold]);
+       params.push(["HealthCheck.UnhealthyThreshold", UnhealthyThreshold]);
+       ec2_httpclient.queryELB("ConfigureHealthCheck", params, this, true, "onCompleteConfigureHealthCheck", callback);
+    },
+    
+    onCompleteConfigureHealthCheck : function(objResponse){
+        var xmlDoc = objResponse.xmlDoc;
+        var items = getNodeValueByName(xmlDoc, "HealthCheck");
+        if (objResponse.callback)
+            objResponse.callback(items);
+        
+    },
+    
+    RegisterInstancesWithLoadBalancer : function (LoadBalancerName,Instances,callback) {
+	params = []
+	params.push(["LoadBalancerName", LoadBalancerName]);
+	var instanceid = Instances;
+	alert(instanceid);
+	var newStr = instanceid.substring(",", instanceid.length-1);
+	
+	    params.push(["Instances.member.InstanceId", newStr]);
+	
+	ec2_httpclient.queryELB("RegisterInstancesWithLoadBalancer", params, this, true, "onCompleteRegisterInstancesWithLoadBalancer", callback);
+    },
+
+    onCompleteRegisterInstancesWithLoadBalancer: function (objResponse) {
+        var xmlDoc = objResponse.xmlDoc;
+        var items = getNodeValueByName(xmlDoc, "member");
+        if (objResponse.callback)
+            objResponse.callback(items);
+    },
+    
+    DeregisterInstancesWithLoadBalancer : function (LoadBalancerName,Instances,callback) {
+	params = []
+	params.push(["LoadBalancerName", LoadBalancerName]);
+	var instanceid = Instances;
+	var newStr = instanceid.substring(",", instanceid.length-1);
+	params.push(["Instances.member.InstanceId", newStr]);
+	
+	ec2_httpclient.queryELB("DeregisterInstancesFromLoadBalancer", params, this, true, "onCompleteDeregisterInstancesWithLoadBalancer", callback);
+    },
+
+    onCompleteDeregisterInstancesWithLoadBalancer : function (objResponse) {
+        var xmlDoc = objResponse.xmlDoc;
+        var items = getNodeValueByName(xmlDoc, "member");
+        if (objResponse.callback)
+            objResponse.callback(items);
+    },
+    
+    Enableazonewithloadbalancer : function(LoadBalancerName,Zone,callback){
+	params = []
+	params.push(["LoadBalancerName", LoadBalancerName]);
+	var azones = Zone;
+	var newStr = Zone.substring(",", azones.length-1);
+	
+	    params.push(["AvailabilityZones.member.1", newStr]);
+	
+	ec2_httpclient.queryELB("EnableAvailabilityZonesForLoadBalancer", params, this, true, "onCompleteenableazonewithloadbalancer", callback);
+    },
+    
+    onCompleteenableazonewithloadbalancer: function (objResponse) {
+        var xmlDoc = objResponse.xmlDoc;
+        var items = getNodeValueByName(xmlDoc, "member");
+        if (objResponse.callback)
+            objResponse.callback(items);
+    },
+    
+    
+    Disableazonewithloadbalancer : function(LoadBalancerName,Zone,callback){
+	params = []
+	params.push(["LoadBalancerName", LoadBalancerName]);
+	var azones = Zone;
+	var newStr = Zone.substring(",", azones.length-1);
+	
+	    params.push(["AvailabilityZones.member.1", newStr]);
+	
+	ec2_httpclient.queryELB("DisableAvailabilityZonesForLoadBalancer", params, this, true, "onCompletedisableazonewithloadbalancer", callback);
+    },
+    
+    onCompletedisableazonewithloadbalancer: function (objResponse) {
+        var xmlDoc = objResponse.xmlDoc;
+        var items = getNodeValueByName(xmlDoc, "member");
+        if (objResponse.callback)
+            objResponse.callback(items);
+    },
+    
+    
+    EditHealthCheck : function(LoadBalancerName,Target,Interval,Timeout,HealthyThreshold,UnhealthyThreshold,callback){
+       var params = []
+       params.push(["HealthCheck.Target" , Target]);
+       params.push(["LoadBalancerName", LoadBalancerName]);
+       params.push(["HealthCheck.Interval", Interval]);
+       params.push(["HealthCheck.Timeout", Timeout]);
+       params.push(["HealthCheck.HealthyThreshold", HealthyThreshold]);
+       params.push(["HealthCheck.UnhealthyThreshold", UnhealthyThreshold]);
+       ec2_httpclient.queryELB("ConfigureHealthCheck", params, this, true, "onCompleteEditHealthCheck", callback);
+    },
+    
+    onCompleteEditHealthCheck : function(objResponse){
+        var xmlDoc = objResponse.xmlDoc;
+        var items = getNodeValueByName(xmlDoc, "HealthCheck");
+        if (objResponse.callback)
+            objResponse.callback(items);
+        
+    }
 };

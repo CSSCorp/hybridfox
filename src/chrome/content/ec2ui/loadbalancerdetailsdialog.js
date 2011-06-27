@@ -10,7 +10,8 @@ var ec2_LoadbalancerDetails = {
         document.getElementById("ec2ui.loadbalancer.UnhealthyThreshold").value = loadbalancer.UnhealthyThreshold;
         document.getElementById("ec2ui.loadbalancer.Timeout").value = loadbalancer.Timeout;
         document.getElementById("ec2ui.loadbalancer.Instances").value = loadbalancer.InstanceId;
-     
+        document.getElementById("ec2ui.loadbalancer.zone").value = loadbalancer.zone;
+   
         
     }
 }

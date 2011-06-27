@@ -53,6 +53,10 @@
 					<label control="ec2ui.loadbalancer.Instances" value="Instances:" />
 					<textbox id="ec2ui.loadbalancer.Instances" size="40" readonly="true" />
 				</row>
+                                 <row>
+					<label control="ec2ui.loadbalancer.zone" value="Availability Zones:" />
+					<textbox id="ec2ui.loadbalancer.zone" size="40" readonly="true" />
+				</row>
 			
 			</rows>
 		</grid>

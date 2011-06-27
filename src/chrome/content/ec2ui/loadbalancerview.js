@@ -1,7 +1,7 @@
 var ec2ui_LoadbalancerTreeView = {
     COLNAMES : ['loadbalancer.LoadBalancerName','loadbalancer.CreatedTime','loadbalancer.DNSName','loadbalancer.InstanceId',
                 'loadbalancer.Interval','loadbalancer.Timeout','loadbalancer.HealthyThreshold','loadbalancer.UnhealthyThreshold',
-                'loadbalancer.Target'],
+                'loadbalancer.Target','loadbalancer.zone'],
     treeBox : null,
     selection : null,
     arrLocalFiles : new Array(),
@@ -116,6 +116,146 @@ var ec2ui_LoadbalancerTreeView = {
             loadbalancer);
     },
     
+    create: function() {
+        var retVal = {ok:null};
+        window.openDialog(
+            "chrome://ec2ui/content/dialog_create_loadbalancer.xul",
+            null,
+            "chrome,centerscreen,modal",
+            ec2ui_session,
+            retVal,
+            null
+           );
+        var me = this;
+        var wrap = function() {
+            if (ec2ui_prefs.isRefreshOnChangeEnabled()) {
+                me.refresh();
+            }
+        }
+        if (retVal.ok) {
+                ec2ui_session.controller.CreateLoadBalancer(retVal.LoadBalancerName,retVal.Protocol,retVal.elbport,retVal.instanceport,wrap);
+                ec2ui_session.controller.ConfigureHealthCheck(retVal.LoadBalancerName,retVal.pingprotocol,retVal.pingport,retVal.pingpath,retVal.Interval,retVal.Timeout,retVal.HealthyThreshold,retVal.UnhealthyThreshold,wrap);
+                ec2ui_session.controller.RegisterInstancesWithLoadBalancer(retVal.LoadBalancerName,retVal.Instances,wrap);
+        }
+     },
+     
+     ConfigureHealthCheck: function() {
+        var loadbalancer = this.getSelectedLoadbalancer();
+        if (loadbalancer == null) return;
+        var retVal = {ok:null};
+        window.openDialog(
+            "chrome://ec2ui/content/dialog_configure_healthcheck.xul",
+            null,
+            "chrome,centerscreen,modal",
+            loadbalancer,
+            ec2ui_session,
+            retVal            
+           );
+        var me = this;
+        var wrap = function() {
+            if (ec2ui_prefs.isRefreshOnChangeEnabled()) {
+                me.refresh();
+            }
+        }
+        if (retVal.ok) {        
+            ec2ui_session.controller.EditHealthCheck(loadbalancer.LoadBalancerName,retVal.Target,retVal.Interval,retVal.Timeout,retVal.HealthyThreshold,retVal.UnhealthyThreshold,wrap);
+        }
+    },
+    
+    registerinstances : function(){
+        var loadbalancer = this.getSelectedLoadbalancer();
+        if (loadbalancer == null) return;
+        var retVal = {ok:null};
+         window.openDialog(
+            "chrome://ec2ui/content/dialog_register_lbinstances.xul",
+            null,
+            "chrome,centerscreen,modal",
+            ec2ui_session,
+            retVal,
+            loadbalancer
+            );
+        var me = this;
+        var wrap = function() {
+            if (ec2ui_prefs.isRefreshOnChangeEnabled()) {
+                me.refresh();
+            }
+        }
+        if (retVal.ok) {
+        ec2ui_session.controller.RegisterInstancesWithLoadBalancer(retVal.LoadBalancerName,retVal.Instances,wrap);
+        }    
+    },
+    
+    deregisterinstances : function(){
+        var loadbalancer = this.getSelectedLoadbalancer();
+        if (loadbalancer == null) return;
+        var retVal = {ok:null};
+         window.openDialog(
+            "chrome://ec2ui/content/dialog_deregister_lbinstances.xul",
+            null,
+            "chrome,centerscreen,modal",
+            ec2ui_session,
+            retVal,
+            loadbalancer
+            );
+        var me = this;
+        var wrap = function() {
+            if (ec2ui_prefs.isRefreshOnChangeEnabled()) {
+                me.refresh();
+            }
+        }
+        if (retVal.ok) {
+        ec2ui_session.controller.DeregisterInstancesWithLoadBalancer(retVal.LoadBalancerName,retVal.Instances,wrap);
+        } 
+    },
+    
+    enableazone : function(){
+        var loadbalancer = this.getSelectedLoadbalancer();
+        if (loadbalancer == null) return;
+        var retVal = {ok:null};
+        window.openDialog(
+            "chrome://ec2ui/content/dialog_enable_lbazone.xul",
+            null,
+            "chrome,centerscreen,modal",
+            ec2ui_session,
+            retVal,
+            loadbalancer
+        );
+        var me = this;
+        var wrap = function() {
+            if (ec2ui_prefs.isRefreshOnChangeEnabled()) {
+                me.refresh();
+            }
+        }
+        if (retVal.ok) {
+            ec2ui_session.controller.Enableazonewithloadbalancer(retVal.LoadBalancerName,retVal.Zone,wrap);
+        } 
+    },
+    
+    disableazone : function(){
+        var loadbalancer = this.getSelectedLoadbalancer();
+        if (loadbalancer == null) return;
+        var retVal = {ok:null};
+        window.openDialog(
+            "chrome://ec2ui/content/dialog_disable_lbazone.xul",
+            null,
+            "chrome,centerscreen,modal",
+            ec2ui_session,
+            retVal,
+            loadbalancer
+        );
+         var me = this;
+        var wrap = function() {
+            if (ec2ui_prefs.isRefreshOnChangeEnabled()) {
+                me.refresh();
+            }
+        }
+        if (retVal.ok) {
+            ec2ui_session.controller.Disableazonewithloadbalancer(retVal.LoadBalancerName,retVal.Zone,wrap);
+        } 
+        
+    },
+    
+  
     displayLoadbalancer : function (loadbalancerList) {
         if (!loadbalancerList) { loadbalancerList = []; }
 

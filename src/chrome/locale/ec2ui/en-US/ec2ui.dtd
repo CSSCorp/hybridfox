@@ -204,9 +204,12 @@
 <!ENTITY ec2ui.loadbalancer.creationtime.label "Created Time">
 <!ENTITY ec2ui.loadbalancer.dnsname.label "DNS Name">
 <!ENTITY ec2ui.loadbalancer.instances.label "Instances">
+<!ENTITY ec2ui.loadbalancer.zone.label "Availability Zones">
 <!ENTITY ec2ui.loadbalancer.Interval.label "Interval">
 <!ENTITY ec2ui.loadbalancer.Timeout.label "Timeout">
 <!ENTITY ec2ui.loadbalancer.HealthyThreshold.label "Healthy">
 <!ENTITY ec2ui.loadbalancer.UnhealthyThreshold.label "Unhealthy">
 <!ENTITY ec2ui.loadbalancer.Target.label "Target">
+
+<!ENTITY ec2ui.create.loadbalancer.tip "Create Loadbalancer">
 

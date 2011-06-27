@@ -8,7 +8,30 @@
     <groupbox orient="vertical" flex="1" id="loadbalancer.tree.holder">
       <caption label="&ec2ui.captions.loadbalancer.label;" />
        <popupset >
-          <menupopup id="loadbalancer.tree.contextmenu" >
+          <menupopup id="loadbalancer.tree.contextmenu">
+              <menuitem oncommand="ec2ui_LoadbalancerTreeView.viewDetails(event);"
+              label="View Details" />
+              <menuseparator/>
+              <menuitem oncommand="ec2ui_LoadbalancerTreeView.registerinstances(event);"
+              label="Register Instances" />
+              <menuitem oncommand="ec2ui_LoadbalancerTreeView.deregisterinstances(event);"
+              label="Deregister Instances" />
+              <menuseparator/>
+              <menuitem oncommand="ec2ui_LoadbalancerTreeView.enableazone(event);"
+              label="Enable Availability Zones" />
+              <menuitem oncommand="ec2ui_LoadbalancerTreeView.disableazone(event);"
+              label="Disable Availability Zones" />
+              <menuseparator/>
+              <menuitem oncommand="ec2ui_LoadbalancerTreeView.disablestickness(event);"
+              label="Disable Stickness" />
+              <menuitem oncommand="ec2ui_LoadbalancerTreeView.applicationsticknesss(event);"
+              label="Application Stickness" />
+              <menuitem oncommand="ec2ui_LoadbalancerTreeView.loadbalancerstickness(event);"
+              label="Loadbalancer Stickness" />
+              <menuseparator/>
+              <menuitem oncommand="ec2ui_LoadbalancerTreeView.ConfigureHealthCheck(event);"
+              label="Configure Healthcheck" />
+              <menuseparator/>
               <menuitem oncommand="ec2ui_LoadbalancerTreeView.deleteLoadBalancer(event);"
               label="Delete Loadbalancer" />
           </menupopup>
@@ -16,6 +39,8 @@
       <toolbar style="padding: 0px 3px; -moz-box-align: center">
         <toolbarbutton image="images/refresh.png" oncommand="ec2ui_LoadbalancerTreeView.refresh()"
           tooltiptext="&ec2ui.refresh.tip;" />
+        <toolbarbutton image="images/alloc.png" tooltiptext="&ec2ui.eips.allocate.tip;"
+          oncommand="ec2ui_LoadbalancerTreeView.create();" />
       </toolbar>
       <tree enableColumnDrag="true" id="ec2ui.loadbalancer.view" flex="1" ondblclick="ec2ui_LoadbalancerTreeView.viewDetails(event)">
         <treecols>
@@ -29,6 +54,9 @@
             persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
            <treecol id="loadbalancer.InstanceId" label="&ec2ui.loadbalancer.instances.label;" flex="5"
+            persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter" />
+           <treecol id="loadbalancer.zone" label="&ec2ui.loadbalancer.zone.label;" flex="5"
             persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
            <treecol id="loadbalancer.Interval" label="&ec2ui.loadbalancer.Interval.label;" flex="5"
@@ -46,6 +74,7 @@
            <treecol id="loadbalancer.Target" label="&ec2ui.loadbalancer.Target.label;" flex="5"
             persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
+          
          </treecols>
         <treechildren id="loadbalancer.tree.children" context="loadbalancer.tree.contextmenu" />
       </tree>

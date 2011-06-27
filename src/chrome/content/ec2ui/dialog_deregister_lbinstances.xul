@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<!DOCTYPE window SYSTEM "chrome://ec2ui/locale/ec2ui.dtd">
+
+<dialog id="ec2ui.dialog.deregisterinstances" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  buttons="accept,cancel" ondialogaccept="return ec2ui_DeregisterInstances.launch();" ondialogcancel="return true;"
+  onload="ec2ui_DeregisterInstances.init();" title="Deregister Instances" buttonlabelaccept="Deregister">
+
+  <script type="application/x-javascript" src="chrome://ec2ui/content/utils.js" />
+  <script type="application/x-javascript" src="chrome://ec2ui/content/deregisterlbinstances.js" />
+  <script type="application/x-javascript" src="chrome://ec2ui/content/model.js" />
+  <script type="application/x-javascript" src="chrome://ec2ui/content/base64.js" />
+  <textbox id="ec2ui.deregisterlb.LoadBalancerName" size="40" hidden="true" readonly="true" />
+  <listbox id="Deregister_Instances" rows="10" width="400" seltype="multiple" onclick="ec2ui_DeregisterInstances.enable_disableInstances();">
+  <listhead>
+     <listheader label="Register" width="50"/>
+     <listheader label="Instance Id" width="200"/>
+     <listheader label="State" width="100"/>
+     <listheader label="Zone" width="150"/>
+  </listhead>
+  <listcols>
+   <listcol/>
+   <listcol flex="1"/>
+  </listcols>
+</listbox>
+</dialog>

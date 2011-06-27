@@ -178,7 +178,8 @@ function ReservedInstance(id, type, az, start, duration, fPrice, uPrice, count, 
 //Loadbalancer
 
 function LoadBalancer(LoadBalancerName,CreatedTime,DNSName,Instances,
-                      Interval,Timeout,HealthyThreshold,UnhealthyThreshold,Target){
+                      Interval,Timeout,HealthyThreshold,UnhealthyThreshold,Target,
+                      azone){
     this.LoadBalancerName = LoadBalancerName;
     this.CreatedTime = CreatedTime;
     this.DNSName = DNSName;
@@ -188,6 +189,7 @@ function LoadBalancer(LoadBalancerName,CreatedTime,DNSName,Instances,
     this.HealthyThreshold = HealthyThreshold;
     this.UnhealthyThreshold = UnhealthyThreshold;
     this.Target = Target;
+    this.zone = azone;
 }
 
 String.prototype.trim = function() {
