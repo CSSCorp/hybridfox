@@ -5,7 +5,6 @@ var ec2ui_LoadbalancerTreeView = {
                 'loadbalancer.Target','loadbalancer.zone'],
     treeBox : null,
     selection : null,
-    arrLocalFiles : new Array(),
     loadbalancerList : new Array(),
     registered : false,
 
@@ -26,11 +25,13 @@ var ec2ui_LoadbalancerTreeView = {
     getProgressMode : function(idx,column) {},
     getCellValue: function(idx, column) {},
     cycleHeader: function(col) {
+        var loadbalancer = this.getSelectedLoadbalancer();
         cycleHeader(
         col,
         document,
         this.COLNAMES,
         this.loadbalancerList);
+        this.selectionChanged();
         this.treeBox.invalidate();
         if (loadbalancer) {
             log(loadbalancer.LoadBalancerName + ": Select this Monitor Instance post sort");
@@ -46,7 +47,6 @@ var ec2ui_LoadbalancerTreeView = {
         if (LoadBalancer) this.selectByName(LoadBalancer.LoadBalancerName);
     },
 
-    selectionChanged: function() {},
     cycleCell: function(idx, column) {},
     performAction: function(action) {},
     performActionOnCell: function(action, index, column) {},
@@ -71,6 +71,14 @@ var ec2ui_LoadbalancerTreeView = {
             }
         }
         this.selection.select(0);
+    },
+    
+    selectionChanged : function() {
+        var index = this.selection.currentIndex;
+        if (index == -1) return;
+
+        var loadbalancer = this.loadbalancerList[index];
+        ec2ui_session.controller.describeInstanceHealth(loadbalancer.LoadBalancerName);
     },
 
     register: function() {
@@ -134,7 +142,7 @@ var ec2ui_LoadbalancerTreeView = {
             }
         }
         if (retVal.ok) {
-                ec2ui_session.controller.CreateLoadBalancer(retVal.LoadBalancerName,retVal.Protocol,retVal.elbport,retVal.instanceport,wrap);
+                ec2ui_session.controller.CreateLoadBalancer(retVal.LoadBalancerName,retVal.Protocol,retVal.elbport,retVal.instanceport,retVal.zones,wrap);
                 ec2ui_session.controller.ConfigureHealthCheck(retVal.LoadBalancerName,retVal.pingprotocol,retVal.pingport,retVal.pingpath,retVal.Interval,retVal.Timeout,retVal.HealthyThreshold,retVal.UnhealthyThreshold,wrap);
                 ec2ui_session.controller.RegisterInstancesWithLoadBalancer(retVal.LoadBalancerName,retVal.Instances,wrap);
         }
@@ -274,6 +282,7 @@ var ec2ui_LoadbalancerTreeView = {
         this.treeBox.rowCountChanged(0, this.loadbalancerList.length);
         this.sort();
         this.selection.clearSelection();
+        ec2ui_InstanceHealthTreeView.displayInstanceHealth([]);
         if (loadbalancerList.length > 0) {
             this.selection.select(0);
         }

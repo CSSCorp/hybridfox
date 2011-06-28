@@ -1678,6 +1678,31 @@ var ec2ui_controller = {
             objResponse.callback(list);
     },
     
+    describeInstanceHealth : function(LoadBalancerName,callback) {
+	params = []
+        params.push(["LoadBalancerName", LoadBalancerName]);
+	
+        ec2_httpclient.queryELB("DescribeInstanceHealth", params, this, true, "oncompletedescribeInstanceHealth", callback);
+    },
+    
+    oncompletedescribeInstanceHealth : function(objResponse){
+        var xmlDoc = objResponse.xmlDoc;
+        var list = new Array();
+        var items = xmlDoc.getElementsByTagName("member");
+        for (var i = 0; i < items.length; i++)
+        {
+            var Description = getNodeValueByName(items[i], "Description");
+            var State = getNodeValueByName(items[i], "State");
+            var InstanceId = getNodeValueByName(items[i], "InstanceId");
+	    var ReasonCode = getNodeValueByName(items[i], "ReasonCode");
+	 list.push(new InstanceHealth(Description,State, InstanceId,ReasonCode));
+        }
+        ec2ui_model.updateInstanceHealth(list);
+        if (objResponse.callback)
+            objResponse.callback(list);
+        
+    },
+    
     deleteLoadBalancer : function(LoadBalancerName,callback){
        params = []
        params.push(["LoadBalancerName", LoadBalancerName]);
@@ -1693,10 +1718,14 @@ var ec2ui_controller = {
         
     },
     
-    CreateLoadBalancer : function (LoadBalancerName,Protocol,elbport,instanceport,callback) {
+    CreateLoadBalancer : function (LoadBalancerName,Protocol,elbport,instanceport,zones,callback) {
 	var params = []
 	params.push(["LoadBalancerName", LoadBalancerName]);
-	params.push(["AvailabilityZones.member.1", "us-east-1a"]);
+	
+	var zone = zones;
+	var newzone = zone.substring(",", zone.length-1);
+	
+	params.push(["AvailabilityZones.member.1", newzone]);
 	params.push(["Listeners.member.Protocol", Protocol]);
 	if (Protocol == "HTTPS")
 	{
@@ -1820,6 +1849,23 @@ var ec2ui_controller = {
     onCompleteEditHealthCheck : function(objResponse){
         var xmlDoc = objResponse.xmlDoc;
         var items = getNodeValueByName(xmlDoc, "HealthCheck");
+        if (objResponse.callback)
+            objResponse.callback(items);
+        
+    },
+    
+    uploadservercertificate : function(ServerCertificateName,CertificateBody,PrivateKey,Path,callback){
+       params = []
+       params.push(["ServerCertificateName", ServerCertificateName]);
+       params.push(["CertificateBody", CertificateBody]);
+       params.push(["PrivateKey", PrivateKey]);
+       if (Path != null) params.push(["Path", Path]);
+       ec2_httpclient.queryIAM("UploadServerCertificate", params, this, true, "oncompleteuploadserversertificate", callback);  
+    },
+    
+    oncompleteuploadservercertificate :function(objResponse){
+        var xmlDoc = objResponse.xmlDoc;
+        var items = getNodeValueByName(xmlDoc, "ServerCertificateMetadata");
         if (objResponse.callback)
             objResponse.callback(items);
         

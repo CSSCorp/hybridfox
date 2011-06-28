@@ -54,6 +54,7 @@
   <script type="application/x-javascript" src="chrome://global/content/contentAreaUtils.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/session.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/loadbalancerview.js" />
+  <script type="application/x-javascript" src="chrome://ec2ui/content/instancehealthview.js" />
   
 
   <stringbundleset id="stringbundleset">

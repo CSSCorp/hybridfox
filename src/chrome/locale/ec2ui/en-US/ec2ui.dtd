@@ -199,6 +199,7 @@
 <!ENTITY ec2ui.cancelBundleTask.tip "Cancel this Bundle Task">
 
 <!ENTITY ec2ui.captions.loadbalancer.label "Loadbalancer">
+<!ENTITY ec2ui.captions.InstanceHealth.label "Instance Health">
 
 <!ENTITY ec2ui.loadbalancer.name.label "Loadbalancer Name">
 <!ENTITY ec2ui.loadbalancer.creationtime.label "Created Time">
@@ -214,5 +215,12 @@
 <!ENTITY ec2ui.loadbalancer.LoadBalancerPort.label "Loadbalancer Port">
 <!ENTITY ec2ui.loadbalancer.InstancePort.label "Instance Port">
 
+<!ENTITY ec2ui.InstanceHealth.Description.label "Description">
+<!ENTITY ec2ui.InstanceHealth.State.label "State">
+<!ENTITY ec2ui.InstanceHealth.InstanceId.label "InstanceId">
+<!ENTITY ec2ui.InstanceHealth.ReasonCode.label "ReasonCode">
+
 <!ENTITY ec2ui.create.loadbalancer.tip "Create Loadbalancer">
+
+
 

@@ -196,6 +196,13 @@ function LoadBalancer(LoadBalancerName,CreatedTime,DNSName,Instances,
     this.zone = azone;
 }
 
+function InstanceHealth(Description,State,InstanceId,ReasonCode){
+    this.Description = Description;
+    this.State = State;
+    this.InstanceId = InstanceId;
+    this.ReasonCode = ReasonCode;
+}
+
 String.prototype.trim = function() {
     return this.replace(/^\s+|\s+$/g,"");
 }
@@ -217,6 +224,7 @@ var ec2ui_model = {
     offerings         : null,
     reservedInstances : null,
     loadbalancer      : null,
+    InstanceHealth    : null,
     resourceMap     : {
         instances : 0,
         volumes   : 1,
@@ -241,6 +249,7 @@ var ec2ui_model = {
         this.updateLeaseOfferings(null);
         this.updateReservedInstances(null);
         this.updateLoadbalancer(null);
+        this.updateInstanceHealth(null);
     },
 
     notifyComponents : function(interest) {
@@ -447,4 +456,15 @@ var ec2ui_model = {
         return this.loadbalancer;
     },
     
+    updateInstanceHealth : function(list) {
+        this.InstanceHealth = list;
+        this.notifyComponents("InstanceHealth");
+    },
+
+    getInstanceHealth : function() {
+        if (this.InstanceHealth == null) {
+            ec2ui_session.controller.describeInstanceHealth();
+        }
+        return this.InstanceHealth;
+    }
 }

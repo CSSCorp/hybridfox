@@ -28,10 +28,24 @@ var ec2_Createlb = {
 		var cellinstance = "celliid"+idx;
 		var instance = document.getElementById(cellinstance);
 		var reginstanceid = instance.getAttribute('label');
-		this.retVal.Instances =  this.retVal.Instances + reginstanceid +",";;
-
+		this.retVal.Instances =  this.retVal.Instances + reginstanceid +",";
 	    }
 	}
+	
+	this.retVal.zones = "";
+	for(idx = 0; idx < nRowCount; idx++)
+	{
+	    var cellID = "cellcheck"+idx;	    
+	    var cell = document.getElementById(cellID);
+	    if(cell.hasAttribute('checked','true'))
+	    {
+		var cellzone = "cellizone"+idx;
+		var zone = document.getElementById(cellzone);
+		var azone = zone.getAttribute('label');
+		this.retVal.zones =  this.retVal.zones + azone +",";
+	    }
+	}
+	
 	this.retVal.ok = true;
         return true;
     },
@@ -43,7 +57,7 @@ var ec2_Createlb = {
         var Idx = 0;
 	var Instanceid = this.ec2ui_session.model.getInstances();
         var lbinstance = this.ec2ui_session.model.getLoadbalancer();
-	
+		
         var registerid = new Array();
 	
         for (var i in lbinstance){
@@ -90,8 +104,9 @@ var ec2_Createlb = {
            var id = registerid[a];
 	   if(Instanceid[i].id == id)
 	   {
-	       cell1.setAttribute('checked','false');
-	       row.setAttribute('hidden','true');
+	       cell1.removeAttribute('type');
+	       cell2.removeAttribute('label');
+	       row.setAttribute('hidden', 'true');
 	   }
         }
 	

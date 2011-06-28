@@ -30,6 +30,18 @@
 					<textbox id="ec2ui.loadbalancer.DNSName" size="40" readonly="true" />
 				</row>
 				<row>
+					<label control="ec2ui.loadbalancer.Protocol" value="Protocol:" />
+					<textbox id="ec2ui.loadbalancer.Protocol" size="40" readonly="true" />
+				</row>
+				<row>
+					<label control="ec2ui.loadbalancer.LoadBalancerPort" value="Loadbalancer Port:" />
+					<textbox id="ec2ui.loadbalancer.LoadBalancerPort" size="40" readonly="true" />
+				</row>
+				<row>
+					<label control="ec2ui.loadbalancer.InstancePort" value="Instance Port:" />
+					<textbox id="ec2ui.loadbalancer.InstancePort" size="40" readonly="true" />
+				</row>
+				<row>
 					<label control="ec2ui.loadbalancer.Interval" value="Interval:" />
 					<textbox id="ec2ui.loadbalancer.Interval" size="40" readonly="true" />
 				</row>

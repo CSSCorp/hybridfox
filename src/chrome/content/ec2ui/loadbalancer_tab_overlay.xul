@@ -5,6 +5,7 @@
 
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <tabpanel id="loadbalancer_tab" flex="1">
+    <vbox flex="1">
     <groupbox orient="vertical" flex="1" id="loadbalancer.tree.holder">
       <caption label="&ec2ui.captions.loadbalancer.label;" />
        <popupset >
@@ -44,7 +45,8 @@
         <toolbarbutton image="images/alloc.png" tooltiptext="&ec2ui.eips.allocate.tip;"
           oncommand="ec2ui_LoadbalancerTreeView.create();" />
       </toolbar>
-      <tree enableColumnDrag="true" id="ec2ui.loadbalancer.view" flex="1" ondblclick="ec2ui_LoadbalancerTreeView.viewDetails(event)">
+      <tree enableColumnDrag="true" id="ec2ui.loadbalancer.view" flex="1" ondblclick="ec2ui_LoadbalancerTreeView.viewDetails(event)"
+            onselect="ec2ui_LoadbalancerTreeView.selectionChanged(event);">
         <treecols>
           <treecol id="loadbalancer.LoadBalancerName" label="&ec2ui.loadbalancer.name.label;" flex="1" sortDirection="ascending"
             persist="width ordinal hidden sortDirection" />
@@ -90,5 +92,31 @@
         <treechildren id="loadbalancer.tree.children" context="loadbalancer.tree.contextmenu" />
       </tree>
     </groupbox>
+      <splitter style="width: 4px; max-height: 4px;" persist="state"
+        collapse="after" resizebefore="closest">
+        <grippy />
+      </splitter>
+      <groupbox orient="vertical" flex="1">
+        <caption label="&ec2ui.captions.InstanceHealth.label;" />
+        <tree id="ec2ui.instancehealth.view" seltype="single" enableColumnDrag="true" flex="1">
+          <treecols>
+            <treecol id="InstanceHealth.Description" label="&ec2ui.InstanceHealth.Description.label;" flex="1"
+              sortDirection="ascending"
+              persist="width ordinal hidden sortDirection" />
+            <splitter class="tree-splitter" />
+            <treecol id="InstanceHealth.State" label="&ec2ui.InstanceHealth.State.label;" flex="1"
+              persist="width ordinal hidden sortDirection" />
+            <splitter class="tree-splitter" />
+            <treecol id="InstanceHealth.InstanceId" label="&ec2ui.InstanceHealth.InstanceId.label;" flex="1"
+              persist="width ordinal hidden sortDirection" />
+            <splitter class="tree-splitter" />
+            <treecol id="InstanceHealth.ReasonCode" label="&ec2ui.InstanceHealth.ReasonCode.label;" flex="1"
+              persist="width ordinal hidden sortDirection" />
+       
+          </treecols>
+          <treechildren context="ec2ui.InstanceHealth.contextmenu"/>
+        </tree>
+      </groupbox>
+    </vbox>
   </tabpanel>
 </overlay>
