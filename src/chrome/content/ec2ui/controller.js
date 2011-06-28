@@ -1625,13 +1625,13 @@ var ec2ui_controller = {
         var items = xmlDoc.getElementsByTagName("member");
         for (var i = 0; i < items.length; i++)
         {
-            var LoadBalancerName = getNodeValueByName(items[i], "LoadBalancerName");
+	    var LoadBalancerName = getNodeValueByName(items[i], "LoadBalancerName");
             var CreatedTime = getNodeValueByName(items[i], "CreatedTime");
             var DNSName = getNodeValueByName(items[i], "DNSName");
 	    var Instances = new Array();
             var InstanceId = items[i].getElementsByTagName("InstanceId");
             for (var j = 0; j < InstanceId.length; j++) {
-                Instances.push(InstanceId[j].firstChild.nodeValue);
+		Instances.push(InstanceId[j].firstChild.nodeValue);
             }
 
 	    var listener = items[i].getElementsByTagName("ListenerDescriptions");
@@ -1661,7 +1661,19 @@ var ec2ui_controller = {
 		    azone.push(zone[j].firstChild.nodeValue);
 		}
 	    }
-
+	        
+	    var AppCookieStickinessPolicies = items[i].getElementsByTagName("AppCookieStickinessPolicies");
+	    for(var k = 0; k < AppCookieStickinessPolicies.length; k++){
+		var CookieName = getNodeValueByName(AppCookieStickinessPolicies[k], "CookieName");
+		var APolicyName = getNodeValueByName(AppCookieStickinessPolicies[k], "PolicyName");
+	    }
+	    
+	    var LBCookieStickinessPolicies = items[i].getElementsByTagName("LBCookieStickinessPolicies");
+	    for(var k = 0; k < LBCookieStickinessPolicies.length; k++){
+		var CookieExpirationPeriod = getNodeValueByName(LBCookieStickinessPolicies[k], "CookieExpirationPeriod");
+		var CPolicyName = getNodeValueByName(LBCookieStickinessPolicies[k], "PolicyName");
+	    }
+	    
 	    if (LoadBalancerName != '' && CreatedTime != '')
             {
             list.push(new LoadBalancer(LoadBalancerName,CreatedTime, DNSName,
@@ -1669,8 +1681,9 @@ var ec2ui_controller = {
 				       Interval,Timeout,
 				       HealthyThreshold,
 				       UnhealthyThreshold,
-				       Target,
-				       azone));
+				       Target,azone,
+				       CookieName,APolicyName,
+				       CookieExpirationPeriod,CPolicyName));
             }
         }
         ec2ui_model.updateLoadbalancer(list);
@@ -1685,8 +1698,8 @@ var ec2ui_controller = {
         ec2_httpclient.queryELB("DescribeInstanceHealth", params, this, true, "oncompletedescribeInstanceHealth", callback);
     },
     
-    oncompletedescribeInstanceHealth : function(objResponse){
-        var xmlDoc = objResponse.xmlDoc;
+    oncompletedescribeInstanceHealth : function(objResponse) {
+	var xmlDoc = objResponse.xmlDoc;
         var list = new Array();
         var items = xmlDoc.getElementsByTagName("member");
         for (var i = 0; i < items.length; i++)
@@ -1695,37 +1708,34 @@ var ec2ui_controller = {
             var State = getNodeValueByName(items[i], "State");
             var InstanceId = getNodeValueByName(items[i], "InstanceId");
 	    var ReasonCode = getNodeValueByName(items[i], "ReasonCode");
-	 list.push(new InstanceHealth(Description,State, InstanceId,ReasonCode));
+	    
+	    list.push(new InstanceHealth(Description,State, InstanceId,ReasonCode));
         }
+	
         ec2ui_model.updateInstanceHealth(list);
         if (objResponse.callback)
-            objResponse.callback(list);
-        
+            objResponse.callback(list);        
     },
     
-    deleteLoadBalancer : function(LoadBalancerName,callback){
+    deleteLoadBalancer : function(LoadBalancerName,callback) {
        params = []
        params.push(["LoadBalancerName", LoadBalancerName]);
-       ec2_httpclient.queryELB("DeleteLoadBalancer", params, this, true, "oncompleteDeleteLoadBalancer", callback);
-        
+       
+       ec2_httpclient.queryELB("DeleteLoadBalancer", params, this, true, "oncompleteDeleteLoadBalancer", callback);        
     },
     
-    oncompleteDeleteLoadBalancer : function(objResponse){
-        var xmlDoc = objResponse.xmlDoc;
+    oncompleteDeleteLoadBalancer : function(objResponse) {
+	var xmlDoc = objResponse.xmlDoc;
         var items = getNodeValueByName(xmlDoc, "member");
         if (objResponse.callback)
-            objResponse.callback(items);
-        
+            objResponse.callback(items);        
     },
     
-    CreateLoadBalancer : function (LoadBalancerName,Protocol,elbport,instanceport,zones,callback) {
+    CreateLoadBalancer : function (LoadBalancerName,Protocol,elbport,instanceport,Zone,callback) {
 	var params = []
 	params.push(["LoadBalancerName", LoadBalancerName]);
 	
-	var zone = zones;
-	var newzone = zone.substring(",", zone.length-1);
-	
-	params.push(["AvailabilityZones.member.1", newzone]);
+	params.push(["AvailabilityZones.member.1", Zone]);
 	params.push(["Listeners.member.Protocol", Protocol]);
 	if (Protocol == "HTTPS")
 	{
@@ -1737,7 +1747,7 @@ var ec2ui_controller = {
     },
 
     onCompleteCreateLoadBalancer: function (objResponse) {
-        var xmlDoc = objResponse.xmlDoc;
+	var xmlDoc = objResponse.xmlDoc;
         var items = getNodeValueByName(xmlDoc, "member");
         if (objResponse.callback)
             objResponse.callback(items);
@@ -1745,16 +1755,17 @@ var ec2ui_controller = {
     
     ConfigureHealthCheck : function(LoadBalancerName,pingprotocol,pingport,pingpath,Interval,Timeout,HealthyThreshold,UnhealthyThreshold,callback){
        var params = []
-       params.push(["HealthCheck.Target" , pingprotocol+":"+pingport+"/"+pingpath]);
-       params.push(["LoadBalancerName", LoadBalancerName]);
-       params.push(["HealthCheck.Interval", Interval]);
-       params.push(["HealthCheck.Timeout", Timeout]);
-       params.push(["HealthCheck.HealthyThreshold", HealthyThreshold]);
-       params.push(["HealthCheck.UnhealthyThreshold", UnhealthyThreshold]);
+       if (pingprotocol != null) params.push(["HealthCheck.Target" , pingprotocol+":"+pingport+"/"+pingpath]);
+       if (LoadBalancerName != null) params.push(["LoadBalancerName", LoadBalancerName]);
+       if (Interval != null) params.push(["HealthCheck.Interval", Interval]);
+       if (Timeout != null) params.push(["HealthCheck.Timeout", Timeout]);
+       if (HealthyThreshold != null) params.push(["HealthCheck.HealthyThreshold", HealthyThreshold]);
+       if (UnhealthyThreshold != null) params.push(["HealthCheck.UnhealthyThreshold", UnhealthyThreshold]);
+       
        ec2_httpclient.queryELB("ConfigureHealthCheck", params, this, true, "onCompleteConfigureHealthCheck", callback);
     },
     
-    onCompleteConfigureHealthCheck : function(objResponse){
+    onCompleteConfigureHealthCheck : function(objResponse) {
         var xmlDoc = objResponse.xmlDoc;
         var items = getNodeValueByName(xmlDoc, "HealthCheck");
         if (objResponse.callback)
@@ -1762,14 +1773,10 @@ var ec2ui_controller = {
         
     },
     
-    RegisterInstancesWithLoadBalancer : function (LoadBalancerName,Instances,callback) {
+    RegisterInstancesWithLoadBalancer : function (LoadBalancerName,RegInstance,callback) {
 	params = []
 	params.push(["LoadBalancerName", LoadBalancerName]);
-	var instanceid = Instances;
-	var newStr = instanceid.substring(",", instanceid.length-1);
-	
-	    params.push(["Instances.member.InstanceId", newStr]);
-	
+        params.push(["Instances.member.InstanceId", RegInstance]);
 	ec2_httpclient.queryELB("RegisterInstancesWithLoadBalancer", params, this, true, "onCompleteRegisterInstancesWithLoadBalancer", callback);
     },
 
@@ -1780,12 +1787,10 @@ var ec2ui_controller = {
             objResponse.callback(items);
     },
     
-    DeregisterInstancesWithLoadBalancer : function (LoadBalancerName,Instances,callback) {
+    DeregisterInstancesWithLoadBalancer : function (LoadBalancerName,RegInstance,callback) {
 	params = []
 	params.push(["LoadBalancerName", LoadBalancerName]);
-	var instanceid = Instances;
-	var newStr = instanceid.substring(",", instanceid.length-1);
-	params.push(["Instances.member.InstanceId", newStr]);
+        params.push(["Instances.member.InstanceId", RegInstance]);
 	
 	ec2_httpclient.queryELB("DeregisterInstancesFromLoadBalancer", params, this, true, "onCompleteDeregisterInstancesWithLoadBalancer", callback);
     },
@@ -1800,10 +1805,7 @@ var ec2ui_controller = {
     Enableazonewithloadbalancer : function(LoadBalancerName,Zone,callback){
 	params = []
 	params.push(["LoadBalancerName", LoadBalancerName]);
-	var azones = Zone;
-	var newStr = Zone.substring(",", azones.length-1);
-	
-	    params.push(["AvailabilityZones.member.1", newStr]);
+        params.push(["AvailabilityZones.member.1", Zone]);
 	
 	ec2_httpclient.queryELB("EnableAvailabilityZonesForLoadBalancer", params, this, true, "onCompleteenableazonewithloadbalancer", callback);
     },
@@ -1816,13 +1818,12 @@ var ec2ui_controller = {
     },
     
     
-    Disableazonewithloadbalancer : function(LoadBalancerName,Zone,callback){
+    Disableazonewithloadbalancer : function(LoadBalancerName,Zone,callback) {
 	params = []
 	params.push(["LoadBalancerName", LoadBalancerName]);
 	var azones = Zone;
 	var newStr = Zone.substring(",", azones.length-1);
-	
-	    params.push(["AvailabilityZones.member.1", newStr]);
+	params.push(["AvailabilityZones.member.1", newStr]);
 	
 	ec2_httpclient.queryELB("DisableAvailabilityZonesForLoadBalancer", params, this, true, "onCompletedisableazonewithloadbalancer", callback);
     },
@@ -1835,23 +1836,80 @@ var ec2ui_controller = {
     },
     
     
-    EditHealthCheck : function(LoadBalancerName,Target,Interval,Timeout,HealthyThreshold,UnhealthyThreshold,callback){
-       var params = []
-       params.push(["HealthCheck.Target" , Target]);
-       params.push(["LoadBalancerName", LoadBalancerName]);
-       params.push(["HealthCheck.Interval", Interval]);
-       params.push(["HealthCheck.Timeout", Timeout]);
-       params.push(["HealthCheck.HealthyThreshold", HealthyThreshold]);
-       params.push(["HealthCheck.UnhealthyThreshold", UnhealthyThreshold]);
-       ec2_httpclient.queryELB("ConfigureHealthCheck", params, this, true, "onCompleteEditHealthCheck", callback);
+    EditHealthCheck : function(LoadBalancerName,Target,Interval,Timeout,HealthyThreshold,UnhealthyThreshold,callback) {
+	var params = []
+	params.push(["HealthCheck.Target" , Target]);
+	params.push(["LoadBalancerName", LoadBalancerName]);
+	params.push(["HealthCheck.Interval", Interval]);
+	params.push(["HealthCheck.Timeout", Timeout]);
+	params.push(["HealthCheck.HealthyThreshold", HealthyThreshold]);
+	params.push(["HealthCheck.UnhealthyThreshold", UnhealthyThreshold]);
+       
+	ec2_httpclient.queryELB("ConfigureHealthCheck", params, this, true, "onCompleteEditHealthCheck", callback);
     },
     
-    onCompleteEditHealthCheck : function(objResponse){
+    onCompleteEditHealthCheck : function(objResponse) {
         var xmlDoc = objResponse.xmlDoc;
         var items = getNodeValueByName(xmlDoc, "HealthCheck");
         if (objResponse.callback)
             objResponse.callback(items);
         
+    },
+    
+    CreateAppCookieSP : function(LoadBalancerName,CookieName,callback) {
+       var uniqueid = new Date;
+       var id = uniqueid.getTime();
+       
+       var PolicyName = "AWSConsolePolicy-"+ id;
+       params = []
+       params.push(["LoadBalancerName", LoadBalancerName]);
+       params.push(["CookieName", CookieName]);
+       params.push(["PolicyName", PolicyName]);
+       ec2_httpclient.queryELB("CreateAppCookieStickinessPolicy", params, this, true, "oncompleteCreateAppCookieSP", callback);
+       //no = no + 1;
+    },
+    
+    oncompleteCreateAppCookieSP : function (objResponse) {
+        var xmlDoc = objResponse.xmlDoc;
+        var items = getNodeValueByName(xmlDoc, "member");
+        if (objResponse.callback)
+            objResponse.callback(items);
+    },
+    
+    CreateLBCookieSP : function(LoadBalancerName,CookieExpirationPeriod,callback)
+    {
+       var uniqueid = new Date;
+       var id = uniqueid.getTime();
+       
+       var PolicyName = "AWSConsolePolicy-"+ id; 
+       params = []
+       params.push(["CookieExpirationPeriod", CookieExpirationPeriod]);
+       params.push(["LoadBalancerName", LoadBalancerName]);
+       params.push(["PolicyName", PolicyName]);
+       ec2_httpclient.queryELB("CreateLBCookieStickinessPolicy", params, this, true, "oncompleteCreateLBCookieSP", callback);   
+    },
+    
+    oncompleteCreateLBCookieSP : function (objResponse) {
+        var xmlDoc = objResponse.xmlDoc;
+        var items = getNodeValueByName(xmlDoc, "member");
+        if (objResponse.callback)
+            objResponse.callback(items);
+    },
+    
+    DeleteLoadBalancerPolicy : function(LoadBalancerName,policy,callback)
+    {
+       params = []
+       params.push(["LoadBalancerName", LoadBalancerName]);
+       
+       params.push(["PolicyName", policy]);
+       ec2_httpclient.queryELB("DeleteLoadBalancerPolicy", params, this, true, "oncompleteDeleteLoadBalancerPolicy", callback);   
+    },
+    
+    oncompleteDeleteLoadBalancerPolicy : function (objResponse) {
+        var xmlDoc = objResponse.xmlDoc;
+        var items = getNodeValueByName(xmlDoc, "member");
+        if (objResponse.callback)
+            objResponse.callback(items);
     },
     
     uploadservercertificate : function(ServerCertificateName,CertificateBody,PrivateKey,Path,callback){

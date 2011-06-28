@@ -180,7 +180,7 @@ function ReservedInstance(id, type, az, start, duration, fPrice, uPrice, count, 
 function LoadBalancer(LoadBalancerName,CreatedTime,DNSName,Instances,
                       Protocol,LoadBalancerPort,InstancePort,
                       Interval,Timeout,HealthyThreshold,UnhealthyThreshold,Target,
-                      azone){
+                      azone,CookieName,APolicyName,CookieExpirationPeriod,CPolicyName){
     this.LoadBalancerName = LoadBalancerName;
     this.CreatedTime = CreatedTime;
     this.DNSName = DNSName;
@@ -194,6 +194,10 @@ function LoadBalancer(LoadBalancerName,CreatedTime,DNSName,Instances,
     this.UnhealthyThreshold = UnhealthyThreshold;
     this.Target = Target;
     this.zone = azone;
+    this.CookieName = CookieName;
+    this.APolicyName = APolicyName;
+    this.CookieExpirationPeriod = CookieExpirationPeriod;
+    this.CPolicyName = CPolicyName;
 }
 
 function InstanceHealth(Description,State,InstanceId,ReasonCode){

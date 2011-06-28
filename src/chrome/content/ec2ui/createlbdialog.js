@@ -14,6 +14,7 @@ var ec2_Createlb = {
 	this.retVal.Timeout = document.getElementById("ec2ui.createlb.timeout").value.trim();
 	this.retVal.HealthyThreshold = document.getElementById("ec2ui.createlb.HThreshold").value.trim();
 	this.retVal.UnhealthyThreshold = document.getElementById("ec2ui.createlb.uThreshold").value.trim();
+	this.retVal.placement = document.getElementById("ec2ui.createlb.availabilityzonelist").selectedItem.value;
 	var listBox = document.getElementById('theList');
 	var idx = 0;
 	var nRowCount = listBox.getRowCount();
@@ -32,20 +33,8 @@ var ec2_Createlb = {
 	    }
 	}
 	
-	this.retVal.zones = "";
-	for(idx = 0; idx < nRowCount; idx++)
-	{
-	    var cellID = "cellcheck"+idx;	    
-	    var cell = document.getElementById(cellID);
-	    if(cell.hasAttribute('checked','true'))
-	    {
-		var cellzone = "cellizone"+idx;
-		var zone = document.getElementById(cellzone);
-		var azone = zone.getAttribute('label');
-		this.retVal.zones =  this.retVal.zones + azone +",";
-	    }
-	}
 	
+
 	this.retVal.ok = true;
         return true;
     },
@@ -72,49 +61,62 @@ var ec2_Createlb = {
 	}
 	
 	for (var i in Instanceid) {
- 	var row = document.createElement('listitem');
-	var cell1 = document.createElement('listcell');
-	var cell2 = document.createElement('listcell');
-	var cell3 = document.createElement('listcell');
-        var cell4 = document.createElement('listcell');
+	    if(Instanceid[i].state == "running"){
+		var row = document.createElement('listitem');
+		var cell1 = document.createElement('listcell');
+		var cell2 = document.createElement('listcell');
+		var cell3 = document.createElement('listcell');
+		var cell4 = document.createElement('listcell');
         
-	var cellID = "cellcheck"+Idx;
-	cell1.setAttribute('id',cellID);
+		var cellID = "cellcheck"+Idx;
+		cell1.setAttribute('id',cellID);
         
-        var cellinstance = "celliid"+Idx;
-        cell2.setAttribute('id',cellinstance);
+		var cellinstance = "celliid"+Idx;
+		cell2.setAttribute('id',cellinstance);
         
-        var azoneid = "cellizone"+Idx;
-	cell4.setAttribute('id',azoneid);
+		var azoneid = "cellizone"+Idx;
+		cell4.setAttribute('id',azoneid);
         
-	cell1.setAttribute('type', 'checkbox');
-	row.appendChild(cell1);
+		cell1.setAttribute('type', 'checkbox');
+		row.appendChild(cell1);
         
-	cell2.setAttribute('label', Instanceid[i].id);
-	row.appendChild(cell2);
+		cell2.setAttribute('label', Instanceid[i].id);
+		row.appendChild(cell2);
         
-        cell3.setAttribute('label',  Instanceid[i].state);
-        row.appendChild(cell3);
+		cell3.setAttribute('label',  Instanceid[i].state);
+		row.appendChild(cell3);
         
-        cell4.setAttribute('label',  Instanceid[i].placement.availabilityZone);
-	row.appendChild(cell4);
+		cell4.setAttribute('label',  Instanceid[i].placement.availabilityZone);
+		row.appendChild(cell4);
     
-        for(var a=0;a<registerid.length;a++)
-        {
-           var id = registerid[a];
-	   if(Instanceid[i].id == id)
-	   {
-	       cell1.removeAttribute('type');
-	       cell2.removeAttribute('label');
-	       row.setAttribute('hidden', 'true');
-	   }
+		for(var a=0;a<registerid.length;a++)
+		{
+		   var id = registerid[a];
+		   if(Instanceid[i].id == id)
+		   {
+		       cell1.removeAttribute('type');
+		       cell2.removeAttribute('label');
+		       row.setAttribute('hidden', 'true');
+		   }
+		}
+	
+		var rowID = "row"+Idx;
+		row.setAttribute('id',rowID);
+		theList.appendChild(row);
+		Idx = Idx +1;
+            }
         }
 	
-	var rowID = "row"+Idx;
-	row.setAttribute('id',rowID);
-	theList.appendChild(row);
-	Idx = Idx +1;
+	var availZones = this.ec2ui_session.model.getAvailabilityZones();
+  
+        var availZoneMenu = document.getElementById("ec2ui.createlb.availabilityzonelist");
+        availZoneMenu.appendItem("<none>", null);
+        for(var i in availZones) {
+            availZoneMenu.appendItem(availZones[i].name, availZones[i].name);
         }
+        // If the user created at least one EC2 Keypair, select it.
+        availZoneMenu.selectedIndex =  0;
+ 	
     },
   
 reg_unreg_instances : function(){

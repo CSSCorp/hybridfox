@@ -36,65 +36,80 @@ var ec2ui_DisableAzone = {
 	var loadbalancername = loadbalancer.LoadBalancerName;
 	document.getElementById("ec2ui.disableazone.Name").value = loadbalancer.LoadBalancerName;
 	var configureazone = document.getElementById('Disable_Azone');
-	//alert("Here");
         var Idx = 0;
 	var AvailabilityZone = this.ec2ui_session.model.getAvailabilityZones();
-        var lbZone = this.ec2ui_session.model.getLoadbalancer();
-        for (var i in lbZone){
-            var LbZone = lbZone[i].zone;
-          
-        }
+        var lbZone = loadbalancer.zone;
+	var zones = new Array();
+        var Rzone = new String(lbZone);
+	var zoneArray = new Array();
+	zoneArray = Rzone.split(",");
+	for(var a=0;a<zoneArray.length;a++)
+	{ 
+	    zones.push(zoneArray[a]);
+	}	 
 
 	for (var i in AvailabilityZone) {
-        
-	var row = document.createElement('listitem');
-	var cell1 = document.createElement('listcell');
-	var cell2 = document.createElement('listcell');
-        
-        var cellID = "cellcheck"+Idx;
+	    regfound = false;
+	    for(var a=0;a<zones.length;a++)
+	    {
+	        var selectedzone = zones[a];
+	        if(AvailabilityZone[i].name == selectedzone)
+	        {
+	            regfound = true;
+		    break;	
+	        }
+	    } 
+
+	    if(regfound == false){
+	        continue;
+	    }
+	    var row = document.createElement('listitem');
+	    var cell1 = document.createElement('listcell');
+	    var cell2 = document.createElement('listcell');
+	    
+	    var cellID = "cellcheck"+Idx;
 	
-        var cellAzoneID = "azoneid"+Idx;
+	    var cellAzoneID = "azoneid"+Idx;
 	            
-	cell1.setAttribute('type', 'checkbox');
-        cell1.setAttribute('id',cellID);
-	row.appendChild(cell1);
+	    cell1.setAttribute('type', 'checkbox');
+	    cell1.setAttribute('id',cellID);
+	    row.appendChild(cell1);
 	
-        cell2.setAttribute('label', AvailabilityZone[i].name);
-        cell2.setAttribute('id',cellAzoneID);
-	row.appendChild(cell2);
+	    cell2.setAttribute('label', AvailabilityZone[i].name);
+	    cell2.setAttribute('id',cellAzoneID);
+	    row.appendChild(cell2);
         
-      
-       if(AvailabilityZone[i].name == LbZone){
-         cell1.setAttribute('checked', 'true');
-	 } 
+	    for(var a=0;a<zones.length;a++)
+	    {
+	        var selectedzone = zones[a];
+	        if(AvailabilityZone[i].name == selectedzone)
+	        {
+	           cell1.setAttribute('checked', 'true');	
+	        }
+	    } 
         
-        var rowID = "row"+Idx;
-	row.setAttribute('id',rowID);
+	    var rowID = "row"+Idx;
+	    row.setAttribute('id',rowID);
 	
-        configureazone.appendChild(row);
+	    configureazone.appendChild(row);
 	
-        Idx = Idx +1;
+	    Idx = Idx +1;
 	}
-  },
-  enable_disableAzone : function(){
-      var listBox = document.getElementById('Disable_Azone');
-      var selectedItem = listBox.currentIndex;
-      if (selectedItem == -1) return null;
-      var rowID = "row"+selectedItem;
-      var row = document.getElementById(rowID);
-      var cellID = "cellcheck"+selectedItem;
-      var cell = document.getElementById(cellID);
-      var attribute = cell.getAttribute('type');
-      if(cell.hasAttribute('checked','true'))
-      {
-      cell.setAttribute('checked','false');
-      cell.removeAttribute('checked');
-      }
-      else
-      {
-      cell.setAttribute('checked','true');
-      }
-      },
- 
-   
+    },
+    enable_disableAzone : function(){
+	var listBox = document.getElementById('Disable_Azone');
+	var selectedItem = listBox.currentIndex;
+	if (selectedItem == -1) return null;
+	var rowID = "row"+selectedItem;
+	var row = document.getElementById(rowID);
+	var cellID = "cellcheck"+selectedItem;
+	var cell = document.getElementById(cellID);
+	var attribute = cell.getAttribute('type');
+	if(cell.hasAttribute('checked','true')){
+	     cell.setAttribute('checked','false');
+	    cell.removeAttribute('checked');
+	}else{
+	     cell.setAttribute('checked','true');
+	}
+    }
 }

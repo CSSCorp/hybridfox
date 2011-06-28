@@ -214,6 +214,8 @@
 <!ENTITY ec2ui.loadbalancer.Protocol.label "Protocol">
 <!ENTITY ec2ui.loadbalancer.LoadBalancerPort.label "Loadbalancer Port">
 <!ENTITY ec2ui.loadbalancer.InstancePort.label "Instance Port">
+<!ENTITY ec2ui.loadbalancer.apppolicy.label "Application Policy">
+<!ENTITY ec2ui.loadbalancer.lbpolicy.label "Loadbalancer Policy">
 
 <!ENTITY ec2ui.InstanceHealth.Description.label "Description">
 <!ENTITY ec2ui.InstanceHealth.State.label "State">
