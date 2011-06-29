@@ -134,10 +134,8 @@ var ec2ui_session =
         }
         
         switch (tabs.selectedItem.label) {
-        case 'Instances':
-            this.showBusyCursor(true);
-            this.model.getInstances();
-            this.showBusyCursor(false);
+         case 'Instances':
+            eval("ec2ui_InstancesTreeView." + toCall);
             break;
         case 'Images':
             this.showBusyCursor(true);
@@ -146,57 +144,38 @@ var ec2ui_session =
             this.showBusyCursor(false);
             break;
         case "KeyPairs":
-            this.showBusyCursor(true);
-            this.model.getKeypairs();
-            this.showBusyCursor(false);
+            eval("ec2ui_KeypairTreeView." + toCall);
             break;
         case "Security Groups":
-            this.showBusyCursor(true);
-            this.model.getSecurityGroups();
-            this.showBusyCursor(false);
+            eval("ec2ui_SecurityGroupsTreeView." + toCall);
             break;
         case "Elastic IPs":
-            this.showBusyCursor(true);
-            this.model.getAddresses();
-            this.showBusyCursor(false);
+            eval("ec2ui_ElasticIPTreeView." + toCall);
             break;
         case "Volumes and Snapshots":
-            this.showBusyCursor(true);
-            this.model.getVolumes();
-            this.showBusyCursor(false);
+            eval("ec2ui_VolumeTreeView." + toCall);
 	    if(this.isOpenstackEndpointSelected()){
-		this.showBusyCursor(true);
-		this.model.getSnapshots();
-		this.showBusyCursor(false);
+		eval("ec2ui_SnapshotTreeView." + toCall);
 	    }
             break;
         case "Bundle Tasks":
         	if (this.isAmazonEndpointSelected()) {
-            	this.showBusyCursor(true);
-		this.model.getBundleTasks();
-		this.showBusyCursor(false);
+            	eval("ec2ui_BundleTasksTreeView." + toCall);
 			}
             break;
         case "Availability Zones":
-            this.showBusyCursor(true);
-	    this.model.getAvailabilityZones();
-	    this.showBusyCursor(false);
+            eval("ec2ui_AvailZoneTreeView." + toCall);
             break;
         case "Reserved Instances":
         	if (this.isAmazonEndpointSelected()) {
-				this.showBusyCursor(true);
-				this.model.getLeaseOfferings();
-				this.model.getReservedInstances();
-				this.showBusyCursor(false);
+				eval("ec2ui_LeaseOfferingsTreeView." + toCall);
+				eval("ec2ui_ReservedInstancesTreeView." + toCall);
 			}
             break;
 	case "Loadbalancer":
 	    if (this.isAmazonEndpointSelected()) {
-				this.showBusyCursor(true);
-				this.model.getLoadbalancer();
-				this.model.getInstanceHealth();
-				this.showBusyCursor(false);
-			}
+		 eval("ec2ui_LoadbalancerTreeView." + toCall);
+	    }
             break;
         default:
             log ("This is an invalid tab: " + tabs.selectedItem.label);
