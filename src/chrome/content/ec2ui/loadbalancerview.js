@@ -144,8 +144,8 @@ var ec2ui_LoadbalancerTreeView = {
         }
         if (retVal.ok) {
                 var Zone = retVal.placement;
-                ec2ui_session.controller.CreateLoadBalancer(retVal.LoadBalancerName,retVal.Protocol,retVal.elbport,retVal.instanceport,Zone,wrap);
-                ec2ui_session.controller.ConfigureHealthCheck(retVal.LoadBalancerName,retVal.pingprotocol,retVal.pingport,retVal.pingpath,retVal.Interval,retVal.Timeout,retVal.HealthyThreshold,retVal.UnhealthyThreshold,wrap);
+                ec2ui_session.controller.CreateLoadBalancer(retVal.LoadBalancerName,retVal.Protocol,retVal.elbport,retVal.instanceport,Zone);
+                ec2ui_session.controller.ConfigureHealthCheck(retVal.LoadBalancerName,retVal.pingprotocol,retVal.pingport,retVal.pingpath,retVal.Interval,retVal.Timeout,retVal.HealthyThreshold,retVal.UnhealthyThreshold);
                 var Instancechk = retVal.Instances;
                 var newStr = Instancechk.substring(",", Instancechk.length-1);
                 var instanceid = new String(newStr);
@@ -153,8 +153,9 @@ var ec2ui_LoadbalancerTreeView = {
                 RegInstance = instanceid.split(",");
                 for(var a=0;a<RegInstance.length;a++)
                 {
-                    ec2ui_session.controller.RegisterInstancesWithLoadBalancer(retVal.LoadBalancerName,RegInstance[a],wrap);
+                    ec2ui_session.controller.RegisterInstancesWithLoadBalancer(retVal.LoadBalancerName,RegInstance[a]);
                 }
+                wrap();
         }
      },
      
@@ -207,8 +208,9 @@ var ec2ui_LoadbalancerTreeView = {
 	    RegInstance = instanceid.split(",");
 	    for(var a=0;a<RegInstance.length;a++)
 	    {
-                ec2ui_session.controller.RegisterInstancesWithLoadBalancer(retVal.LoadBalancerName,RegInstance[a],wrap);
-	    }	    
+                ec2ui_session.controller.RegisterInstancesWithLoadBalancer(retVal.LoadBalancerName,RegInstance[a]);
+	    }
+            wrap();
         }    
     },
     
@@ -238,8 +240,9 @@ var ec2ui_LoadbalancerTreeView = {
 	    RegInstance = instanceid.split(",");
 	    for(var a=0;a<RegInstance.length;a++)
 	    {    
-                ec2ui_session.controller.DeregisterInstancesWithLoadBalancer(retVal.LoadBalancerName,RegInstance[a],wrap);
+                ec2ui_session.controller.DeregisterInstancesWithLoadBalancer(retVal.LoadBalancerName,RegInstance[a]);
             }
+            wrap();
         }
     },
     
@@ -269,8 +272,9 @@ var ec2ui_LoadbalancerTreeView = {
 	    Zone = zones.split(",");
 	    for(var a=0;a<Zone.length;a++)
 	    {
-            ec2ui_session.controller.Enableazonewithloadbalancer(retVal.LoadBalancerName,Zone[a],wrap);
+            ec2ui_session.controller.Enableazonewithloadbalancer(retVal.LoadBalancerName,Zone[a]);
             }
+            wrap();
         } 
     },
     
@@ -293,7 +297,16 @@ var ec2ui_LoadbalancerTreeView = {
             }
         }
         if (retVal.ok) {
-            ec2ui_session.controller.Disableazonewithloadbalancer(retVal.LoadBalancerName,retVal.Zone,wrap);
+            var Zonechk = retVal.Zone;
+            var newStr = Zonechk.substring(",", Zonechk.length-1);
+	    var zones = new String(newStr);
+	    var Zone = new Array();
+	    Zone = zones.split(",");
+	    for(var a=0;a<Zone.length;a++)
+	    {
+                ec2ui_session.controller.Disableazonewithloadbalancer(retVal.LoadBalancerName,Zone[a]);
+            }
+            wrap();
         } 
         
     },
@@ -336,7 +349,7 @@ var ec2ui_LoadbalancerTreeView = {
         var cname = loadbalancer.CookieName;
         var policy = loadbalancer.APolicyName;
         if(cname){
-            ec2ui_session.controller.DeleteLoadBalancerPolicy(loadbalancer.LoadBalancerName,policy, wrap);
+            ec2ui_session.controller.DeleteLoadBalancerPolicy(loadbalancer.LoadBalancerName,policy);
         }
         var CookieName = prompt("Please provide your application cookie name:");
         if (CookieName == null)
@@ -348,10 +361,7 @@ var ec2ui_LoadbalancerTreeView = {
                 me.refresh();
             }
         }
-
         ec2ui_session.controller.CreateAppCookieSP(loadbalancername,CookieName,wrap); 
-
-      
     },
     
     loadbalancerstickness :function(){
@@ -361,7 +371,7 @@ var ec2ui_LoadbalancerTreeView = {
         var policy = loadbalancer.CPolicyName;
         var CookieExpirationPeriod = loadbalancer.CookieExpirationPeriod;
         if(CookieExpirationPeriod){
-           ec2ui_session.controller.DeleteLoadBalancerPolicy(loadbalancer.LoadBalancerName,policy, wrap);  
+           ec2ui_session.controller.DeleteLoadBalancerPolicy(loadbalancer.LoadBalancerName,policy);  
         }
         var CookieExpirationPeriod = prompt('Please provide your Cookie Expiration Period:');
         if (CookieExpirationPeriod == null)

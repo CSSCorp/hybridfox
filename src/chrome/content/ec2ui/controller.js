@@ -577,7 +577,7 @@ var ec2ui_controller = {
             var resId = getNodeValueByName(items.snapshotItem(i), "reservationId");
             var ownerId = getNodeValueByName(items.snapshotItem(i), "ownerId");
             var groups = new Array();
-            var groupIds = items.snapshotItem(i).getElementsByTagName("groupId");
+            var groupIds = items.snapshotItem(i).getElementsByTagName("groupName");
             for (var j = 0; j < groupIds.length; j++) {
                 groups.push(groupIds[j].firstChild.nodeValue);
             }
@@ -1821,9 +1821,7 @@ var ec2ui_controller = {
     Disableazonewithloadbalancer : function(LoadBalancerName,Zone,callback) {
 	params = []
 	params.push(["LoadBalancerName", LoadBalancerName]);
-	var azones = Zone;
-	var newStr = Zone.substring(",", azones.length-1);
-	params.push(["AvailabilityZones.member.1", newStr]);
+        params.push(["AvailabilityZones.member.1", Zone]);
 	
 	ec2_httpclient.queryELB("DisableAvailabilityZonesForLoadBalancer", params, this, true, "onCompletedisableazonewithloadbalancer", callback);
     },

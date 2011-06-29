@@ -7,8 +7,10 @@ var ec2ui_DisableAzone = {
 	var listBox = document.getElementById('Disable_Azone');
 	var idx = 0;
 	var nRowCount = listBox.getRowCount();
+	var idx = 0;
+	var nRowCount = listBox.getRowCount();
 	
-	this.retVal.Instances = "";
+	this.retVal.Zone = "";
 	for(idx=0;idx < nRowCount;idx++)
 	{
 	    var cellID = "cellcheck"+idx;	    
@@ -20,9 +22,9 @@ var ec2ui_DisableAzone = {
 		
 		var azone = document.getElementById(cellzone);
 
-		var enablezone = azone.getAttribute('label');
+		var disableazone = azone.getAttribute('label');
 		
-		this.retVal.Zone =  enablezone +",";
+		this.retVal.Zone = this.retVal.Zone + disableazone +",";
 	    }
 	}
 	this.retVal.ok = true;

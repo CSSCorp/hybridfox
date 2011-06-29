@@ -8,7 +8,7 @@ var ec2ui_EnableAzone = {
 	var idx = 0;
 	var nRowCount = listBox.getRowCount();
 	
-	this.retVal.Instances = "";
+	this.retVal.Zone = "";
 	for(idx=0;idx < nRowCount;idx++)
 	{
 	    var cellID = "cellcheck"+idx;	    
@@ -22,7 +22,7 @@ var ec2ui_EnableAzone = {
 
 		var enablezone = azone.getAttribute('label');
 		
-		this.retVal.Zone =  enablezone +",";
+		this.retVal.Zone = this.retVal.Zone + enablezone +",";
 	    }
 	}
 	this.retVal.ok = true;

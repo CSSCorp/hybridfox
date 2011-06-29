@@ -110,7 +110,6 @@ var ec2_Createlb = {
 	var availZones = this.ec2ui_session.model.getAvailabilityZones();
   
         var availZoneMenu = document.getElementById("ec2ui.createlb.availabilityzonelist");
-        availZoneMenu.appendItem("<none>", null);
         for(var i in availZones) {
             availZoneMenu.appendItem(availZones[i].name, availZones[i].name);
         }
