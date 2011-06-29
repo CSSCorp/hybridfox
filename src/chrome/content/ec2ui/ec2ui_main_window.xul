@@ -18,7 +18,9 @@
   persist="width height screenX screenY sizemode" onload="ec2ui_session.initialize()">
 
   <!-- Third party libraries -->
+  <script type="application/x-javascript" src="chrome://ec2ui/content/parseUri.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/sha1.js" />
+  <script type="application/x-javascript" src="chrome://ec2ui/content/sha256.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/base64.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/rsahelper.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/rsa.js" />
