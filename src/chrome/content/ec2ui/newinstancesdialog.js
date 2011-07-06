@@ -248,7 +248,7 @@ var ec2_InstanceLauncher = {
         this.retVal = window.arguments[2];
         var image = window.arguments[0];
         var rootdevice = image.rootDeviceType;
-        // Get the list of keypair names visible to this user.
+	// Get the list of keypair names visible to this user.
         // This will trigger a DescribeKeyPairs if the model
         // doesn't have any keypair info yet. If there are no keypairs,
         // this dialog shouldn't be initialized any further.
@@ -349,6 +349,11 @@ var ec2_InstanceLauncher = {
         // vpcs
         this.vpcMenu = document.getElementById("ec2ui.newinstances.vpcId");
         this.vpcMenu.disabled = true;
+	
+	//Volume
+	if(rootdevice =="instance-store"){
+	 document.getElementById("ec2ui.newinstances.overrideRootVolumeSize").disabled = true;
+	}
 
         // subnets
         this.subnetMenu = document.getElementById("ec2ui.newinstances.subnetId");

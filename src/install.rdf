@@ -20,6 +20,18 @@
     </em:targetApplication>
 
     <!-- Front End MetaData -->
+    <em:localized>
+      <Description>
+        <em:locale>ja-JP</em:locale>
+        <em:name>Hybridfox</em:name>
+        <em:description>A graphical interface to Amazon's EC2 web service.</em:description>
+      </Description>
+      <Description>
+        <em:locale>en-US</em:locale>
+        <em:name>Hybridfox</em:name>
+    	<em:description>A graphical interface to Amazon's EC2 web service.</em:description>
+      </Description>
+    </em:localized>
     <em:name>Hybridfox</em:name>
     <em:description>A graphical interface to Amazon's EC2 and Eucalyptus web service.</em:description>
     <em:creator>James Greenfield (icons originally by Ken Saunders http://www.mouserunner.com)</em:creator>
@@ -29,9 +41,9 @@
 -->
   </Description>
 
-  <Description about="urn:mozilla:extension:file:ec2ui.jar"
+  <!--Description about="urn:mozilla:extension:file:ec2ui.jar"
                    em:package="content/ec2ui/"
                    em:skin="skin/classic/ec2ui/">
-    <em:locale>locale/ec2ui/ja-JP/</em:locale>
-  </Description>
+    <em:locale>locale/ec2ui/en-US/</em:locale>
+  </Description-->
 </RDF>
