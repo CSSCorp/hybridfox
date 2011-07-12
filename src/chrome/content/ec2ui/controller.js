@@ -146,7 +146,7 @@ var ec2ui_controller = {
             var instanceId = "";
             var device = "";
             var attachStatus = "";
-             var attachTime = new Date();
+            var attachTime = new Date();
 	    
 	    var attachementset = items.snapshotItem(i).getElementsByTagName("attachmentSet");      
                 for (var k = 0; k < attachementset.length; k++)
@@ -155,11 +155,16 @@ var ec2ui_controller = {
                   var device = getNodeValueByName(attachementset[k], "device");
                   var attachStatus = getNodeValueByName(attachementset[k], "status");
 		  if (attachStatus) {
-                      attachTime.setISO8601(getNodeValueByName(attachementset[k], "attachTime"));
-                  }
+		        if(ec2ui_session.isOpenstackEndpointSelected())
+			{
+                            attachTime.setISO8601(getNodeValueByName(attachementset[k], "attachTime"));	
+			}else{
+			    attachTime = getNodeValueByName(attachementset[k], "attachTime");
+			}
+		  }
                 }
             // Make sure there is an attachment
-	
+
 	   
             list.push(new Volume(id, size, snapshotId, zone, status, createTime, instanceId, device, attachStatus, attachTime || ""));
         }

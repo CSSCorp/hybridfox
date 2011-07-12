@@ -69,7 +69,11 @@ function Volume(id, size, snapshotId, zone, status, createTime, instanceId, devi
     this.device = device;
     this.attachStatus = attachStatus;
     if (attachStatus != "") {
-      this.attachTime = attachTime.strftime('%Y-%m-%d %H:%M:%S');
+        if(ec2ui_session.isOpenstackEndpointSelected()){
+            this.attachTime = attachTime.strftime('%Y-%m-%d %H:%M:%S');
+        }else{
+            this.attachTime = attachTime;
+        }
     }
     if (tag) this.tag = tag;
 }
