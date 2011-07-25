@@ -37,6 +37,8 @@ var ec2ui_session =
             document.getElementById("ec2ui.bundleTasks.view").view = ec2ui_BundleTasksTreeView;
             document.getElementById("ec2ui.offerings.view").view = ec2ui_LeaseOfferingsTreeView;
             document.getElementById("ec2ui.rsvdInst.view").view = ec2ui_ReservedInstancesTreeView;
+	    document.getElementById("ec2ui.loadbalancer.view").view = ec2ui_LoadbalancerTreeView;
+	    document.getElementById("ec2ui.instancehealth.view").view = ec2ui_InstanceHealthTreeView;
 
             // Enable about:blank to work if noscript is installed
             if("@maone.net/noscript-service;1" in Components.classes) {
@@ -168,6 +170,9 @@ var ec2ui_session =
 				eval("ec2ui_LeaseOfferingsTreeView." + toCall);
 				eval("ec2ui_ReservedInstancesTreeView." + toCall);
 			}
+            break;
+	case "ec2ui.tabs.loadbalancer":
+            eval("ec2ui_LoadbalancerTreeView." + toCall);
             break;
         default:
             log ("This is an invalid tab: " + tabs.selectedItem.id);

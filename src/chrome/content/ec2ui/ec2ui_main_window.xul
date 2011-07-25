@@ -10,6 +10,7 @@
 <?xul-overlay href="chrome://ec2ui/content/volumes_tab_overlay.xul"?>
 <?xul-overlay href="chrome://ec2ui/content/bundle_tasks_tab_overlay.xul"?>
 <?xul-overlay href="chrome://ec2ui/content/leases_tab_overlay.xul"?>
+<?xul-overlay href="chrome://ec2ui/content/loadbalancer_tab_overlay.xul"?>
 
 <!DOCTYPE window SYSTEM "chrome://ec2ui/locale/ec2ui.dtd">
 <window id="ec2ui-window" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
@@ -52,6 +53,8 @@
   <script type="application/x-javascript" src="chrome://ec2ui/content/credential_manager.js" />
   <script type="application/x-javascript" src="chrome://global/content/contentAreaUtils.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/session.js" />
+  <script type="application/x-javascript" src="chrome://ec2ui/content/loadbalancerview.js" />
+  <script type="application/x-javascript" src="chrome://ec2ui/content/instancehealthview.js" />
 
   <stringbundleset id="stringbundleset">
     <stringbundle id="ec2ui.properties.bundle" src="chrome://ec2ui/locale/ec2ui.properties" />
@@ -100,6 +103,7 @@
         <tab label="&ec2ui.tabs.bundleTasks.label;" id="ec2ui.tabs.bundleTasks" />
         <tab label="&ec2ui.tabs.availzones.label;" id="ec2ui.tabs.availzones" />
         <tab label="&ec2ui.tabs.leases.label;" id="ec2ui.tabs.leases" />
+        <tab label="&ec2ui.tabs.loadbalancer.label;" id="ec2ui.tabs.loadbalancer" />
       </tabs>
       <tabpanels flex="1">
         <tabpanel id="instances_tab"/>
@@ -111,6 +115,7 @@
         <tabpanel id="bundle_tasks_tab"/>
         <tabpanel id="availzones_tab"/>
         <tabpanel id="leases_tab"/>
+        <tabpanel id="loadbalancer_tab"/>
       </tabpanels>
     </tabbox>
   </vbox>

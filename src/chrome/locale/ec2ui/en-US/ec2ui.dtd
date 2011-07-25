@@ -13,6 +13,7 @@
 <!ENTITY ec2ui.tabs.volumes.label "Volumes and Snapshots">
 <!ENTITY ec2ui.tabs.bundleTasks.label "Bundle Tasks">
 <!ENTITY ec2ui.tabs.leases.label "Reserved Instances">
+<!ENTITY ec2ui.tabs.loadbalancer.label "Loadbalancer">
 
 <!ENTITY ec2ui.captions.images.images.label "Machine Images (AMIs)">
 <!ENTITY ec2ui.captions.images.attribs.label "Launch Permissions">
@@ -384,6 +385,17 @@
 <!ENTITY ec2ui.dialog.title.select_eip "Associate Address with Instance">
 <!ENTITY ec2ui.dialog.title.snapshot_details "Snapshot Details">
 <!ENTITY ec2ui.dialog.title.volume_details "Volume Details">
+<!ENTITY ec2ui.dialog.title.register_instances "Register Instances">
+<!ENTITY ec2ui.dialog.title.deregister_instances "Deregister Instances">
+<!ENTITY ec2ui.dialog.title.disable_avalibility_zone "Disable Availability Zones">
+<!ENTITY ec2ui.dialog.title.enable_avalibility_zone "Enable Availability Zones">
+<!ENTITY ec2ui.dialog.title.loadbalancer_details "Loadbalancer Details">
+<!ENTITY ec2ui.dialog.title.Configure_Healthckeck "Configure Healthckeck">
+<!ENTITY ec2ui.dialog.title.Create_Loadbalancer "Create Loadbalancer">
+
+<!ENTITY ec2ui.dialog.description.step1 "Step:1 Loadbalancer Protocols">
+<!ENTITY ec2ui.dialog.description.step2 "Step:2 Configure Healthcheck">
+<!ENTITY ec2ui.dialog.description.step3 "Step:3 Register Instance">
 
 <!ENTITY ec2ui.dialog.button.accept.attach_ebs_volume.label "Attach">
 <!ENTITY ec2ui.dialog.button.accept.create_security_group.label "Create Group">
@@ -398,7 +410,76 @@
 <!ENTITY ec2ui.dialog.button.accept.register_image.label "Register AMI">
 <!ENTITY ec2ui.dialog.button.accept.retry_cancel.label "Retry">
 <!ENTITY ec2ui.dialog.button.accept.select_eip.label "Associate">
+<!ENTITY ec2ui.dialog.button.accept.Register.label "Register">
+<!ENTITY ec2ui.dialog.button.accept.deregister.label "Deregister">
+<!ENTITY ec2ui.dialog.button.accept.enable.label "Enable">
+<!ENTITY ec2ui.dialog.button.accept.disable.label "Disable">
+<!ENTITY ec2ui.dialog.button.accept.Configure.label "Configure">
 
 <!ENTITY ec2ui.dialog.button.cancel.manage.label "Close">
 <!ENTITY ec2ui.dialog.button.extra1.manage.label "Add">
 <!ENTITY ec2ui.dialog.button.extra2.manage.label "Remove">
+
+<!ENTITY ec2ui.captions.loadbalancer.label "Loadbalancer">
+<!ENTITY ec2ui.captions.InstanceHealth.label "Instance Health">
+
+<!ENTITY ec2ui.loadbalancer.name.label "Loadbalancer Name">
+<!ENTITY ec2ui.loadbalancer.creationtime.label "Created Time">
+<!ENTITY ec2ui.loadbalancer.dnsname.label "DNS Name">
+<!ENTITY ec2ui.loadbalancer.instances.label "Instances">
+<!ENTITY ec2ui.loadbalancer.zone.label "Availability Zones">
+<!ENTITY ec2ui.loadbalancer.Interval.label "Interval">
+<!ENTITY ec2ui.loadbalancer.Timeout.label "Timeout">
+<!ENTITY ec2ui.loadbalancer.HealthyThreshold.label "Healthy">
+<!ENTITY ec2ui.loadbalancer.UnhealthyThreshold.label "Unhealthy">
+<!ENTITY ec2ui.loadbalancer.Target.label "Target">
+<!ENTITY ec2ui.loadbalancer.Protocol.label "Protocol">
+<!ENTITY ec2ui.loadbalancer.LoadBalancerPort.label "Loadbalancer Port">
+<!ENTITY ec2ui.loadbalancer.InstancePort.label "Instance Port">
+<!ENTITY ec2ui.loadbalancer.apppolicy.label "Application Policy">
+<!ENTITY ec2ui.loadbalancer.lbpolicy.label "Loadbalancer Policy">
+
+<!ENTITY ec2ui.loadbalancerview.Name.label "Name:">
+<!ENTITY ec2ui.loadbalancerview.creationtime.label "Creation Time:">
+<!ENTITY ec2ui.loadbalancerview.dnsname.label "DNS Name:">
+<!ENTITY ec2ui.loadbalancerview.protocol.label "Protocol:">
+<!ENTITY ec2ui.loadbalancerview.lbport.label "Loadbalancer Port:">
+<!ENTITY ec2ui.loadbalancerview.iport.label "Instance Port:">
+<!ENTITY ec2ui.loadbalancerview.interval.label "Interval:">
+<!ENTITY ec2ui.loadbalancerview.target.label "Target:">
+<!ENTITY ec2ui.loadbalancerview.HealthyThreshold.label "Healthy Threshold:">
+<!ENTITY ec2ui.loadbalancerview.UnhealthyThreshold.label "Unhealthy Threshold:">
+<!ENTITY ec2ui.loadbalancerview.Timeout.label "Timeout:">
+<!ENTITY ec2ui.loadbalancerview.Instances.label "Instance:">
+<!ENTITY ec2ui.loadbalancerview.AvailabilityZones.label "Availability Zones:">
+<!ENTITY ec2ui.loadbalancerview.PingProtocol.label "Ping Protocol:">
+<!ENTITY ec2ui.loadbalancerview.Port.label "Ping Port:">
+<!ENTITY ec2ui.loadbalancerview.Path.label "Ping Path:">
+
+<!ENTITY ec2ui.loadbalancer.contextmenu.viewdetails.label "View Details">
+<!ENTITY ec2ui.loadbalancer.contextmenu.copydns.label "Copy DNS Name">
+<!ENTITY ec2ui.loadbalancer.contextmenu.registerinstance.label "Register Instances">
+<!ENTITY ec2ui.loadbalancer.contextmenu.deregisterinstance.label "Deregister Instances">
+<!ENTITY ec2ui.loadbalancer.contextmenu.enableavailability.label "Enable Availability Zones">
+<!ENTITY ec2ui.loadbalancer.contextmenu.disableavailability.label "Disable Availability Zones">
+<!ENTITY ec2ui.loadbalancer.contextmenu.disablestickness.label "Disable Stickiness">
+<!ENTITY ec2ui.loadbalancer.contextmenu.appstickness.label "Application Stickiness">
+<!ENTITY ec2ui.loadbalancer.contextmenu.loadbalancerstickness.label "Loadbalancer Stickiness">
+<!ENTITY ec2ui.loadbalancer.contextmenu.configurehealthcheck.label "Configure Healthcheck">
+<!ENTITY ec2ui.loadbalancer.contextmenu.delete.label "Delete Loadbalancer">
+
+
+<!ENTITY ec2ui.registerlb.register.label "Register">
+<!ENTITY ec2ui.registerlb.instanceid.label "Instance Id">
+<!ENTITY ec2ui.registerlb.state.label "State">
+<!ENTITY ec2ui.registerlb.zone.label "Zone">
+
+<!ENTITY ec2ui.endisazone.Select.label "Select">
+<!ENTITY ec2ui.endisazone.AvailabilityZone.label "Availability Zone">
+
+<!ENTITY ec2ui.InstanceHealth.Description.label "Description">
+<!ENTITY ec2ui.InstanceHealth.State.label "State">
+<!ENTITY ec2ui.InstanceHealth.InstanceId.label "InstanceId">
+<!ENTITY ec2ui.InstanceHealth.ReasonCode.label "ReasonCode">
+
+<!ENTITY ec2ui.create.loadbalancer.tip "Create Loadbalancer">

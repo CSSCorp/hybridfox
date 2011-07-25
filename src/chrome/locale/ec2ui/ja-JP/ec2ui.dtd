@@ -13,6 +13,7 @@
 <!ENTITY ec2ui.tabs.volumes.label "EBSボリュームとスナップショット">
 <!ENTITY ec2ui.tabs.bundleTasks.label "バンドル・タスク">
 <!ENTITY ec2ui.tabs.leases.label "リザーブド インスタンス">
+<!ENTITY ec2ui.tabs.loadbalancer.label "ロードバランサ">
 
 <!ENTITY ec2ui.captions.images.images.label "マシン・イメージ(AMIs)">
 <!ENTITY ec2ui.captions.images.attribs.label "起動権限">
@@ -384,6 +385,17 @@
 <!ENTITY ec2ui.dialog.title.select_eip "ElasticIPをインスタンスに関連付け">
 <!ENTITY ec2ui.dialog.title.snapshot_details "スナップショット 詳細">
 <!ENTITY ec2ui.dialog.title.volume_details "EBSボリューム 詳細">
+<!ENTITY ec2ui.dialog.title.register_instances "インスタンスを登録する">
+<!ENTITY ec2ui.dialog.title.deregister_instances "インスタンスの登録解除">
+<!ENTITY ec2ui.dialog.title.disable_avalibility_zone "アベイラビリティゾーンを無効にする">
+<!ENTITY ec2ui.dialog.title.enable_avalibility_zone "アベイラビリティゾーンを有効にする">
+<!ENTITY ec2ui.dialog.title.loadbalancer_details "ロードバランサの詳細">
+<!ENTITY ec2ui.dialog.title.Configure_Healthckeck "ヘルスチェックの設定">
+<!ENTITY ec2ui.dialog.title.Create_Loadbalancer "ロードバランサの作成">
+
+<!ENTITY ec2ui.dialog.description.step1 "ステップ：1 ロードバランサ・プロトコル">
+<!ENTITY ec2ui.dialog.description.step2 "ステップ：2 ヘルスチェックの設定">
+<!ENTITY ec2ui.dialog.description.step3 "ステップ：3 インスタンスの登録">
 
 <!ENTITY ec2ui.dialog.button.accept.attach_ebs_volume.label "取り付け">
 <!ENTITY ec2ui.dialog.button.accept.create_security_group.label "グループ作成">
@@ -398,7 +410,75 @@
 <!ENTITY ec2ui.dialog.button.accept.register_image.label "AMI登録">
 <!ENTITY ec2ui.dialog.button.accept.retry_cancel.label "リトライ">
 <!ENTITY ec2ui.dialog.button.accept.select_eip.label "関連付け">
+<!ENTITY ec2ui.dialog.button.accept.Register.label "登録">
+<!ENTITY ec2ui.dialog.button.accept.deregister.label "登録を解除">
+<!ENTITY ec2ui.dialog.button.accept.enable.label "有効にする">
+<!ENTITY ec2ui.dialog.button.accept.disable.label "無効にする">
+<!ENTITY ec2ui.dialog.button.accept.Configure.label "設定">
 
 <!ENTITY ec2ui.dialog.button.cancel.manage.label "閉じる">
 <!ENTITY ec2ui.dialog.button.extra1.manage.label "追加">
 <!ENTITY ec2ui.dialog.button.extra2.manage.label "削除">
+
+<!ENTITY ec2ui.captions.loadbalancer.label "ロードバランサ">
+<!ENTITY ec2ui.captions.InstanceHealth.label "インスタンスの状態">
+
+<!ENTITY ec2ui.loadbalancer.name.label "ロードバランサ名">
+<!ENTITY ec2ui.loadbalancer.creationtime.label "作成時刻">
+<!ENTITY ec2ui.loadbalancer.dnsname.label "DNS名">
+<!ENTITY ec2ui.loadbalancer.instances.label "インスタンス">
+<!ENTITY ec2ui.loadbalancer.zone.label "アベイラビリティゾーン">
+<!ENTITY ec2ui.loadbalancer.Interval.label "間隔">
+<!ENTITY ec2ui.loadbalancer.Timeout.label "タイムアウト">
+<!ENTITY ec2ui.loadbalancer.HealthyThreshold.label "健全">
+<!ENTITY ec2ui.loadbalancer.UnhealthyThreshold.label "不健全">
+<!ENTITY ec2ui.loadbalancer.Target.label "ターゲット">
+<!ENTITY ec2ui.loadbalancer.Protocol.label "プロトコル">
+<!ENTITY ec2ui.loadbalancer.LoadBalancerPort.label "ロードバランサのポート">
+<!ENTITY ec2ui.loadbalancer.InstancePort.label "インスタンスのポート">
+<!ENTITY ec2ui.loadbalancer.apppolicy.label "アプリケーションポリシー">
+<!ENTITY ec2ui.loadbalancer.lbpolicy.label "ロードバランサポリシー">
+
+<!ENTITY ec2ui.loadbalancerview.Name.label "名前：">
+<!ENTITY ec2ui.loadbalancerview.creationtime.label "作成時刻：">
+<!ENTITY ec2ui.loadbalancerview.dnsname.label "DNS名：">
+<!ENTITY ec2ui.loadbalancerview.protocol.label "プロトコル：">
+<!ENTITY ec2ui.loadbalancerview.lbport.label "ロードバランサのポート：">
+<!ENTITY ec2ui.loadbalancerview.iport.label "インスタンスのポート：">
+<!ENTITY ec2ui.loadbalancerview.interval.label "間隔：">
+<!ENTITY ec2ui.loadbalancerview.target.label "ターゲット：">
+<!ENTITY ec2ui.loadbalancerview.HealthyThreshold.label "健全しきい値：">
+<!ENTITY ec2ui.loadbalancerview.UnhealthyThreshold.label "不健全しきい値：">
+<!ENTITY ec2ui.loadbalancerview.Timeout.label "タイムアウト：">
+<!ENTITY ec2ui.loadbalancerview.Instances.label "インスタンス：">
+<!ENTITY ec2ui.loadbalancerview.AvailabilityZones.label "アベイラビリティゾーン：">
+<!ENTITY ec2ui.loadbalancerview.PingProtocol.label "pingのプロトコル：">
+<!ENTITY ec2ui.loadbalancerview.Port.label "pingのポート：">
+<!ENTITY ec2ui.loadbalancerview.Path.label "pingのパス：">
+
+<!ENTITY ec2ui.loadbalancer.contextmenu.viewdetails.label "詳細を見る">
+<!ENTITY ec2ui.loadbalancer.contextmenu.copydns.label "DNS名をコピー">
+<!ENTITY ec2ui.loadbalancer.contextmenu.registerinstance.label "インスタンスを登録する">
+<!ENTITY ec2ui.loadbalancer.contextmenu.deregisterinstance.label "インスタンスの登録解除">
+<!ENTITY ec2ui.loadbalancer.contextmenu.enableavailability.label "アベイラビリティゾーンを有効にする">
+<!ENTITY ec2ui.loadbalancer.contextmenu.disableavailability.label "アベイラビリティゾーンを無効にする">
+<!ENTITY ec2ui.loadbalancer.contextmenu.disablestickness.label "Sticky Sessionを無効にする">
+<!ENTITY ec2ui.loadbalancer.contextmenu.appstickness.label "アプリケーションのSticky Session設定">
+<!ENTITY ec2ui.loadbalancer.contextmenu.loadbalancerstickness.label "ロードバランサのSticky Session設定">
+<!ENTITY ec2ui.loadbalancer.contextmenu.configurehealthcheck.label "ヘルスチェックの設定">
+<!ENTITY ec2ui.loadbalancer.contextmenu.delete.label "ロードバランサを削除">
+
+<!ENTITY ec2ui.registerlb.register.label "登録">
+<!ENTITY ec2ui.registerlb.instanceid.label "インスタンスID">
+<!ENTITY ec2ui.registerlb.state.label "状態">
+<!ENTITY ec2ui.registerlb.zone.label "ゾーン">
+
+<!ENTITY ec2ui.endisazone.Select.label "選択してください">
+<!ENTITY ec2ui.endisazone.AvailabilityZone.label "アベイラビリティゾーン">
+
+<!ENTITY ec2ui.InstanceHealth.Description.label "説明">
+<!ENTITY ec2ui.InstanceHealth.State.label "状態">
+<!ENTITY ec2ui.InstanceHealth.InstanceId.label "インスタンスID">
+<!ENTITY ec2ui.InstanceHealth.ReasonCode.label "理由コード">
+
+<!ENTITY ec2ui.create.loadbalancer.tip "ロードバランサの作成">
