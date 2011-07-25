@@ -172,7 +172,9 @@ var ec2ui_session =
 			}
             break;
 	case "ec2ui.tabs.loadbalancer":
-            eval("ec2ui_LoadbalancerTreeView." + toCall);
+            if (this.isAmazonEndpointSelected()) {
+            	eval("ec2ui_LoadbalancerTreeView." + toCall);
+	    }
             break;
         default:
             log ("This is an invalid tab: " + tabs.selectedItem.id);

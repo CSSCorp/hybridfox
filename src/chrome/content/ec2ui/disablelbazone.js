@@ -86,7 +86,7 @@ var ec2ui_DisableAzone = {
 	        var selectedzone = zones[a];
 	        if(AvailabilityZone[i].name == selectedzone)
 	        {
-	           cell1.setAttribute('checked', 'true');	
+	           cell1.setAttribute('checked', 'false');	
 	        }
 	    } 
         
