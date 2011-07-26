@@ -98,7 +98,7 @@ var ec2ui_DisableAzone = {
 	var cellID = "cellcheck"+selectedItem;
 	var cell = document.getElementById(cellID);
 	var attribute = cell.getAttribute('type');
-	if(cell.hasAttribute('checked','false')){
+	if(cell.hasAttribute('checked','true')){
 	     cell.setAttribute('checked','false');
 	    cell.removeAttribute('checked');
 	}else{
