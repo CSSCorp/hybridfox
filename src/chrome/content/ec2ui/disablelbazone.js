@@ -81,15 +81,6 @@ var ec2ui_DisableAzone = {
 	    cell2.setAttribute('id',cellAzoneID);
 	    row.appendChild(cell2);
         
-	    for(var a=0;a<zones.length;a++)
-	    {
-	        var selectedzone = zones[a];
-	        if(AvailabilityZone[i].name == selectedzone)
-	        {
-	           cell1.setAttribute('checked', 'false');	
-	        }
-	    } 
-        
 	    var rowID = "row"+Idx;
 	    row.setAttribute('id',rowID);
 	
@@ -107,7 +98,7 @@ var ec2ui_DisableAzone = {
 	var cellID = "cellcheck"+selectedItem;
 	var cell = document.getElementById(cellID);
 	var attribute = cell.getAttribute('type');
-	if(cell.hasAttribute('checked','true')){
+	if(cell.hasAttribute('checked','false')){
 	     cell.setAttribute('checked','false');
 	    cell.removeAttribute('checked');
 	}else{
