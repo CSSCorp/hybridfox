@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://ec2ui/skin/ec2ui.css" type="text/css"?>
+<!DOCTYPE overlay SYSTEM "chrome://ec2ui/locale/ec2ui.dtd">
+
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:html="http://www.w3.org/1999/xhtml">
+  
+  <tabpanel id="monitoring_tab" flex="1" onload="ec2ui_MonitoringTreeView.instancelist()">
+    <groupbox orient="vertical" flex="1" id="monitoring.tree.holder">
+      <caption label="&ec2ui.captions.monitoring.label;" />
+      <toolbar style="padding: 0px 3px; -moz-box-align: center" >
+        <toolbarbutton image="images/refresh.png" oncommand="ec2ui_MonitoringTreeView.refresh()"
+          tooltiptext="&ec2ui.refresh.tip;" />
+        <label value="Select Instance:" />
+        <menulist id="ec2ui.monitoring.Instancelist" oncommand="ec2ui_MonitoringTreeView.selectedinstance()" />
+        <label value="Time Range:" />
+        <menulist  label="Time Range:" id="monitoring.timerange" oncommand="ec2ui_MonitoringTreeView.test()">
+          <menupopup>
+            <menuitem label="Last Hour" value="Last Hour"/>
+            <menuitem label="Last 3 Hour" value="Last 3 Hour"/>
+            <menuitem label="Last 6 Hour" value="Last 6 Hour"/>
+            <menuitem label="Last 12 Hour" value="Last 12 Hour"/>
+            <menuitem label="Last 24 Hour" value="Last 24 Hour"/>
+            <menuitem label="Last week" value="Last week"/>
+            <menuitem label="Last 2 week" value="Last 2 week"/>
+          </menupopup>
+        </menulist>
+        <label value="Statistics:"/>
+           <menulist  label="Statistics:" id="monitoring.statistics">
+          <menupopup>
+            <menuitem label="Average" value="Average"/>
+            <menuitem label="Sum" value="Sum"/>
+            <menuitem label="SampleCount" value="SampleCount"/>
+            <menuitem label="Maximum" value="Maximum"/>
+            <menuitem label="Minimum" value="Minimum"/>
+          </menupopup>
+        </menulist>
+        </toolbar>
+    <vbox flex="1">
+      <html:div style="width:600px">
+      <html:canvas id="graph" width="600" height="350" ></html:canvas>
+      </html:div>
+    </vbox>
+    </groupbox>
+    
+  </tabpanel>
+</overlay>

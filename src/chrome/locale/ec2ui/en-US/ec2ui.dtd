@@ -14,6 +14,7 @@
 <!ENTITY ec2ui.tabs.bundleTasks.label "Bundle Tasks">
 <!ENTITY ec2ui.tabs.leases.label "Reserved Instances">
 <!ENTITY ec2ui.tabs.loadbalancer.label "Loadbalancer">
+<!ENTITY ec2ui.tabs.monitoring.label "Monitoring">
 
 <!ENTITY ec2ui.captions.images.images.label "Machine Images (AMIs)">
 <!ENTITY ec2ui.captions.images.attribs.label "Launch Permissions">
@@ -223,6 +224,13 @@
 <!ENTITY ec2ui.InstanceHealth.ReasonCode.label "ReasonCode">
 
 <!ENTITY ec2ui.create.loadbalancer.tip "Create Loadbalancer">
+
+<!ENTITY ec2ui.captions.monitoring.label "Monitoring">
+
+<!ENTITY ec2ui.monitoring.Name.label "Name">
+<!ENTITY ec2ui.monitoring.Value.label "Value">
+<!ENTITY ec2ui.monitoring.MeasureName.label "Measure Name">
+<!ENTITY ec2ui.monitoring.Namespace.label "Namespace">
 
 
 

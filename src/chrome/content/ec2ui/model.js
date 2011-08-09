@@ -207,6 +207,20 @@ function InstanceHealth(Description,State,InstanceId,ReasonCode){
     this.ReasonCode = ReasonCode;
 }
 
+function Monitoring(Name,Value, MeasureName,Namespace){
+    this.Name = Name;
+    this.Value = Value;
+    this.MeasureName = MeasureName;
+    this.Namespace = Namespace;
+}
+
+function Statistics(Timestamp,Unit,Average){
+    this.Timestamp = Timestamp;
+    this.Unit = Unit;
+    this.Average = Average;
+
+}
+
 String.prototype.trim = function() {
     return this.replace(/^\s+|\s+$/g,"");
 }
@@ -229,6 +243,7 @@ var ec2ui_model = {
     reservedInstances : null,
     loadbalancer      : null,
     InstanceHealth    : null,
+    monitoring        : null,
     resourceMap     : {
         instances : 0,
         volumes   : 1,
@@ -254,6 +269,7 @@ var ec2ui_model = {
         this.updateReservedInstances(null);
         this.updateLoadbalancer(null);
         this.updateInstanceHealth(null);
+        this.updateMonitoring(null);
     },
 
     notifyComponents : function(interest) {
@@ -470,5 +486,17 @@ var ec2ui_model = {
             ec2ui_session.controller.describeInstanceHealth();
         }
         return this.InstanceHealth;
+    },
+    
+    updateMonitoring : function(list) {
+        this.monitoring = list;
+        this.notifyComponents("monitoring");
+    },
+
+    getMonitoring : function() {
+        if (this.monitoring == null) {
+            ec2ui_session.controller.GetMetricStatistics();
+        }
+        return this.monitoring;
     }
 }

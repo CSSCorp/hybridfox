@@ -177,6 +177,9 @@ var ec2ui_session =
 		 eval("ec2ui_LoadbalancerTreeView." + toCall);
 	    }
             break;
+	case "Monitoring":
+            eval("ec2ui_MonitoringTreeView." + toCall);
+            break;
         default:
             log ("This is an invalid tab: " + tabs.selectedItem.label);
             break;

@@ -1925,5 +1925,73 @@ var ec2ui_controller = {
         if (objResponse.callback)
             objResponse.callback(items);
         
+    },
+    
+    ListMetrics : function (callback) {
+        ec2_httpclient.queryCW("ListMetrics", [], this, true, "onCompleteListMetrics", callback);
+    },
+    
+    onCompleteListMetrics : function (objResponse) {
+        var xmlDoc = objResponse.xmlDoc;
+        var list = new Array();
+	var items = xmlDoc.getElementsByTagName("member");
+        for (var i = 0; i < items.length; i++)
+        {
+	    var Dimensions = items[i].getElementsByTagName("Dimensions");      
+            for (var k = 0; k < Dimensions.length; k++)
+            {
+                var Name = getNodeValueByName(Dimensions[k], "Name");
+                var Value = getNodeValueByName(Dimensions[k], "Value");
+            }
+	    var MeasureName = getNodeValueByName(items[i], "MeasureName");
+	    var Namespace = getNodeValueByName(items[i], "Namespace");
+	    
+	    if(Name == "InstanceId" && Namespace != "" )
+	    list.push(new Monitoring(Name,Value, MeasureName,Namespace));
+
+	}
+	ec2ui_model.updateMonitoring(list);
+        if (objResponse.callback)
+            objResponse.callback(list);
+    },
+    
+    GetMetricStatistics : function (starttime,endtime,instance,callback) {
+	params = []
+        params.push(["MetricName", "CPUUtilization"]);
+	params.push(["Namespace", "AWS/EC2"]);
+	if (starttime != null){
+	   params.push(["StartTime",starttime]); 
+	}else{
+	   params.push(["StartTime","2011-08-03T21:15:18.000Z"]);
+	}
+	if (endtime != null){
+	   params.push(["EndTime",endtime]); 
+	}else{
+	   params.push(["EndTime","2011-08-03T22:15:18.000Z"]);
+	}
+	if(instance != null){
+	    params.push(["Dimensions.member.Name", "InstanceId"]);
+	    params.push(["Dimensions.member.Value", instance]);
+	}
+	params.push(["Period", "60"]);
+	params.push(["Statistics.member.1", "Average"]);
+	params.push(["Unit", "Percent"]);
+        ec2_httpclient.queryCW("GetMetricStatistics", params, this, true, "onCompleteGetMetricStatistics", callback);
+    },
+    
+    onCompleteGetMetricStatistics : function (objResponse) {
+        var xmlDoc = objResponse.xmlDoc;
+        var list = new Array();
+	var items = xmlDoc.getElementsByTagName("member");
+        for (var i = 0; i < items.length; i++)
+        {
+	    var Timestamp = getNodeValueByName(items[i],"Timestamp");
+	    var Unit = getNodeValueByName(items[i], "Unit");
+	    var Average = getNodeValueByName(items[i], "Average");
+	    list.push(new Statistics(Timestamp,Unit,Average));
+	}
+	ec2ui_model.updateMonitoring(list);
+        if (objResponse.callback)
+            objResponse.callback(list);
     }
 };
