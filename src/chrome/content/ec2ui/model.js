@@ -215,7 +215,7 @@ function Monitoring(Name,Value, MeasureName,Namespace){
 }
 
 function Statistics(Timestamp,Unit,Average){
-    this.Timestamp = Timestamp;
+    this.Timestamp = Timestamp.strftime('%Y-%m-%d %H:%M:%S');
     this.Unit = Unit;
     this.Average = Average;
 

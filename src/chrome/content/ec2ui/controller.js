@@ -1955,26 +1955,40 @@ var ec2ui_controller = {
             objResponse.callback(list);
     },
     
-    GetMetricStatistics : function (starttime,endtime,instance,callback) {
+     GetMetricStatistics : function (StartTime,ISOEndTime,instance,statistics, period,Metrics,callback) {
 	params = []
-        params.push(["MetricName", "CPUUtilization"]);
+        params.push(["MetricName", Metrics]);
 	params.push(["Namespace", "AWS/EC2"]);
-	if (starttime != null){
-	   params.push(["StartTime",starttime]); 
+	if (StartTime != null){
+	   var ISOStartTime = StartTime.strftime('%Y-%m-%dT%H:%M:%SZ'); 
+	   params.push(["StartTime",ISOStartTime]); 
 	}else{
-	   params.push(["StartTime","2011-08-03T21:15:18.000Z"]);
+	   var NewTime = new Date();
+	   var NewStartTime = Date(NewTime.setHours(NewTime.getHours() - 1));
+	   var ISONewStartTime = NewStartTime.strftime('%Y-%m-%dT%H:%M:%SZ');
+	   params.push(["StartTime",ISONewStartTime]);
 	}
-	if (endtime != null){
-	   params.push(["EndTime",endtime]); 
+	if (ISOEndTime != null){
+	   params.push(["EndTime",ISOEndTime]); 
 	}else{
-	   params.push(["EndTime","2011-08-03T22:15:18.000Z"]);
+	   var NewEndTime = new Date();
+	   var ISONewEndTime = NewEndTime.strftime('%Y-%m-%dT%H:%M:%SZ');
+	   params.push(["EndTime",ISONewEndTime]);
 	}
 	if(instance != null){
 	    params.push(["Dimensions.member.Name", "InstanceId"]);
 	    params.push(["Dimensions.member.Value", instance]);
 	}
-	params.push(["Period", "60"]);
-	params.push(["Statistics.member.1", "Average"]);
+	if(period != null){
+	    params.push(["Period", period]);
+	}else{
+	    params.push(["Period", "900"]);
+	}
+	if(statistics != null){
+	    params.push(["Statistics.member.1", statistics]);
+	}else{
+	    params.push(["Statistics.member.1", "Average"]);
+	}
 	params.push(["Unit", "Percent"]);
         ec2_httpclient.queryCW("GetMetricStatistics", params, this, true, "onCompleteGetMetricStatistics", callback);
     },
@@ -1985,7 +1999,8 @@ var ec2ui_controller = {
 	var items = xmlDoc.getElementsByTagName("member");
         for (var i = 0; i < items.length; i++)
         {
-	    var Timestamp = getNodeValueByName(items[i],"Timestamp");
+	    var Timestamp = new Date();
+            Timestamp.setISO8601(getNodeValueByName(items[i],"Timestamp"));
 	    var Unit = getNodeValueByName(items[i], "Unit");
 	    var Average = getNodeValueByName(items[i], "Average");
 	    list.push(new Statistics(Timestamp,Unit,Average));
