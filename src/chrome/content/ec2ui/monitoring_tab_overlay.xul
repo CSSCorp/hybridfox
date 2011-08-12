@@ -47,9 +47,9 @@
         </menulist>   
         </toolbar>
     <vbox flex="1">
-      <html:div style="width:960px;margin:0px auto; align:center;">
-      <html:canvas id="graph" width="960" height="500" style="border:1px solid #c3c3c3;" ></html:canvas>
-      </html:div>
+      <vbox style="width:900px;margin:0px auto;">
+      <html:canvas id="graph" width="900" height="420" style="border:1px solid #000;" ></html:canvas>
+      </vbox>
     </vbox>
     </groupbox>
     

@@ -9,26 +9,26 @@ var ec2ui_MonitoringTreeView = {
 	var ISOEndTime = EndTime.strftime('%Y-%m-%dT%H:%M:%SZ');
 
 	if(time == "Last Hour"){
-	    var StartTime = Date(EndTime.setHours(EndTime.getHours() - 1));
-	    var period = 60;
+	    var StartTime = new Date(EndTime.setHours(EndTime.getHours() - 1));
+	    var period = 240;
 	}else if(time == "Last 3 Hour"){
 	    var StartTime = new Date(EndTime.setHours(EndTime.getHours() - 3));
-	    var period = 60;
+	    var period = 720;
 	}else if(time == "Last 6 Hour"){
 	    var StartTime = new Date(EndTime.setHours(EndTime.getHours() - 6));
-	    var period = 600;
+	    var period = 1440;
 	}else if(time == "Last 12 Hour"){
 	    var StartTime = new Date(EndTime.setHours(EndTime.getHours() - 12));
-	    var period = 600;
+	    var period = 2880;
 	}else if(time == "Last 24 Hour"){
 	    var StartTime = new Date(EndTime.setHours(EndTime.getHours() - 24));
-	    var period = 600;
+	    var period = 5760;
 	}else if(time == "Last week"){
 	    var StartTime = new Date(EndTime.setDate(EndTime.getDate() - 7));
-	    var period = 15000;
+	    var period = 40320;
 	}else if(time == "Last 2 week"){
 	    var StartTime = new Date(EndTime.setDate(EndTime.getDate() - 14));
-	    var period = 15000;
+	    var period = 80640;
 	}
 	if(instance == ""){
 	    var instance = null;
@@ -55,24 +55,27 @@ var ec2ui_MonitoringTreeView = {
         var Monitor = ec2ui_session.model.getMonitoring();
         var monitorarray = new Array();
         for (var i in Monitor) {
-            var Timestamp = Monitor[i].Timestamp;
+	    var newtime = Monitor[i].Timestamp;
+	    var Timestamp = (Monitor[i].Date+"/"+Monitor[i].Month);
+	    var Time = (Monitor[i].Hours+":"+Monitor[i].Minutes);
 	    var Average = Monitor[i].Average;
-            var data = {Time : Timestamp,Avg : Average};
+            var data = {Dates : Timestamp,Avg : Average,Times : Time};
             monitorarray.push(data);
         }
-        var report = {x : "Time",y : "Avg",values : monitorarray};
+        var report = {x : "Dates",y : "Avg",z : "Times",values : monitorarray};
         this.graph(report)
     },
 
     graph :function(report){
         var data = report.values;
         var canvas = document.getElementById("graph");
-		
-        var c = canvas.getContext("2d");
-        var height = 500;
-	var width = 960;
+
+        var height = 400;
+	var width = 850;
         var prevX = -1;
 	var prevY = -1;
+	
+	var c = canvas.getContext("2d");
 	for(var i =0; i< data.length; i++) {
 	    var x = 60 + i*50;
 	    var h = data[i][report.y]*3;
@@ -82,7 +85,6 @@ var ec2ui_MonitoringTreeView = {
 	    c.fillStyle="#0000FF";
 	    c.beginPath();
 	    c.arc(x,y,2,0,Math.PI*2,true);
-	    c.closePath();
 	    c.fill();
 	    
 	    if(prevX != -1 && prevY != -1)
@@ -98,13 +100,16 @@ var ec2ui_MonitoringTreeView = {
 	for(var i =0; i< data.length; i++) {
 	    var x = 50 + i*50;
 	    var h = data[i][report.y]*3;
+	    var finaldata = Math.round(data[i][report.y]*Math.pow(10,2))/Math.pow(10,2);
 	    var w = 20;
-	    var y = height-h - 50;
+	    var y = height-h - 60;
 	    c.fillStyle = "black";
-	    c.font = 'italic 10pt sans-serif';
-	    c.fillText(data[i][report.x],x-3,y+h+35);
+	    c.font = '9pt sans-serif';
+	    c.fillText(data[i][report.x],x-3,y+h+45);
+	    c.fillText(data[i][report.z],x-3,y+h+60);
 	}
 	//draw axis lines
+
 	c.strokeStyle = "green";
 	c.beginPath();
 	c.moveTo(30.5,20.5);
@@ -114,18 +119,17 @@ var ec2ui_MonitoringTreeView = {
 	//draw ticks
 	c.translate(0,-50.5);
 	for(var i =0; i<=100; i+=10) {
-	
-	//tick line
-	c.strokeStyle = "black";
-	c.beginPath();
-	c.moveTo(20.5,height-i*3);
-	c.lineTo(30.5,height-i*3);
-	c.stroke();
-    
-	//tick text
+	   
+	  c.strokeStyle = "green";
+	  c.beginPath();
+	  c.moveTo(20.5,height-i*3);
+	  c.lineTo(30.5,height-i*3);
+	  c.stroke();    
+	    
+    	//tick text
 	c.fillStyle = "black";
-	c.font = 'italic 10pt sans-serif';
-	c.fillText(""+i,10,height-i*3-5);
+	c.font = '9pt sans-serif';
+	c.fillText(""+i,5,height-i*3-5);
 	}
 	c.translate(0,50.5);
     }
