@@ -23,7 +23,10 @@
             label="Attach an EBS Volume" />
           <menuitem id="instances.context.bundle"
             oncommand="ec2ui_InstancesTreeView.showBundleDialog();"
-            label="Bundle into an AMI" />
+            label="Bundle into an S3 AMI" />
+          <menuitem id="instances.context.createimage"
+            oncommand="ec2ui_InstancesTreeView.showCreateImageDialog();"
+            label="Create Image (EBS AMI)" />
           <menuitem oncommand="ec2ui_InstancesTreeView.rebootInstance();"
             label="Reboot" />
           <menuitem oncommand="ec2ui_InstancesTreeView.terminateInstance();"

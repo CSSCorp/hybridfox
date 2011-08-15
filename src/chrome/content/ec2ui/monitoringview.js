@@ -78,10 +78,8 @@ var ec2ui_MonitoringTreeView = {
 	function clearCanvas(c, canvas) {
 	     c.clearRect(0, 0, canvas.width, canvas.height);
 	     var w = canvas.width;
-	     alert(w);
              canvas.width = 1;
              canvas.width = w;
-	     alert(w);
         }
 	
         c.clearRect(0,0,c.canvas.width,c.canvas.height);

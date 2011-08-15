@@ -25,6 +25,22 @@ var ec2ui_controller = {
                                             callback);
         }
     },
+    
+    createImage : function(instanceId, amiName, amiDescription, noReboot, callback) {
+        var noRebootVal = "false";
+        if (noReboot == true)
+            noRebootVal = "true";
+
+        ec2_httpclient.queryEC2("CreateImage", [["InstanceId", instanceId], ["Name", amiName], ["Description", amiDescription], ["NoReboot", noRebootVal]], this, true, "onCompleteCreateImage", callback);
+    },
+
+    onCompleteCreateImage : function (objResponse) {
+        var xmlDoc = objResponse.xmlDoc;
+        var id = getNodeValueByName(xmlDoc, "imageId");
+
+        if (objResponse.callback)
+            objResponse.callback(id);
+    },
 
     registerImage : function (manifestPath, callback) {
         ec2_httpclient.queryEC2("RegisterImage", [["ImageLocation", manifestPath]], this, true, "onCompleteRegisterImage", callback);

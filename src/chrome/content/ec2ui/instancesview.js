@@ -787,6 +787,9 @@ var ec2ui_InstancesTreeView = {
             if(rootdevicetype){
                 document.getElementById("instances.context.stop").disabled = true;
                 document.getElementById("instances.context.forceStop").disabled = true;
+                document.getElementById("instances.context.createimage").disabled = true;
+            }else{
+                document.getElementById("instances.context.createimage").disabled = false; 
             }
         } else {
             document.getElementById("instances.context.monitor").disabled = true;
@@ -1173,6 +1176,33 @@ outer:
         }
         ec2ui_prefs.setSSHKeyTemplate(newTemplate);
         ec2ui_prefs.setPrivateKeyTemplate(newTemplate);
+    },
+    
+    showCreateImageDialog : function() {
+        var retVal = {ok:null,amiName:null,amiDescription:null,noReboot:null};
+        var instance = this.getSelectedInstance();
+        if (instance == null) return;
+
+        window.openDialog("chrome://ec2ui/content/dialog_create_image.xul",
+                          null,
+                          "chrome,centerscreen,modal",
+                          instance.id,
+                          ec2ui_session,
+                          retVal);
+
+        if (retVal.ok) {
+            var wrap = function(id) {
+                alert("A new EBS-backed AMI is being created and will\n"+
+                      "be available in a moment.\n\n"+
+                      "The AMI ID is: "+id);
+            }
+
+            ec2ui_session.controller.createImage(instance.id,
+                                                 retVal.amiName,
+                                                 retVal.amiDescription,
+                                                 retVal.noReboot,
+                                                 wrap);
+        }
     },
 
     connectTo : function(instance) {
