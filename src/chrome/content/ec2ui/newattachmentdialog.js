@@ -64,7 +64,7 @@ var ec2_VolumeAttacher = {
     for (var i in instances) {
         var zone = instances[i].placement.availabilityZone;
         if (this.zone == instances[i].placement.availabilityZone &&
-            instances[i].state == "running") {
+            instances[i].state == "running" || instances[i].state == "stopped") {
             var label = instances[i].id;
             var tag = instances[i].tag;
             if (tag && tag.length) {
