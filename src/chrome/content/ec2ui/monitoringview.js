@@ -63,19 +63,29 @@ var ec2ui_MonitoringTreeView = {
             monitorarray.push(data);
         }
         var report = {x : "Dates",y : "Avg",z : "Times",values : monitorarray};
-        this.graph(report)
+        this.graph(report,850,400)
     },
 
-    graph :function(report){
+    graph :function(report,  width, height){
         var data = report.values;
         var canvas = document.getElementById("graph");
 
-        var height = 400;
-	var width = 850;
         var prevX = -1;
 	var prevY = -1;
 	
 	var c = canvas.getContext("2d");
+	
+	function clearCanvas(c, canvas) {
+	     c.clearRect(0, 0, canvas.width, canvas.height);
+	     var w = canvas.width;
+	     alert(w);
+             canvas.width = 1;
+             canvas.width = w;
+	     alert(w);
+        }
+	
+        c.clearRect(0,0,c.canvas.width,c.canvas.height);
+
 	for(var i =0; i< data.length; i++) {
 	    var x = 60 + i*50;
 	    var h = data[i][report.y]*3;
@@ -119,7 +129,7 @@ var ec2ui_MonitoringTreeView = {
 	//draw ticks
 	c.translate(0,-50.5);
 	for(var i =0; i<=100; i+=10) {
-	   
+	 
 	  c.strokeStyle = "green";
 	  c.beginPath();
 	  c.moveTo(20.5,height-i*3);
