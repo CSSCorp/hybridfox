@@ -5,6 +5,12 @@ var ec2ui_MonitoringTreeView = {
         var instance = document.getElementById("ec2ui.monitoring.Instancelist").value;
 	var statistics = document.getElementById("monitoring.statistics").value;
 	var Metrics = document.getElementById("monitoring.Metrics").value;
+	console.log(Metrics);
+	if(Metrics == "NetworkOut"){
+	    Unit = "Bytes";
+	}else if(Metrics == "NetworkIn"){
+	    Unit = "Bytes";
+	}
         var EndTime = new Date();
 	var ISOEndTime = EndTime.strftime('%Y-%m-%dT%H:%M:%SZ');
 
@@ -33,7 +39,7 @@ var ec2ui_MonitoringTreeView = {
 	if(instance == ""){
 	    var instance = null;
 	}
-        ec2ui_session.controller.GetMetricStatistics(StartTime, ISOEndTime, instance,statistics, period,Metrics);
+        ec2ui_session.controller.GetMetricStatistics(StartTime, ISOEndTime, instance,statistics, period,Metrics,Unit);
 	this.init();
     },
     
@@ -54,14 +60,17 @@ var ec2ui_MonitoringTreeView = {
     init : function(){
         var Monitor = ec2ui_session.model.getMonitoring();
         var monitorarray = new Array();
+	var datearray = new Array();
         for (var i in Monitor) {
 	    var newtime = Monitor[i].Timestamp;
-	    var Timestamp = (Monitor[i].Date+"/"+Monitor[i].Month);
+	    var month = Monitor[i].Month+1;
+	    var Timestamp = (Monitor[i].Date+"/"+month);
 	    var Time = (Monitor[i].Hours+":"+Monitor[i].Minutes);
 	    var Average = Monitor[i].Average;
             var data = {Dates : Timestamp,Avg : Average,Times : Time};
             monitorarray.push(data);
         }
+
         var report = {x : "Dates",y : "Avg",z : "Times",values : monitorarray};
         this.graph(report,850,400)
     },
@@ -76,10 +85,10 @@ var ec2ui_MonitoringTreeView = {
 	var c = canvas.getContext("2d");
 	
 	function clearCanvas(c, canvas) {
-	     c.clearRect(0, 0, canvas.width, canvas.height);
-	     var w = canvas.width;
-             canvas.width = 1;
-             canvas.width = w;
+	    c.clearRect(0, 0, canvas.width, canvas.height);
+	    var w = canvas.width;
+            canvas.width = 1;
+            canvas.width = w;
         }
 	
         c.clearRect(0,0,c.canvas.width,c.canvas.height);
@@ -88,11 +97,11 @@ var ec2ui_MonitoringTreeView = {
 	    var x = 60 + i*50;
 	    var h = data[i][report.y]*3;
 	    var w = 20;
-	    var y = height-h - 20;
+	    var y = height-h - 50;
 	
-	    c.fillStyle="#0000FF";
+	    c.fillStyle="#000";
 	    c.beginPath();
-	    c.arc(x,y,2,0,Math.PI*2,true);
+	    c.arc(x,y,1,0,Math.PI*2,true);
 	    c.fill();
 	    
 	    if(prevX != -1 && prevY != -1)
@@ -102,42 +111,53 @@ var ec2ui_MonitoringTreeView = {
 		c.stroke();
 	    }
 	
-	   prevX = x;
-	   prevY = y;	
+	    prevX = x;
+	    prevY = y;	
 	}
 	for(var i =0; i< data.length; i++) {
 	    var x = 50 + i*50;
 	    var h = data[i][report.y]*3;
 	    var finaldata = Math.round(data[i][report.y]*Math.pow(10,2))/Math.pow(10,2);
 	    var w = 20;
-	    var y = height-h - 60;
-	    c.fillStyle = "black";
-	    c.font = '9pt sans-serif';
+	    var y = height-h - 50;
+	    c.fillStyle = "#000";
+	    c.font = '10px sans-serif';
 	    c.fillText(data[i][report.x],x-3,y+h+45);
 	    c.fillText(data[i][report.z],x-3,y+h+60);
 	}
+	
 	//draw axis lines
-
-	c.strokeStyle = "green";
+	c.strokeStyle = "#000";
 	c.beginPath();
 	c.moveTo(30.5,20.5);
 	c.lineTo(30.5,height-30.5);
 	c.lineTo(width-30.5,height-30.5);
 	c.stroke();
+	
 	//draw ticks
 	c.translate(0,-50.5);
+	
+	var largest = 0; 
+	for(var i = 0; i < data.length; i ++) {
+	    if(data[i][report.y] > largest) {
+		 largest = data[i][report.y];
+	    }
+	}
+	largest += 10 - largest % 10;
+	
 	for(var i =0; i<=100; i+=10) {
 	 
-	  c.strokeStyle = "green";
-	  c.beginPath();
-	  c.moveTo(20.5,height-i*3);
-	  c.lineTo(30.5,height-i*3);
-	  c.stroke();    
+	    c.strokeStyle = "#000";
+	    c.beginPath();
+	    c.moveTo(20.5,height-i*3);
+	    c.lineTo(30.5,height-i*3);
+	    c.stroke();    
 	    
-    	//tick text
-	c.fillStyle = "black";
-	c.font = '9pt sans-serif';
-	c.fillText(""+i,5,height-i*3-5);
+	    //tick text
+	    c.fillStyle = "#000";
+	    c.font = '10px sans-serif';
+	    c.fillText(""+i,5,height-i*3-5);
+
 	}
 	c.translate(0,50.5);
     }

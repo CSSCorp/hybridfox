@@ -216,10 +216,10 @@ function Monitoring(Name,Value, MeasureName,Namespace){
 
 function Statistics(Timestamp,Unit,Average){
     this.Timestamp = Timestamp.strftime('%Y-%m-%d %H:%M:%S');
-    this.Date = Timestamp.getUTCDate();
-    this.Month = Timestamp.getUTCMonth();
-    this.Hours = Timestamp.getUTCHours();
-    this.Minutes = Timestamp.getUTCMinutes();
+    this.Date = Timestamp.getDate();
+    this.Month = Timestamp.getMonth();
+    this.Hours = Timestamp.getHours();
+    this.Minutes = Timestamp.getMinutes();
     this.Unit = Unit;
     this.Average = Average;
 

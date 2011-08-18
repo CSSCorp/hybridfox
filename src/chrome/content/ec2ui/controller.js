@@ -1971,7 +1971,7 @@ var ec2ui_controller = {
             objResponse.callback(list);
     },
     
-     GetMetricStatistics : function (StartTime,ISOEndTime,instance,statistics, period,Metrics,callback) {
+     GetMetricStatistics : function (StartTime,ISOEndTime,instance,statistics, period,Metrics,Unit,callback) {
 	params = []
         params.push(["MetricName", Metrics]);
 	params.push(["Namespace", "AWS/EC2"]);
@@ -2005,7 +2005,12 @@ var ec2ui_controller = {
 	}else{
 	    params.push(["Statistics.member.1", "Average"]);
 	}
-	params.push(["Unit", "Percent"]);
+	if(Unit != null){
+	    params.push(["Unit", Unit]);	    
+	}else{
+	    params.push(["Unit", "Percent"]);
+	}
+	
         ec2_httpclient.queryCW("GetMetricStatistics", params, this, true, "onCompleteGetMetricStatistics", callback);
     },
     
