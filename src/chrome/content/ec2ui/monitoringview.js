@@ -1,14 +1,13 @@
 var ec2ui_MonitoringTreeView = {
-
     selectedMetric : function(){
         var time = document.getElementById("monitoring.timerange").value;
         var instance = document.getElementById("ec2ui.monitoring.Instancelist").value;
-	var statistics = document.getElementById("monitoring.statistics").value;
+	//var statistics = document.getElementById("monitoring.statistics").value;
 	var Metrics = document.getElementById("monitoring.Metrics").value;
 	console.log(Metrics);
-	if(Metrics == "NetworkOut"){
-	    Unit = "Bytes";
-	}else if(Metrics == "NetworkIn"){
+	if(Metrics == "CPUUtilization"){
+	    Unit = "Percent";
+	}else {
 	    Unit = "Bytes";
 	}
         var EndTime = new Date();
@@ -16,13 +15,13 @@ var ec2ui_MonitoringTreeView = {
 
 	if(time == "Last Hour"){
 	    var StartTime = new Date(EndTime.setHours(EndTime.getHours() - 1));
-	    var period = 240;
+	    var period = 60;
 	}else if(time == "Last 3 Hour"){
 	    var StartTime = new Date(EndTime.setHours(EndTime.getHours() - 3));
-	    var period = 720;
+	    var period = 60;
 	}else if(time == "Last 6 Hour"){
 	    var StartTime = new Date(EndTime.setHours(EndTime.getHours() - 6));
-	    var period = 1440;
+	    var period = 240;
 	}else if(time == "Last 12 Hour"){
 	    var StartTime = new Date(EndTime.setHours(EndTime.getHours() - 12));
 	    var period = 2880;
@@ -39,15 +38,20 @@ var ec2ui_MonitoringTreeView = {
 	if(instance == ""){
 	    var instance = null;
 	}
-        ec2ui_session.controller.GetMetricStatistics(StartTime, ISOEndTime, instance,statistics, period,Metrics,Unit);
+	
+        ec2ui_session.controller.GetMetricStatistics(StartTime, ISOEndTime, instance, period,Metrics,Unit);
 	this.init();
     },
     
     instancelist : function(){
         var InstanceMenu = document.getElementById("ec2ui.monitoring.Instancelist");
         var Instance = ec2ui_session.model.getInstances();
+	var count = InstanceMenu.itemCount;
+	while(count-- > 0){
+	    InstanceMenu.removeItemAt(0);
+	}
         for (var i in Instance) {
-            InstanceMenu.appendItem(Instance[i].id , Instance[i].id);
+	    InstanceMenu.appendItem(Instance[i].id , Instance[i].id);
         }
         InstanceMenu.selectedIndex = 0;
     },
@@ -67,20 +71,36 @@ var ec2ui_MonitoringTreeView = {
 	    var Timestamp = (Monitor[i].Date+"/"+month);
 	    var Time = (Monitor[i].Hours+":"+Monitor[i].Minutes);
 	    var Average = Monitor[i].Average;
-            var data = {Dates : Timestamp,Avg : Average,Times : Time};
+	    var yvalue = Math.round(Average);
+            var data = {Dates : Timestamp,Avg : yvalue,Times : Time};
             monitorarray.push(data);
         }
-
         var report = {x : "Dates",y : "Avg",z : "Times",values : monitorarray};
-        this.graph(report,850,400)
+        this.graph(report,850,420)
     },
 
     graph :function(report,  width, height){
         var data = report.values;
         var canvas = document.getElementById("graph");
-
-        var prevX = -1;
-	var prevY = -1;
+        var xPadding = 50;
+        var yPadding = 40;
+        
+	var largest = 0; 
+	for(var i = 0; i < data.length; i ++) {
+	    if(data[i][report.y] > largest) {
+		 largest = data[i][report.y];
+	    }
+	}
+	largest += 10 - largest % 10;
+	
+	
+	function getXPixel(val) {
+            return ((width - xPadding) / data.length) * val + (xPadding * 1.5);
+        }
+	
+	function getYPixel(val) {
+                return height - (((height - yPadding) / largest) * val) - yPadding;
+        }
 	
 	var c = canvas.getContext("2d");
 	
@@ -92,74 +112,56 @@ var ec2ui_MonitoringTreeView = {
         }
 	
         c.clearRect(0,0,c.canvas.width,c.canvas.height);
-
-	for(var i =0; i< data.length; i++) {
-	    var x = 60 + i*50;
-	    var h = data[i][report.y]*3;
-	    var w = 20;
-	    var y = height-h - 50;
 	
-	    c.fillStyle="#000";
-	    c.beginPath();
-	    c.arc(x,y,1,0,Math.PI*2,true);
-	    c.fill();
-	    
-	    if(prevX != -1 && prevY != -1)
-	    {
-		c.moveTo(prevX, prevY);
-		c.lineTo(x,y);
-		c.stroke();
-	    }
+	c.lineWidth = 1;
+	c.strokeStyle = '#333';
+	c.font = 'italic 8pt sans-serif';
+	c.textAlign = "center";
 	
-	    prevX = x;
-	    prevY = y;	
-	}
-	for(var i =0; i< data.length; i++) {
-	    var x = 50 + i*50;
-	    var h = data[i][report.y]*3;
-	    var finaldata = Math.round(data[i][report.y]*Math.pow(10,2))/Math.pow(10,2);
-	    var w = 20;
-	    var y = height-h - 50;
-	    c.fillStyle = "#000";
-	    c.font = '10px sans-serif';
-	    c.fillText(data[i][report.x],x-3,y+h+45);
-	    c.fillText(data[i][report.z],x-3,y+h+60);
-	}
-	
-	//draw axis lines
-	c.strokeStyle = "#000";
+	// Draw the axises
+	c.font = '10px sans-serif';
 	c.beginPath();
-	c.moveTo(30.5,20.5);
-	c.lineTo(30.5,height-30.5);
-	c.lineTo(width-30.5,height-30.5);
+	c.moveTo(xPadding, 10);
+	c.lineTo(xPadding, height - yPadding);
+	c.lineTo(width, height - yPadding);
+	c.stroke();
+        
+	// Draw the X value texts
+	for(var i = 0; i < data.length; i ++) {
+	    c.font = '10px sans-serif';
+	    c.fillText(data[i][report.x], getXPixel(i), height - yPadding + 20);
+	    c.fillText(data[i][report.z], getXPixel(i), height - yPadding + 35);
+	}
+	
+	// Draw the Y value texts
+	c.textAlign = "right"
+	c.textBaseline = "middle";
+	
+	for(var i = 0; i < largest; i += largest/10) {
+	    c.font = '10px sans-serif';
+	    c.fillText(i, xPadding - 10, getYPixel(i));
+	}
+	
+	c.strokeStyle = '#f00';
+	
+	// Draw the line graph
+	c.beginPath();
+	c.moveTo(getXPixel(0), getYPixel(data[0][report.y]));
+	for(var i = 1; i < data.length; i ++) {
+	    c.font = '10px sans-serif';
+	    c.lineTo(getXPixel(i), getYPixel(data[i][report.y]));
+	}
 	c.stroke();
 	
-	//draw ticks
-	c.translate(0,-50.5);
+	// Draw the dots
+	c.fillStyle = '#333';
 	
-	var largest = 0; 
-	for(var i = 0; i < data.length; i ++) {
-	    if(data[i][report.y] > largest) {
-		 largest = data[i][report.y];
-	    }
-	}
-	largest += 10 - largest % 10;
-	
-	for(var i =0; i<=100; i+=10) {
-	 
-	    c.strokeStyle = "#000";
+	for(var i = 0; i < data.length; i ++) {  
 	    c.beginPath();
-	    c.moveTo(20.5,height-i*3);
-	    c.lineTo(30.5,height-i*3);
-	    c.stroke();    
-	    
-	    //tick text
-	    c.fillStyle = "#000";
 	    c.font = '10px sans-serif';
-	    c.fillText(""+i,5,height-i*3-5);
-
+	    c.arc(getXPixel(i), getYPixel(data[i][report.y]), 2, 0, Math.PI * 2, true);
+	    c.fill();
 	}
-	c.translate(0,50.5);
     }
 
 };

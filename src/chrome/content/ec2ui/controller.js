@@ -1971,7 +1971,7 @@ var ec2ui_controller = {
             objResponse.callback(list);
     },
     
-     GetMetricStatistics : function (StartTime,ISOEndTime,instance,statistics, period,Metrics,Unit,callback) {
+     GetMetricStatistics : function (StartTime,ISOEndTime,instance,period,Metrics,Unit,callback) {
 	params = []
         params.push(["MetricName", Metrics]);
 	params.push(["Namespace", "AWS/EC2"]);
@@ -2000,11 +2000,9 @@ var ec2ui_controller = {
 	}else{
 	    params.push(["Period", "900"]);
 	}
-	if(statistics != null){
-	    params.push(["Statistics.member.1", statistics]);
-	}else{
-	    params.push(["Statistics.member.1", "Average"]);
-	}
+	
+        params.push(["Statistics.member.1", "Average"]);
+
 	if(Unit != null){
 	    params.push(["Unit", Unit]);	    
 	}else{
