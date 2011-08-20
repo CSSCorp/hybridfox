@@ -67,14 +67,29 @@ var ec2ui_MonitoringTreeView = {
 	var datearray = new Array();
         for (var i in Monitor) {
 	    var newtime = Monitor[i].Timestamp;
-	    var month = Monitor[i].Month+1;
-	    var Timestamp = (Monitor[i].Date+"/"+month);
-	    var Time = (Monitor[i].Hours+":"+Monitor[i].Minutes);
-	    var Average = Monitor[i].Average;
-	    var yvalue = Math.round(Average);
-            var data = {Dates : Timestamp,Avg : yvalue,Times : Time};
-            monitorarray.push(data);
+	    datearray.push(newtime); 
         }
+	
+	datearray.sort();
+	
+	
+	for (var idx in datearray) {
+	    var temp = datearray[idx];
+	    for (var i in Monitor) {
+		var newtime = Monitor[i].Timestamp;
+		if(temp == newtime){
+		    var month = Monitor[i].Month+1;
+		    var Timestamp = (Monitor[i].Date+"/"+month);
+		    var Time = (Monitor[i].Hours+":"+Monitor[i].Minutes);
+		    var Average = Monitor[i].Average;
+		    var yvalue = Math.round(Average);
+		    var data = {Dates : Timestamp,Avg : yvalue,Times : Time};
+		    monitorarray.push(data);
+		    break;
+		}
+	    }
+	 }
+
         var report = {x : "Dates",y : "Avg",z : "Times",values : monitorarray};
         this.graph(report,850,420)
     },
