@@ -25,32 +25,38 @@
             <menuitem label="Last 2 week" value="Last 2 week"/>
           </menupopup>
         </menulist>
-       <!-- <label value="Statistics:"/>
+       <label value="Statistics:"/>
            <menulist  label="Statistics:" id="monitoring.statistics" oncommand="ec2ui_MonitoringTreeView.selectedMetric()">
           <menupopup>
             <menuitem label="Average" value="Average"/>
             <menuitem label="Sum" value="Sum"/>
-            <menuitem label="SampleCount" value="SampleCount"/>
             <menuitem label="Maximum" value="Maximum"/>
             <menuitem label="Minimum" value="Minimum"/>
           </menupopup>
-        </menulist>-->
+        </menulist>
         <label value="Metrics:"/>
            <menulist  label="Metrics:" id="monitoring.Metrics" oncommand="ec2ui_MonitoringTreeView.selectedMetric()">
           <menupopup>
             <menuitem label="CPUUtilization" value="CPUUtilization"/>
-            <menuitem label="DiskReadOps" value="DiskReadOps"/>
-            <menuitem label="DiskWriteOps" value="DiskWriteOps"/>
             <menuitem label="DiskReadBytes" value="DiskReadBytes"/>
             <menuitem label="DiskWriteBytes" value="DiskWriteBytes"/>
             <menuitem label="NetworkIn" value="NetworkIn"/>
             <menuitem label="NetworkOut" value="NetworkOut"/>
           </menupopup>
-        </menulist>   
+        </menulist>
+        <label value="Period:" />
+        <menulist  label="Period:" id="monitoring.period" oncommand="ec2ui_MonitoringTreeView.selectedMetric()">
+          <menupopup>
+            <menuitem label="1 Minute" value="1 Minute"/>
+            <menuitem label="5 Minutes" value="5 Minutes"/>
+            <menuitem label="15 Minutes" value="15 Minutes"/>
+            <menuitem label="1 Hour" value="1 Hour"/>
+          </menupopup>
+        </menulist>
         </toolbar>
     <vbox flex="1">
       <vbox style="width:900px;margin:0px auto;">
-      <html:canvas id="graph" width="900" height="420" style="border:1px solid #000;" ></html:canvas>
+      <html:canvas id="graph" width="900" height="430" style="border:1px solid #000;" ></html:canvas>
       </vbox>
     </vbox>
     </groupbox>

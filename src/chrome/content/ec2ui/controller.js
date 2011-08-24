@@ -1971,13 +1971,12 @@ var ec2ui_controller = {
             objResponse.callback(list);
     },
     
-     GetMetricStatistics : function (StartTime,ISOEndTime,instance,period,Metrics,Unit,callback) {
+     GetMetricStatistics : function (GMTStartTime,ISOEndTime,instance,statistics,period,Metrics,Unit,callback) {
 	params = []
         params.push(["MetricName", Metrics]);
 	params.push(["Namespace", "AWS/EC2"]);
-	if (StartTime != null){
-	   var ISOStartTime = StartTime.strftime('%Y-%m-%dT%H:%M:%SZ'); 
-	   params.push(["StartTime",ISOStartTime]); 
+	if (GMTStartTime != null){
+	   params.push(["StartTime",GMTStartTime]); 
 	}else{
 	   var NewTime = new Date();
 	   var NewStartTime = Date(NewTime.setHours(NewTime.getHours() - 1));
@@ -2001,12 +2000,12 @@ var ec2ui_controller = {
 	    params.push(["Period", "900"]);
 	}
 	
-        params.push(["Statistics.member.1", "Average"]);
+        params.push(["Statistics.member.1", statistics]);
 
 	if(Unit != null){
 	    params.push(["Unit", Unit]);	    
 	}else{
-	    params.push(["Unit", "Percent"]);
+	    params.push(["Unit", "None"]);
 	}
 	
         ec2_httpclient.queryCW("GetMetricStatistics", params, this, true, "onCompleteGetMetricStatistics", callback);
@@ -2022,7 +2021,10 @@ var ec2ui_controller = {
             Timestamp.setISO8601(getNodeValueByName(items[i],"Timestamp"));
 	    var Unit = getNodeValueByName(items[i], "Unit");
 	    var Average = getNodeValueByName(items[i], "Average");
-	    list.push(new Statistics(Timestamp,Unit,Average));
+	    var Sum = getNodeValueByName(items[i], "Sum");
+	    var Maximum = getNodeValueByName(items[i], "Maximum");
+	    var Minimum = getNodeValueByName(items[i], "Minimum");
+	    list.push(new Statistics(Timestamp,Unit,Average || "null",Sum || "null",Maximum || "null",Minimum || "null"));
 	}
 	ec2ui_model.updateMonitoring(list);
         if (objResponse.callback)

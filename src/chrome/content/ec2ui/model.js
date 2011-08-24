@@ -214,7 +214,7 @@ function Monitoring(Name,Value, MeasureName,Namespace){
     this.Namespace = Namespace;
 }
 
-function Statistics(Timestamp,Unit,Average){
+function Statistics(Timestamp,Unit,Average,Sum,Maximum,Minimum){
     this.Timestamp = Timestamp.strftime('%Y-%m-%d %H:%M:%S');
     this.Date = Timestamp.getDate();
     this.Month = Timestamp.getMonth();
@@ -222,6 +222,9 @@ function Statistics(Timestamp,Unit,Average){
     this.Minutes = Timestamp.getMinutes();
     this.Unit = Unit;
     this.Average = Average;
+    this.Sum  = Sum;
+    this.Maximum = Maximum;
+    this.Minimum = Minimum;
 
 }
 
