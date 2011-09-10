@@ -1,23 +1,9 @@
 Hybridfox Changelog
 --------------------
-1.6.000027
-- FIX: Can't add region of local Eucalyptus
+EXT-1.6.000121
+- FEATURE: Added support for Amazon AWS Cloud Watch (Monitoring)
 
-1.6.000025
-- FEATURE: Added support for high memory Amazon instances
+EXT-1.6.000100
+- FEATURE: Added support for Amazon AWS Elastic Load Balancer
 
-1.6.000024
-- FEATURE: supports Amazon Asia Pacific region.
-- FIX: some tabs dont work with Eucalyptus.
-- FIX: region matching incorrectly done.
 
-1.6.000019
-- FIX: all of emi/eri/eki are not being listed
-
-1.6.000018
-- FEATURE: added support for Firefox 3.6.
-- FEATURE: added support for Eucalyptus 1.6.12
-- FIX: allow emi/eki/eri for Eucalyptus.
-- FIX: made public IP optional in Eucalyptus.
-- FIX: switching from EC2 to Eucalyptus does not List images.
-- FIX: added support for US West region.
