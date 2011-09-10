@@ -1,5 +1,32 @@
 Hybridfox Changelog
 --------------------
+1.6.000112
+- SUPPORT: For Firefox 6 and larger
+
+1.6.000104
+- FEATURE: Support for Amazon AWS Elastic Load Balancing
+- SUPPORT: For Openstack,ECC,EEE
+- Localized : To japanese 
+
+1.6.000083
+- SUPPORT: For Firefox 5
+
+1.6.000056
+- FIX: Issue #65,#66,#67
+- SUPPORT : For Openstack,ECC,EPC,EC2,A Much above Beta 
+
+1.6.000044
+- SUPPORT : For Openstack with some pinch of salt
+
+1.6.000041
+- SUPPORT: For Firefox 4
+
+1.6.000037
+- FEATURE: Added Japanese Endpoint
+
+1.6.000030
+- FEATURE: Now Add/Remove any Regions
+
 1.6.000027
 - FIX: Can't add region of local Eucalyptus
 
