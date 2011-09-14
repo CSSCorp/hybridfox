@@ -9,6 +9,7 @@ var ec2_httpclient = {
     regions : null,
     elbURL  : null,
     cwURL   : null,
+    cfURL   : null,
     accessCode : null,
     secretKey : null,
     timers : {},
@@ -21,6 +22,8 @@ var ec2_httpclient = {
     ELB_API_VERSION : "2011-04-05",
     
     CW_API_VERSION : "2010-08-01",
+    
+    CF_API_VERSION : "2010-05-15",
 
     getNsResolver : function() {
         var client = this;
@@ -44,6 +47,7 @@ var ec2_httpclient = {
 	    this.regions    = endpoint.name;
 	    this.elbURL     = "https://elasticloadbalancing."+this.regions+".amazonaws.com";
 	    this.cwURL      = "http://monitoring."+this.regions+".amazonaws.com";
+	    this.cwURL      = "https://cloudformation."+this.regions+".amazonaws.com";
         }
     },
 
