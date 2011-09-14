@@ -206,7 +206,10 @@ var ec2ui_ElasticIPTreeView = {
 
             if (eip == null) return;
 
-            if (eip.instanceid != null && eip.instanceid != '') {
+            // In Eucalyptus, all Address is displayed for Administrator user.
+            // InstanceID display "nobody" -> not allocated, "available (userName)" -> allocated and not associated.
+            if (eip.instanceid != null && eip.instanceid != ''
+                    && eip.instanceid != 'nobody' && !/available\s\(.+\)/.test(eip.instanceid) ) {
                 var confirmed = confirm(ec2ui_utils.getMessageProperty("ec2ui.msg.eipview.confirm.associateAddress", [eip.address]));
                 if (!confirmed)
                     return;
@@ -248,7 +251,7 @@ var ec2ui_ElasticIPTreeView = {
     disassociateAddress : function() {
         var eip = this.getSelectedEip();
         if (eip == null) return;
-        if (eip.instanceid == null || eip.instanceid == '') return;
+        if (eip.instanceid == null || eip.instanceid == '' || eip.instanceid != 'nobody' || !/available\s\(.+\)/.test(eip.instanceid)) return;
 
         var confirmed = confirm(ec2ui_utils.getMessageProperty("ec2ui.msg.eipview.confirm.disassociateAddress", [eip.address, eip.instanceid]));
         if (!confirmed)
