@@ -47,7 +47,7 @@ var ec2_httpclient = {
 	    this.regions    = endpoint.name;
 	    this.elbURL     = "https://elasticloadbalancing."+this.regions+".amazonaws.com";
 	    this.cwURL      = "http://monitoring."+this.regions+".amazonaws.com";
-	    this.cwURL      = "https://cloudformation."+this.regions+".amazonaws.com";
+	    this.cfURL      = "https://cloudformation."+this.regions+".amazonaws.com";
         }
     },
 

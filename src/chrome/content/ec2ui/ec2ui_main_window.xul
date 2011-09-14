@@ -12,6 +12,7 @@
 <?xul-overlay href="chrome://ec2ui/content/leases_tab_overlay.xul"?>
 <?xul-overlay href="chrome://ec2ui/content/loadbalancer_tab_overlay.xul"?>
 <?xul-overlay href="chrome://ec2ui/content/monitoring_tab_overlay.xul"?>
+<?xul-overlay href="chrome://ec2ui/content/cloudformation_tab_overlay.xul"?>
 
 <!DOCTYPE window SYSTEM "chrome://ec2ui/locale/ec2ui.dtd">
 <window id="ec2ui-window" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
@@ -59,7 +60,7 @@
   <script type="application/x-javascript" src="chrome://ec2ui/content/loadbalancerview.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/instancehealthview.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/monitoringview.js" />
-  
+  <script type="application/x-javascript" src="chrome://ec2ui/content/cloudformationview.js" />
 
   <stringbundleset id="stringbundleset">
     <stringbundle id="ec2ui.properties.bundle" src="chrome://ec2ui/locale/ec2ui.properties" />
@@ -110,6 +111,7 @@
         <tab label="&ec2ui.tabs.leases.label;" />
         <tab label="&ec2ui.tabs.loadbalancer.label;" />
         <tab label="&ec2ui.tabs.monitoring.label;" />
+        <tab label="&ec2ui.tabs.cloudformation.label;" />
       </tabs>
       <tabpanels flex="1">
         <tabpanel id="instances_tab"/>
@@ -123,6 +125,7 @@
         <tabpanel id="leases_tab"/>
         <tabpanel id="loadbalancer_tab"/>
         <tabpanel id="monitoring_tab"/>
+        <tabpanel id="cloudformation_tab"/>
       </tabpanels>
     </tabbox>
   </vbox>
