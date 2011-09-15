@@ -250,13 +250,13 @@ var ec2_InstanceLauncher = {
 
         // An administrator role user on Eucalyptus gets all user's SecurityGroups.
         // "DescribeSecurityGroups" hasn't option for get only administrator role user's SecurityGroups.
-        // Get unique name SecurityGroups. (Contoralled by securityGroupStorage hash)
+        // Get unique name SecurityGroups. (Controlled by securityGroupStorage hash)
 
         // Then add the default group to the used list. EC2 will do this anyway if no group is provided,
         // but this way it's obvious to the user what's happening.
         var securityGroupStorage = {};
         i = 0;
-        for (i in securityGroupNames) {
+        for (i in securityGroups) {
             if (!(securityGroups[i].name in securityGroupStorage)) {
                 securityGroupStorage[securityGroups[i].name] = true;
                 if (securityGroups[i].name == "default") {
