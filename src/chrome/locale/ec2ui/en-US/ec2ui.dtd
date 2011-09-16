@@ -233,5 +233,12 @@
 <!ENTITY ec2ui.monitoring.MeasureName.label "Measure Name">
 <!ENTITY ec2ui.monitoring.Namespace.label "Namespace">
 
+<!ENTITY ec2ui.captions.cloudformation.label "Cloudformation">
+
+<!ENTITY ec2ui.cloudformation.StackName.label "Stack Name">
+<!ENTITY ec2ui.cloudformation.StackId.label "Stack Id">
+<!ENTITY ec2ui.cloudformation.CreationTime.label "Creation Time">
+<!ENTITY ec2ui.cloudformation.Status.label "Status">
+
 
 

@@ -228,6 +228,13 @@ function Statistics(Timestamp,Unit,Average,Sum,Maximum,Minimum){
 
 }
 
+function CloudFormation(StackName, StackId, CreationTime, Status){
+    this.StackName = StackName;
+    this.StackId = StackId;
+    this.CreationTime = CreationTime;
+    this.Status = Status;
+}
+
 String.prototype.trim = function() {
     return this.replace(/^\s+|\s+$/g,"");
 }
@@ -251,6 +258,7 @@ var ec2ui_model = {
     loadbalancer      : null,
     InstanceHealth    : null,
     monitoring        : null,
+    cloudformation    : null,
     resourceMap     : {
         instances : 0,
         volumes   : 1,
@@ -277,6 +285,7 @@ var ec2ui_model = {
         this.updateLoadbalancer(null);
         this.updateInstanceHealth(null);
         this.updateMonitoring(null);
+        this.updateCloudformation(null);
     },
 
     notifyComponents : function(interest) {
@@ -505,5 +514,17 @@ var ec2ui_model = {
             ec2ui_session.controller.GetMetricStatistics();
         }
         return this.monitoring;
+    },
+
+    updateCloudformation : function(list) {
+        this.cloudformation = list;
+        this.notifyComponents("cloudformation");
+    },
+
+    getCloudformation : function() {
+        if (this.cloudformation == null) {
+            ec2ui_session.controller.describeStack();
+        }
+        return this.cloudformation;
     }
 }

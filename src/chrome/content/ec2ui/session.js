@@ -39,6 +39,7 @@ var ec2ui_session =
             document.getElementById("ec2ui.rsvdInst.view").view = ec2ui_ReservedInstancesTreeView;
 	    document.getElementById("ec2ui.loadbalancer.view").view = ec2ui_LoadbalancerTreeView;
 	    document.getElementById("ec2ui.instancehealth.view").view = ec2ui_InstanceHealthTreeView;
+	    document.getElementById("ec2ui.cloudformation.view").view = ec2ui_CloudformationTreeView;
 	    
 
             // Enable about:blank to work if noscript is installed
@@ -179,6 +180,9 @@ var ec2ui_session =
             break;
 	case "Monitoring":
             eval("ec2ui_MonitoringTreeView." + toCall);
+            break;
+        case "Cloudformation":
+            eval("ec2ui_CloudformationTreeView." + toCall);
             break;
         default:
             log ("This is an invalid tab: " + tabs.selectedItem.label);

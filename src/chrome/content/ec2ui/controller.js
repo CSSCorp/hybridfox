@@ -2029,5 +2029,32 @@ var ec2ui_controller = {
 	ec2ui_model.updateMonitoring(list);
         if (objResponse.callback)
             objResponse.callback(list);
+    },
+
+    describeStack : function (callback) {
+        ec2_httpclient.queryCF("DescribeStacks", [], this, true, "onCompleteDescribeStack", callback);
+    },
+
+    onCompleteDescribeStack : function (objResponse) {
+        var xmlDoc = objResponse.xmlDoc;
+
+        var list = new Array();
+        var items = xmlDoc.getElementsByTagName("member");
+        for (var i = 0; i < items.length; i++)
+        {
+            var StackName = getNodeValueByName(items[i], "StackName");
+            var StackId = getNodeValueByName(items[i], "StackId");
+            var CreationTime = getNodeValueByName(items[i], "CreationTime");
+            var Status = getNodeValueByName(items[i], "StackStatusReason");
+            if(StackName != '')
+            {
+            list.push(new CloudFormation(StackName, StackId, CreationTime, Status));
+            }
+         
+        }
+
+        ec2ui_model.updateCloudformation(list);
+        if (objResponse.callback)
+            objResponse.callback(list);
     }
 };
