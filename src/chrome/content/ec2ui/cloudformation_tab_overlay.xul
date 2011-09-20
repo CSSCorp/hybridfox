@@ -10,8 +10,12 @@
       <toolbar style="padding: 0px 3px; -moz-box-align: center">
         <toolbarbutton image="images/refresh.png" oncommand="ec2ui_CloudformationTreeView.refresh()"
           tooltiptext="&ec2ui.refresh.tip;" />
+        <toolbarbutton image="images/alloc.png" oncommand="ec2ui_CloudformationTreeView.createstack()"
+          tooltiptext="&ec2ui.create.cloudformation.tip;" />
+        <toolbarbutton image="images/delete.png" oncommand="ec2ui_CloudformationTreeView.deletestack()"
+          tooltiptext="&ec2ui.delete.cloudformation.tip;" />
       </toolbar>
-      <tree enableColumnDrag="true" id="ec2ui.cloudformation.view" flex="1">
+      <tree enableColumnDrag="true" id="ec2ui.cloudformation.view" ondblclick="ec2ui_CloudformationTreeView.viewmore(event)" flex="1">
         <treecols>
           <treecol id="cloudformation.StackName" label="&ec2ui.cloudformation.StackName.label;" flex="1" sortDirection="ascending"
             persist="width ordinal hidden sortDirection" />

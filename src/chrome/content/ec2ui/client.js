@@ -873,5 +873,87 @@ var ec2_httpclient = {
         window.clearTimeout(timer);
         timer = null;
         return true;
+    },
+    
+    //GET JSON Object for Cloud Formation online Stack Template 
+    makeCFStackHTTPRequest : function(requestType, url, content, xmlhttp, copySource, isAsync, reqType, objActions, callback) {
+        var curTime = new Date().toUTCString();
+	
+        // isAsync might be undefined. This forces a true/false
+        // value to be associated with fAsync
+        var fAsync = (isAsync == true);
+
+        if (requestType != "GET" &&
+            requestType != "HEAD") {
+            return null;
+        }
+
+        if (!content) {
+            content = null;
+        }
+
+        // Generate String to Sign
+        //var strSig = this.generateS3StringToSign(requestType, content, copySource, curTime, fileName);
+
+        // Sign the string
+        //var sig = this.S3SignString(strSig);
+
+        if (!xmlhttp) {
+            xmlhttp = this.newInstance();
+        }
+
+        // Ensure that the URL is encoded correctly and that an attack isn't
+        // launched against S3 via the bucket name or key
+        // This breaks the XMLHTTPRequest.Open call.
+        // url = encodeURIComponent(url);
+
+        var me = this;
+        xmlhttp.open(requestType, url, fAsync);
+
+        // In the future, the onreadystatechange event will be
+        // triggered for synchronous requests in Firefox as well.
+        if (fAsync) {
+            xmlhttp.onreadystatechange = function () {
+                me.handleAsyncResponse(xmlhttp, callback, reqType, objActions);
+            }
+        } else {
+            xmlhttp.onreadystatechange = empty;
+        }
+
+        xmlhttp.setRequestHeader("Content-Type", "binary/octet-stream");
+        xmlhttp.setRequestHeader("Content-MD5", "");
+        xmlhttp.setRequestHeader("Date", curTime);
+        //xmlhttp.setRequestHeader("Authorization", sig);
+        if (content && content.length) {
+            xmlhttp.setRequestHeader("Content-Length", content.length);
+            log ("Content-Length: " + content.length);
+        } else {
+            xmlhttp.setRequestHeader("Content-Length", 0);
+        }
+
+        if (copySource) {
+            xmlhttp.setRequestHeader("x-amz-copy-source", encodeURIComponent(copySource));
+            xmlhttp.setRequestHeader("x-amz-metadata-directive", "COPY");
+        }
+        xmlhttp.setRequestHeader("User-Agent", this.USER_AGENT);
+
+        var timerKey = new Date().getTime();
+        this.startTimer(timerKey, 30 * 1000, xmlhttp.abort);
+        try {
+            log("Content: " + content);
+            xmlhttp.send(content);
+            this.stopTimer(timerKey);
+        } catch(e) {
+            if (!fAsync && !this.stopTimer(timerKey)) {
+                // A timer didn't exist, this is unexpected
+                throw e;
+            }
+
+            var faultStr = "Your request timed out. Please try again later.";
+            return this.newResponseObject(null, callback, reqType, true, "Timeout", faultStr, "");
+        }
+
+        // Process the response
+        return this.processXMLHTTPResponse(xmlhttp, reqType, !fAsync, timerKey, objActions, callback);
     }
 }

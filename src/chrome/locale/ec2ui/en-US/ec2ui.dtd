@@ -240,5 +240,8 @@
 <!ENTITY ec2ui.cloudformation.CreationTime.label "Creation Time">
 <!ENTITY ec2ui.cloudformation.Status.label "Status">
 
+<!ENTITY ec2ui.create.cloudformation.tip "Create Stack">
+<!ENTITY ec2ui.delete.cloudformation.tip "Delete Stack">
+
 
 

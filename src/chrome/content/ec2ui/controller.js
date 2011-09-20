@@ -2047,14 +2047,55 @@ var ec2ui_controller = {
             var CreationTime = getNodeValueByName(items[i], "CreationTime");
             var Status = getNodeValueByName(items[i], "StackStatusReason");
             if(StackName != '')
-            {
-            list.push(new CloudFormation(StackName, StackId, CreationTime, Status));
+	    {
+		list.push(new CloudFormation(StackName, StackId, CreationTime, Status));
             }
          
         }
 
         ec2ui_model.updateCloudformation(list);
+	if (objResponse.callback)
+	    objResponse.callback(list);
+    },
+    
+    CreateStack : function (jsonParams, callback) {
+	
+	var paramsJson = eval('('+jsonParams+')');
+        var params = []
+        
+        params.push(["StackName", paramsJson.StackName]);
+        params.push(["TemplateURL",paramsJson.StackUrl]);
+        
+        var i = 0;
+        for( var tmp in paramsJson)
+        {
+	    if(i < 2)
+	    {
+		i = i + 1;
+                continue;
+            }
+	    var para = i - 1;
+            params.push(["Parameters.member."+para+".ParameterKey", tmp.toString()]);
+            params.push(["Parameters.member."+para+".ParameterValue", paramsJson[tmp.toString()].toString()]);
+	    i = i + 1;
+	}
+	ec2_httpclient.queryCF("CreateStack",params, this, true, "onCompleteCreateStacks", callback);
+    },
+
+    onCompleteCreateStacks : function (objResponse) {
+        var xmlDoc = objResponse.xmlDoc;
+
+        var list = new Array();
+        var items = xmlDoc.getElementsByTagName("member");
+    },
+    
+    deletecloudformation : function (StackName, callback) {
+	
+     ec2_httpclient.queryCF("DeleteStack", [["StackName", StackName]], this, true, "onCompleteDeleteCloudFormation", callback);
+    },
+
+    onCompleteDeleteCloudFormation : function (objResponse) {
         if (objResponse.callback)
-            objResponse.callback(list);
+            objResponse.callback();
     }
 };
