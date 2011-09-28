@@ -233,7 +233,8 @@
 <!ENTITY ec2ui.monitoring.MeasureName.label "Measure Name">
 <!ENTITY ec2ui.monitoring.Namespace.label "Namespace">
 
-<!ENTITY ec2ui.captions.cloudformation.label "Cloudformation">
+<!ENTITY ec2ui.captions.cloudformation.stack.label "Cloudformation">
+<!ENTITY ec2ui.caption.cloudformation.resource.label "Stack Resources">
 
 <!ENTITY ec2ui.cloudformation.StackName.label "Stack Name">
 <!ENTITY ec2ui.cloudformation.StackId.label "Stack Id">
@@ -243,5 +244,9 @@
 <!ENTITY ec2ui.create.cloudformation.tip "Create Stack">
 <!ENTITY ec2ui.delete.cloudformation.tip "Delete Stack">
 
-
-
+<!ENTITY ec2ui.resource.ResourceType.label "ResourceType">
+<!ENTITY ec2ui.resource.PhysicalResourceId.label "PhysicalResourceId">
+<!ENTITY ec2ui.resource.LogicalResourceId.label "LogicalResourceId">
+<!ENTITY ec2ui.resource.StackId.label "StackId">
+<!ENTITY ec2ui.resource.ResourceStatus.label "ResourceStatus">
+<!ENTITY ec2ui.resource.TimeStamp.label "TimeStamp">

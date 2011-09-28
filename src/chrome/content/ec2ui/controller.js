@@ -2090,12 +2090,43 @@ var ec2ui_controller = {
     },
     
     deletecloudformation : function (StackName, callback) {
-	
-     ec2_httpclient.queryCF("DeleteStack", [["StackName", StackName]], this, true, "onCompleteDeleteCloudFormation", callback);
+        ec2_httpclient.queryCF("DeleteStack", [["StackName", StackName]], this, true, "onCompleteDeleteCloudFormation", callback);
     },
 
     onCompleteDeleteCloudFormation : function (objResponse) {
         if (objResponse.callback)
             objResponse.callback();
+    },
+    
+    describeStackResources  : function (StackName, callback) {
+        if(StackName)
+        ec2_httpclient.queryCF("DescribeStackResources", [["StackName", StackName]], this, true, "onCompleteDescribeStackResources", callback);
+    },
+
+    onCompleteDescribeStackResources : function (objResponse) {
+        var xmlDoc = objResponse.xmlDoc;
+
+        var list = new Array();
+        var items = xmlDoc.getElementsByTagName("member");
+        for (var i = 0; i < items.length; i++)
+        {
+            var Timestamp = getNodeValueByName(items[i], "Timestamp");
+            var ResourceStatus = getNodeValueByName(items[i], "ResourceStatus");
+            var StackId = getNodeValueByName(items[i], "StackId");
+            var LogicalResourceId = getNodeValueByName(items[i], "LogicalResourceId");
+            var StackName = getNodeValueByName(items[i], "StackName");
+            var PhysicalResourceId = getNodeValueByName(items[i], "PhysicalResourceId");
+            var ResourceType = getNodeValueByName(items[i], "ResourceType");
+             
+            if(StackName != '')
+            {
+		list.push(new Describeresource(Timestamp, ResourceStatus, StackId, LogicalResourceId,StackName,PhysicalResourceId,ResourceType ));
+            }
+         
+        }
+	
+	ec2ui_model.updateDescriberesource(list);
+        if (objResponse.callback)
+            objResponse.callback(list);
     }
 };

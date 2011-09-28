@@ -76,10 +76,19 @@ var ec2ui_CloudformationTreeView = {
         document,
         this.COLNAMES,
         this.cloudformationList);
+        this.treeBox.invalidate();
+        if (CloudFormation) {
+            log(CloudFormation.CreationTime + ": Select this Cloudformation post sort");
+            this.selectByName(CloudFormation.CreationTime);
+        } else {
+            log("The selected Cloudformation is null!");
+        }
     },
 
     sort : function() {
+        var CloudFormation = this.getSelectedcloudformation();
         sortView(document, this.COLNAMES, this.cloudformationList);
+        if (CloudFormation) this.selectByName(CloudFormation.CreationTime);
     },
 
     selectionChanged: function() {},
@@ -107,9 +116,34 @@ var ec2ui_CloudformationTreeView = {
     invalidate: function() {
         this.displayCloudformation(ec2ui_session.model.cloudformation);
     },
+    
+    selectByName : function(CreationTime) {
+        this.selection.clearSelection();
+        for(var i in this.cloudformationList) {
+            if (this.cloudformationList[i].CreationTime == CreationTime) {
+                this.selection.select(i);
+                this.treeBox.ensureRowIsVisible(i);
+                return;
+            }
+        }
+        // In case we don't find a match (which is probably a bug).
+        this.selection.select(0);
+    },
+    
+    selectionChanged : function() {
+        var index = this.selection.currentIndex;
+        if (index == -1) return;
+
+        var group = this.cloudformationList[index];
+        ec2ui_StackResourceTreeView.displayStackResource(group.Describeresource);
+    },
 
     refresh: function() {
         ec2ui_session.controller.describeStack();
+        
+        var CloudFormation = this.getSelectedcloudformation();
+        if (CloudFormation == null) return;
+        ec2ui_session.controller.describeStackResources(CloudFormation.StackName);
     },
 
     notifyModelChanged: function(interest) {
@@ -124,6 +158,17 @@ var ec2ui_CloudformationTreeView = {
                           "chrome,centerscreen,modal",
                           CloudFormation
                           );
+    },
+    
+    viewresources : function(event){
+      var CloudFormation = this.getSelectedcloudformation();
+      if (CloudFormation == null) return;
+       var me = this;
+        var wrap = function() {
+            if (ec2ui_prefs.isRefreshOnChangeEnabled()) {
+            }
+        }
+        ec2ui_session.controller.describeStackResources(CloudFormation.StackName, wrap);
     },
     
     createstack:function(){
@@ -187,6 +232,7 @@ var ec2ui_CloudformationTreeView = {
         this.treeBox.rowCountChanged(0, this.cloudformationList.length);
         this.sort();
         this.selection.clearSelection();
+        ec2ui_StackResourceTreeView.displayStackResource([]);
         if (cloudformationList.length > 0) {
             this.selection.select(0);
         }

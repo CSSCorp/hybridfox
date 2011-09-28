@@ -6,7 +6,7 @@
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <tabpanel id="cloudformation_tab" flex="1">
     <groupbox orient="vertical" flex="1" id="cloudformation.tree.holder">
-      <caption label="&ec2ui.captions.cloudformation.label;" />
+      <caption label="&ec2ui.captions.cloudformation.stack.label;" />
       <toolbar style="padding: 0px 3px; -moz-box-align: center">
         <toolbarbutton image="images/refresh.png" oncommand="ec2ui_CloudformationTreeView.refresh()"
           tooltiptext="&ec2ui.refresh.tip;" />
@@ -15,7 +15,9 @@
         <toolbarbutton image="images/delete.png" oncommand="ec2ui_CloudformationTreeView.deletestack()"
           tooltiptext="&ec2ui.delete.cloudformation.tip;" />
       </toolbar>
-      <tree enableColumnDrag="true" id="ec2ui.cloudformation.view" ondblclick="ec2ui_CloudformationTreeView.viewmore(event)" flex="1">
+      <tree enableColumnDrag="true" id="ec2ui.cloudformation.view"
+            ondblclick="ec2ui_CloudformationTreeView.viewmore(event)" 
+             onselect="ec2ui_CloudformationTreeView.viewresources(event)" flex="1">
         <treecols>
           <treecol id="cloudformation.StackName" label="&ec2ui.cloudformation.StackName.label;" flex="1" sortDirection="ascending"
             persist="width ordinal hidden sortDirection" />
@@ -31,6 +33,57 @@
           <splitter class="tree-splitter" />
         </treecols>
         <treechildren id="cloudformation.tree.children" context="cloudformation.tree.contextmenu" />
+      </tree>
+    </groupbox>
+    
+    <splitter style="max-width: 4px; height: 4px;"
+      persist="state" collapse="after" resizebefore="closest">
+      <grippy />
+    </splitter>
+
+    <groupbox orient="vertical" flex="1">
+      <caption label="&ec2ui.caption.cloudformation.resource.label;" />
+      <toolbar style="padding: 0px 3px; -moz-box-align: center">
+        <toolbarbutton image="images/refresh.png" oncommand="ec2ui_StackResourceTreeView.refresh()"
+          tooltiptext="&ec2ui.refresh.tip;" />
+      </toolbar>
+       
+      <tree id="ec2ui.cloudFormationResource.view"
+        ondblclick="ec2ui_StackResourceTreeView.viewmore(event);"
+        enableColumnDrag="true" flex="1">
+        <treecols>
+          <treecol id="Describeresource.ResourceType"
+            label="&ec2ui.resource.ResourceType.label;" flex="1"
+            persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter" />
+          
+          <treecol id="Describeresource.PhysicalResourceId"
+            label="&ec2ui.resource.PhysicalResourceId.label;" flex="1"
+            persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter" />
+          
+          <treecol id="Describeresource.LogicalResourceId"
+            label="&ec2ui.resource.LogicalResourceId.label;" flex="1"
+            persist="width ordinal hidden sortDirection" />        
+          <splitter class="tree-splitter" />
+          
+          <treecol id="Describeresource.StackId"
+            label="&ec2ui.resource.StackId.label;" flex="1"
+            persist="width ordinal hidden sortDirection" />          
+          <splitter class="tree-splitter" />
+          
+          <treecol id="Describeresource.ResourceStatus"
+            label="&ec2ui.resource.ResourceStatus.label;" flex="1"
+            persist="width ordinal hidden sortDirection" />          
+          <splitter class="tree-splitter" />
+          
+          <treecol id="Describeresource.Timestamp"
+            label="&ec2ui.resource.TimeStamp.label;" flex="1"
+            persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter" />
+          
+        </treecols>
+        <treechildren context="ec2ui.cloudFormationResource.contextmenu" />
       </tree>
     </groupbox>
   </tabpanel>

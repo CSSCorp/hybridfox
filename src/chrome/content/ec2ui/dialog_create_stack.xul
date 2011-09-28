@@ -12,298 +12,222 @@
   <script type="application/x-javascript" src="chrome://ec2ui/content/model.js" />
 
   <wizardpage onpageshow="checkStack(null);">
-       <label value="Enter the Stack Name:"/>
-       <textbox id="stackName" onkeyup="checkStack(this);"/>
-       <label value="Select the Template:"/>
-       <menulist id="cfTemplates" oncommand="loadParms('getResource');">
+     <label value="Enter the Stack Name:"/>
+     <textbox id="stackName" onkeyup="checkStack(this);"/>
+     <label value="Select the Template:"/>
+     <menulist id="cfTemplates" oncommand="loadParms('getResource');">
 	  <menupopup>
 	  </menupopup>
-       </menulist>
-       <vbox>
+     </menulist>
+     <vbox>
 	  <label value="Resource Information:"/>
 	  <listbox id="resInfo" rows="5">
 	       <listhead>
-	       <listheader label="Resource Name"/>
-	       <listheader label="Resource Type"/>
+		    <listheader label="Resource Name"/>
+		    <listheader label="Resource Type"/>
 	       </listhead>
-
 	       <listcols>
-	       <listcol/>
-	       <listcol flex="1"/>
+		    <listcol/>
+		    <listcol flex="1"/>
 	       </listcols>
 	  </listbox>
-       </vbox>
-       <!--<box>
-       	<checkbox label="Show Advanced Options" oncommand="setVisibility('show_options');"/>
-	<div id="show_options" style="visibility:hidden;display:none;">
-		<vbox>
-		<hbox>			
-			<label value="Notifications: (optional)"/>
-			
-		</hbox>		
-		<hbox>			
-			<label value="Amazon SNS Topic"/>
-			<menulist label="snstopic" oncommand="createTopic('sel')" id="sel">
-			  <menupopup>
-			    <menuitem label="(no notifications)" value="none"/>
-			    <menuitem label="Create a new SNS topic" value="createnewtopic" id="createnewtopic"/>
-			  </menupopup>
-			</menulist>			
-		</hbox>	
-		<hbox>
-		<div id="createnewsns" style="visibility:hidden;display:none;">
-		<textbox name="newtopicname" value="New topic name"/>
-		<textbox name="email" value="email"/>
-			
-		</div>
-		</hbox>
-		<hbox>			
-			<label value="Creation Timeout (minutes):"/>
-			<menulist label="timeout">
-			  <menupopup>
-				<menuitem label="none"/>
-				<menuitem label="05"/>
-				<menuitem label="10"/>
-				<menuitem label="15"/>
-				<menuitem label="20"/>
-				<menuitem label="30"/>
-				<menuitem label="60"/>
-				<menuitem label="90"/>
-			  </menupopup>
-			</menulist>
-			
-		</hbox>	
-		<hbox>			
-			<label value="Rollback on failure:"/>
-			<radiogroup><hbox>
-				<radio label="Yes" value="yes"/>
-				<radio label="No" value="no"/></hbox>
-			</radiogroup>
-	
-		</hbox>		
-		
-		</vbox>
-	</div>
-     </box>-->
+     </vbox>
   </wizardpage>
-<wizardpage onpageshow="loadParms('');">
-       	<vbox>   
-	    <groupbox align="start">
-	      <caption label="Your Template Information"/>
-		<vbox>
-	  	<grid flex="1">
-	         <columns>
-	           <column flex="1"/>
-	           <column flex="1"/>
-	         </columns>
-		 <rows>
-
-		  <row id="row0">
-	            <label id="lab0" control="tb0"/>
-		    <textbox id="tb0" />
-	          </row>
-		  <label id="des0" control="tb0" flex="1"/>
-
-		  <row id="row1">
-	            <label id="lab1" control="tb1"/>
-		    <textbox id="tb1" />
-                  </row>
-	          <label id="des1" control="tb1" flex="1"/>
-
-		  <row id="row2">
-		    <label id="lab2" control="tb2"/>
-		    <textbox id="tb2" />
-		  </row>
-		  <label id="des2" control="tb2" flex="1"/>
-	        
-		  <row id="row3">
-		    <label id="lab3" control="tb3"/>
-		    <textbox id="tb3" />
-		  </row>
-		  <label id="des3" control="tb3" flex="1"/>
-	        
-		  <row id="row4">
-		    <label id="lab4" control="tb4"/>
-		    <textbox id="tb4" />
-		  </row>
-		  <label id="des4" control="tb4" flex="1"/>
-	        
-		  <row id="row5">
-		    <label id="lab5" control="tb5"/>
-		    <textbox id="tb5" />
-		  </row>
-		  <label id="des5" control="tb5" flex="1"/>
-	        
-		  <row id="row6">
-		    <label id="lab6" control="tb6"/>
-		    <textbox id="tb6" />
-		  </row>
-		  <label id="des6" control="tb6" flex="1"/>
-
-		  <row id="row7">
-	            <label id="lab7" control="tb7"/>
-		    <textbox id="tb7" />
-	          </row>
-		     <label id="des7" control="tb7" flex="1"/>
-
-		  <row id="row8">
-	            <label id="lab8" control="tb8"/>
-		    <textbox id="tb8" />
-	          </row>
-		     <label id="des8" control="tb8" flex="1"/>
-
-		  <row id="row9">
-	            <label id="lab9" control="tb9"/>
-		    <textbox id="tb9" />
-	          </row>
-		     <label id="des9" control="tb9" flex="1"/>
-
-		  <row id="row10">
-	            <label id="lab10" control="tb10"/>
-		    <textbox id="tb10" />
-	          </row>
-		     <label id="des10" control="tb10" flex="1"/>
-
-		  <row id="row11">
-	            <label id="lab11" control="tb11"/>
-		    <textbox id="tb11" />
-	          </row>
-		     <label id="des11" control="tb11" flex="1"/>
-
-		  <row id="row12">
-	            <label id="lab12" control="tb12"/>
-		    <textbox id="tb12" />
-	          </row>
-		     <label id="des12" control="tb12" flex="1"/>
-
-		  <row id="row13">
-	            <label id="lab13" control="tb13"/>
-		    <textbox id="tb13" />
-	          </row>
-		     <label id="des13" control="tb13" flex="1"/>
-
-		  <row id="row14">
-	            <label id="lab14" control="tb14"/>
-		    <textbox id="tb14" />
-	          </row>
-		     <label id="des14" control="tb14" flex="1"/>
-
-		  <row id="row15">
-	            <label id="lab15" control="tb15"/>
-		    <textbox id="tb15" />
-	          </row>
-		     <label id="des15" control="tb15" flex="1"/>
-
-		  <row id="row16">
-	            <label id="lab16" control="tb16"/>
-		    <textbox id="tb16" />
-	          </row>
-		     <label id="des16" control="tb16" flex="1"/>
-
-		  <row id="row17">
-	            <label id="lab17" control="tb17"/>
-		    <textbox id="tb17" />
-	          </row>
-		     <label id="des17" control="tb17" flex="1"/>
-
-		  <row id="row18">
-	            <label id="lab18" control="tb18"/>
-		    <textbox id="tb18" />
-	          </row>
-		     <label id="des18" control="tb18" flex="1"/>
-
-		  <row id="row19">
-	            <label id="lab19" control="tb19"/>
-		    <textbox id="tb19" />
-	          </row>
-		     <label id="des19" control="tb19" flex="1"/>
-	  
-		 </rows>
-		</grid>
-		</vbox>	      
-	    </groupbox>
-	</vbox>
+  
+  <wizardpage onpageshow="loadParms('');">
+     <vbox>
+	  <groupbox align="start">
+	       <caption label="Your Template Information"/>
+	       <vbox>
+		    <grid flex="1">
+			 <columns>
+			      <column flex="1"/>
+			      <column flex="1"/>
+			 </columns>
+			 <rows>
+			      <row id="row0">
+				   <label id="lab0" control="tb0"/>
+				   <textbox id="tb0" />
+			      </row>
+			      <label id="des0" control="tb0" flex="1"/>
+			      <row id="row1">
+				   <label id="lab1" control="tb1"/>
+				   <textbox id="tb1" />
+			      </row>
+			      <label id="des1" control="tb1" flex="1"/>
+			      <row id="row2">
+				   <label id="lab2" control="tb2"/>
+				   <textbox id="tb2" />
+			      </row>
+			      <label id="des2" control="tb2" flex="1"/>
+			      <row id="row3">
+				   <label id="lab3" control="tb3"/>
+				   <textbox id="tb3" />
+			      </row>
+			      <label id="des3" control="tb3" flex="1"/>
+			      <row id="row4">
+				   <label id="lab4" control="tb4"/>
+				   <textbox id="tb4" />
+			      </row>
+			      <label id="des4" control="tb4" flex="1"/>
+			      <row id="row5">
+				   <label id="lab5" control="tb5"/>
+				   <textbox id="tb5" />
+			      </row>
+			      <label id="des5" control="tb5" flex="1"/>
+			      <row id="row6">
+				   <label id="lab6" control="tb6"/>
+				   <textbox id="tb6" />
+			      </row>
+			      <label id="des6" control="tb6" flex="1"/>
+			      <row id="row7">
+				   <label id="lab7" control="tb7"/>
+				   <textbox id="tb7" />
+			      </row>
+			      <label id="des7" control="tb7" flex="1"/>
+			      <row id="row8">
+				   <label id="lab8" control="tb8"/>
+				   <textbox id="tb8" />
+			      </row>
+			      <label id="des8" control="tb8" flex="1"/>
+			      <row id="row9">
+				   <label id="lab9" control="tb9"/>
+				   <textbox id="tb9" />
+			      </row>
+			      <label id="des9" control="tb9" flex="1"/>
+			      <row id="row10">
+				   <label id="lab10" control="tb10"/>
+				   <textbox id="tb10" />
+			      </row>
+			      <label id="des10" control="tb10" flex="1"/>
+			      <row id="row11">
+				   <label id="lab11" control="tb11"/>
+				   <textbox id="tb11" />
+			      </row>
+			      <label id="des11" control="tb11" flex="1"/>
+			      <row id="row12">
+				   <label id="lab12" control="tb12"/>
+				   <textbox id="tb12" />
+			      </row>
+			      <label id="des12" control="tb12" flex="1"/>
+			      <row id="row13">
+				   <label id="lab13" control="tb13"/>
+				   <textbox id="tb13" />
+			      </row>
+			      <label id="des13" control="tb13" flex="1"/>
+			      <row id="row14">
+				   <label id="lab14" control="tb14"/>
+				   <textbox id="tb14" />
+			      </row>
+			      <label id="des14" control="tb14" flex="1"/>
+			      <row id="row15">
+				   <label id="lab15" control="tb15"/>
+				   <textbox id="tb15" />
+			      </row>
+			      <label id="des15" control="tb15" flex="1"/>
+			      <row id="row16">
+				   <label id="lab16" control="tb16"/>
+				   <textbox id="tb16" />
+			      </row>
+			      <label id="des16" control="tb16" flex="1"/>
+			      <row id="row17">
+				   <label id="lab17" control="tb17"/>
+				   <textbox id="tb17" />
+			      </row>
+			      <label id="des17" control="tb17" flex="1"/>
+			      <row id="row18">
+				   <label id="lab18" control="tb18"/>
+				   <textbox id="tb18" />
+			      </row>
+			      <label id="des18" control="tb18" flex="1"/>
+			      <row id="row19">
+				   <label id="lab19" control="tb19"/>
+				   <textbox id="tb19" />
+			      </row>
+			      <label id="des19" control="tb19" flex="1"/>
+			 </rows>
+		    </grid>
+	       </vbox>
+	  </groupbox>
+     </vbox>
   </wizardpage>
 
   <wizardpage onpageshow="readParms();">
-    <label value="Please review the information below, then click Create Stack."/>
-    <separator/>
-    <label value="Stack Information:"/>
-    <listbox id="stackInfo" rows="5">
-    </listbox>
-    <separator/>
-    <label value="Parameters Information:"/>
-    <listbox id="paramsInfo" rows="10" flex="1">
-     <listhead flex="1">
-       <listheader label="Parameters" width="50%"/>
-       <listheader label="Value"/>
-     </listhead>
-    </listbox>
-    <separator/>
-    <label value="Notification Information:"/>
-    <listbox id="notiInfo" rows="5">
-    </listbox>
-    <separator/>
+     <label value="Please review the information below, then click Create Stack."/>
+     <separator/>
+     <label value="Stack Information:"/>
+     <listbox id="stackInfo" rows="5">
+     </listbox>
+     <separator/>
+     <label value="Parameters Information:"/>
+     <listbox id="paramsInfo" rows="10" flex="1">
+	  <listhead flex="1">
+	       <listheader label="Parameters" width="50%"/>
+	       <listheader label="Value"/>
+	  </listhead>
+     </listbox>
+     <separator/>
+     <label value="Notification Information:"/>
+     <listbox id="notiInfo" rows="5">
+     </listbox>
+     <separator/>
   </wizardpage>
 
 <script>
 var JSONObject;
 var jsonHttp;
 var noOFParams= 0;
-function readFinalParams(){
-  var parms = "{";
-  
-  var myList = document.getElementById('cfTemplates');
-  
-  
-  parms  = parms + "StackName:";
-  parms  = parms + "'"+document.getElementById("stackName").value+"',";
-   
-  parms  = parms + "StackUrl:";
-  parms  = parms + "'"+ec2_CloudFormation_Stack.urlList[myList.value]+"',";
+
+function readFinalParams() {
+     var parms = "{";
      
+     var myList = document.getElementById('cfTemplates');
+     parms  = parms + "StackName:";
+     parms  = parms + "'"+document.getElementById("stackName").value+"',";
+   
+     parms  = parms + "StackUrl:";
+     parms  = parms + "'"+ec2_CloudFormation_Stack.urlList[myList.value]+"',"; 
      var i = 0;
      
-   for(var fld in JSONObject.Parameters)
-   {
-     var txt="";
-     var tb = "tb"+i;
-     parms  = parms + fld.toString() +":";
-     if(i != noOFParams-1)
+     for(var fld in JSONObject.Parameters)
+     {
+	  var txt="";
+	  var tb = "tb"+i;
+	  parms  = parms + fld.toString() +":";
+	  if(i != noOFParams-1)
 	  parms  = parms + "'"+document.getElementById(tb.toString()).value+"',";
-     else
+	  else
 	  parms  = parms + "'"+document.getElementById(tb.toString()).value+"'";
-      
-      i = i + 1;
-   }
-   parms  = parms + "}";
-   
-   ec2_CloudFormation_Stack.retVal.arrayParams = parms;
-   ec2_CloudFormation_Stack.retVal.ok = true;
-   ec2_CloudFormation_Stack.createstack();
-   return true;
+	  
+	  i = i + 1;
+     }
+     parms  = parms + "}";
+     
+     ec2_CloudFormation_Stack.retVal.arrayParams = parms;
+     ec2_CloudFormation_Stack.retVal.ok = true;
+     ec2_CloudFormation_Stack.createstack();
+     return true;
 }
 
-function readParms()
-{
-  var myList = document.getElementById('paramsInfo');
-  while(myList.itemCount)
-  {     
-     myList.removeItemAt(0);
-  }
-   var i = 0;
-   noOFParams = 0;
-   for(var fld in JSONObject.Parameters)
-   {
-     noOFParams = noOFParams + 1;
-     if(JSONObject.Parameters[fld.toString()].NoEcho)
+function readParms() {
+     var myList = document.getElementById('paramsInfo');
+     while(myList.itemCount)
      {
-        i = i + 1;
-        continue;
+	  myList.removeItemAt(0);
      }
-     	  var txt="";
-          var tb = "tb"+i;
-  
+     var i = 0;
+     noOFParams = 0;
+     for(var fld in JSONObject.Parameters)
+     {
+	  noOFParams = noOFParams + 1;
+	  if(JSONObject.Parameters[fld.toString()].NoEcho)
+	  {
+	       i = i + 1;
+	       continue;
+	  }
+	  var txt="";
+	  var tb = "tb"+i;
+	  
 	  var row = document.createElement('listitem');
 	  // Create and attach 1st cell
 	  var cell = document.createElement('listcell');
@@ -315,91 +239,82 @@ function readParms()
 	  row.appendChild( cell );
 	  myList.appendChild( row );	
  	  i = i + 1;
-	  
-    }
-}
-function getResource()
-{
-//   var myJSONtext = xmlDoc.getElementsByTagName('TemplateBody')[0].textContent.toString();
-  
-   var myList = document.getElementById('cfTemplates');
-   var myJSONtext = ec2_CloudFormation_Stack.jsonList[myList.value];
-   JSONObject = eval('('+myJSONtext+')');
-   
-  var myList = document.getElementById('resInfo');
-  while(myList.itemCount)
-  {     
-     myList.removeItemAt(0);
-  }
-   var i = 0;
-   for(var fld in JSONObject.Resources)
-   {
-       var txt="";
-       txt += fld.toString()+" : ";
-       txt += JSONObject.Resources[fld.toString()].Type;
-       myList.insertItemAt(i, txt , txt );
-       i = i + 1;	  
-    }
-  
+     }
 }
 
-function loadParms(action){
- 
-  
-    if(action=='getResource')
-    {
-      getResource();
-    }
-    else
-    {
-      HideAllControll();
-      readXML();
-    }      
- 
- }
+function getResource() {
+     
+     var myList = document.getElementById('cfTemplates');
+     var myJSONtext = ec2_CloudFormation_Stack.jsonList[myList.value];
+     JSONObject = eval('('+myJSONtext+')');
+     
+     var myList = document.getElementById('resInfo');
+     while(myList.itemCount)
+     {
+	  myList.removeItemAt(0);
+     }
+     var i = 0;
+     for(var fld in JSONObject.Resources)
+     {
+	  var txt="";
+	  txt += fld.toString()+" : ";
+	  txt += JSONObject.Resources[fld.toString()].Type;
+	  myList.insertItemAt(i, txt , txt );
+	  i = i + 1;
+     }
+}
+
+function loadParms(action) {
+     
+     if(action=='getResource')
+     {
+	  getResource();
+     }
+     else
+     {
+	  HideAllControll();
+	  readXML();
+     }
+}
  
 function readXML() {
- 
-//   var myJSONtext = xmlDoc.getElementsByTagName('TemplateBody')[0].textContent.toString();
-//   this.ec2ui_session
-   var myList = document.getElementById('cfTemplates');
-   var myJSONtext = ec2_CloudFormation_Stack.jsonList[myList.value];
-   JSONObject = eval('('+myJSONtext+')');
-   var i=0;
-   var pj=1;
-   for(var fld in JSONObject.Parameters)
-   {
-  	var rTxt = "row"+i;
-	var rDes = "des"+i;
-        document.getElementById(rTxt.toString()).setAttribute("hidden", "false");
-	document.getElementById(rDes.toString()).setAttribute("hidden", "false");
-
-
-          var lab = "lab"+i;
-          var tb = "tb"+i;
+     
+     var myList = document.getElementById('cfTemplates');
+     var myJSONtext = ec2_CloudFormation_Stack.jsonList[myList.value];
+     JSONObject = eval('('+myJSONtext+')');
+     var i=0;
+     var pj=1;
+     for(var fld in JSONObject.Parameters)
+     {
+	  var rTxt = "row"+i;
+	  var rDes = "des"+i;
+	  document.getElementById(rTxt.toString()).setAttribute("hidden", "false");
+	  document.getElementById(rDes.toString()).setAttribute("hidden", "false");
+	  
+	  var lab = "lab"+i;
+	  var tb = "tb"+i;
           var des = "des"+i;
         
 	  document.getElementById(lab.toString()).setAttribute("style", "font-weight:bold");
 
           document.getElementById(lab.toString()).value = fld.toString();
           if(JSONObject.Parameters[fld.toString()].Default)
-            document.getElementById(tb.toString()).value = JSONObject.Parameters[fld.toString()].Default;
+             document.getElementById(tb.toString()).value = JSONObject.Parameters[fld.toString()].Default;
           if(JSONObject.Parameters[fld.toString()].Description)  
-            document.getElementById(des.toString()).value = JSONObject.Parameters[fld.toString()].Description;
+             document.getElementById(des.toString()).value = JSONObject.Parameters[fld.toString()].Description;
 	  if(JSONObject.Parameters[fld.toString()].NoEcho)
-	       document.getElementById(tb.toString()).setAttribute("type", "password");
-          i = i + 1;          
-	
-    }
- }
+	     document.getElementById(tb.toString()).setAttribute("type", "password");
+          i = i + 1;
+     }
+}
 
-
-function checkStack(t){
-    document.getElementById('theWizard').canAdvance = (document.getElementById('stackName').value != "");
-
+function checkStack(t) {
+     
+     document.getElementById('theWizard').canAdvance = (document.getElementById('stackName').value != "");
+     
      if(!t)
-       return;
-     if(t.value.match(/\s/g)){
+     return;
+     if(t.value.match(/\s/g)) {
 	  alert('Sorry, you are not allowed to enter any spaces');
 	  t.value=t.value.replace(/\s/g,'');
      }
@@ -408,7 +323,6 @@ function checkStack(t){
 var listTmplate;
 function loadList() {
      ec2_CloudFormation_Stack.init();
-    // alert(ec2_CloudFormation_Stack.stackList.length);
      var myList = document.getElementById('cfTemplates');
      var i = 0;
      for each(var tam in ec2_CloudFormation_Stack.stackList)
@@ -416,53 +330,43 @@ function loadList() {
 	  myList.insertItemAt(myList.count,tam.toString(), i);
 	  i = i + 1;
      }
-     
- //    listTmplate=document.implementation.createDocument("","",null);      
-//     listTmplate.load("TemplateList.xml");
-//     listTmplate.onload= readList;
-    }
-
-    
-    
+}
  
 function readList() {
-	   var count = listTmplate.documentElement.childNodes.length;
-           for (var i = 0; i != count; i=i+1) {
-		i=i+1;
-		var name = listTmplate.documentElement.childNodes[i].textContent;
-		var myList = document.getElementById('cfTemplates');
-		myList.insertItemAt(myList.count, name, name);
-	   }	   
-	}
-function HideAllControll()
-{
-    var i=0;
-    for(i; i != 20 ; i = i+1)
-    {
-	var rTxt = "row"+i;
-	var rDes = "des"+i;
-	var tb	 = "tb"+i;
-        document.getElementById(rTxt.toString()).setAttribute("hidden", "true");
-	document.getElementById(rDes.toString()).setAttribute("hidden", "true");
-	document.getElementById(tb.toString()).setAttribute("type", "text");
-    }  
-}       
- 
+     var count = listTmplate.documentElement.childNodes.length;
+     for (var i = 0; i != count; i=i+1) {
+	  i=i+1;
+	  var name = listTmplate.documentElement.childNodes[i].textContent;
+	  var myList = document.getElementById('cfTemplates');
+	  myList.insertItemAt(myList.count, name, name);
+     }
+}
 
+function HideAllControll() {
+     var i=0;
+     for(i; i != 20 ; i = i+1)
+     {
+	  var rTxt = "row"+i;
+	  var rDes = "des"+i;
+	  var tb	 = "tb"+i;
+	  document.getElementById(rTxt.toString()).setAttribute("hidden", "true");
+	  document.getElementById(rDes.toString()).setAttribute("hidden", "true");
+	  document.getElementById(tb.toString()).setAttribute("type", "text");
+     }
+}
 
 function setVisibility(id) {
      var temp = document.getElementById(id).style.visibility;
-
+     
      if (temp == 'hidden') {
 	  document.getElementById(id).style.visibility='visible';
 	  document.getElementById (id).style.display='inline';
      }
      else if (temp == "visible") {
-          document.getElementById(id).style.visibility='hidden';
+	  document.getElementById(id).style.visibility='hidden';
 	  document.getElementById (id).style.display='none';
      }
 }
-
 
 function createTopic(id) {
      var temp = document.getElementById(id).value;

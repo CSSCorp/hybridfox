@@ -40,7 +40,7 @@ var ec2ui_session =
 	    document.getElementById("ec2ui.loadbalancer.view").view = ec2ui_LoadbalancerTreeView;
 	    document.getElementById("ec2ui.instancehealth.view").view = ec2ui_InstanceHealthTreeView;
 	    document.getElementById("ec2ui.cloudformation.view").view = ec2ui_CloudformationTreeView;
-	    
+	    document.getElementById("ec2ui.cloudFormationResource.view").view = ec2ui_StackResourceTreeView;
 
             // Enable about:blank to work if noscript is installed
             if("@maone.net/noscript-service;1" in Components.classes) {
@@ -183,6 +183,7 @@ var ec2ui_session =
             break;
         case "Cloudformation":
             eval("ec2ui_CloudformationTreeView." + toCall);
+	    eval("ec2ui_StackResourceTreeView." + toCall);
             break;
         default:
             log ("This is an invalid tab: " + tabs.selectedItem.label);

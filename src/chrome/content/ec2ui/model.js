@@ -235,6 +235,16 @@ function CloudFormation(StackName, StackId, CreationTime, Status){
     this.Status = Status;
 }
 
+function Describeresource(Timestamp, ResourceStatus, StackId, LogicalResourceId,StackName,PhysicalResourceId,ResourceType ){
+    this.Timestamp =  Timestamp;
+    this.ResourceStatus = ResourceStatus;
+    this.StackId = StackId;
+    this.LogicalResourceId = LogicalResourceId;
+    this.StackName = StackName;
+    this.PhysicalResourceId = PhysicalResourceId;
+    this.ResourceType = ResourceType;
+}
+
 String.prototype.trim = function() {
     return this.replace(/^\s+|\s+$/g,"");
 }
@@ -286,6 +296,7 @@ var ec2ui_model = {
         this.updateInstanceHealth(null);
         this.updateMonitoring(null);
         this.updateCloudformation(null);
+        this.updateDescriberesource(null);
     },
 
     notifyComponents : function(interest) {
@@ -526,5 +537,17 @@ var ec2ui_model = {
             ec2ui_session.controller.describeStack();
         }
         return this.cloudformation;
+    },
+    
+    updateDescriberesource : function(list) {
+        this.Describeresource = list;
+        this.notifyComponents("Describeresource");
+    },
+
+    getDescriberesource : function() {
+        if (this.Describeresource == null) {
+            ec2ui_session.controller.Describeresource();
+        }
+        return this.Describeresource;
     }
 }

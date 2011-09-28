@@ -61,6 +61,8 @@
   <script type="application/x-javascript" src="chrome://ec2ui/content/instancehealthview.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/monitoringview.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/cloudformationview.js" />
+  <script type="application/x-javascript" src="chrome://ec2ui/content/sha256.js" />
+  <script type="application/x-javascript" src="chrome://ec2ui/content/stackresourceview.js" />
 
   <stringbundleset id="stringbundleset">
     <stringbundle id="ec2ui.properties.bundle" src="chrome://ec2ui/locale/ec2ui.properties" />
