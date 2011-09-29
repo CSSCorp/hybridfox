@@ -7,6 +7,13 @@
   <tabpanel id="cloudformation_tab" flex="1">
     <groupbox orient="vertical" flex="1" id="cloudformation.tree.holder">
       <caption label="&ec2ui.captions.cloudformation.stack.label;" />
+      <popupset>
+        <menupopup id="cloudformation.tree.contextmenu">
+          <menuitem oncommand="ec2ui_CloudformationTreeView.viewmore(event)" label="View Details"/>
+          <menuitem oncommand="ec2ui_CloudformationTreeView.createstack();" label="Create Stack" />
+          <menuitem oncommand="ec2ui_CloudformationTreeView.deletestack();" label="Delete Stack" />
+        </menupopup>
+      </popupset>
       <toolbar style="padding: 0px 3px; -moz-box-align: center">
         <toolbarbutton image="images/refresh.png" oncommand="ec2ui_CloudformationTreeView.refresh()"
           tooltiptext="&ec2ui.refresh.tip;" />
