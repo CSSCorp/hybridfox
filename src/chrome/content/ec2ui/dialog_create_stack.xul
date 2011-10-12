@@ -153,21 +153,17 @@
   </wizardpage>
 
   <wizardpage onpageshow="readParms();">
-     <label value="Please review the information below, then click Create Stack."/>
+     <label value="Please review the information below"/>
      <separator/>
-     <label value="Stack Information:"/>
+     <label value="Stack Information"/>
      <listbox id="stackInfo" rows="5">
      </listbox>
      <separator/>
-     <label value="Parameters Information:"/>
-     <listbox id="paramsInfo" rows="10" flex="1">
-	  <listhead flex="1">
-	       <listheader label="Parameters" width="50%"/>
-	       <listheader label="Value"/>
-	  </listhead>
+     <label value="Parameters"/>
+     <listbox id="paramsInfo" rows="5">
      </listbox>
      <separator/>
-     <label value="Notification Information:"/>
+     <label value="Notification Information"/>
      <listbox id="notiInfo" rows="5">
      </listbox>
      <separator/>
@@ -210,36 +206,29 @@ function readFinalParams() {
 }
 
 function readParms() {
-     var myList = document.getElementById('paramsInfo');
-     while(myList.itemCount)
-     {
-	  myList.removeItemAt(0);
-     }
-     var i = 0;
-     noOFParams = 0;
-     for(var fld in JSONObject.Parameters)
-     {
-	  noOFParams = noOFParams + 1;
-	  if(JSONObject.Parameters[fld.toString()].NoEcho)
-	  {
-	       i = i + 1;
-	       continue;
-	  }
-	  var txt="";
-	  var tb = "tb"+i;
-	  
-	  var row = document.createElement('listitem');
-	  // Create and attach 1st cell
-	  var cell = document.createElement('listcell');
-	  cell.setAttribute('label', fld.toString() );	
-	  row.appendChild( cell );
-	  // Create and attach 2nd cell
-	  cell = document.createElement('listcell');
-	  cell.setAttribute('label', document.getElementById(tb.toString()).value );	  
-	  row.appendChild( cell );
-	  myList.appendChild( row );	
- 	  i = i + 1;
-     }
+   var myList = document.getElementById('paramsInfo');
+   while(myList.itemCount)
+   {
+      myList.removeItemAt(0);
+   }
+   var i=0;
+   
+   for(var fld in JSONObject.Parameters)
+   {
+      if(JSONObject.Parameters[fld.toString()].NoEcho)
+      {
+	 i = i + 1;
+	 continue;
+      }
+      
+      var txt="";
+      var tb = "tb"+i;
+      txt += fld.toString()+" : ";
+      txt += document.getElementById(tb.toString()).value;
+      
+      myList.insertItemAt(i, txt);
+      i = i + 1;
+   }
 }
 
 function getResource() {
