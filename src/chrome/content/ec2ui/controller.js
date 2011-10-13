@@ -493,10 +493,12 @@ var ec2ui_controller = {
                 var kernelId = getNodeValueByName(instanceItems[j], "kernelId");
                 var ramdiskId = getNodeValueByName(instanceItems[j], "ramdiskId");
             }
-
+			var publictag = getNodeValueByName(instanceItems[j], "value");
+			
             list.push(new Instance(resId,
                                    ownerId,
                                    groups,
+								   publictag,
                                    instanceId,
                                    imageId,
                                    kernelId || "",
@@ -1931,5 +1933,32 @@ var ec2ui_controller = {
         var items = getNodeValueByName(xmlDoc, "ServerCertificateMetadata");
         if (objResponse.callback)
             objResponse.callback(items);
+    },
+    
+    CreateTag : function(ResourceId,Tag,callback){
+       params = []
+       params.push(["ResourceId.1", ResourceId]);
+       params.push(["Tag.1.Key", Tag]);
+       params.push(["Tag.1.Value", Tag]);
+       ec2_httpclient.queryEC2("CreateTags", params, this, true, "oncompleteCreateTag", callback);  
+    },
+    
+    oncompleteCreateTag : function (objResponse) {
+        if (objResponse.callback) {
+            objResponse.callback();
+        }
+    },
+    
+    DeleteTag : function(ResourceId,publictag,callback){
+       params = []
+       params.push(["ResourceId.1", ResourceId]);
+       params.push(["Tag.1.Key", publictag]);
+       ec2_httpclient.queryEC2("DeleteTags", params, this, true, "oncompleteDeleteTag", callback);  
+    },
+    
+    oncompleteDeleteTag : function (objResponse) {
+        if (objResponse.callback) {
+            objResponse.callback();
+        }
     }
 };

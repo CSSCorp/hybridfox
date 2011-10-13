@@ -78,12 +78,13 @@ function Volume(id, size, snapshotId, zone, status, createTime, instanceId, devi
     if (tag) this.tag = tag;
 }
 
-function Instance(resId, ownerId, groupList, instanceId, imageId, kernelId,
+function Instance(resId, ownerId, groupList,publictag, instanceId, imageId, kernelId,
         ramdiskId, state, publicDnsName, privateDnsName, keyName, reason,
         amiLaunchIdx, instanceType,rootDeviceType, launchTime, placement, platform, monitoringState, tag) {
     this.resId = resId;
     this.ownerId = ownerId;
     this.groupList = groupList;
+    this.publictag = publictag;
     this.id = instanceId;
     this.imageId = imageId;
     this.kernelId = kernelId;

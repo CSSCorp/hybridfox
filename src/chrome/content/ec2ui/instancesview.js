@@ -2,6 +2,7 @@ var ec2ui_InstancesTreeView = {
     COLNAMES : [
        'instance.resId',
        'instance.ownerId',
+       'instance.publictag',
        'instance.id',
        'instance.imageId',
        'instance.kernelId',
@@ -97,6 +98,49 @@ var ec2ui_InstancesTreeView = {
 
         return instanceIds;
     },
+    
+    getSelectedTag : function() {
+        var publictag = new Array();
+        for(var i in this.instanceList) {
+            if (this.selection.isSelected(i)) {
+                publictag.push(this.instanceList[i].publictag);
+            }
+        }
+        return publictag;
+    },
+    
+    createtag : function(event){
+        var ResourceId = this.getSelectedInstanceIds();
+        var Tag = prompt(ec2ui_utils.getMessageProperty("ec2ui.msg.InstancesTreeView.confirm.Tag" ,[ResourceId]));
+        if (Tag == null)
+            return;
+        Tag = Tag.trim();
+        var me = this;
+        var wrap = function() {
+            if (ec2ui_prefs.isRefreshOnChangeEnabled()) {
+                me.refresh();
+            }
+        }
+        ec2ui_session.controller.CreateTag(ResourceId,Tag,wrap); 
+    },
+    
+    deletetag : function(event){
+        var ResourceId = this.getSelectedInstanceIds();
+        var publictag = this.getSelectedTag();
+        
+        var confirmed = confirm(ec2ui_utils.getMessageProperty("ec2ui.msg.instancesview.confirm.deletetag", [publictag]));
+        if (!confirmed)
+            return;
+
+        var me = this;
+        var wrap = function() {
+            if (ec2ui_prefs.isRefreshOnChangeEnabled()) {
+                me.refresh();
+                me.selectByInstanceIds();
+            }
+        }
+        ec2ui_session.controller.DeleteTag(ResourceId,publictag, wrap);
+    }, 
 
     tag : function(event) {
         var instances = this.getSelectedInstances();
@@ -761,6 +805,7 @@ var ec2ui_InstancesTreeView = {
 
         var instance = this.instanceList[index];
         var monitoring = instance.monitoringState;
+        var publictag = instance.publictag;
         var disableMonitor = monitoring.toLowerCase().match(/^enabled/);
         var disableUnmonitor = monitoring.toLowerCase().match(/^disabled/);
         var startstop = instance.state;
@@ -785,12 +830,21 @@ var ec2ui_InstancesTreeView = {
                 document.getElementById("instances.context.stop").disabled = true;
                 document.getElementById("instances.context.forceStop").disabled = true;
             }
+            if(!publictag){
+                document.getElementById("instances.context.createtag").disabled = false;
+                document.getElementById("instances.context.deletetag").disabled = true;
+            }else{
+                document.getElementById("instances.context.createtag").disabled = true;
+                document.getElementById("instances.context.deletetag").disabled = false;
+            }
         } else {
             document.getElementById("instances.context.monitor").disabled = true;
             document.getElementById("instances.context.unmonitor").disabled = true;
             document.getElementById("instances.context.start").disabled = true;
             document.getElementById("instances.context.stop").disabled = true;
             document.getElementById("instances.context.forceStop").disabled = true;
+            document.getElementById("instances.context.createtag").disabled = true;
+            document.getElementById("instances.context.deletetag").disabled = true;
         }
        
 
