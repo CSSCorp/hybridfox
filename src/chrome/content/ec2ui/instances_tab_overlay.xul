@@ -109,7 +109,7 @@
           <treecol id="instance.ownerId" label="&ec2ui.instances.owner.label;"
             flex="2" sortDirection="ascending" persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
-          <treecol id="instance.publictag" label="&ec2ui.instances.publictag.label;"
+          <treecol id="instance.publictag" label="&ec2ui.publictag.label;"
             flex="2" persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
           <treecol id="instance.id" label="&ec2ui.instances.id.label;"

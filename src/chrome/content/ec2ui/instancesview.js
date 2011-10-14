@@ -111,7 +111,7 @@ var ec2ui_InstancesTreeView = {
     
     createtag : function(event){
         var ResourceId = this.getSelectedInstanceIds();
-        var Tag = prompt(ec2ui_utils.getMessageProperty("ec2ui.msg.InstancesTreeView.confirm.Tag" ,[ResourceId]));
+        var Tag = prompt(ec2ui_utils.getMessageProperty("ec2ui.msg.util.prompt.createtag" ,[ResourceId]));
         if (Tag == null)
             return;
         Tag = Tag.trim();
@@ -128,7 +128,7 @@ var ec2ui_InstancesTreeView = {
         var ResourceId = this.getSelectedInstanceIds();
         var publictag = this.getSelectedTag();
         
-        var confirmed = confirm(ec2ui_utils.getMessageProperty("ec2ui.msg.instancesview.confirm.deletetag", [publictag]));
+        var confirmed = confirm(ec2ui_utils.getMessageProperty("ec2ui.msg.util.prompt.deletetag", [publictag]));
         if (!confirmed)
             return;
 

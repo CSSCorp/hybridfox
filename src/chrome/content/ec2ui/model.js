@@ -58,10 +58,11 @@ function Snapshot(id, volumeId, volumeSize, status, startTime, progress, tag) {
     if (tag) this.tag = tag;
 }
 
-function Volume(id, size, snapshotId, zone, status, createTime, instanceId, device, attachStatus, attachTime, tag) {
+function Volume(id, size, snapshotId, publictag, zone, status, createTime, instanceId, device, attachStatus, attachTime, tag) {
     this.id = id;
     this.size = size;
     this.snapshotId = snapshotId;
+    this.publictag = publictag;
     this.availabilityZone = zone;
     this.status = status;
     this.createTime = createTime.strftime('%Y-%m-%d %H:%M:%S');

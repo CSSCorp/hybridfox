@@ -136,7 +136,7 @@ var ec2ui_controller = {
             var id = getNodeValueByName(items.snapshotItem(i), "volumeId");
             var size = getNodeValueByName(items.snapshotItem(i), "size");
             var snapshotId = getNodeValueByName(items.snapshotItem(i), "snapshotId");
-
+			var publictag = getNodeValueByName(items.snapshotItem(i), "value");
             var zone = getNodeValueByName(items.snapshotItem(i), "availabilityZone");
             var status = getNodeValueByName(items.snapshotItem(i), "status");
             var createTime = new Date();
@@ -166,7 +166,7 @@ var ec2ui_controller = {
             // Make sure there is an attachment
 
 	   
-            list.push(new Volume(id, size, snapshotId, zone, status, createTime, instanceId, device, attachStatus, attachTime || ""));
+            list.push(new Volume(id, size, snapshotId, publictag, zone, status, createTime, instanceId, device, attachStatus, attachTime || ""));
         }
 
         this.addResourceTags(list, ec2ui_session.model.resourceMap.volumes, "id");

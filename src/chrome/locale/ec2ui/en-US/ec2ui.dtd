@@ -5,6 +5,7 @@
 <!ENTITY ec2ui.about.label "About">
 <!ENTITY ec2ui.createTag.label "Create Public Tag">
 <!ENTITY ec2ui.deleteTag.label "Delete Public Tag">
+<!ENTITY ec2ui.publictag.label "Public Tag">
 
 <!ENTITY ec2ui.tabs.instances.label "Instances">
 <!ENTITY ec2ui.tabs.images.label "Images">
@@ -49,7 +50,7 @@
 <!ENTITY ec2ui.instances.instanceType.label "Type">
 <!ENTITY ec2ui.instances.rootDeviceType.label "Root Device">
 <!ENTITY ec2ui.instances.launchTime.label "Local Launch Time">
-<!ENTITY ec2ui.instances.publictag.label "Public Tag">
+
 
 <!ENTITY ec2ui.captions.kernels.akis.label "Kernel Images (AKIs)">
 <!ENTITY ec2ui.captions.kernels.aris.label "Ramdisk Images (ARIs)">
