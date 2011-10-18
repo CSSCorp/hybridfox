@@ -906,7 +906,10 @@ var ec2ui_controller = {
             var amiLaunchIdx = getNodeValueByName(instanceItems[j], "amiLaunchIndex");
             var instanceType = getNodeValueByName(instanceItems[j], "instanceType");
             var monitoring = instanceItems[j].getElementsByTagName("monitoring")[0];
-            var monitoringState = getNodeValueByName(monitoring, "state");
+			
+			if(monitoring){
+				var monitoringState = getNodeValueByName(monitoring, "state");
+			}
             
             var launchTime = new Date();
             launchTime.setISO8601(getNodeValueByName(instanceItems[j], "launchTime"));
