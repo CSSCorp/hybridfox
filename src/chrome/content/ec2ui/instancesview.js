@@ -979,33 +979,6 @@ var ec2ui_InstancesTreeView = {
         ec2ui_session.controller.stopInstances(instanceIds, force, wrap);
     },
     
-    
-    showUserData : function() {
-        var instances = this.getSelectedInstanceNamedIds();
-        var instanceIds = instances[0];
-        var instanceLabels = instances[1];
-
-        var statusList = new Array();
-
-        function pushStatusToArray(instanceLabel, status) {
-            statusList.push(status + " | " + instanceLabel);
-
-            if (statusList.length == instanceIds.length) {
-                alert(statusList.join("\n"));
-            }
-        }
-
-        function describeInstanceAttribute(instanceId, instanceLabel) {
-            ec2ui_session.controller.describeInstanceAttribute(instanceId, "userData", function(value) {
-                pushStatusToArray(instanceLabel, (value ? Base64.decode(value) : "(empty)"));
-            });
-        }
-
-        for (var i = 0; i < instanceIds.length; i++) {
-            describeInstanceAttribute(instanceIds[i], instanceLabels[i]);
-        }
-    },
-
     changeInstanceType: function() {
         var instances = this.getSelectedInstanceNamedIds();
         var instanceIds = instances[0];

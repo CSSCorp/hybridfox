@@ -217,6 +217,7 @@ var ec2ui_prefs = {
             this.setAutoFetchLaunchPermissionsEnabled(this.isAutoFetchLaunchPermissionsEnabled());
             this.setAccountIdMap(this.getAccountIdMap());
             this.setLastEC2PKeyFile(this.getLastEC2PKeyFile());
+            this.setTemplateMap(this.getTemplateMap());
 
             this.setInstanceTags(this.getInstanceTags());
             this.setVolumeTags(this.getVolumeTags());
@@ -236,7 +237,6 @@ var ec2ui_prefs = {
     setRequestTimeout : function(value) { this.setIntPreference(this.REQUEST_TIMEOUT, value); },
     setServiceType : function(value) { this.setStringPreference(this.EC2_TYPE, value); },
     setServiceURL : function(value) { this.setStringPreference(this.EC2_URL, value); },
-    setTemplateURL : function(value) { this.setStringPreference(this.TEMPLATE_URL, value); },
     setCurrentTab : function(value) { this.setIntPreference(this.CURRENT_TAB, value); },
     setDebugEnabled : function(enabled) { this.setBoolPreference(this.DEBUG_ENABLED, enabled); },
     setOfflineEnabled : function(enabled) { this.setBoolPreference(this.OFFLINE, enabled); },
