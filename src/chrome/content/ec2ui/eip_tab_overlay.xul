@@ -20,7 +20,7 @@
             label="Release this address" />
           <menuseparator />
           <menuitem oncommand="ec2ui_ElasticIPTreeView.tag();"
-            label="Add Tag" />
+            label="Edit Tag" />
           <menuitem oncommand="ec2ui_ElasticIPTreeView.copyToClipBoard('address');"
             label="Copy Elastic IP to Clipboard" />
         </menupopup>
@@ -38,7 +38,7 @@
           oncommand="ec2ui_ElasticIPTreeView.disassociateAddress();" />
         <toolbarbutton image="images/info.png" style="-moz-box-pack:center;"
           oncommand="ec2ui_ElasticIPTreeView.tag();"
-          tooltiptext="Add Tag" />
+          tooltiptext="Edit Tag" />
       </toolbar>
       <tree enableColumnDrag="true" seltype="single" id="ec2ui.eip.view"
         flex="1" ondblclick="ec2ui_ElasticIPTreeView.viewDetails(event)">

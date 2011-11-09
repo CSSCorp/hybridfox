@@ -23,19 +23,23 @@
           tooltiptext="&ec2ui.delete.cloudformation.tip;" />
       </toolbar>
       <tree enableColumnDrag="true" id="ec2ui.cloudformation.view"
-            ondblclick="ec2ui_CloudformationTreeView.viewmore(event)" 
-             onselect="ec2ui_CloudformationTreeView.viewresources(event)" flex="1">
+            ondblclick="ec2ui_CloudformationTreeView.viewmore(event)"
+            onselect="ec2ui_CloudformationTreeView.viewresources(event)" flex="1">
         <treecols>
-          <treecol id="cloudformation.StackName" label="&ec2ui.cloudformation.StackName.label;" flex="1" sortDirection="ascending"
+          <treecol id="cloudformation.StackName"
+            label="&ec2ui.cloudformation.StackName.label;" flex="1" sortDirection="ascending"
             persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
-          <treecol id="cloudformation.StackId" label="&ec2ui.cloudformation.StackId.label;" flex="5"
+          <treecol id="cloudformation.StackId"
+            label="&ec2ui.cloudformation.StackId.label;" flex="5"
             persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
-          <treecol id="cloudformation.CreationTime" label="&ec2ui.cloudformation.CreationTime.label;" flex="5"
+          <treecol id="cloudformation.CreationTime"
+            label="&ec2ui.cloudformation.CreationTime.label;" flex="5"
             persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
-          <treecol id="cloudformation.Status" label="&ec2ui.cloudformation.Status.label;" flex="5"
+          <treecol id="cloudformation.Status"
+            label="&ec2ui.cloudformation.Status.label;" flex="5"
             persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
         </treecols>

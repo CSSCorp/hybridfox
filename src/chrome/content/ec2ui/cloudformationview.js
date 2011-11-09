@@ -160,7 +160,7 @@ var ec2ui_CloudformationTreeView = {
                           );
     },
     
-    viewresources : function(event){
+    viewresources : function(event) {
       var CloudFormation = this.getSelectedcloudformation();
       if (CloudFormation == null) return;
        var me = this;
@@ -171,8 +171,8 @@ var ec2ui_CloudformationTreeView = {
         ec2ui_session.controller.describeStackResources(CloudFormation.StackName, wrap);
     },
     
-    createstack:function(){
-        var arrayParams ;
+    createstack:function() {
+        var arrayParamss;
         
         var retVal = {ok:null,arrayParams:null};
         var sampleList = new Array(listOfTemp.length);
@@ -207,9 +207,9 @@ var ec2ui_CloudformationTreeView = {
         ec2ui_session.controller.CreateStack(retVal.arrayParams, wrap);
     },
     
-    deletestack : function(event){
-      var CloudFormation = this.getSelectedcloudformation();
-      if (CloudFormation == null) return;
+    deletestack : function(event) {
+        var CloudFormation = this.getSelectedcloudformation();
+        if (CloudFormation == null) return;
         var confirmed = confirm("Delete Cloudformation "+CloudFormation.StackName+"?");
         if (!confirmed)
             return;

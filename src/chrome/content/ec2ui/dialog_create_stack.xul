@@ -2,8 +2,8 @@
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 
 <wizard id="theWizard" title="Cloud Formation Wizard"
-  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onwizardfinish="return readFinalParams();"
-  onload="loadList();" >
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onwizardfinish="ec2_CloudFormation_Stack.readFinalParams();"
+  onload="ec2_CloudFormation_Stack.loadList();" >
 
   <script type="application/x-javascript" src="chrome://ec2ui/content/client.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/session.js" />
@@ -11,20 +11,19 @@
   <script type="application/x-javascript" src="chrome://ec2ui/content/newstack.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/model.js" />
 
-  <wizardpage onpageshow="checkStack(null);">
+  <wizardpage onpageshow="ec2_CloudFormation_Stack.checkStack(null);">
      <label value="Enter the Stack Name:"/>
-     <textbox id="stackName" onkeyup="checkStack(this);"/>
-     <label value="Select the Template:"/>
-     <menulist id="cfTemplates" oncommand="loadParms('getResource');">
+     <textbox id="stackName" onkeyup="ec2_CloudFormation_Stack.checkStack(this);"/>
+     <label value="Select the Template"/>
+     <menulist id="cfTemplates" label= "Select template" oncommand="ec2_CloudFormation_Stack.loadParms('getResource');">
 	  <menupopup>
 	  </menupopup>
      </menulist>
      <vbox>
-	  <label value="Resource Information:"/>
+	  <label value="Resource Information"/>
 	  <listbox id="resInfo" rows="5">
 	       <listhead>
-		    <listheader label="Resource Name"/>
-		    <listheader label="Resource Type"/>
+		    <listheader label="Resource Name : Resource Type" align="center" />
 	       </listhead>
 	       <listcols>
 		    <listcol/>
@@ -34,7 +33,7 @@
      </vbox>
   </wizardpage>
   
-  <wizardpage onpageshow="loadParms('');">
+  <wizardpage onpageshow="ec2_CloudFormation_Stack.loadParms('');">
      <vbox>
 	  <groupbox align="start">
 	       <caption label="Your Template Information"/>
@@ -152,7 +151,7 @@
      </vbox>
   </wizardpage>
 
-  <wizardpage onpageshow="readParms();">
+  <wizardpage onpageshow="ec2_CloudFormation_Stack.readParms();">
      <label value="Please review the information below"/>
      <separator/>
      <label value="Stack Information"/>
@@ -163,211 +162,5 @@
      <listbox id="paramsInfo" rows="5">
      </listbox>
      <separator/>
-     <label value="Notification Information"/>
-     <listbox id="notiInfo" rows="5">
-     </listbox>
-     <separator/>
   </wizardpage>
-
-<script>
-var JSONObject;
-var jsonHttp;
-var noOFParams= 0;
-
-function readFinalParams() {
-     var parms = "{";
-     
-     var myList = document.getElementById('cfTemplates');
-     parms  = parms + "StackName:";
-     parms  = parms + "'"+document.getElementById("stackName").value+"',";
-   
-     parms  = parms + "StackUrl:";
-     parms  = parms + "'"+ec2_CloudFormation_Stack.urlList[myList.value]+"',"; 
-     var i = 0;
-     
-     for(var fld in JSONObject.Parameters)
-     {
-	  var txt="";
-	  var tb = "tb"+i;
-	  parms  = parms + fld.toString() +":";
-	  if(i != noOFParams-1)
-	  parms  = parms + "'"+document.getElementById(tb.toString()).value+"',";
-	  else
-	  parms  = parms + "'"+document.getElementById(tb.toString()).value+"'";
-	  
-	  i = i + 1;
-     }
-     parms  = parms + "}";
-     
-     ec2_CloudFormation_Stack.retVal.arrayParams = parms;
-     ec2_CloudFormation_Stack.retVal.ok = true;
-     ec2_CloudFormation_Stack.createstack();
-     return true;
-}
-
-function readParms() {
-   var myList = document.getElementById('paramsInfo');
-   while(myList.itemCount)
-   {
-      myList.removeItemAt(0);
-   }
-   var i=0;
-   
-   for(var fld in JSONObject.Parameters)
-   {
-      if(JSONObject.Parameters[fld.toString()].NoEcho)
-      {
-	 i = i + 1;
-	 continue;
-      }
-      
-      var txt="";
-      var tb = "tb"+i;
-      txt += fld.toString()+" : ";
-      txt += document.getElementById(tb.toString()).value;
-      
-      myList.insertItemAt(i, txt);
-      i = i + 1;
-   }
-}
-
-function getResource() {
-     
-     var myList = document.getElementById('cfTemplates');
-     var myJSONtext = ec2_CloudFormation_Stack.jsonList[myList.value];
-     JSONObject = eval('('+myJSONtext+')');
-     
-     var myList = document.getElementById('resInfo');
-     while(myList.itemCount)
-     {
-	  myList.removeItemAt(0);
-     }
-     var i = 0;
-     for(var fld in JSONObject.Resources)
-     {
-	  var txt="";
-	  txt += fld.toString()+" : ";
-	  txt += JSONObject.Resources[fld.toString()].Type;
-	  myList.insertItemAt(i, txt , txt );
-	  i = i + 1;
-     }
-}
-
-function loadParms(action) {
-     
-     if(action=='getResource')
-     {
-	  getResource();
-     }
-     else
-     {
-	  HideAllControll();
-	  readXML();
-     }
-}
- 
-function readXML() {
-     
-     var myList = document.getElementById('cfTemplates');
-     var myJSONtext = ec2_CloudFormation_Stack.jsonList[myList.value];
-     JSONObject = eval('('+myJSONtext+')');
-     var i=0;
-     var pj=1;
-     for(var fld in JSONObject.Parameters)
-     {
-	  var rTxt = "row"+i;
-	  var rDes = "des"+i;
-	  document.getElementById(rTxt.toString()).setAttribute("hidden", "false");
-	  document.getElementById(rDes.toString()).setAttribute("hidden", "false");
-	  
-	  var lab = "lab"+i;
-	  var tb = "tb"+i;
-          var des = "des"+i;
-        
-	  document.getElementById(lab.toString()).setAttribute("style", "font-weight:bold");
-
-          document.getElementById(lab.toString()).value = fld.toString();
-          if(JSONObject.Parameters[fld.toString()].Default)
-             document.getElementById(tb.toString()).value = JSONObject.Parameters[fld.toString()].Default;
-          if(JSONObject.Parameters[fld.toString()].Description)  
-             document.getElementById(des.toString()).value = JSONObject.Parameters[fld.toString()].Description;
-	  if(JSONObject.Parameters[fld.toString()].NoEcho)
-	     document.getElementById(tb.toString()).setAttribute("type", "password");
-          i = i + 1;
-     }
-}
-
-function checkStack(t) {
-     
-     document.getElementById('theWizard').canAdvance = (document.getElementById('stackName').value != "");
-     
-     if(!t)
-     return;
-     if(t.value.match(/\s/g)) {
-	  alert('Sorry, you are not allowed to enter any spaces');
-	  t.value=t.value.replace(/\s/g,'');
-     }
-}
-
-var listTmplate;
-function loadList() {
-     ec2_CloudFormation_Stack.init();
-     var myList = document.getElementById('cfTemplates');
-     var i = 0;
-     for each(var tam in ec2_CloudFormation_Stack.stackList)
-     {
-	  myList.insertItemAt(myList.count,tam.toString(), i);
-	  i = i + 1;
-     }
-}
- 
-function readList() {
-     var count = listTmplate.documentElement.childNodes.length;
-     for (var i = 0; i != count; i=i+1) {
-	  i=i+1;
-	  var name = listTmplate.documentElement.childNodes[i].textContent;
-	  var myList = document.getElementById('cfTemplates');
-	  myList.insertItemAt(myList.count, name, name);
-     }
-}
-
-function HideAllControll() {
-     var i=0;
-     for(i; i != 20 ; i = i+1)
-     {
-	  var rTxt = "row"+i;
-	  var rDes = "des"+i;
-	  var tb	 = "tb"+i;
-	  document.getElementById(rTxt.toString()).setAttribute("hidden", "true");
-	  document.getElementById(rDes.toString()).setAttribute("hidden", "true");
-	  document.getElementById(tb.toString()).setAttribute("type", "text");
-     }
-}
-
-function setVisibility(id) {
-     var temp = document.getElementById(id).style.visibility;
-     
-     if (temp == 'hidden') {
-	  document.getElementById(id).style.visibility='visible';
-	  document.getElementById (id).style.display='inline';
-     }
-     else if (temp == "visible") {
-	  document.getElementById(id).style.visibility='hidden';
-	  document.getElementById (id).style.display='none';
-     }
-}
-
-function createTopic(id) {
-     var temp = document.getElementById(id).value;
-     if (temp == 'createnewtopic') {
-	document.getElementById('createnewsns').style.visibility='visible';
-	document.getElementById ('createnewsns').style.display='inline';
-     }else{
-	document.getElementById('createnewsns').style.visibility='hidden';
-	document.getElementById ('createnewsns').style.display='none';
-     }
-}
-
-</script>
-
 </wizard>

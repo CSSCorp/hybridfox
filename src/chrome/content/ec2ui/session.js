@@ -9,6 +9,7 @@ var ec2ui_session =
     credentials     : null,
     accountidmap    : null,
     endpointmap     : null,
+    templatemap     : null,
     instanceTags    : null,
     volumeTags      : null,
     snapshotTags    : null,
@@ -56,6 +57,7 @@ var ec2ui_session =
         }
 
         this.loadEndpointMap();
+	//this.loadTemplateMap();
         this.switchEndpoints();
         this.args = this.parseURL();
         this.processURLArguments();
@@ -328,6 +330,22 @@ var ec2ui_session =
             }
         }
     },
+
+    //loadTemplateMap : function() {
+    //    this.templatemap = ec2ui_prefs.getTemplateMap();
+    //    var activeCFTemplates = document.getElementById("cfTemplates");
+    //    activeCFTemplates.removeAllItems();
+    //
+    //    var templatelist = this.templatemap.toArray(function(k,v){return new Template(k, v.url)});
+    //
+    //    for(var i in templatelist) {
+    //        activeCFTemplates.insertItemAt(
+    //            i,
+    //            templatelist[i].name,
+    //            templatelist[i].name
+    //            );
+    //    }
+    //},
 
     loadAllTags : function() {
         this.imageTags = ec2ui_prefs.getImageTags();

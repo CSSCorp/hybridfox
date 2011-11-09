@@ -143,6 +143,7 @@ var ec2ui_controller = {
         var xmlDoc = objResponse.xmlDoc;
 
         var list = new Array();
+	var tags = new Object();
         var items = xmlDoc.evaluate("/ec2:DescribeVolumesResponse/ec2:volumeSet/ec2:item",
                                     xmlDoc,
                                     this.getNsResolver(),
@@ -162,7 +163,7 @@ var ec2ui_controller = {
             var instanceId = "";
             var device = "";
             var attachStatus = "";
-             var attachTime = new Date();
+	    var attachTime = new Date();
 	    
 	    var attachementset = items.snapshotItem(i).getElementsByTagName("attachmentSet");      
                 for (var k = 0; k < attachementset.length; k++)
@@ -178,9 +179,11 @@ var ec2ui_controller = {
 	
 	   
             list.push(new Volume(id, size, snapshotId, zone, status, createTime, instanceId, device, attachStatus, attachTime || ""));
+	    
+	    this.walkTagSet(items.snapshotItem(i), "volumeId", tags);
         }
 
-        this.addResourceTags(list, ec2ui_session.model.resourceMap.volumes, "id");
+        this.addEC2Tag(list, "id", tags);
         ec2ui_model.updateVolumes(list);
         if (objResponse.callback)
             objResponse.callback(list);
@@ -194,6 +197,7 @@ var ec2ui_controller = {
         var xmlDoc = objResponse.xmlDoc;
 
         var list = new Array();
+	var tags = new Object();
         var items = xmlDoc.evaluate("/ec2:DescribeSnapshotsResponse/ec2:snapshotSet/ec2:item",
                                     xmlDoc,
                                     this.getNsResolver(),
@@ -207,9 +211,11 @@ var ec2ui_controller = {
             startTime.setISO8601(getNodeValueByName(items.snapshotItem(i), "startTime"));
             var progress = getNodeValueByName(items.snapshotItem(i), "progress");
             list.push(new Snapshot(id, volumeId, status, startTime, progress));
+	    
+	    this.walkTagSet(items.snapshotItem(i), "snapshotId", tags);
         }
 
-        this.addResourceTags(list, ec2ui_session.model.resourceMap.snapshots, "id");
+        this.addEC2Tag(list, "id", tags);
         ec2ui_model.updateSnapshots(list);
         if (objResponse.callback)
             objResponse.callback(list);
@@ -258,6 +264,7 @@ var ec2ui_controller = {
         var xmlDoc = objResponse.xmlDoc;
 
         var list = new Array();
+	var tags = new Object();
         var img = null;
         var items = xmlDoc.evaluate("/ec2:DescribeImagesResponse/ec2:imagesSet/ec2:item",
                                     xmlDoc,
@@ -288,9 +295,11 @@ var ec2ui_controller = {
                           platform,
                           aki,
                           ari));
+	    
+	    this.walkTagSet(items.snapshotItem(i), "imageId", tags);
         }
 
-        this.addResourceTags(list, ec2ui_session.model.resourceMap.images, "id");
+        this.addEC2Tag(list, "id", tags);
         ec2ui_model.updateImages(list);
         if (objResponse.callback)
             objResponse.callback(list);
@@ -780,6 +789,7 @@ var ec2ui_controller = {
         var xmlDoc = objResponse.xmlDoc;
 
         var list = new Array();
+        var tags = new Object();
         var items = xmlDoc.evaluate("/ec2:DescribeInstancesResponse/ec2:reservationSet/ec2:item",
                                     xmlDoc,
                                     this.getNsResolver(),
@@ -799,13 +809,61 @@ var ec2ui_controller = {
             if (instanceItems) {
                 var resList = this.unpackReservationInstances(resId, ownerId, groups, instanceItems);
                 list = list.concat(resList);
+
+                for (var j = 0; j < instanceItems.length; j++) {
+                    var instanceItem = instanceItems[j];
+
+                    if (instanceItem.nodeName == '#text') {
+                        continue;
+                    }
+
+                    this.walkTagSet(instanceItem, "instanceId", tags);
+                }
             }
         }
 
-        this.addResourceTags(list, ec2ui_session.model.resourceMap.instances, "id");
+        this.addEC2Tag(list, "id", tags);
         ec2ui_model.updateInstances(list);
         if (objResponse.callback)
             objResponse.callback(list);
+    },
+    
+    walkTagSet : function(item, idName, tags) {
+        var instanceId = getNodeValueByName(item, idName);
+        var tagSet = item.getElementsByTagName("tagSet")[0];
+
+        if (tagSet) {
+            var tagSetItems = tagSet.getElementsByTagName("item");
+            var tagArray = new Array();
+            var nameTag = null;
+
+            for (var i= 0; i < tagSetItems.length; i++) {
+                var tagSetItem = tagSetItems[i];
+                var tagSetItemKey = getNodeValueByName(tagSetItem, "key");
+                var tagSetItemValue = getNodeValueByName(tagSetItem, "value");
+
+                if (/[,"]/.test(tagSetItemValue)) {
+                    tagSetItemValue = tagSetItemValue.replace(/"/g, '""');
+                    tagSetItemValue = '"' + tagSetItemValue + '"';
+                }
+
+                var keyValue = tagSetItemKey + ":" + tagSetItemValue;
+
+                if (tagSetItemKey == "Name") {
+                    nameTag = keyValue;
+                } else {
+                    tagArray.push(keyValue);
+                }
+            }
+
+            tagArray.sort();
+
+            if (nameTag) {
+                tagArray.unshift(nameTag);
+            }
+
+            tags[instanceId] = tagArray.join(", ");
+        }
     },
 
     addResourceTags : function (list, resourceType, attribute) {
@@ -832,6 +890,27 @@ var ec2ui_controller = {
         }
         // Now that we've built the new set of instance tags, persist them
         ec2ui_session.setResourceTags(resourceType, new_tags);
+    },
+    
+    addEC2Tag : function (list, attribute, tags) {
+        if (!list || list.length == 0) {
+            return;
+        }
+
+        if (!tags) {
+            return;
+        }
+
+        var res = null;
+        var tag = null;
+        for (var i in list) {
+            res = list[i];
+            tag = tags[res[attribute]];
+            if (tag && tag.length) {
+                res.tag = tag
+                addNameTagToModel(tag, res);
+            }
+        }
     },
 
     retrieveBundleTaskFromResponse : function (item) {
@@ -1631,6 +1710,114 @@ var ec2ui_controller = {
         eval("this."+responseObject.requestType+"(responseObject)");
     },
     
+    createTags : function (resIds, tags, callback) {
+	var params = new Array();
+
+        for (var i = 0; i < resIds.length; i++) {
+            params.push(["ResourceId." + (i + 1)   , resIds[i]]);
+            params.push(["Tag." + (i + 1) + ".Key"  , tags[i][0]]);
+            params.push(["Tag." + (i + 1) + ".Value", tags[i][1]]);
+        }
+
+        ec2_httpclient.queryEC2("CreateTags", params, this, true, "onCompleteCreateTags", callback);
+    },
+
+    onCompleteCreateTags : function (objResponse) {
+        if (objResponse.callback) {
+            objResponse.callback();
+        }
+    },
+
+    deleteTags : function (resIds, keys, callback) {
+        var params = new Array();
+
+        for (var i = 0; i < resIds.length; i++) {
+            params.push(["ResourceId." + (i + 1), resIds[i]]);
+            params.push(["Tag." + (i + 1) + ".Key", keys[i]]);
+        }
+
+        ec2_httpclient.queryEC2("DeleteTags", params, this, true, "onCompleteDeleteTags", callback);
+    },
+
+    onCompleteDeleteTags : function (objResponse) {
+        if (objResponse.callback) {
+            objResponse.callback();
+        }
+    },
+
+    describeTags : function (resIds, callback) {
+        var params = new Array();
+
+        for (var i = 0; i < resIds.length; i++) {
+            params.push(["Filter." + (i + 1) + ".Name", "resource-id"]);
+            params.push(["Filter." + (i + 1) + ".Value.1", resIds[i]]);
+        }
+
+        ec2_httpclient.queryEC2("DescribeTags", params, this, true, "onCompleteDescribeTags", callback);
+    },
+
+    onCompleteDescribeTags : function (objResponse) {
+        var xmlDoc = objResponse.xmlDoc;
+        var items = xmlDoc.evaluate("/ec2:DescribeTagsResponse/ec2:tagSet/ec2:item",
+                                    xmlDoc,
+                                    this.getNsResolver(),
+                                    XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
+                                    null);
+
+        var tags = new Array();
+
+        for (var i = 0; i < items.snapshotLength; ++i) {
+            var resid = getNodeValueByName(items.snapshotItem(i), "resourceId");
+            var key = getNodeValueByName(items.snapshotItem(i), "key");
+            var value = getNodeValueByName(items.snapshotItem(i), "value");
+            tags.push([resid, key, value]);
+        }
+
+        if (objResponse.callback) {
+            objResponse.callback(tags);
+        }
+    },
+
+
+    describeInstanceAttribute : function (instanceId, attribute, callback) {
+        var params = new Array();
+        params.push(["InstanceId", instanceId]);
+        params.push(["Attribute", attribute]);
+        ec2_httpclient.queryEC2("DescribeInstanceAttribute", params, this, true, "onCompleteDescribeInstanceAttribute", callback);
+    },
+
+    onCompleteDescribeInstanceAttribute : function (objResponse) {
+        var xmlDoc = objResponse.xmlDoc;
+        var items = xmlDoc.evaluate("/ec2:DescribeInstanceAttributeResponse/*",
+                                       xmlDoc,
+                                       this.getNsResolver(),
+                                       XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
+                                       null);
+
+        var value = getNodeValueByName(items.snapshotItem(2), "value");
+
+        if (objResponse.callback) {
+            objResponse.callback(value);
+        }
+    },
+
+    modifyInstanceAttribute : function (instanceId, attribute, callback) {
+        var params = new Array();
+        var name = attribute[0];
+        var value = attribute[1];
+
+        params.push(["InstanceId", instanceId]);
+        params.push([name + ".Value", value]);
+
+        ec2_httpclient.queryEC2("ModifyInstanceAttribute", params, this, true, "onCompleteModifyInstanceAttribute", callback);
+    },
+
+    onCompleteModifyInstanceAttribute : function (objResponse) {
+        if (objResponse.callback) {
+            objResponse.callback();
+        }
+    },
+    
     describeLoadBalancers : function (callback) {
         ec2_httpclient.queryELB("DescribeLoadBalancers", [], this, true, "onCompleteDescribeLoadBalancers", callback);
     },
@@ -1646,13 +1833,15 @@ var ec2ui_controller = {
             var DNSName = getNodeValueByName(items[i], "DNSName");
 	    var Instances = new Array();
             var InstanceId = items[i].getElementsByTagName("InstanceId");
-            for (var j = 0; j < InstanceId.length; j++) {
+	    
+            for (var j = 0; j < InstanceId.length; j++)
+	    {
 		Instances.push(InstanceId[j].firstChild.nodeValue);
             }
 
 	    var listener = items[i].getElementsByTagName("ListenerDescriptions");
             for (var k = 0; k < listener.length; k++)
-            {
+	    {
                 var Protocol = getNodeValueByName(listener[k], "Protocol");
                 var LoadBalancerPort = getNodeValueByName(listener[k], "LoadBalancerPort");
                 var InstancePort = getNodeValueByName(listener[k], "InstancePort");
@@ -1679,42 +1868,44 @@ var ec2ui_controller = {
 	    }
 	        
 	    var AppCookieStickinessPolicies = items[i].getElementsByTagName("AppCookieStickinessPolicies");
-	    for(var k = 0; k < AppCookieStickinessPolicies.length; k++){
+	    for(var k = 0; k < AppCookieStickinessPolicies.length; k++)
+	    {
 		var CookieName = getNodeValueByName(AppCookieStickinessPolicies[k], "CookieName");
 		var APolicyName = getNodeValueByName(AppCookieStickinessPolicies[k], "PolicyName");
 	    }
 	    
 	    var LBCookieStickinessPolicies = items[i].getElementsByTagName("LBCookieStickinessPolicies");
-	    for(var k = 0; k < LBCookieStickinessPolicies.length; k++){
+	    for(var k = 0; k < LBCookieStickinessPolicies.length; k++)
+	    {
 		var CookieExpirationPeriod = getNodeValueByName(LBCookieStickinessPolicies[k], "CookieExpirationPeriod");
 		var CPolicyName = getNodeValueByName(LBCookieStickinessPolicies[k], "PolicyName");
 	    }
 	    
-	    if (LoadBalancerName != '' && CreatedTime != '')
-            {
-            list.push(new LoadBalancer(LoadBalancerName,CreatedTime, DNSName,
-				       Instances,Protocol,LoadBalancerPort,InstancePort,
-				       Interval,Timeout,
-				       HealthyThreshold,
-				       UnhealthyThreshold,
-				       Target,azone,
-				       CookieName,APolicyName,
-				       CookieExpirationPeriod,CPolicyName));
-            }
+	    if (LoadBalancerName != '' && CreatedTime != '') {
+		list.push(new LoadBalancer(LoadBalancerName,CreatedTime, DNSName,
+					   Instances,Protocol,LoadBalancerPort,InstancePort,
+					   Interval,Timeout,
+					   HealthyThreshold,
+					   UnhealthyThreshold,
+					   Target,azone,
+					   CookieName,APolicyName,
+					   CookieExpirationPeriod,CPolicyName));
+	    }
         }
+	
         ec2ui_model.updateLoadbalancer(list);
         if (objResponse.callback)
             objResponse.callback(list);
     },
     
-    describeInstanceHealth : function(LoadBalancerName,callback) {
+    describeInstanceHealth : function (LoadBalancerName,callback) {
 	params = []
         params.push(["LoadBalancerName", LoadBalancerName]);
 	
         ec2_httpclient.queryELB("DescribeInstanceHealth", params, this, true, "oncompletedescribeInstanceHealth", callback);
     },
     
-    oncompletedescribeInstanceHealth : function(objResponse) {
+    oncompletedescribeInstanceHealth : function (objResponse) {
 	var xmlDoc = objResponse.xmlDoc;
         var list = new Array();
         var items = xmlDoc.getElementsByTagName("member");
@@ -1733,14 +1924,14 @@ var ec2ui_controller = {
             objResponse.callback(list);        
     },
     
-    deleteLoadBalancer : function(LoadBalancerName,callback) {
+    deleteLoadBalancer : function (LoadBalancerName,callback) {
        params = []
        params.push(["LoadBalancerName", LoadBalancerName]);
        
        ec2_httpclient.queryELB("DeleteLoadBalancer", params, this, true, "oncompleteDeleteLoadBalancer", callback);        
     },
     
-    oncompleteDeleteLoadBalancer : function(objResponse) {
+    oncompleteDeleteLoadBalancer : function (objResponse) {
 	var xmlDoc = objResponse.xmlDoc;
         var items = getNodeValueByName(xmlDoc, "member");
         if (objResponse.callback)
@@ -1769,20 +1960,20 @@ var ec2ui_controller = {
             objResponse.callback(items);
     },
     
-    ConfigureHealthCheck : function(LoadBalancerName,pingprotocol,pingport,pingpath,Interval,Timeout,HealthyThreshold,UnhealthyThreshold,callback){
-       var params = []
-       if (pingprotocol != null) params.push(["HealthCheck.Target" , pingprotocol+":"+pingport+"/"+pingpath]);
-       if (LoadBalancerName != null) params.push(["LoadBalancerName", LoadBalancerName]);
-       if (Interval != null) params.push(["HealthCheck.Interval", Interval]);
-       if (Timeout != null) params.push(["HealthCheck.Timeout", Timeout]);
-       if (HealthyThreshold != null) params.push(["HealthCheck.HealthyThreshold", HealthyThreshold]);
-       if (UnhealthyThreshold != null) params.push(["HealthCheck.UnhealthyThreshold", UnhealthyThreshold]);
-       
-       ec2_httpclient.queryELB("ConfigureHealthCheck", params, this, true, "onCompleteConfigureHealthCheck", callback);
+    ConfigureHealthCheck : function (LoadBalancerName,pingprotocol,pingport,pingpath,Interval,Timeout,HealthyThreshold,UnhealthyThreshold,callback) {
+	var params = []
+	if (pingprotocol != null) params.push(["HealthCheck.Target" , pingprotocol+":"+pingport+"/"+pingpath]);
+	if (LoadBalancerName != null) params.push(["LoadBalancerName", LoadBalancerName]);
+	if (Interval != null) params.push(["HealthCheck.Interval", Interval]);
+	if (Timeout != null) params.push(["HealthCheck.Timeout", Timeout]);
+	if (HealthyThreshold != null) params.push(["HealthCheck.HealthyThreshold", HealthyThreshold]);
+	if (UnhealthyThreshold != null) params.push(["HealthCheck.UnhealthyThreshold", UnhealthyThreshold]);
+	
+	ec2_httpclient.queryELB("ConfigureHealthCheck", params, this, true, "onCompleteConfigureHealthCheck", callback);
     },
     
-    onCompleteConfigureHealthCheck : function(objResponse) {
-        var xmlDoc = objResponse.xmlDoc;
+    onCompleteConfigureHealthCheck : function (objResponse) {
+	var xmlDoc = objResponse.xmlDoc;
         var items = getNodeValueByName(xmlDoc, "HealthCheck");
         if (objResponse.callback)
             objResponse.callback(items);
@@ -1818,7 +2009,7 @@ var ec2ui_controller = {
             objResponse.callback(items);
     },
     
-    Enableazonewithloadbalancer : function(LoadBalancerName,Zone,callback){
+    Enableazonewithloadbalancer : function(LoadBalancerName,Zone,callback) {
 	params = []
 	params.push(["LoadBalancerName", LoadBalancerName]);
         params.push(["AvailabilityZones.member.1", Zone]);
@@ -1849,8 +2040,7 @@ var ec2ui_controller = {
             objResponse.callback(items);
     },
     
-    
-    EditHealthCheck : function(LoadBalancerName,Target,Interval,Timeout,HealthyThreshold,UnhealthyThreshold,callback) {
+    EditHealthCheck : function (LoadBalancerName,Target,Interval,Timeout,HealthyThreshold,UnhealthyThreshold,callback) {
 	var params = []
 	params.push(["HealthCheck.Target" , Target]);
 	params.push(["LoadBalancerName", LoadBalancerName]);
@@ -1862,7 +2052,7 @@ var ec2ui_controller = {
 	ec2_httpclient.queryELB("ConfigureHealthCheck", params, this, true, "onCompleteEditHealthCheck", callback);
     },
     
-    onCompleteEditHealthCheck : function(objResponse) {
+    onCompleteEditHealthCheck : function (objResponse) {
         var xmlDoc = objResponse.xmlDoc;
         var items = getNodeValueByName(xmlDoc, "HealthCheck");
         if (objResponse.callback)
@@ -1870,17 +2060,16 @@ var ec2ui_controller = {
         
     },
     
-    CreateAppCookieSP : function(LoadBalancerName,CookieName,callback) {
-       var uniqueid = new Date;
-       var id = uniqueid.getTime();
+    CreateAppCookieSP : function (LoadBalancerName,CookieName,callback) {
+	var uniqueid = new Date;
+	var id = uniqueid.getTime();
        
-       var PolicyName = "AWSConsolePolicy-"+ id;
-       params = []
-       params.push(["LoadBalancerName", LoadBalancerName]);
-       params.push(["CookieName", CookieName]);
-       params.push(["PolicyName", PolicyName]);
-       ec2_httpclient.queryELB("CreateAppCookieStickinessPolicy", params, this, true, "oncompleteCreateAppCookieSP", callback);
-       //no = no + 1;
+	var PolicyName = "AWSConsolePolicy-"+ id;
+	params = []
+	params.push(["LoadBalancerName", LoadBalancerName]);
+	params.push(["CookieName", CookieName]);
+	params.push(["PolicyName", PolicyName]);
+	ec2_httpclient.queryELB("CreateAppCookieStickinessPolicy", params, this, true, "oncompleteCreateAppCookieSP", callback);
     },
     
     oncompleteCreateAppCookieSP : function (objResponse) {
@@ -1890,17 +2079,16 @@ var ec2ui_controller = {
             objResponse.callback(items);
     },
     
-    CreateLBCookieSP : function(LoadBalancerName,CookieExpirationPeriod,callback)
-    {
-       var uniqueid = new Date;
-       var id = uniqueid.getTime();
-       
-       var PolicyName = "AWSConsolePolicy-"+ id; 
-       params = []
-       params.push(["CookieExpirationPeriod", CookieExpirationPeriod]);
-       params.push(["LoadBalancerName", LoadBalancerName]);
-       params.push(["PolicyName", PolicyName]);
-       ec2_httpclient.queryELB("CreateLBCookieStickinessPolicy", params, this, true, "oncompleteCreateLBCookieSP", callback);   
+    CreateLBCookieSP : function (LoadBalancerName,CookieExpirationPeriod,callback) {
+	var uniqueid = new Date;
+	var id = uniqueid.getTime();
+	
+	var PolicyName = "AWSConsolePolicy-"+ id; 
+	params = []
+	params.push(["CookieExpirationPeriod", CookieExpirationPeriod]);
+	params.push(["LoadBalancerName", LoadBalancerName]);
+	params.push(["PolicyName", PolicyName]);
+	ec2_httpclient.queryELB("CreateLBCookieStickinessPolicy", params, this, true, "oncompleteCreateLBCookieSP", callback);   
     },
     
     oncompleteCreateLBCookieSP : function (objResponse) {
@@ -1910,13 +2098,12 @@ var ec2ui_controller = {
             objResponse.callback(items);
     },
     
-    DeleteLoadBalancerPolicy : function(LoadBalancerName,policy,callback)
-    {
-       params = []
-       params.push(["LoadBalancerName", LoadBalancerName]);
+    DeleteLoadBalancerPolicy : function (LoadBalancerName,policy,callback) {
+	params = []
+	params.push(["LoadBalancerName", LoadBalancerName]);
        
-       params.push(["PolicyName", policy]);
-       ec2_httpclient.queryELB("DeleteLoadBalancerPolicy", params, this, true, "oncompleteDeleteLoadBalancerPolicy", callback);   
+	params.push(["PolicyName", policy]);
+	ec2_httpclient.queryELB("DeleteLoadBalancerPolicy", params, this, true, "oncompleteDeleteLoadBalancerPolicy", callback);   
     },
     
     oncompleteDeleteLoadBalancerPolicy : function (objResponse) {
@@ -1926,16 +2113,16 @@ var ec2ui_controller = {
             objResponse.callback(items);
     },
     
-    uploadservercertificate : function(ServerCertificateName,CertificateBody,PrivateKey,Path,callback){
-       params = []
-       params.push(["ServerCertificateName", ServerCertificateName]);
-       params.push(["CertificateBody", CertificateBody]);
-       params.push(["PrivateKey", PrivateKey]);
-       if (Path != null) params.push(["Path", Path]);
-       ec2_httpclient.queryIAM("UploadServerCertificate", params, this, true, "oncompleteuploadserversertificate", callback);  
+    uploadservercertificate : function (ServerCertificateName,CertificateBody,PrivateKey,Path,callback) {
+	params = []
+	params.push(["ServerCertificateName", ServerCertificateName]);
+	params.push(["CertificateBody", CertificateBody]);
+	params.push(["PrivateKey", PrivateKey]);
+	if (Path != null) params.push(["Path", Path]);
+	ec2_httpclient.queryIAM("UploadServerCertificate", params, this, true, "oncompleteuploadserversertificate", callback);  
     },
     
-    oncompleteuploadservercertificate :function(objResponse){
+    oncompleteuploadservercertificate :function (objResponse) {
         var xmlDoc = objResponse.xmlDoc;
         var items = getNodeValueByName(xmlDoc, "ServerCertificateMetadata");
         if (objResponse.callback)
@@ -1964,14 +2151,14 @@ var ec2ui_controller = {
 	    
 	    if(Name == "InstanceId" && Namespace != "" )
 	    list.push(new Monitoring(Name,Value, MeasureName,Namespace));
-
 	}
+	
 	ec2ui_model.updateMonitoring(list);
         if (objResponse.callback)
             objResponse.callback(list);
     },
     
-     GetMetricStatistics : function (GMTStartTime,ISOEndTime,instance,statistics,period,Metrics,Unit,callback) {
+    GetMetricStatistics : function (GMTStartTime,ISOEndTime,instance,statistics,period,Metrics,Unit,callback) {
 	params = []
         params.push(["MetricName", Metrics]);
 	params.push(["Namespace", "AWS/EC2"]);
@@ -2026,6 +2213,7 @@ var ec2ui_controller = {
 	    var Minimum = getNodeValueByName(items[i], "Minimum");
 	    list.push(new Statistics(Timestamp,Unit,Average || "null",Sum || "null",Maximum || "null",Minimum || "null"));
 	}
+	
 	ec2ui_model.updateMonitoring(list);
         if (objResponse.callback)
             objResponse.callback(list);
@@ -2050,7 +2238,6 @@ var ec2ui_controller = {
 	    {
 		list.push(new CloudFormation(StackName, StackId, CreationTime, Status));
             }
-         
         }
 
         ec2ui_model.updateCloudformation(list);
@@ -2067,8 +2254,7 @@ var ec2ui_controller = {
         params.push(["TemplateURL",paramsJson.StackUrl]);
         
         var i = 0;
-        for( var tmp in paramsJson)
-        {
+        for( var tmp in paramsJson) {
 	    if(i < 2)
 	    {
 		i = i + 1;
@@ -2120,7 +2306,7 @@ var ec2ui_controller = {
              
             if(StackName != '')
             {
-		list.push(new Describeresource(Timestamp, ResourceStatus, StackId, LogicalResourceId,StackName,PhysicalResourceId,ResourceType ));
+		list.push(new Describeresource(Timestamp, ResourceStatus, StackId, LogicalResourceId, StackName, PhysicalResourceId, ResourceType));
             }
          
         }

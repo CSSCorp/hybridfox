@@ -125,12 +125,12 @@
 <!ENTITY ec2ui.availabilityZone.label "Availability Zone">
 
 <!ENTITY ec2ui.contextmenu.details.label "View Details">
-<!ENTITY ec2ui.contextmenu.copyid.label "Copy ID to clipboard">
+<!ENTITY ec2ui.contextmenu.copyid.label "Copy to clipboard">
 
 <!ENTITY ec2ui.images.contextmenu.register.label "Register a new AMI">
 <!ENTITY ec2ui.images.contextmenu.deregister.label "Deregister this AMI">
 
-<!ENTITY ec2ui.instances.contextmenu.copyid.label "Copy Instance ID to clipboard">
+<!ENTITY ec2ui.instances.contextmenu.copyid.label "Instance ID">
 
 <!ENTITY ec2ui.addresses.contextmenu.associate.label "Associate Elastic IP with Instance">
 
@@ -243,6 +243,7 @@
 
 <!ENTITY ec2ui.create.cloudformation.tip "Create Stack">
 <!ENTITY ec2ui.delete.cloudformation.tip "Delete Stack">
+<!ENTITY ec2ui.templates.cloudformation.tip "Manage Templates">
 
 <!ENTITY ec2ui.resource.ResourceType.label "ResourceType">
 <!ENTITY ec2ui.resource.PhysicalResourceId.label "PhysicalResourceId">

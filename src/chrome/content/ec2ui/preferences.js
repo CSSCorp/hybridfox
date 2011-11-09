@@ -74,6 +74,27 @@ function WrappedMapEndpoints(map, prefs) {
     return wmap;
 }
 
+function WrappedMapTemplates(map, prefs) {
+    var wmap = new WrappedMap(map);
+    wmap.prefs = prefs;
+    // Since this object is not yet formed, you need to pass
+    // wmap to the prefs so wmap the map can be written out
+    // to the preferences store.
+    prefs.setTemplateMap(wmap);
+
+    wmap.put = function(key, value) {
+        this.map[key] = value;
+        this.prefs.setTemplateMap(this);
+    };
+
+    wmap.removeKey = function(key) {
+        this.map[key] = null;
+        this.prefs.setTemplateMap(this);
+    };
+
+    return wmap;
+}
+
 function WrappedMap(map) {
     this.map = map;
 
@@ -157,6 +178,7 @@ var ec2ui_prefs = {
     KNOWN_ACCOUNT_IDS   : "ec2ui.known.account.ids",
     LAST_EC2_PKEY_FILE  : "ec2ui.last.ec2privatekey.file",
     ENDPOINTS           : "ec2ui.endpoints",
+    TEMPLATES           : "ec2ui.templates",
     IMAGE_TAGS          : "ec2ui.imagetags",
     EIP_TAGS            : "ec2ui.eiptags",
     INSTANCE_TAGS       : "ec2ui.instancetags",
@@ -214,6 +236,7 @@ var ec2ui_prefs = {
     setRequestTimeout : function(value) { this.setIntPreference(this.REQUEST_TIMEOUT, value); },
     setServiceType : function(value) { this.setStringPreference(this.EC2_TYPE, value); },
     setServiceURL : function(value) { this.setStringPreference(this.EC2_URL, value); },
+    setTemplateURL : function(value) { this.setStringPreference(this.TEMPLATE_URL, value); },
     setCurrentTab : function(value) { this.setIntPreference(this.CURRENT_TAB, value); },
     setDebugEnabled : function(enabled) { this.setBoolPreference(this.DEBUG_ENABLED, enabled); },
     setOfflineEnabled : function(enabled) { this.setBoolPreference(this.OFFLINE, enabled); },
@@ -397,6 +420,10 @@ var ec2ui_prefs = {
         this.setStringPreference(this.ENDPOINTS, value.toJSONString());
     },
     
+    setTemplateMap : function(value) {
+        this.setStringPreference(this.TEMPLATES, value.toJSONString());
+    },
+    
     getLatestEndpointMap : function() {
         var packedMap = this.getStringPreference(this.ENDPOINTS, null);;
         var endpointmap = null;
@@ -445,6 +472,40 @@ var ec2ui_prefs = {
         }
 
         return new WrappedMapEndpoints(endpointmap, this);
+    },
+    
+    getTemplateMap : function() {
+        var packedMap = this.getStringPreference(this.TEMPLATES, null);
+        var templatemap = null;
+
+        if (packedMap != null && packedMap.length > 0) {
+            // Unpack the map and return it
+            templatemap = eval(packedMap);
+        }
+
+        var map = this.template;
+        for (k in map) {
+            if (map.hasOwnProperty(k)) {
+                var v = map[k];
+                if (v != null &&
+                    templatemap[k] == null) {
+                    templatemap[k] = v;
+                }
+            }
+        }
+
+        // You couldn't retrieve the default template. Hard code them
+        if (templatemap == null) {
+            console.log ("Generating template");
+            templatemap = new Object();
+            templatemap['DrupalTemp'] = new Template('Drupal-1.0.0', 'https://s3.amazonaws.com/cloudformation-samples-us-east-1/Drupal-1.0.0.template');
+            templatemap['DrupalNoTemp'] = new Template('Drupal-NoSSH-1.0.0', 'https://s3.amazonaws.com/cloudformation-samples-us-east-1/Drupal-NoSSH-1.0.0.template');
+            templatemap['ElasticTemp'] = new Template('ElasticBeanstalk-1.0.0', 'https://s3.amazonaws.com/cloudformation-samples-us-east-1/ElasticBeanstalk-1.0.0.template');
+            templatemap['GollumTemp'] = new Template('Gollum-1.0.0', 'https://s3.amazonaws.com/cloudformation-samples-us-east-1/Gollum-1.0.0.template');
+            templatemap['InsoshiTemp'] = new Template('Insoshi-1.0.0', 'https://s3.amazonaws.com/cloudformation-samples-us-east-1/Insoshi-1.0.0.template');
+        }
+
+        return new WrappedMapTemplates(templatemap, this);
     },
 
     setEIPTags : function(value) {

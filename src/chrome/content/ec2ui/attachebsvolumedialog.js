@@ -61,7 +61,7 @@ var ec2_EBSVolumeAttacher = {
                 vol.instanceId.length == 0) {
                 this.volList.push(vol);
                 label = vol.id;
-                tag = vol.tag;
+                name = tagToName(vol.tag);
                 if (tag && tag.length) {
                     label = label + ":" + tag;
                 }

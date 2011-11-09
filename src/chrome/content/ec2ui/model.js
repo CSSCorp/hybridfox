@@ -33,6 +33,26 @@ function Endpoint(name, type, url) {
     return this;
 }
 
+function Template(name, url) {
+    this.name = name;
+    this.url = url;
+
+    this.toJSONString = function() {
+        var pairs = new Array();
+        for (k in this) {
+            if (this.hasOwnProperty(k)) {
+                v = this[k];
+                if (v != null && typeof v != "function") {
+                    log ("adding key toJSONString: " + k);
+                    pairs.push("'"+k+"':'"+v+"'");
+                }
+            }
+        }
+        return "({"+pairs.join(',')+"})";
+    };
+
+    return this;
+}
 
 function AMI(id, location, state, owner, isPublic, arch, rootDeviceType, platform, aki, ari, tag) {
     this.id = id;
@@ -54,7 +74,10 @@ function Snapshot(id, volumeId, status, startTime, progress, tag) {
     this.status = status;
     this.startTime = startTime.strftime('%Y-%m-%d %H:%M:%S');
     this.progress = progress;
-    if (tag) this.tag = tag;
+    if (tag) {
+        this.tag = tag;
+        addNameTagToModel(tag, this);
+    }
 }
 
 function Volume(id, size, snapshotId, zone, status, createTime, instanceId, device, attachStatus, attachTime, tag) {
@@ -70,7 +93,10 @@ function Volume(id, size, snapshotId, zone, status, createTime, instanceId, devi
     if (attachStatus != "") {
       this.attachTime = attachTime.strftime('%Y-%m-%d %H:%M:%S');
     }
-    if (tag) this.tag = tag;
+    if (tag) {
+        this.tag = tag;
+        addNameTagToModel(tag, this);
+    }
 }
 
 function Instance(resId, ownerId, groupList, instanceId, imageId, kernelId,
@@ -99,7 +125,10 @@ function Instance(resId, ownerId, groupList, instanceId, imageId, kernelId,
     this.placement = placement;
     this.platform = platform;
     this.monitoringState = monitoringState;
-    if (tag) this.tag = tag;
+    if (tag) {
+        this.tag = tag;
+        addNameTagToModel(tag, this);
+    }
 }
 
 function KeyPair(name, fingerprint) {
