@@ -127,6 +127,17 @@ var ec2_httpclient = {
         if (this.serviceURL == null || this.serviceURL == "") {
             this.setEndpoint(ec2ui_session.getActiveEndpoint());
         }
+		
+		// 1sec wait between each query in Eucalyptus
+        if (ec2ui_session.isEucalyptusEndpointSelected()) {
+            var lastQueryTime = ec2ui_session.lastQueryTime[this.serviceURL];
+            var curTime = new Date().getTime();
+            if (lastQueryTime != null) {
+                if (curTime < (lastQueryTime+1000))
+                sleep(lastQueryTime + 1000 - curTime);
+            }
+            ec2ui_session.lastQueryTime[this.serviceURL] = new Date().getTime();
+        }
 
         var rsp = null;
         while(true) {

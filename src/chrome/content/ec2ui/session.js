@@ -22,6 +22,7 @@ var ec2ui_session =
     vpnTags         : null,
     client          : null,
     refreshedTabs   : new Array(),
+	lastQueryTime   : {},
 
     initialize : function () {
         if (!this.initialized) {
@@ -165,7 +166,9 @@ var ec2ui_session =
             break;
         case "ec2ui.tabs.volumes":
             eval("ec2ui_VolumeTreeView." + toCall);
-            eval("ec2ui_SnapshotTreeView." + toCall);
+			if(this.isOpenstackEndpointSelected()){
+				eval("ec2ui_SnapshotTreeView." + toCall);
+			}
             break;
         case "ec2ui.tabs.bundleTasks":
         	if (this.isAmazonEndpointSelected()) {
@@ -614,8 +617,27 @@ var ec2ui_session =
     },
     
     isAmazonEndpointSelected: function () {
-       var endpoint = this.getActiveEndpoint();
+		var endpoint = this.getActiveEndpoint();
         return endpoint.type == "ec2";
+    },
+	
+	isEucalyptusEndpointSelected: function () {
+		var activeEndpointType = this.getActiveEndpoint().type;
+		if (activeEndpointType.search(/euca/)!=-1) { //if active endpoint type ends with "euca"
+			return true;
+		}
+		return false;
+	},
+    
+    isOpenstackEndpointSelected: function () {
+    	var activeEndpointType = this.getActiveEndpoint().type;
+    	if (activeEndpointType.search(/ec2/)!=-1) { //if active endpoint type ends with "ec2"
+			return true;
+		}else
+		if (activeEndpointType.search(/euca/)!=-1) { //if active endpoint type ends with "ecua"
+			return true;
+		}
+		return false;
     },
 
     manageCredentials : function () {

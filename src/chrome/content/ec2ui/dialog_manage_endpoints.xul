@@ -50,7 +50,8 @@
 			<menupopup>
 			  <menuitem id="ec2ui.endpoints.type.ec2" label="EC2" value="ec2"/>
 			  <menuitem id="ec2ui.endpoints.type.euca" label="Eucalyptus" value="euca"/>
-			  <menuitem d="ec2ui.endpoints.type.nebula" label="OpenNebula" value="nebula"/>
+			  <menuitem id="ec2ui.endpoints.type.nebula" label="OpenNebula" value="nebula"/>
+			  <menuitem id="ec2ui.endpoints.type.nova" label="Openstack" value="nova"/>
 			</menupopup>
 		  </menulist>
         </row>
