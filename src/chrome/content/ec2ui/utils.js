@@ -303,6 +303,95 @@ function tagResource(res, session, attr) {
     session.setResourceTag(res[attr], res.tag);
 }
 
+function tagPrompt(tag) {
+    var returnValue = {accepted:false , result:null};
+
+    openDialog('chrome://ec2ui/content/dialog_tag.xul',
+        null,
+        'chrome,centerscreen,modal,width=400,height=250',
+        tag,
+        returnValue);
+
+    return returnValue.accepted ? (returnValue.result || '').trim() : null;
+}
+
+function tagEC2Resource(res, session, attr) {
+    if (!attr) attr = "id";
+
+    var tag = tagPrompt(res.tag);
+
+    if (tag == null)
+        return;
+
+    tag = tag.trim();
+    res.tag = tag;
+    addNameTagToModel(tag, res);
+    session.setResourceTag(res[attr], res.tag);
+
+    tagging2ec2([res[attr]], session, tag);
+}
+
+function tagging2ec2(resIds, session, tagString, disableDeleteTags) {
+  var multiIds = new Array();
+  var multiTags = new Array();
+
+  try {
+        var tags = new Array();
+        tagString += ',';
+        var keyValues = (tagString.match(/\s*[^,":]+\s*:\s*("(?:[^"]|"")*"|[^,]*)\s*,\s*/g) || []);
+
+        for (var i = 0; i < keyValues.length; i++) {
+            var kv = keyValues[i].split(/\s*:\s*/, 2);
+            var key = (kv[0] || "").trim();
+            var value = (kv[1] || "").trim();
+            value = value.replace(/,\s*$/, '').trim();
+            value = value.replace(/^"/, '').replace(/"$/, '').replace(/""/, '"');
+
+            if (key.length == 0 || value.length == 0) {
+                continue;
+            }
+
+            tags.push([key, value]);
+        }
+
+        for (var i = 0; i < resIds.length; i++) {
+            var resId = resIds[i];
+
+            for (var j = 0; j < tags.length; j++) {
+                multiIds.push(resId);
+            }
+
+            multiTags = multiTags.concat(tags);
+        }
+
+        if (multiIds.length == 0) {
+            multiIds = resIds;
+        }
+
+        session.controller.describeTags(resIds, function(described) {
+            var delResIds = new Array();
+            var delKyes = new Array();
+
+            for (var i = 0; i < described.length; i++) {
+              delResIds.push(described[i][0]);
+              delKyes.push(described[i][1]);
+            }
+
+            if (!disableDeleteTags) {
+                if (delResIds.length > 0 && delKyes.length > 0) {
+                    session.controller.deleteTags(delResIds, delKyes);
+                }
+            }
+
+            if (multiTags.length > 0) {
+                session.controller.createTags(multiIds, multiTags);
+            }
+        });
+    } catch (e) {
+        alert(e);
+    }
+}
+
 function parseHeaders(headers) {
     var headerArr = new Array();
     var arr = headers.split("\n");
@@ -348,6 +437,78 @@ function secondsToYears(secs) {
     // duration is provided in days. Let's convert it to years
     dur = dur/(365);
     return dur.toString();
+}
+
+function addNameTagToModel(tag, model) {
+    var kvs = tag.split(/\s*,\s*/);
+
+    for (var i = 0; i < kvs.length; i++) {
+        var kv = kvs[i].split(/\s*:\s*/, 2);
+        var key = kv[0].trim();
+        var value = (kv[1] || "").trim();
+
+        if (key == "Name") {
+            model.name = value;
+            return;
+        }
+    }
+
+    model.name = null;
+}
+
+function tagToName(tag) {
+    var kvs = (tag || '').split(/\s*,\s*/);
+
+    for (var i = 0; i < kvs.length; i++) {
+        var kv = kvs[i].split(/\s*:\s*/, 2);
+        var key = kv[0].trim();
+        var value = (kv[1] || "").trim();
+
+        if (key == "Name") {
+            return value;
+        }
+    }
+
+    return null;
+}
+
+function concatTags(a, b) {
+    if (!a) { a = ""; }
+    if (!b) { b = ""; }
+
+    function putTagsToHash(tagString, hash) {
+        tagString += ',';
+        var kvs = (tagString.match(/\s*[^,":]+\s*:\s*("(?:[^"]|"")*"|[^,]*)\s*,\s*/g) || []);
+
+        for (var i = 0; i < kvs.length; i++) {
+            var kv = kvs[i].split(/\s*:\s*/, 2);
+            var key = kv[0].trim();
+            var value = (kv[1] || "").trim();
+            value = value.replace(/,\s*$/, '').trim();
+            value = value.replace(/^"/, '').replace(/"$/, '').replace(/""/, '"');
+
+            if (key && value) {
+                if (/[,"]/.test(value)) {
+                    value = value.replace(/"/g, '""');
+                    value = '"' + value + '"';
+                }
+
+                hash[key] = value;
+            }
+        }
+    }
+
+    var tags = new Object();
+    var tagArray = new Array();
+
+    putTagsToHash(a, tags);
+    putTagsToHash(b, tags);
+
+    for (var i in tags) {
+        tagArray.push(i + ":" + tags[i]);
+    }
+
+    return tagArray.join(", ");
 }
 
 var protPortMap = {
@@ -408,8 +569,7 @@ var ec2ui_utils = {
             attr = "id";
         }
 
-        var msg = this.getMessageProperty("ec2ui.msg.util.tag.prompt.multiple", [ list[0][attr] ] );
-        var tag = prompt(msg, list[0].tag || "");
+        var tag = tagPrompt(list[0].tag);
 
         if (tag == null) return;
 
@@ -420,6 +580,31 @@ var ec2ui_utils = {
             res.tag = tag;
             session.setResourceTag(res[attr], res.tag);
         }
+    },
+
+    tagMultipleEC2Resources : function(list, session, attr) {
+        if (!list || !session) return;
+
+        if (!attr) {
+            attr = "id";
+        }
+
+        var tag = tagPrompt(list[0].tag);
+
+        if (!tag) return;
+
+        var res = null;
+        tag = tag.trim();
+        var resIds = new Array();
+        for (var i = 0; i < list.length; ++i) {
+            res = list[i];
+            res.tag = concatTags(res.tag, tag);
+            addNameTagToModel(res.tag, res);
+            session.setResourceTag(res[attr], res.tag);
+            resIds.push(res[attr]);
+        }
+
+        tagging2ec2(resIds, session, tag, true);
     },
     
     winRegex : new RegExp(/^Windows/i),
@@ -445,4 +630,3 @@ var ec2ui_utils = {
         return region;
     }
 };
-

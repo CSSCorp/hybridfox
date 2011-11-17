@@ -127,6 +127,7 @@ var ec2ui_controller = {
         var xmlDoc = objResponse.xmlDoc;
 
         var list = new Array();
+		var tags = new Object();
         var items = xmlDoc.evaluate("/ec2:DescribeVolumesResponse/ec2:volumeSet/ec2:item",
                                     xmlDoc,
                                     this.getNsResolver(),
@@ -158,9 +159,11 @@ var ec2ui_controller = {
                 attachTime.setISO8601(getNodeValueByName(items.snapshotItem(i), "attachTime"));
             }
             list.push(new Volume(id, size, snapshotId, zone, status, createTime, instanceId, device, attachStatus, attachTime));
+			
+			this.walkTagSet(items.snapshotItem(i), "volumeId", tags);
         }
 
-        this.addResourceTags(list, ec2ui_session.model.resourceMap.volumes, "id");
+        this.addEC2Tag(list, "id", tags);
         ec2ui_model.updateVolumes(list);
         if (objResponse.callback)
             objResponse.callback(list);
@@ -174,6 +177,7 @@ var ec2ui_controller = {
         var xmlDoc = objResponse.xmlDoc;
 
         var list = new Array();
+		var tags = new Object();
         var items = xmlDoc.evaluate("/ec2:DescribeSnapshotsResponse/ec2:snapshotSet/ec2:item",
                                     xmlDoc,
                                     this.getNsResolver(),
@@ -192,9 +196,10 @@ var ec2ui_controller = {
             var ownerAlias = getNodeValueByName(items.snapshotItem(i), "ownerAlias")
             list.push(new Snapshot(id, volumeId, status, startTime, progress, volumeSize, description, ownerId, ownerAlias));
 			
+			this.walkTagSet(items.snapshotItem(i), "snapshotId", tags);			
         }
 
-        this.addResourceTags(list, ec2ui_session.model.resourceMap.snapshots, "id");
+        this.addEC2Tag(list, "id", tags);
         ec2ui_model.updateSnapshots(list);
         if (objResponse.callback)
             objResponse.callback(list);
@@ -211,6 +216,7 @@ var ec2ui_controller = {
     onCompleteDescribeVpcs : function (objResponse) {
         var xmlDoc = objResponse.xmlDoc;
         var list = new Array();
+		var tags = new Object();
         var items = xmlDoc.evaluate("/ec2:DescribeVpcsResponse/ec2:vpcSet/ec2:item",
                                     xmlDoc,
                                     this.getNsResolver(),
@@ -222,9 +228,11 @@ var ec2ui_controller = {
             var state = getNodeValueByName(items.snapshotItem(i), "state");
             var dhcpopts = getNodeValueByName(items.snapshotItem(i), "dhcpOptionsId");
             list.push(new Vpc(id, cidr, state, dhcpopts));
+			
+			this.walkTagSet(items.snapshotItem(i), "vpcId", tags);
         }
 
-        this.addResourceTags(list, ec2ui_session.model.resourceMap.vpcs, "id");
+        this.addEC2Tag(list, "id", tags);
         ec2ui_model.updateVpcs(list);
         this.descVpcsInProgress = false;
         if (objResponse.callback)
@@ -260,6 +268,7 @@ var ec2ui_controller = {
     onCompleteDescribeSubnets : function (objResponse) {
         var xmlDoc = objResponse.xmlDoc;
         var list = new Array();
+		var tags = new Object();
         var items = xmlDoc.evaluate("/ec2:DescribeSubnetsResponse/ec2:subnetSet/ec2:item",
                                     xmlDoc,
                                     this.getNsResolver(),
@@ -278,9 +287,11 @@ var ec2ui_controller = {
                                  state,
                                  availableIp,
                                  availabilityZone));
+			
+			this.walkTagSet(items.snapshotItem(i), "subnetId", tags);
         }
 
-        this.addResourceTags(list, ec2ui_session.model.resourceMap.subnets, "id");
+        this.addEC2Tag(list, "id", tags);
         ec2ui_model.updateSubnets(list);
         this.descSubnetsInProgress = false;
         if (objResponse.callback)
@@ -316,6 +327,7 @@ var ec2ui_controller = {
     onCompleteDescribeDhcpOptions : function (objResponse) {
         var xmlDoc = objResponse.xmlDoc;
         var list = new Array();
+		var tags = new Object();
         var items = xmlDoc.evaluate("/ec2:DescribeDhcpOptionsResponse/ec2:dhcpOptionsSet/ec2:item",
                                     xmlDoc,
                                     this.getNsResolver(),
@@ -345,9 +357,11 @@ var ec2ui_controller = {
                 options.push(key + " = " + values.join(","))
             }
             list.push(new DhcpOptions(id, options.join("; ")));
+			
+			this.walkTagSet(items.snapshotItem(i), "dhcpOptionsId", tags);
         }
 
-        this.addResourceTags(list, ec2ui_session.model.resourceMap.dhcpOptions, "id");
+        this.addEC2Tag(list,"id", tags);
         ec2ui_model.updateDhcpOptions(list);
         this.descDhcpOptionsInProgress = false;
         if (objResponse.callback)
@@ -405,6 +419,7 @@ var ec2ui_controller = {
     onCompleteDescribeVpnGateways : function (objResponse) {
         var xmlDoc = objResponse.xmlDoc;
         var list = new Array();
+		var tags =new Object();
         var items = xmlDoc.evaluate("/ec2:DescribeVpnGatewaysResponse/ec2:vpnGatewaySet/ec2:item",
                                     xmlDoc,
                                     this.getNsResolver(),
@@ -429,9 +444,11 @@ var ec2ui_controller = {
                                      state,
                                      type,
                                      attachments));
+			
+			this.walkTagSet(items.snapshotItem(i), "vpnGatewayId", tags);
         }
 
-        this.addResourceTags(list, ec2ui_session.model.resourceMap.vpnGateways, "id");
+        this.addEC2Tag(list, "id", tags);
         ec2ui_model.updateVpnGateways(list);
         this.descVpnGatewaysInProgress = false;
         if (objResponse.callback)
@@ -467,6 +484,7 @@ var ec2ui_controller = {
     onCompleteDescribeCustomerGateways : function (objResponse) {
         var xmlDoc = objResponse.xmlDoc;
         var list = new Array();
+		var tags = new Object();
         var items = xmlDoc.evaluate("/ec2:DescribeCustomerGatewaysResponse/ec2:customerGatewaySet/ec2:item",
                                     xmlDoc,
                                     this.getNsResolver(),
@@ -483,9 +501,11 @@ var ec2ui_controller = {
                                           bgpAsn,
                                           state,
                                           type));
+			
+			this.walkTagSet(items.snapshotItem(i), "customerGatewayId", tags);
         }
 
-        this.addResourceTags(list, ec2ui_session.model.resourceMap.customerGateways, "id");
+        this.addEC2Tag(list, "id", tags);
         ec2ui_model.updateCustomerGateways(list);
         this.descCustomerGatewaysInProgress = false;
         if (objResponse.callback)
@@ -526,6 +546,7 @@ var ec2ui_controller = {
         xmlDoc.normalize();
 
         var list = new Array();
+		var tags = new Object();
         var items = xmlDoc.evaluate("/ec2:DescribeVpnConnectionsResponse/ec2:vpnConnectionSet/ec2:item",
                                     xmlDoc,
                                     this.getNsResolver(),
@@ -553,9 +574,11 @@ var ec2ui_controller = {
                                         type,
                                         state,
                                         config));
+			
+			this.walkTagSet(items.snapshotItem(i), "vpnConnectionId", tags);
         }
 
-        this.addResourceTags(list, ec2ui_session.model.resourceMap.vpnConnections, "id");
+        this.addEC2Tag(list, "id", tags);
         ec2ui_model.updateVpnConnections(list);
         this.descVpnConnectionsInProgress = false;
         if (objResponse.callback)
@@ -669,6 +692,7 @@ var ec2ui_controller = {
         var xmlDoc = objResponse.xmlDoc;
 
         var list = new Array();
+		var tags = new Object();
         var img = null;
         var items = xmlDoc.evaluate("/ec2:DescribeImagesResponse/ec2:imagesSet/ec2:item",
                                     xmlDoc,
@@ -708,9 +732,11 @@ var ec2ui_controller = {
                           name,
                           description,
                           snapshotId));
+			
+			this.walkTagSet(items.snapshotItem(i), "imageId", tags);
         }
 
-        this.addResourceTags(list, ec2ui_session.model.resourceMap.images, "id");
+        this.addEC2Tag(list, "id", tags);
         ec2ui_model.updateImages(list);
         if (objResponse.callback)
             objResponse.callback(list);
@@ -1223,6 +1249,7 @@ var ec2ui_controller = {
         var xmlDoc = objResponse.xmlDoc;
 
         var list = new Array();
+		var tags = new Object();
         var items = xmlDoc.evaluate("/ec2:DescribeInstancesResponse/ec2:reservationSet/ec2:item",
                                     xmlDoc,
                                     this.getNsResolver(),
@@ -1242,13 +1269,61 @@ var ec2ui_controller = {
             if (instanceItems) {
                 var resList = this.unpackReservationInstances(resId, ownerId, groups, instanceItems);
                 list = list.concat(resList);
+				
+				for (var j = 0; j < instanceItems.length; j++) {
+                    var instanceItem = instanceItems[j];
+
+                    if (instanceItem.nodeName == '#text') {
+                        continue;
+                    }
+
+                    this.walkTagSet(instanceItem, "instanceId", tags);
+                }
             }
         }
 
-        this.addResourceTags(list, ec2ui_session.model.resourceMap.instances, "id");
+        this.addEC2Tag(list, "id", tags);
         ec2ui_model.updateInstances(list);
         if (objResponse.callback)
             objResponse.callback(list);
+    },
+	
+	walkTagSet : function(item, idName, tags) {
+        var instanceId = getNodeValueByName(item, idName);
+        var tagSet = item.getElementsByTagName("tagSet")[0];
+
+        if (tagSet) {
+            var tagSetItems = tagSet.getElementsByTagName("item");
+            var tagArray = new Array();
+            var nameTag = null;
+
+            for (var i= 0; i < tagSetItems.length; i++) {
+                var tagSetItem = tagSetItems[i];
+                var tagSetItemKey = getNodeValueByName(tagSetItem, "key");
+                var tagSetItemValue = getNodeValueByName(tagSetItem, "value");
+
+                if (/[,"]/.test(tagSetItemValue)) {
+                    tagSetItemValue = tagSetItemValue.replace(/"/g, '""');
+                    tagSetItemValue = '"' + tagSetItemValue + '"';
+                }
+
+                var keyValue = tagSetItemKey + ":" + tagSetItemValue;
+
+                if (tagSetItemKey == "Name") {
+                    nameTag = keyValue;
+                } else {
+                    tagArray.push(keyValue);
+                }
+            }
+
+            tagArray.sort();
+
+            if (nameTag) {
+                tagArray.unshift(nameTag);
+            }
+
+            tags[instanceId] = tagArray.join(", ");
+        }
     },
 
     addResourceTags : function (list, resourceType, attribute) {
@@ -1275,6 +1350,27 @@ var ec2ui_controller = {
         }
         // Now that we've built the new set of instance tags, persist them
         ec2ui_session.setResourceTags(resourceType, new_tags);
+    },
+	
+	addEC2Tag : function (list, attribute, tags) {
+        if (!list || list.length == 0) {
+            return;
+        }
+
+        if (!tags) {
+            return;
+        }
+
+        var res = null;
+        var tag = null;
+        for (var i in list) {
+            res = list[i];
+            tag = tags[res[attribute]];
+            if (tag && tag.length) {
+                res.tag = tag
+                addNameTagToModel(tag, res);
+            }
+        }
     },
 
     retrieveBundleTaskFromResponse : function (item) {
@@ -1991,12 +2087,13 @@ var ec2ui_controller = {
         var xmlDoc = objResponse.xmlDoc;
 
         var list = new Array();
+		var tags =new Object();
         var items = xmlDoc.getElementsByTagName("item");
         for (var i = 0; i < items.length; i++)
         {
             var publicIp = getNodeValueByName(items[i], "publicIp");
             var instanceid = getNodeValueByName(items[i], "instanceId");
-            list.push(new AddressMapping(publicIp, instanceid));
+            list.push(new AddressMapping(publicIp, instanceid));			
         }
 
         this.addResourceTags(list, ec2ui_session.model.resourceMap.eips, "address");
@@ -2085,5 +2182,73 @@ var ec2ui_controller = {
         }
 
         eval("this."+responseObject.requestType+"(responseObject)");
+    },
+	
+	createTags : function (resIds, tags, callback) {
+	var params = new Array();
+
+        for (var i = 0; i < resIds.length; i++) {
+            params.push(["ResourceId." + (i + 1)   , resIds[i]]);
+            params.push(["Tag." + (i + 1) + ".Key"  , tags[i][0]]);
+            params.push(["Tag." + (i + 1) + ".Value", tags[i][1]]);
+        }
+
+        ec2_httpclient.queryEC2("CreateTags", params, this, true, "onCompleteCreateTags", callback);
+    },
+
+    onCompleteCreateTags : function (objResponse) {
+        if (objResponse.callback) {
+            objResponse.callback();
+        }
+    },
+
+    deleteTags : function (resIds, keys, callback) {
+        var params = new Array();
+
+        for (var i = 0; i < resIds.length; i++) {
+            params.push(["ResourceId." + (i + 1), resIds[i]]);
+            params.push(["Tag." + (i + 1) + ".Key", keys[i]]);
+        }
+
+        ec2_httpclient.queryEC2("DeleteTags", params, this, true, "onCompleteDeleteTags", callback);
+    },
+
+    onCompleteDeleteTags : function (objResponse) {
+        if (objResponse.callback) {
+            objResponse.callback();
+        }
+    },
+
+    describeTags : function (resIds, callback) {
+        var params = new Array();
+
+        for (var i = 0; i < resIds.length; i++) {
+            params.push(["Filter." + (i + 1) + ".Name", "resource-id"]);
+            params.push(["Filter." + (i + 1) + ".Value.1", resIds[i]]);
+        }
+
+        ec2_httpclient.queryEC2("DescribeTags", params, this, true, "onCompleteDescribeTags", callback);
+    },
+
+    onCompleteDescribeTags : function (objResponse) {
+        var xmlDoc = objResponse.xmlDoc;
+        var items = xmlDoc.evaluate("/ec2:DescribeTagsResponse/ec2:tagSet/ec2:item",
+                                    xmlDoc,
+                                    this.getNsResolver(),
+                                    XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
+                                    null);
+
+        var tags = new Array();
+
+        for (var i = 0; i < items.snapshotLength; ++i) {
+            var resid = getNodeValueByName(items.snapshotItem(i), "resourceId");
+            var key = getNodeValueByName(items.snapshotItem(i), "key");
+            var value = getNodeValueByName(items.snapshotItem(i), "value");
+            tags.push([resid, key, value]);
+        }
+
+        if (objResponse.callback) {
+            objResponse.callback(tags);
+        }
     }
 };

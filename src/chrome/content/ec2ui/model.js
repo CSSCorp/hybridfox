@@ -64,7 +64,10 @@ function Snapshot(id, volumeId, status, startTime, progress, volumeSize, descrip
     this.owner = owner;
     this.ownerAlias = ownerAlias;
 	
-    if (tag) this.tag = tag;
+    if (tag) {
+        this.tag = tag;
+        addNameTagToModel(tag, this);
+    }
 }
 
 function Volume(id, size, snapshotId, zone, status, createTime, instanceId, device, attachStatus, attachTime, tag) {
@@ -80,7 +83,10 @@ function Volume(id, size, snapshotId, zone, status, createTime, instanceId, devi
     if (attachStatus != "") {
       this.attachTime = attachTime.strftime('%Y-%m-%d %H:%M:%S');
     }
-    if (tag) this.tag = tag;
+    if (tag) {
+        this.tag = tag;
+        addNameTagToModel(tag, this);
+    }
 }
 
 function Instance(resId, ownerId, groupList, instanceId, imageId, kernelId,
@@ -112,7 +118,10 @@ function Instance(resId, ownerId, groupList, instanceId, imageId, kernelId,
     this.vpcId = vpcId;
     this.subnetId = subnetId;
     this.monitoringState = monitoringState;
-    if (tag) this.tag = tag;
+    if (tag) {
+        this.tag = tag;
+        addNameTagToModel(tag, this);
+    }
     this.rootDeviceType = rootDeviceType;
 }
 
@@ -194,7 +203,10 @@ function Vpc(id, cidr, state, dhcpOptionsId, tag) {
     this.cidr = cidr;
     this.state = state;
     this.dhcpOptionsId = dhcpOptionsId;
-    if (tag) this.tag = tag;
+    if (tag) {
+        this.tag = tag;
+        addNameTagToModel(tag, this);
+    }
 }
 
 function Subnet(id, vpcId, cidr, state, availableIp, availabilityZone, tag) {
@@ -204,13 +216,19 @@ function Subnet(id, vpcId, cidr, state, availableIp, availabilityZone, tag) {
     this.state = state;
     this.availableIp = availableIp;
     this.availabilityZone = availabilityZone;
-    if (tag) this.tag = tag;
+    if (tag) {
+        this.tag = tag;
+        addNameTagToModel(tag, this);
+    }
 }
 
 function DhcpOptions(id, options, tag) {
     this.id = id;
     this.options = options;
-    if (tag) this.tag = tag;
+    if (tag) {
+        this.tag = tag;
+        addNameTagToModel(tag, this);
+    }
 }
 
 function VpnConnection(id, vgwId, cgwId, type, state, config, attachments, tag) {
@@ -222,7 +240,10 @@ function VpnConnection(id, vgwId, cgwId, type, state, config, attachments, tag) 
     this.config = config;
     this.attachments = attachments;
 
-    if (tag) this.tag = tag;
+    if (tag) {
+        this.tag = tag;
+        addNameTagToModel(tag, this);
+    }
 }
 
 function VpnGateway(id, availabilityZone, state, type, attachments, tag) {
@@ -232,7 +253,10 @@ function VpnGateway(id, availabilityZone, state, type, attachments, tag) {
     this.type = type;
     this.attachments = attachments;
 
-    if (tag) this.tag = tag;
+    if (tag) {
+        this.tag = tag;
+        addNameTagToModel(tag, this);
+    }
 }
 
 function VpnGatewayAttachment(vpcId, vgwId, state) {
@@ -248,7 +272,10 @@ function CustomerGateway(id, ipAddress, bgpAsn, state, type, tag) {
     this.state = state;
     this.type = type;
 
-    if (tag) this.tag = tag;
+    if (tag) {
+        this.tag = tag;
+        addNameTagToModel(tag, this);
+    }
 }
 
 String.prototype.trim = function() {
