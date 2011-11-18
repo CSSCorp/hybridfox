@@ -559,6 +559,14 @@ var ec2ui_session =
 	}
 	return false;
     },
+	
+	isEucalyptusEndpointSelected: function () {
+		var activeEndpointType = this.getActiveEndpoint().type;
+		if (activeEndpointType.search(/euca/)!=-1) { //if active endpoint type ends with "euca"
+			return true;
+		}
+		return false;
+	},
     
     isOpenstackEndpointSelected: function () {
     	var activeEndpointType = this.getActiveEndpoint().type;
