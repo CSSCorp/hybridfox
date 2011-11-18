@@ -16,13 +16,6 @@
             <menuitem oncommand="ec2ui_VolumeTreeView.tag(event);"
               label="&ec2ui.addTag.label;" />
             <menuseparator />
-            <menuitem id="volumes.context.createtag"
-              oncommand="ec2ui_VolumeTreeView.createtag(event);"
-              label="&ec2ui.createTag.label;" />
-            <menuitem id="volumes.context.deletetag"
-              oncommand="ec2ui_VolumeTreeView.deletetag(event);"
-              label="&ec2ui.deleteTag.label;" />
-            <menuseparator />
             <menuitem id="volumes.context.attach"
               oncommand="ec2ui_VolumeTreeView.attachVolume();"
               label="&ec2ui.volume.contextmenu.attach.label;" />
@@ -90,9 +83,6 @@
               persist="width ordinal hidden sortDirection" />
             <splitter class="tree-splitter" />
             <treecol id="vol.snapshotId" label="&ec2ui.snapshots.id.label;" flex="1"
-              persist="width ordinal hidden sortDirection" />
-            <splitter class="tree-splitter" />
-            <treecol id="vol.publictag" label="&ec2ui.publictag.label;" flex="1"
               persist="width ordinal hidden sortDirection" />
             <splitter class="tree-splitter" />
             <treecol id="vol.availabilityZone" label="&ec2ui.availabilityZone.label;" flex="1"

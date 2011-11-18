@@ -19,7 +19,7 @@ function getEC2WindowsDeviceList() {
 
 var ec2ui_VolumeTreeView = {
     COLNAMES:
-    ['vol.id','vol.size','vol.snapshotId','vol.publictag','vol.availabilityZone','vol.status',
+    ['vol.id','vol.size','vol.snapshotId','vol.availabilityZone','vol.status',
     'vol.createTime', 'vol.instanceId', 'vol.device', 'vol.attachStatus',
     'vol.attachTime', 'vol.tag'],
     imageIdRegex : new RegExp("^vol-"),
@@ -95,42 +95,6 @@ var ec2ui_VolumeTreeView = {
         document.getElementById("volumes.context.forcedetach").disabled = !fAssociated;
     },
     
-    createtag : function(event){
-        var image = this.getSelectedImage();
-        if (image == null) return;
-        var ResourceId = image.id;
-        var Tag = prompt(ec2ui_utils.getMessageProperty("ec2ui.msg.util.prompt.createtag" ,[ResourceId]));
-        if (Tag == null)
-            return;
-        Tag = Tag.trim();
-        var me = this;
-        var wrap = function() {
-            if (ec2ui_prefs.isRefreshOnChangeEnabled()) {
-                me.refresh();
-            }
-        }
-        ec2ui_session.controller.CreateTag(ResourceId,Tag,wrap); 
-    },
-    
-    deletetag : function(event){
-        var image = this.getSelectedImage();
-        if (image == null) return;
-        var ResourceId = image.id;
-        var publictag = image.publictag;
-        
-        var confirmed = confirm(ec2ui_utils.getMessageProperty("ec2ui.msg.util.prompt.deletetag", [publictag]));
-        if (!confirmed)
-            return;
-
-        var me = this;
-        var wrap = function() {
-            if (ec2ui_prefs.isRefreshOnChangeEnabled()) {
-                me.refresh();
-            }
-        }
-        ec2ui_session.controller.DeleteTag(ResourceId,publictag, wrap);
-    },
-
     createSnapshot : function () {
         var image = this.getSelectedImage();
         if (image == null) return;

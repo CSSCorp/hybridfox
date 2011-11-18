@@ -136,7 +136,6 @@ var ec2ui_controller = {
             var id = getNodeValueByName(items.snapshotItem(i), "volumeId");
             var size = getNodeValueByName(items.snapshotItem(i), "size");
             var snapshotId = getNodeValueByName(items.snapshotItem(i), "snapshotId");
-			var publictag = getNodeValueByName(items.snapshotItem(i), "value");
             var zone = getNodeValueByName(items.snapshotItem(i), "availabilityZone");
             var status = getNodeValueByName(items.snapshotItem(i), "status");
             var createTime = new Date();
@@ -166,7 +165,7 @@ var ec2ui_controller = {
             // Make sure there is an attachment
 
 	   
-            list.push(new Volume(id, size, snapshotId, publictag, zone, status, createTime, instanceId, device, attachStatus, attachTime || ""));
+            list.push(new Volume(id, size, snapshotId, zone, status, createTime, instanceId, device, attachStatus, attachTime || ""));
         }
 
         this.addResourceTags(list, ec2ui_session.model.resourceMap.volumes, "id");
@@ -493,12 +492,10 @@ var ec2ui_controller = {
                 var kernelId = getNodeValueByName(instanceItems[j], "kernelId");
                 var ramdiskId = getNodeValueByName(instanceItems[j], "ramdiskId");
             }
-			var publictag = getNodeValueByName(instanceItems[j], "value");
 			
             list.push(new Instance(resId,
                                    ownerId,
                                    groups,
-								   publictag,
                                    instanceId,
                                    imageId,
                                    kernelId || "",
@@ -1939,32 +1936,5 @@ var ec2ui_controller = {
         var items = getNodeValueByName(xmlDoc, "ServerCertificateMetadata");
         if (objResponse.callback)
             objResponse.callback(items);
-    },
-    
-    CreateTag : function(ResourceId,Tag,callback){
-       params = []
-       params.push(["ResourceId.1", ResourceId]);
-       params.push(["Tag.1.Key", Tag]);
-       params.push(["Tag.1.Value", Tag]);
-       ec2_httpclient.queryEC2("CreateTags", params, this, true, "oncompleteCreateTag", callback);  
-    },
-    
-    oncompleteCreateTag : function (objResponse) {
-        if (objResponse.callback) {
-            objResponse.callback();
-        }
-    },
-    
-    DeleteTag : function(ResourceId,publictag,callback){
-       params = []
-       params.push(["ResourceId.1", ResourceId]);
-       params.push(["Tag.1.Key", publictag]);
-       ec2_httpclient.queryEC2("DeleteTags", params, this, true, "oncompleteDeleteTag", callback);  
-    },
-    
-    oncompleteDeleteTag : function (objResponse) {
-        if (objResponse.callback) {
-            objResponse.callback();
-        }
     }
 };
