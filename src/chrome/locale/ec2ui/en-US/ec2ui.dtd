@@ -141,7 +141,7 @@
 
 <!ENTITY ec2ui.platform.label "Platform">
 <!ENTITY ec2ui.availabilityZone.label "Availability Zone">
-<!ENTITY ec2ui.addTag.label "Add Tag">
+<!ENTITY ec2ui.addTag.label "Add/Edit Tag">
 
 <!ENTITY ec2ui.contextmenu.details.label "View Details">
 <!ENTITY ec2ui.contextmenu.copyid.label "Copy ID to clipboard">
