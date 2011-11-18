@@ -188,6 +188,7 @@ var ec2ui_prefs = {
     PROMPT_OPEN_PORT    : "ec2ui.prompt.open.port",
     OPEN_CONNECTION_PORT: "ec2ui.open.connection.port",
     endpoints           : null,
+    templates           : null,
 
     prefs : null,
 
@@ -420,10 +421,6 @@ var ec2ui_prefs = {
         this.setStringPreference(this.ENDPOINTS, value.toJSONString());
     },
     
-    setTemplateMap : function(value) {
-        this.setStringPreference(this.TEMPLATES, value.toJSONString());
-    },
-    
     getLatestEndpointMap : function() {
         var packedMap = this.getStringPreference(this.ENDPOINTS, null);;
         var endpointmap = null;
@@ -474,6 +471,10 @@ var ec2ui_prefs = {
         return new WrappedMapEndpoints(endpointmap, this);
     },
     
+    setTemplateMap : function(value) {
+        this.setStringPreference(this.TEMPLATES, value.toJSONString());
+    },
+    
     getTemplateMap : function() {
         var packedMap = this.getStringPreference(this.TEMPLATES, null);
         var templatemap = null;
@@ -503,6 +504,10 @@ var ec2ui_prefs = {
             templatemap['ElasticTemp'] = new Template('ElasticBeanstalk-1.0.0', 'https://s3.amazonaws.com/cloudformation-samples-us-east-1/ElasticBeanstalk-1.0.0.template');
             templatemap['GollumTemp'] = new Template('Gollum-1.0.0', 'https://s3.amazonaws.com/cloudformation-samples-us-east-1/Gollum-1.0.0.template');
             templatemap['InsoshiTemp'] = new Template('Insoshi-1.0.0', 'https://s3.amazonaws.com/cloudformation-samples-us-east-1/Insoshi-1.0.0.template');
+            templatemap['JoomlaTemp'] = new Template('Joomla-1.0.0', 'https://s3.amazonaws.com/cloudformation-samples-us-east-1/Joomla-1.0.0.template');
+            templatemap['PHPTemp'] = new Template('PHPHelloWorld-1.0.0', 'https://s3.amazonaws.com/cloudformation-samples-us-east-1/PHPHelloWorld-1.0.0.template');
+            templatemap['RedTemp'] = new Template('Redmine-1.0.0', 'https://s3.amazonaws.com/cloudformation-samples-us-east-1/Redmine-1.0.0.template');
+            templatemap['WordPressTemp'] = new Template('WordPress-1.0.0', 'https://s3.amazonaws.com/cloudformation-samples-us-east-1/WordPress-1.0.0.template');
         }
 
         return new WrappedMapTemplates(templatemap, this);

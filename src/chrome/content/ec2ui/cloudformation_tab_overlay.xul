@@ -21,6 +21,8 @@
           tooltiptext="&ec2ui.create.cloudformation.tip;" />
         <toolbarbutton image="images/delete.png" oncommand="ec2ui_CloudformationTreeView.deletestack()"
           tooltiptext="&ec2ui.delete.cloudformation.tip;" />
+        <toolbarbutton image="images/template.png" oncommand="ec2ui_CloudformationTreeView.manageTemplates()"
+          tooltiptext="&ec2ui.templates.cloudformation.tip;" />
       </toolbar>
       <tree enableColumnDrag="true" id="ec2ui.cloudformation.view"
             ondblclick="ec2ui_CloudformationTreeView.viewmore(event)"

@@ -2,12 +2,8 @@
 {
    ec2ui_session : null,
    retVal : null,
-   cloudForm : null,
-   stackList : null,
-   jsonList : null,
-   urlList : null,
+   templatemap : null,
    JSONObject : null,
-   jsonHttp : null,
    
    createstack : function() {
 	this.retVal.ok = true;
@@ -15,12 +11,9 @@
    },
    
    init : function() {
-      this.ec2ui_session = window.arguments[1];
-      this.retVal = window.arguments[2];
-      this.cloudForm = window.arguments[3];
-      this.stackList = window.arguments[4];
-      this.jsonList = window.arguments[5];
-      this.urlList = window.arguments[6];
+      this.ec2ui_session = window.arguments[0];
+      this.retVal = window.arguments[1];
+      this.templatemap = window.arguments[2];
    },
    
    readFinalParams : function() {
@@ -28,16 +21,18 @@
       var noOFParams = 0;
       var parms = "{";
       
-      var myList = document.getElementById('cfTemplates');
+      var stackurl = document.getElementById("templates.list");
+      var url = stackurl.getAttribute("value");
+      
       parms  = parms + "StackName:";
       parms  = parms + "'"+document.getElementById("stackName").value+"',";
    
       parms  = parms + "StackUrl:";
-      parms  = parms + "'"+this.urlList[myList.value]+"',"; 
+      parms  = parms + "'"+url+"',"; 
       var i = 0;
       
       for(var fld in JSONObject.Parameters)
-      { 
+      {
          var txt="";
          var tb = "tb"+i;
          parms  = parms + fld.toString() +":";
@@ -46,7 +41,7 @@
          else
          parms  = parms + "'"+document.getElementById(tb.toString()).value+"'";
          
-         i = i + 1; 
+         i = i + 1;
       }
       parms  = parms + "}";
      
@@ -56,37 +51,9 @@
       return true;
    },
 
-   readParms : function() {
-      var myList = document.getElementById('paramsInfo');
-      while(myList.itemCount)
-      {
-         myList.removeItemAt(0);
-      }
-      var i=0;
-      
-      for(var fld in JSONObject.Parameters)
-      {
-         if(JSONObject.Parameters[fld.toString()].NoEcho) {
-            i = i + 1;
-            continue;
-         }
-         
-         var txt="";
-         var tb = "tb"+i;
-         txt += fld.toString()+" : ";
-         txt += document.getElementById(tb.toString()).value;
-         
-         myList.insertItemAt(i, txt);
-         i = i + 1;
-      }
-   },
-
-   getResource : function() {
-
-      var myList = document.getElementById('cfTemplates');
-      var myJSONtext = this.jsonList[myList.value];
+   getResource : function(doc) {
  
-      JSONObject = eval('('+myJSONtext+')');
+      JSONObject = eval('('+doc+')');
      
       var myList = document.getElementById('resInfo');
       while(myList.itemCount)
@@ -105,23 +72,13 @@
       }
    },
    
-   loadParms : function(action) {
-
-      if(action=='getResource')
-      {
-         this.getResource();
-      } else {
-         this.HideAllControll();
-         this.readXML();
-      }
+   loadParms : function(doc) {
+      this.readXML(doc);
    },
    
-   readXML : function() {
+   readXML : function(doc) {
 
-      var JSONObject;
-      var myList = document.getElementById('cfTemplates');
-      var myJSONtext = this.jsonList[myList.value];
-      JSONObject = eval('('+myJSONtext+')');
+      JSONObject = eval('('+doc+')');
       var i=0;
       var pj=1;
       for(var fld in JSONObject.Parameters)
@@ -160,26 +117,66 @@
       }
    },
    
-   loadList : function() {
-     
+   selectedtemplate : function() {
+
+      var templateurl = document.getElementById("templates.list");
+      var url = templateurl.getAttribute("value");
+      var name = templateurl.getAttribute("label");
+      this.getCFStack(url);
+   },
+   
+   loadtemplates : function() {
+      
       this.init();
-      var myList = document.getElementById('cfTemplates');
-      var i = 0;
-      for each(var tam in this.stackList)
-      {
-         myList.insertItemAt(myList.count,tam.toString(), i);
-         i = i + 1;
+      var activeTemplatesMenu = document.getElementById("templates.list");
+      activeTemplatesMenu.removeAllItems();
+      
+      var templatelist = this.templatemap.toArray(function(k,v){return new Template(k, v.url)});
+      for(var i in templatelist) {
+         activeTemplatesMenu.insertItemAt(i,
+                                          templatelist[i].name,
+                                          templatelist[i].url
+                                          );
       }
    },
- 
-   readList : function() {
-      var listTmplate;
-      var count = listTmplate.documentElement.childNodes.length;
-      for (var i = 0; i != count; i=i+1) {
-         i=i+1;
-         var name = listTmplate.documentElement.childNodes[i].textContent;
-         var myList = document.getElementById('cfTemplates');
-         myList.insertItemAt(myList.count, name, name);
+   
+   getCFStack: function (url) {
+      var httpRsp;
+      var httpRsp = this.ec2ui_session.client.makeCFStackHTTPRequest("GET",url);
+      if (!httpRsp.hasErrors) {
+         var xmlhttp = httpRsp.xmlhttp;
+         if (xmlhttp) {
+            var doc = xmlhttp.responseText;
+            this.getResource(doc);
+            this.HideAllControll();
+            this.loadParms(doc);
+         }
+      }
+      return null;
+   },
+   
+   readParms : function() {
+      var myList = document.getElementById('paramsInfo');
+      while(myList.itemCount)
+      {
+         myList.removeItemAt(0);
+      }
+      var i=0;
+      
+      for(var fld in JSONObject.Parameters)
+      {
+         if(JSONObject.Parameters[fld.toString()].NoEcho) {
+            i = i + 1;
+            continue;
+         }
+         
+         var txt="";
+         var tb = "tb"+i;
+         txt += fld.toString()+" : ";
+         txt += document.getElementById(tb.toString()).value;
+         
+         myList.insertItemAt(i, txt);
+         i = i + 1;
       }
    },
    

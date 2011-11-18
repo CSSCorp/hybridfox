@@ -548,27 +548,7 @@ var ec2ui_utils = {
             attr = "id";
         }
 
-        var tag = __tagPrompt__(list[0].tag);
-
-        if (tag == null) return;
-
-        var res = null;
-        tag = tag.trim();
-        for (var i = 0; i < list.length; ++i) {
-            res = list[i];
-            res.tag = tag;
-            session.setResourceTag(res[attr], res.tag);
-        }
-    },
-
-    tagMultipleEC2Resources : function(list, session, attr) {
-        if (!list || !session) return;
-
-        if (!attr) {
-            attr = "id";
-        }
-
-        var tag = __tagPrompt__(list[0].tag);
+        var tag = tagPrompt(list[0].tag);
 
         if (!tag) return;
 

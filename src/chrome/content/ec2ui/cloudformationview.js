@@ -1,50 +1,3 @@
-var listOfTemp = {
-    
-    DrupalTemp :{
-        Name:'Drupal-1.0.0',
-        Url:'https://s3.amazonaws.com/cloudformation-samples-us-east-1/Drupal-1.0.0.template'
-    },
-    DrupalNoTemp :{
-        Name:'Drupal-NoSSH-1.0.0',
-        Url:'https://s3.amazonaws.com/cloudformation-samples-us-east-1/Drupal-NoSSH-1.0.0.template'
-    },
-    ElasticTemp:{
-        Name:'ElasticBeanstalk-1.0.0',
-        Url:'https://s3.amazonaws.com/cloudformation-samples-us-east-1/ElasticBeanstalk-1.0.0.template'
-    },
-    
-    GollumTemp:{
-        Name:'Gollum-1.0.0',
-        Url:'https://s3.amazonaws.com/cloudformation-samples-us-east-1/Gollum-1.0.0.template'
-    },
-
-    InsoshiTemp:{
-        Name:'Insoshi-1.0.0',
-        Url:'https://s3.amazonaws.com/cloudformation-samples-us-east-1/Insoshi-1.0.0.template'
-    },
-
-    JoomlaTemp:{
-        Name:'Joomla-1.0.0',
-        Url:'https://s3.amazonaws.com/cloudformation-samples-us-east-1/Joomla-1.0.0.template'
-    },
-
-    PHPTemp:{
-        Name:'PHPHelloWorld-1.0.0',
-        Url:'https://s3.amazonaws.com/cloudformation-samples-us-east-1/PHPHelloWorld-1.0.0.template'
-    },
-
-    RedTemp:{
-        Name:'Redmine-1.0.0',
-        Url:'https://s3.amazonaws.com/cloudformation-samples-us-east-1/Redmine-1.0.0.template'
-    },
-
-    WordPressTemp:{
-        Name:'WordPress-1.0.0',
-        Url:'https://s3.amazonaws.com/cloudformation-samples-us-east-1/WordPress-1.0.0.template'
-    }
-
-};
-
 var ec2ui_CloudformationTreeView = {
     COLNAMES : ['cloudformation.StackName','cloudformation.StackId','cloudformation.CreationTime','cloudformation.Status'],
     treeBox : null,
@@ -171,37 +124,22 @@ var ec2ui_CloudformationTreeView = {
         ec2ui_session.controller.describeStackResources(CloudFormation.StackName, wrap);
     },
     
-    createstack:function() {
+    createstack : function() {
         var arrayParamss;
         
         var retVal = {ok:null,arrayParams:null};
-        var sampleList = new Array(listOfTemp.length);
-        var sampleJSON = new Array(listOfTemp.length);
-        var urlList = new Array(listOfTemp.length);
-        var i = 0;
-        for each(var temp in listOfTemp)
-        {
-            sampleList[i]= temp.Name.toString();
-            sampleJSON[i]= this.getCFStack(temp.Url.toString());
-            urlList[i] = temp.Url.toString();
-            i = i + 1;          
-        }
+        
         window.openDialog("chrome://ec2ui/content/dialog_create_stack.xul",
                           null,
                           "chrome,centerscreen,modal",
-                          null,
                           ec2ui_session,
                           retVal,
-                          this,
-                          sampleList,
-                          sampleJSON,
-                          urlList
-                        );
+                          ec2ui_session.templatemap);
         var me = this;
         var wrap = function() {
             if (ec2ui_prefs.isRefreshOnChangeEnabled()) {
                 me.refresh();
-            }            
+            }
         }
         
         ec2ui_session.controller.CreateStack(retVal.arrayParams, wrap);
@@ -238,10 +176,17 @@ var ec2ui_CloudformationTreeView = {
         }
     },
     
+    manageTemplates : function () {
+        window.openDialog("chrome://ec2ui/content/dialog_manage_templates.xul",
+                          null,
+                          "chrome,centerscreen,modal",
+                          ec2ui_session.templatemap);      
+    },
+    
     getCFStack: function (url) {
         var httpRsp;
+        alert(url);
         var httpRsp = ec2ui_session.client.makeCFStackHTTPRequest("GET",url);
-        
         if (!httpRsp.hasErrors) {
             var xmlhttp = httpRsp.xmlhttp;
             if (xmlhttp) {

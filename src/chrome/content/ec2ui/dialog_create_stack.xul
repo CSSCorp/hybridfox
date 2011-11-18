@@ -3,162 +3,161 @@
 
 <wizard id="theWizard" title="Cloud Formation Wizard"
   xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onwizardfinish="ec2_CloudFormation_Stack.readFinalParams();"
-  onload="ec2_CloudFormation_Stack.loadList();" >
+  onload="ec2_CloudFormation_Stack.loadtemplates();" >
 
   <script type="application/x-javascript" src="chrome://ec2ui/content/client.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/session.js" />
-  <script type="application/x-javascript" src="chrome://ec2ui/content/cloudformation.js" />
+  <script type="application/x-javascript" src="chrome://ec2ui/content/preferences.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/newstack.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/model.js" />
 
   <wizardpage onpageshow="ec2_CloudFormation_Stack.checkStack(null);">
-     <label value="Enter the Stack Name:"/>
-     <textbox id="stackName" onkeyup="ec2_CloudFormation_Stack.checkStack(this);"/>
-     <label value="Select the Template"/>
-     <menulist id="cfTemplates" label= "Select template" oncommand="ec2_CloudFormation_Stack.loadParms('getResource');">
-	  <menupopup>
-	  </menupopup>
-     </menulist>
-     <vbox>
-	  <label value="Resource Information"/>
-	  <listbox id="resInfo" rows="5">
-	       <listhead>
-		    <listheader label="Resource Name : Resource Type" align="center" />
-	       </listhead>
-	       <listcols>
-		    <listcol/>
-		    <listcol flex="1"/>
-	       </listcols>
-	  </listbox>
-     </vbox>
+	 <label value="Enter the Stack Name:"/>
+	 <textbox id="stackName" onkeyup="ec2_CloudFormation_Stack.checkStack(this);"/>
+	 <label value="Select the Template"/>
+	 <menulist id="templates.list" label= "Select template" oncommand="ec2_CloudFormation_Stack.selectedtemplate();">
+		  <menupopup/>
+	 </menulist>
+	 <vbox>
+		  <label value="Resource Information"/>
+		  <listbox id="resInfo" rows="5">
+			   <listhead>
+					<listheader label="Resource Name : Resource Type" align="center" />
+			   </listhead>
+			   <listcols>
+					<listcol/>
+					<listcol flex="1"/>
+			   </listcols>
+		  </listbox>
+	 </vbox>
   </wizardpage>
   
   <wizardpage onpageshow="ec2_CloudFormation_Stack.loadParms('');">
-     <vbox>
-	  <groupbox align="start">
-	       <caption label="Your Template Information"/>
-	       <vbox>
-		    <grid flex="1">
-			 <columns>
-			      <column flex="1"/>
-			      <column flex="1"/>
-			 </columns>
-			 <rows>
-			      <row id="row0">
-				   <label id="lab0" control="tb0"/>
-				   <textbox id="tb0" />
-			      </row>
-			      <label id="des0" control="tb0" flex="1"/>
-			      <row id="row1">
-				   <label id="lab1" control="tb1"/>
-				   <textbox id="tb1" />
-			      </row>
-			      <label id="des1" control="tb1" flex="1"/>
-			      <row id="row2">
-				   <label id="lab2" control="tb2"/>
-				   <textbox id="tb2" />
-			      </row>
-			      <label id="des2" control="tb2" flex="1"/>
-			      <row id="row3">
-				   <label id="lab3" control="tb3"/>
-				   <textbox id="tb3" />
-			      </row>
-			      <label id="des3" control="tb3" flex="1"/>
-			      <row id="row4">
-				   <label id="lab4" control="tb4"/>
-				   <textbox id="tb4" />
-			      </row>
-			      <label id="des4" control="tb4" flex="1"/>
-			      <row id="row5">
-				   <label id="lab5" control="tb5"/>
-				   <textbox id="tb5" />
-			      </row>
-			      <label id="des5" control="tb5" flex="1"/>
-			      <row id="row6">
-				   <label id="lab6" control="tb6"/>
-				   <textbox id="tb6" />
-			      </row>
-			      <label id="des6" control="tb6" flex="1"/>
-			      <row id="row7">
-				   <label id="lab7" control="tb7"/>
-				   <textbox id="tb7" />
-			      </row>
-			      <label id="des7" control="tb7" flex="1"/>
-			      <row id="row8">
-				   <label id="lab8" control="tb8"/>
-				   <textbox id="tb8" />
-			      </row>
-			      <label id="des8" control="tb8" flex="1"/>
-			      <row id="row9">
-				   <label id="lab9" control="tb9"/>
-				   <textbox id="tb9" />
-			      </row>
-			      <label id="des9" control="tb9" flex="1"/>
-			      <row id="row10">
-				   <label id="lab10" control="tb10"/>
-				   <textbox id="tb10" />
-			      </row>
-			      <label id="des10" control="tb10" flex="1"/>
-			      <row id="row11">
-				   <label id="lab11" control="tb11"/>
-				   <textbox id="tb11" />
-			      </row>
-			      <label id="des11" control="tb11" flex="1"/>
-			      <row id="row12">
-				   <label id="lab12" control="tb12"/>
-				   <textbox id="tb12" />
-			      </row>
-			      <label id="des12" control="tb12" flex="1"/>
-			      <row id="row13">
-				   <label id="lab13" control="tb13"/>
-				   <textbox id="tb13" />
-			      </row>
-			      <label id="des13" control="tb13" flex="1"/>
-			      <row id="row14">
-				   <label id="lab14" control="tb14"/>
-				   <textbox id="tb14" />
-			      </row>
-			      <label id="des14" control="tb14" flex="1"/>
-			      <row id="row15">
-				   <label id="lab15" control="tb15"/>
-				   <textbox id="tb15" />
-			      </row>
-			      <label id="des15" control="tb15" flex="1"/>
-			      <row id="row16">
-				   <label id="lab16" control="tb16"/>
-				   <textbox id="tb16" />
-			      </row>
-			      <label id="des16" control="tb16" flex="1"/>
-			      <row id="row17">
-				   <label id="lab17" control="tb17"/>
-				   <textbox id="tb17" />
-			      </row>
-			      <label id="des17" control="tb17" flex="1"/>
-			      <row id="row18">
-				   <label id="lab18" control="tb18"/>
-				   <textbox id="tb18" />
-			      </row>
-			      <label id="des18" control="tb18" flex="1"/>
-			      <row id="row19">
-				   <label id="lab19" control="tb19"/>
-				   <textbox id="tb19" />
-			      </row>
-			      <label id="des19" control="tb19" flex="1"/>
-			 </rows>
-		    </grid>
-	       </vbox>
-	  </groupbox>
-     </vbox>
+	 <vbox>
+		  <groupbox align="start">
+			   <caption label="Your Template Information"/>
+			   <vbox>
+					<grid flex="1">
+						 <columns>
+							  <column flex="1"/>
+							  <column flex="1"/>
+						 </columns>
+						 <rows>
+							  <row id="row0">
+								   <label id="lab0" control="tb0"/>
+								   <textbox id="tb0" />
+							  </row>
+							  <label id="des0" control="tb0" flex="1"/>
+							  <row id="row1">
+								   <label id="lab1" control="tb1"/>
+								   <textbox id="tb1" />
+							  </row>
+							  <label id="des1" control="tb1" flex="1"/>
+							  <row id="row2">
+								   <label id="lab2" control="tb2"/>
+								   <textbox id="tb2" />
+							  </row>
+							  <label id="des2" control="tb2" flex="1"/>
+							  <row id="row3">
+								   <label id="lab3" control="tb3"/>
+								   <textbox id="tb3" />
+							  </row>
+							  <label id="des3" control="tb3" flex="1"/>
+							  <row id="row4">
+								   <label id="lab4" control="tb4"/>
+								   <textbox id="tb4" />
+							  </row>
+							  <label id="des4" control="tb4" flex="1"/>
+							  <row id="row5">
+								   <label id="lab5" control="tb5"/>
+								   <textbox id="tb5" />
+							  </row>
+							  <label id="des5" control="tb5" flex="1"/>
+							  <row id="row6">
+								   <label id="lab6" control="tb6"/>
+								   <textbox id="tb6" />
+							  </row>
+							  <label id="des6" control="tb6" flex="1"/>
+							  <row id="row7">
+								   <label id="lab7" control="tb7"/>
+								   <textbox id="tb7" />
+							  </row>
+							  <label id="des7" control="tb7" flex="1"/>
+							  <row id="row8">
+								   <label id="lab8" control="tb8"/>
+								   <textbox id="tb8" />
+							  </row>
+							  <label id="des8" control="tb8" flex="1"/>
+							  <row id="row9">
+								   <label id="lab9" control="tb9"/>
+								   <textbox id="tb9" />
+							  </row>
+							  <label id="des9" control="tb9" flex="1"/>
+							  <row id="row10">
+								   <label id="lab10" control="tb10"/>
+								   <textbox id="tb10" />
+							  </row>
+							  <label id="des10" control="tb10" flex="1"/>
+							  <row id="row11">
+								   <label id="lab11" control="tb11"/>
+								   <textbox id="tb11" />
+							  </row>
+							  <label id="des11" control="tb11" flex="1"/>
+							  <row id="row12">
+								   <label id="lab12" control="tb12"/>
+								   <textbox id="tb12" />
+							  </row>
+							  <label id="des12" control="tb12" flex="1"/>
+							  <row id="row13">
+								   <label id="lab13" control="tb13"/>
+								   <textbox id="tb13" />
+							  </row>
+							  <label id="des13" control="tb13" flex="1"/>
+							  <row id="row14">
+								   <label id="lab14" control="tb14"/>
+								   <textbox id="tb14" />
+							  </row>
+							  <label id="des14" control="tb14" flex="1"/>
+							  <row id="row15">
+								   <label id="lab15" control="tb15"/>
+								   <textbox id="tb15" />
+							  </row>
+							  <label id="des15" control="tb15" flex="1"/>
+							  <row id="row16">
+								   <label id="lab16" control="tb16"/>
+								   <textbox id="tb16" />
+							  </row>
+							  <label id="des16" control="tb16" flex="1"/>
+							  <row id="row17">
+								   <label id="lab17" control="tb17"/>
+								   <textbox id="tb17" />
+							  </row>
+							  <label id="des17" control="tb17" flex="1"/>
+							  <row id="row18">
+								   <label id="lab18" control="tb18"/>
+								   <textbox id="tb18" />
+							  </row>
+							  <label id="des18" control="tb18" flex="1"/>
+							  <row id="row19">
+								   <label id="lab19" control="tb19"/>
+								   <textbox id="tb19" />
+							  </row>
+							  <label id="des19" control="tb19" flex="1"/>
+						 </rows>
+					</grid>
+			   </vbox>
+		  </groupbox>
+	 </vbox>
   </wizardpage>
 
   <wizardpage onpageshow="ec2_CloudFormation_Stack.readParms();">
-     <label value="Please review the information below"/>
-     <separator/>
-     <label value="Stack Information"/>
-     <listbox id="stackInfo" rows="5">
-     </listbox>
-     <separator/>
-     <label value="Parameters"/>
+	 <label value="Please review the information below"/>
+	 <separator/>
+	 <label value="Stack Information"/>
+	 <listbox id="stackInfo" rows="2">
+	 </listbox>
+	 <separator/>
+	 <label value="Parameters"/>
      <listbox id="paramsInfo" rows="5">
      </listbox>
      <separator/>

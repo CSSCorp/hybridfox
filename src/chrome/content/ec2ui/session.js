@@ -9,6 +9,7 @@ var ec2ui_session =
     credentials     : null,
     accountidmap    : null,
     endpointmap     : null,
+	templatemap 	: null,
     instanceTags    : null,
     volumeTags      : null,
     snapshotTags    : null,
@@ -37,10 +38,10 @@ var ec2ui_session =
             document.getElementById("ec2ui.bundleTasks.view").view = ec2ui_BundleTasksTreeView;
             document.getElementById("ec2ui.offerings.view").view = ec2ui_LeaseOfferingsTreeView;
             document.getElementById("ec2ui.rsvdInst.view").view = ec2ui_ReservedInstancesTreeView;
-	    document.getElementById("ec2ui.loadbalancer.view").view = ec2ui_LoadbalancerTreeView;
-	    document.getElementById("ec2ui.instancehealth.view").view = ec2ui_InstanceHealthTreeView;
-	    document.getElementById("ec2ui.cloudformation.view").view = ec2ui_CloudformationTreeView;
-	    document.getElementById("ec2ui.cloudFormationResource.view").view = ec2ui_StackResourceTreeView;
+			document.getElementById("ec2ui.loadbalancer.view").view = ec2ui_LoadbalancerTreeView;
+			document.getElementById("ec2ui.instancehealth.view").view = ec2ui_InstanceHealthTreeView;
+			document.getElementById("ec2ui.cloudformation.view").view = ec2ui_CloudformationTreeView;
+			document.getElementById("ec2ui.cloudFormationResource.view").view = ec2ui_StackResourceTreeView;
 
             // Enable about:blank to work if noscript is installed
             if("@maone.net/noscript-service;1" in Components.classes) {
@@ -56,6 +57,7 @@ var ec2ui_session =
         }
 
         this.loadEndpointMap();
+		this.loadTemplateMap();
         this.switchEndpoints();
         this.args = this.parseURL();
         this.processURLArguments();
@@ -326,6 +328,22 @@ var ec2ui_session =
             if (lastUsedEndpoint == endpointlist[i].name) {
                 activeEndpointsMenu.selectedIndex = i;
             }
+        }
+    },
+	
+	loadTemplateMap : function() {
+		this.templatemap = ec2ui_prefs.getTemplateMap();
+		var activeTemplatesMenu = document.getElementById("templates.list");
+		activeTemplatesMenu.removeAllItems();
+		
+		var templatelist = this.templatemap.toArray(function(k,v){return new Endpoint(k, v.url)});
+		
+		for(var i in templatelist) {
+			activeTemplatesMenu.insertItemAt(i,
+											 templatelist[i].name,
+											 templatelist[i].url
+											 );
+            
         }
     },
 

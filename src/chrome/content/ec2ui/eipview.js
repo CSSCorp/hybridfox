@@ -270,7 +270,7 @@ var ec2ui_ElasticIPTreeView = {
             return;
         }
 
-        tagResource(eip, ec2ui_session, "address");
+        tagEC2Resource(eip, ec2ui_session);
         this.selectByAddress(eip.address);
     },
 
