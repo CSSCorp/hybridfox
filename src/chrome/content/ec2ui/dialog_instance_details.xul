@@ -9,7 +9,7 @@
   <script type="application/x-javascript" src="chrome://ec2ui/content/instancedetaildialog.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/model.js" />
 
-  <vbox flex="1">
+  <vbox flex="1" style="overflow-y: scroll;height:350px;">
     <grid flex="1">
       <columns>
         <column />
