@@ -45,15 +45,18 @@ var ec2ui_RegisterInstances = {
         var registerid = new Array();
 	
         for (var i in InstanceIds){
+			if (InstanceIds[i].LoadBalancerName != loadbalancername) {
+				continue;
+            }
             var Instancechk = InstanceIds[i].InstanceId;
-	    var instanceid = new String(Instancechk);
-	    var tempArray = new Array();
-	    tempArray = instanceid.split(",");
-	    for(var a=0;a<tempArray.length;a++)
-	    { 
-		registerid.push(tempArray[a]);
-	    }	    
-	}
+			var instanceid = new String(Instancechk);
+			var tempArray = new Array();
+			tempArray = instanceid.split(",");
+			for(var a=0;a<tempArray.length;a++)
+			{ 
+			registerid.push(tempArray[a]);
+			}	    
+		}
         
 	for (var i in Instancedetails) {
 	    if(Instancedetails[i].state == "running"){ 

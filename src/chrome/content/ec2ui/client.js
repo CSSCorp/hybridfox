@@ -173,6 +173,9 @@ var ec2_httpclient = {
             try {
 		rsp = this.queryELBImpl(action, params, objActions, isSync, reqType, callback);    
 		if (rsp.hasErrors) {
+			if (action == 'RegisterInstancesWithLoadBalancer' && rsp.faultCode == 'ValidationError' && rsp.faultString == 'Instance cannot be empty.') {
+                        break;
+                    }
                     if (!this.errorDialog(
                         "EC2 responded with an error for "+action,
                         rsp.faultCode,

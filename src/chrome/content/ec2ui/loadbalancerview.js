@@ -355,6 +355,12 @@ var ec2ui_LoadbalancerTreeView = {
         if (CookieName == null)
             return;
         CookieName = CookieName.trim();
+		
+		if (!CookieName) {
+			alert('Invalid cookie name.');
+            return;
+        }
+
         var me = this;
         var wrap = function() {
             if (ec2ui_prefs.isRefreshOnChangeEnabled()) {
@@ -377,6 +383,11 @@ var ec2ui_LoadbalancerTreeView = {
         if (CookieExpirationPeriod == null)
             return;
         CookieExpirationPeriod = CookieExpirationPeriod.trim();
+		
+		if (!/^[0-9]+$/.test(CookieExpirationPeriod)) {
+			alert('Cookie expiration period must be long integer.');
+			return;
+        }
         var me = this;
         var wrap = function() {
             if (ec2ui_prefs.isRefreshOnChangeEnabled()) {
