@@ -986,22 +986,22 @@ var ec2ui_controller = {
     runInstances : function (imageId, kernelId, ramdiskId, minCount, maxCount, keyName, securityGroups, blockDeviceMappings, userData, properties, instanceType, placement, subnetId, ipAddress, addressingType, callback) {
         var params = []
         //Just checking for ec2 or not
-        if (ec2ui_session.isAmazonEndpointSelected()) {
-            params.push(["ImageId", imageId]);
-            if (kernelId != null && kernelId != "") {
-                params.push(["KernelId", kernelId]);
-            }
-            if (ramdiskId != null && ramdiskId != "") {
-                params.push(["RamdiskId", ramdiskId]);
-            }
-        }
-        else {
+        if (ec2ui_session.isEucalyptusEndpointSelected()) {
             params.push(["ImageId", imageId.replace("ami-","emi-")]);
             if (kernelId != null && kernelId != "") {
                 params.push(["KernelId", kernelId.replace("aki-","eki-")]);
             }
             if (ramdiskId != null && ramdiskId != "") {
                 params.push(["RamdiskId", ramdiskId.replace("ari-","eri-")]);
+            }           
+        }
+        else {
+			params.push(["ImageId", imageId]);
+            if (kernelId != null && kernelId != "") {
+                params.push(["KernelId", kernelId]);
+            }
+            if (ramdiskId != null && ramdiskId != "") {
+                params.push(["RamdiskId", ramdiskId]);
             }
         }
         
@@ -2184,7 +2184,7 @@ var ec2ui_controller = {
         eval("this."+responseObject.requestType+"(responseObject)");
     },
 	
-	createTags : function (resIds, tags, callback) {
+    createTags : function (resIds, tags, callback) {
 	var params = new Array();
 
         for (var i = 0; i < resIds.length; i++) {
