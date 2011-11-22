@@ -131,6 +131,15 @@ function Instance(resId, ownerId, groupList, instanceId, imageId, kernelId,
     }
 }
 
+function InstanceStatus(instanceId, availabilityZone, event, description, startTime, endTime) {
+    this.instanceId = instanceId;
+    this.availabilityZone = availabilityZone;
+    this.event = event;
+    this.description = description;
+    this.startTime = startTime;
+    this.endTime = endTime;
+}
+
 function KeyPair(name, fingerprint) {
     this.name = name;
     this.fingerprint = fingerprint;
@@ -287,6 +296,7 @@ var ec2ui_model = {
     images            : null,
     snapshots         : null,
     instances         : null,
+    instancestatus    : null,
     keypairs          : null,
     azones            : null,
     securityGroups    : null,
@@ -312,6 +322,7 @@ var ec2ui_model = {
         // reset all lists, these will notify their associated views
         this.updateImages(null);
         this.updateInstances(null);
+        this.updateInstanceStatus(null);
         this.updateKeypairs(null);
         this.updateSecurityGroups(null);
         this.updateAvailabilityZones(null);
@@ -434,6 +445,18 @@ var ec2ui_model = {
             ec2ui_session.controller.describeInstances();
         }
         return this.instances;
+    },
+    
+    updateInstanceStatus : function(list) {
+        this.instancestatus = list;
+        this.notifyComponents("instancestatus");
+    },
+
+    getInstanceStatus : function() {
+        if (this.instancestatus == null) {
+            ec2ui_session.controller.describeInstanceStatus();
+        }
+        return this.instancestatus;
     },
 
     updateKeypairs : function(list) {

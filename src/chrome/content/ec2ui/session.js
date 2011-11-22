@@ -29,6 +29,7 @@ var ec2ui_session =
             document.getElementById("ec2ui.images.view").view = ec2ui_AMIsTreeView;
             document.getElementById("ec2ui.keypairs.view").view = ec2ui_KeypairTreeView;
             document.getElementById("ec2ui.instances.view").view = ec2ui_InstancesTreeView;
+			document.getElementById("ec2ui.instanceevents.view").view = ec2ui_InstanceEventsTreeView;
             document.getElementById("ec2ui.securitygroups.view").view = ec2ui_SecurityGroupsTreeView;
             document.getElementById("ec2ui.permissions.view").view = ec2ui_PermissionsTreeView;
             document.getElementById("ec2ui.eip.view").view = ec2ui_ElasticIPTreeView;
@@ -139,6 +140,7 @@ var ec2ui_session =
         switch (tabs.selectedItem.label) {
          case 'Instances':
             eval("ec2ui_InstancesTreeView." + toCall);
+			eval("ec2ui_InstanceEventsTreeView." + toCall);
             break;
         case 'Images':
             this.showBusyCursor(true);
@@ -185,7 +187,7 @@ var ec2ui_session =
             break;
         case "Cloudformation":
             eval("ec2ui_CloudformationTreeView." + toCall);
-	    eval("ec2ui_StackResourceTreeView." + toCall);
+			eval("ec2ui_StackResourceTreeView." + toCall);
             break;
         default:
             log ("This is an invalid tab: " + tabs.selectedItem.label);

@@ -802,6 +802,7 @@ var ec2ui_InstancesTreeView = {
         this.selectionChanged();
         ec2ui_session.showBusyCursor(true);
         ec2ui_session.controller.describeInstances();
+        ec2ui_session.controller.describeInstanceStatus();
         this.sort();
         ec2ui_session.showBusyCursor(false);
     },

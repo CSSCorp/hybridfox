@@ -5,6 +5,7 @@
 
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <tabpanel id="instances_tab" flex="1">
+    <vbox flex="1">
     <groupbox flex="1" orient="vertical">
       <caption label="&ec2ui.captions.images.instances.label;" />
       <popupset>
@@ -177,5 +178,43 @@
         <treechildren context="ec2ui.instances.contextmenu" />
       </tree>
     </groupbox>
+    
+    <splitter style="width: 4px; max-height: 4px;" persist="state"
+        collapse="after" resizebefore="closest">
+        <grippy />
+    </splitter>
+    
+    <groupbox orient="vertical" flex="1">
+      <caption label="Scheduled Events" />
+      <toolbar style="padding: 0px 3px; -moz-box-align: center">
+        <toolbarbutton image="images/refresh.png"
+            oncommand="ec2ui_InstanceEventsTreeView.refresh();"
+            tooltiptext="&ec2ui.refresh.tip;" />
+      </toolbar>
+      <tree id="ec2ui.instanceevents.view" seltype="single" enableColumnDrag="true" flex="1">
+        <treecols>
+          <treecol id="instanceevent.instanceId" label="&ec2ui.instances.id.label;" flex="1"
+            sortDirection="ascending" persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter" />
+          <treecol id="instanceevent.availabilityZone" label="&ec2ui.availabilityZone.label;" flex="1"
+            persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter" />
+          <treecol id="instanceevent.event" label="Event"
+            flex="1" persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter" />
+          <treecol id="instanceevent.description" label="Description"
+            flex="1" persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter" />
+          <treecol id="instanceevent.startTime" label="Start Time"
+            flex="1" persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter" />
+          <treecol id="instanceevent.endTime" label="End Time"
+            flex="1" persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter" />
+        </treecols>
+        <treechildren context="ec2ui.instanceevents.contextmenu"/>
+      </tree>
+    </groupbox>
+    </vbox>
   </tabpanel>
 </overlay>

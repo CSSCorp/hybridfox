@@ -827,6 +827,36 @@ var ec2ui_controller = {
         if (objResponse.callback)
             objResponse.callback(list);
     },
+	
+	describeInstanceStatus : function(callback) {
+		ec2_httpclient.queryEC2("DescribeInstanceStatus", [], this, true, "oncompleteDescribeInstanceStatus", callback);
+    },
+    
+    oncompleteDescribeInstanceStatus : function (objResponse) {
+		var xmlDoc = objResponse.xmlDoc;
+        var list = new Array();
+        var items = xmlDoc.getElementsByTagName("item");
+        for (var i = 0; i < items.length; i++)
+        {
+	    var instanceId = getNodeValueByName(items[i], "instanceId");
+	    var availabilityZone = getNodeValueByName(items[i], "availabilityZone");
+		
+		var eventsSet = items[i].getElementsByTagName("eventsSet");      
+            for (var j = 0; j < eventsSet.length; j++)
+            {
+                var event = getNodeValueByName(eventsSet[j], "code");
+                var description = getNodeValueByName(eventsSet[j], "description");
+                var startTime = getNodeValueByName(eventsSet[j], "notBefore");
+                var endTime = getNodeValueByName(eventsSet[j], "notAfter");
+            }
+	    
+	    list.push(new InstanceStatus(instanceId, availabilityZone, event, description, startTime, endTime));
+        }
+	
+        ec2ui_model.updateInstanceStatus(list);
+        if (objResponse.callback)
+            objResponse.callback(list);        
+    },
     
     walkTagSet : function(item, idName, tags) {
         var instanceId = getNodeValueByName(item, idName);
@@ -1775,46 +1805,6 @@ var ec2ui_controller = {
 
         if (objResponse.callback) {
             objResponse.callback(tags);
-        }
-    },
-
-
-    describeInstanceAttribute : function (instanceId, attribute, callback) {
-        var params = new Array();
-        params.push(["InstanceId", instanceId]);
-        params.push(["Attribute", attribute]);
-        ec2_httpclient.queryEC2("DescribeInstanceAttribute", params, this, true, "onCompleteDescribeInstanceAttribute", callback);
-    },
-
-    onCompleteDescribeInstanceAttribute : function (objResponse) {
-        var xmlDoc = objResponse.xmlDoc;
-        var items = xmlDoc.evaluate("/ec2:DescribeInstanceAttributeResponse/*",
-                                       xmlDoc,
-                                       this.getNsResolver(),
-                                       XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
-                                       null);
-
-        var value = getNodeValueByName(items.snapshotItem(2), "value");
-
-        if (objResponse.callback) {
-            objResponse.callback(value);
-        }
-    },
-
-    modifyInstanceAttribute : function (instanceId, attribute, callback) {
-        var params = new Array();
-        var name = attribute[0];
-        var value = attribute[1];
-
-        params.push(["InstanceId", instanceId]);
-        params.push([name + ".Value", value]);
-
-        ec2_httpclient.queryEC2("ModifyInstanceAttribute", params, this, true, "onCompleteModifyInstanceAttribute", callback);
-    },
-
-    onCompleteModifyInstanceAttribute : function (objResponse) {
-        if (objResponse.callback) {
-            objResponse.callback();
         }
     },
     
