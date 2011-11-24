@@ -2159,12 +2159,13 @@ var ec2ui_controller = {
             for (var i = 0; i < items.snapshotLength; ++i)
             {
                 var name = getNodeValueByName(items.snapshotItem(i), "regionName");
+				var version = "2";
                 var type = "ec2";
-		var url = getNodeValueByName(items.snapshotItem(i), "regionEndpoint");
+				var url = getNodeValueByName(items.snapshotItem(i), "regionEndpoint");
                     if (url.indexOf("https://") != 0) {
                     url = "https://" + url;
                     }
-                endPointMap[name] = new Endpoint(name, type, url);
+                endPointMap[name] = new Endpoint(name,version, type, url);
                 log("name: " + name + ", type:" + type + ", url: " + url);
 	    }
 
@@ -2185,7 +2186,7 @@ var ec2ui_controller = {
     },
 	
     createTags : function (resIds, tags, callback) {
-	var params = new Array();
+		var params = new Array();
 
         for (var i = 0; i < resIds.length; i++) {
             params.push(["ResourceId." + (i + 1)   , resIds[i]]);

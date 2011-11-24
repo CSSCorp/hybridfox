@@ -253,7 +253,7 @@ var ec2ui_session =
 			var regionPref = activeCred.regionPref;
 			if (regionPref != null && regionPref != "") {
               this.endpointmap = ec2ui_prefs.getEndpointMap();
-              var endpointlist = this.endpointmap.toArray(function(k,v){return new Endpoint(k, v.type, v.url)});
+              var endpointlist = this.endpointmap.toArray(function(k,v){return new Endpoint(k,v.version, v.type, v.url)});
               for(var i in endpointlist) {
 			    if (endpointlist[i].name == regionPref) {
                   document.getElementById("ec2ui.active.endpoints.list").selectedIndex = i;
@@ -261,6 +261,7 @@ var ec2ui_session =
 
                   if (activeEndpoint != null) {
                       ec2ui_prefs.setLastUsedEndpoint(activeEndpoint.name);
+					  ec2ui_prefs.setServiceVersion(activeEndpoint.version);
                       ec2ui_prefs.setServiceType(activeEndpoint.type);
                       ec2ui_prefs.setServiceURL(activeEndpoint.url);
                       this.client.setEndpoint(activeEndpoint);
@@ -324,7 +325,7 @@ var ec2ui_session =
 
     getEndpoints : function () {
         return this.endpointmap.toArray(function(k,v) {
-                                            return new Endpoint(k, v.type, v.url)
+                                            return new Endpoint(k,v.version, v.type, v.url)
                                         });
     },
 
@@ -334,7 +335,7 @@ var ec2ui_session =
         activeEndpointsMenu.removeAllItems();
 
         var lastUsedEndpoint = ec2ui_prefs.getLastUsedEndpoint();
-        var endpointlist = this.endpointmap.toArray(function(k,v){return new Endpoint(k, v.type, v.url)});
+        var endpointlist = this.endpointmap.toArray(function(k,v){return new Endpoint(k,v.version, v.type, v.url)});
 
         for(var i in endpointlist) {
             activeEndpointsMenu.insertItemAt(
@@ -558,7 +559,7 @@ var ec2ui_session =
             activeEndpointname = ec2ui_prefs.getLastUsedEndpoint();
         }
         if (this.endpointmap == null) {
-            return new Endpoint(activeEndpointname, ec2ui_prefs.getServiceType(), ec2ui_prefs.getServiceURL());
+            return new Endpoint(activeEndpointname, ec2ui_prefs.getServiceVersion(),ec2ui_prefs.getServiceType(), ec2ui_prefs.getServiceURL());
 			
         } else {
             return this.endpointmap.get(activeEndpointname);
@@ -569,6 +570,7 @@ var ec2ui_session =
 
         if (activeEndpoint != null) {
             ec2ui_prefs.setLastUsedEndpoint(activeEndpoint.name);
+			ec2ui_prefs.setServiceVersion(activeEndpoint.version);
             ec2ui_prefs.setServiceType(activeEndpoint.type);
             ec2ui_prefs.setServiceURL(activeEndpoint.url);
             this.client.setEndpoint(activeEndpoint);
@@ -627,6 +629,11 @@ var ec2ui_session =
 			return true;
 		}
 		return false;
+	},
+	
+	isSignatureVersionSelected: function () {
+		var activeEndpointVersion = this.getActiveEndpoint().version;
+		return activeEndpointVersion;
 	},
     
     isOpenstackEndpointSelected: function () {

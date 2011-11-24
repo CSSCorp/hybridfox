@@ -23,6 +23,7 @@
       <tree id="ec2ui.endpoints.view" onselect="ec2ui_endpointManager.selectMapping();" flex="1" rows="5">
         <treecols>
           <treecol id="endpoint.name" label="&ec2ui.endpoints.name.label;" flex="1" persist="width ordinal hidden" />
+		  <treecol id="endpoint.version" label="Signature Version" flex="1" persist="width ordinal hidden" />
           <treecol id="endpoint.type" label="&ec2ui.endpoints.type.label;" flex="1" persist="width ordinal hidden" />
           <treecol id="endpoint.url" label="&ec2ui.endpoints.url.label;" flex="1" persist="width ordinal hidden" />
           <!--
@@ -44,6 +45,13 @@
           <label control="ec2ui.endpoints.name" value="&ec2ui.endpoints.name.label;:" />
           <textbox id="ec2ui.endpoints.name" size="20" />
         </row>
+		<row>
+			<label control="ec2ui.endpoints.version" value="Signature Version:" />
+			<radiogroup id="ec2ui.endpoints.version" orient="horizontal">
+			  <radio id="ec2ui.endpoints.verison.one" label="1.0" value="1" selected="false" />
+			  <radio id="ec2ui.endpoints.verison.two" label="2.0" value="2" selected="true"/>
+			</radiogroup>
+	    </row>
         <row>
           <label control="ec2ui.endpoints.type" value="&ec2ui.endpoints.type.label;:" />
 		  <menulist id="ec2ui.endpoints.type">

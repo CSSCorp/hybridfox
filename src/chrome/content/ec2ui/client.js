@@ -142,7 +142,12 @@ var ec2_httpclient = {
         var rsp = null;
         while(true) {
             try {
-                rsp = this.queryEC2ImplNew(action, params, objActions, isSync, reqType, callback);
+		if(ec2ui_session.isSignatureVersionSelected() == 1){
+			rsp = this.queryEC2Impl(action, params, objActions, isSync, reqType, callback);
+		}else if(ec2ui_session.isSignatureVersionSelected() == 2){
+			rsp = this.queryEC2ImplNew(action, params, objActions, isSync, reqType, callback);
+		}
+                
                 if (rsp.hasErrors) {
                     var msg = ec2ui_utils.getMessageProperty("ec2ui.msg.client.dialog.queryEC2", [action]);
                     if (!this.errorDialog(

@@ -152,6 +152,7 @@ var ec2ui_prefs = {
     AUTOFETCH_LP        : "ec2ui.autofetchlaunchpermissions.enabled",
     OPEN_IN_NEW_TAB     : "ec2ui.usenewtab.enabled",
     EC2_TYPE            : "ec2ui.type",
+    EC2_VERSION         : "ec2ui.version",
     EC2_URL             : "ec2ui.url",
     CURRENT_TAB         : "ec2ui.current.tab",
     REQUEST_TIMEOUT     : "ec2ui.timeout.request",
@@ -195,6 +196,7 @@ var ec2ui_prefs = {
             this.setSSHUser(this.getSSHUser());
             this.setRequestTimeout(this.getRequestTimeout());
             this.setServiceURL(this.getServiceURL());
+            this.setServiceVersion(this.getServiceVersion());
             this.setCurrentTab(this.getCurrentTab());
             this.setDebugEnabled(this.isDebugEnabled());
             this.setOfflineEnabled(this.isOfflineEnabled());
@@ -226,6 +228,7 @@ var ec2ui_prefs = {
     setSSHUser : function(value) { this.setStringPreference(this.SSH_USER, value); },
     setRequestTimeout : function(value) { this.setIntPreference(this.REQUEST_TIMEOUT, value); },
     setServiceType : function(value) { this.setStringPreference(this.EC2_TYPE, value); },
+    setServiceVersion : function(value) { this.setStringPreference(this.EC2_VERSION, value); },
     setServiceURL : function(value) { this.setStringPreference(this.EC2_URL, value); },
     setCurrentTab : function(value) { this.setIntPreference(this.CURRENT_TAB, value); },
     setDebugEnabled : function(enabled) { this.setBoolPreference(this.DEBUG_ENABLED, enabled); },
@@ -264,6 +267,7 @@ var ec2ui_prefs = {
     getSSHUser : function() { return this.getStringPreference(this.SSH_USER, "root"); },
     getRequestTimeout : function() { return this.getIntPreference(this.REQUEST_TIMEOUT, 15000); },
     getServiceType : function() { return this.getStringPreference(this.EC2_TYPE, "ec2"); },
+    getServiceVersion : function() { return this.getStringPreference(this.EC2_VERSION, "2"); },
     getServiceURL : function() { return this.getStringPreference(this.EC2_URL, "https://ec2.us-east-1.amazonaws.com"); },
     getCurrentTab : function() { return this.getIntPreference(this.CURRENT_TAB, 0); },
     getLastEC2PKeyFile : function() { return this.getEC2PKeyForUser(this.getLastUsedAccount()); },
@@ -449,12 +453,12 @@ var ec2ui_prefs = {
         if (endpointmap == null) {
             log ("Generating endpoints");
             endpointmap = new Object();
-            endpointmap['us-east-1'] = new Endpoint('us-east-1', 'ec2', 'https://us-east-1.ec2.amazonaws.com');
-            endpointmap['us-west-1'] = new Endpoint('us-west-1', 'ec2', 'https://us-west-1.ec2.amazonaws.com');
-            endpointmap['eu-west-1'] = new Endpoint('eu-west-1', 'ec2', 'https://eu-west-1.ec2.amazonaws.com');
-            endpointmap['ap-southeast-1'] = new Endpoint('ap-southeast-1', 'ec2', 'https://ec2.ap-southeast-1.amazonaws.com');
-            endpointmap['ap-northeast-1'] = new Endpoint('ap-northeast-1', 'ec2', 'https://ec2.ap-northeast-1.amazonaws.com');
-            endpointmap['ECC'] = new Endpoint('ECC', 'euca', 'http://ecc.eucalyptus.com:8773/services/Eucalyptus');
+            endpointmap['us-east-1'] = new Endpoint('us-east-1','2', 'ec2', 'https://us-east-1.ec2.amazonaws.com');
+            endpointmap['us-west-1'] = new Endpoint('us-west-1','2', 'ec2', 'https://us-west-1.ec2.amazonaws.com');
+            endpointmap['eu-west-1'] = new Endpoint('eu-west-1','2', 'ec2', 'https://eu-west-1.ec2.amazonaws.com');
+            endpointmap['ap-southeast-1'] = new Endpoint('ap-southeast-1','2', 'ec2', 'https://ec2.ap-southeast-1.amazonaws.com');
+            endpointmap['ap-northeast-1'] = new Endpoint('ap-northeast-1','2', 'ec2', 'https://ec2.ap-northeast-1.amazonaws.com');
+            endpointmap['ECC'] = new Endpoint('ECC', '2','euca', 'http://ecc.eucalyptus.com:8773/services/Eucalyptus');
         }
 
         return new WrappedMapEndpoints(endpointmap, this);

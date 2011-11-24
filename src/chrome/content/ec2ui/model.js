@@ -11,8 +11,9 @@ function AccountIdName(id, name) {
     this.displayname = name;
 }
 
-function Endpoint(name, type, url) {
+function Endpoint(name, version, type, url) {
     this.name = name;
+	this.version = version;
     this.type = type;
     this.url = url;
 

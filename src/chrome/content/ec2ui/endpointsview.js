@@ -1,5 +1,5 @@
 var ec2ui_endpointsTreeView = {
-    COLNAMES: ['endpoint.name','endpoint.type','endpoint.url'],
+    COLNAMES: ['endpoint.name','endpoint.version','endpoint.type','endpoint.url'],
     treeBox: null,
     selection: null,
     endpointlist : new Array(),
@@ -38,7 +38,7 @@ var ec2ui_endpointsTreeView = {
     setMapping : function(mapping) {
         this.treeBox.rowCountChanged(0, -this.endpointlist.length);
         // Unpack the map into an array for display purposes
-        this.endpointlist = mapping.toArray(function(k,v){return new Endpoint(k, v.type, v.url)});
+        this.endpointlist = mapping.toArray(function(k,v){return new Endpoint(k, v.version,v.type, v.url)});
         this.treeBox.rowCountChanged(0, this.endpointlist.length);
         sortView(document, this.COLNAMES, this.endpointlist);
     },
