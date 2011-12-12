@@ -191,7 +191,7 @@
             oncommand="ec2ui_InstanceEventsTreeView.refresh();"
             tooltiptext="&ec2ui.refresh.tip;" />
       </toolbar>
-      <tree id="ec2ui.instanceevents.view" seltype="single" enableColumnDrag="true" flex="1">
+      <tree id="ec2ui.instanceevents.view" seltype="single" enableColumnDrag="true" ondblclick="ec2ui_InstanceEventsTreeView.viewDetails(event)" flex="1">
         <treecols>
           <treecol id="instanceevent.instanceId" label="&ec2ui.instances.id.label;" flex="1"
             sortDirection="ascending" persist="width ordinal hidden sortDirection" />
@@ -199,16 +199,16 @@
           <treecol id="instanceevent.availabilityZone" label="&ec2ui.availabilityZone.label;" flex="1"
             persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
-          <treecol id="instanceevent.event" label="Event"
+          <treecol id="instanceevent.event" label="&ec2ui.instanceevent.event.label;"
             flex="1" persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
-          <treecol id="instanceevent.description" label="Description"
+          <treecol id="instanceevent.description" label="&ec2ui.instanceevent.description.label;"
             flex="1" persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
-          <treecol id="instanceevent.startTime" label="Start Time"
+          <treecol id="instanceevent.startTime" label="&ec2ui.instanceevent.startTime.label;"
             flex="1" persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
-          <treecol id="instanceevent.endTime" label="End Time"
+          <treecol id="instanceevent.endTime" label="&ec2ui.instanceevent.endTime.label;"
             flex="1" persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
         </treecols>

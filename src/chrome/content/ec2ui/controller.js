@@ -846,8 +846,10 @@ var ec2ui_controller = {
             {
                 var event = getNodeValueByName(eventsSet[j], "code");
                 var description = getNodeValueByName(eventsSet[j], "description");
-                var startTime = getNodeValueByName(eventsSet[j], "notBefore");
-                var endTime = getNodeValueByName(eventsSet[j], "notAfter");
+                var startTime = new Date();
+				startTime.setISO8601(getNodeValueByName(eventsSet[j], "notBefore"));
+                var endTime = new Date();
+				endTime.setISO8601(getNodeValueByName(eventsSet[j], "notAfter"));
             }
 	    
 	    list.push(new InstanceStatus(instanceId, availabilityZone, event, description, startTime, endTime));

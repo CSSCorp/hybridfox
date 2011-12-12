@@ -251,3 +251,8 @@
 <!ENTITY ec2ui.resource.StackId.label "StackId">
 <!ENTITY ec2ui.resource.ResourceStatus.label "ResourceStatus">
 <!ENTITY ec2ui.resource.TimeStamp.label "TimeStamp">
+
+<!ENTITY ec2ui.instanceevent.event.label "Event">
+<!ENTITY ec2ui.instanceevent.description.label "Description">
+<!ENTITY ec2ui.instanceevent.startTime.label "Start Time">
+<!ENTITY ec2ui.instanceevent.endTime.label "End Time">

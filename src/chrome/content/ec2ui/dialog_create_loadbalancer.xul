@@ -11,7 +11,7 @@
   <script type="application/x-javascript" src="chrome://ec2ui/content/model.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/base64.js" />
   <!-- Page 1 create ;oad balancer -->
-  <wizardpage description="Step:1 Loadbalancer Protocols">
+  <wizardpage>
      <grid flex="100%">
       <rows>
         <row>
@@ -24,27 +24,41 @@
            <menupopup id="ec2ui.createlb.Protocol">
               <menuitem label="Select a Protocol" value="0"/>
               <menuitem label="HTTP" value="HTTP"/>
+              <menuitem label="HTTPS (Secure HTTP)" value="createnewtopic" id="createnewtopic"/>
               <menuitem label="TCP" value="TCP"/>
+              <menuitem label="SSL (Secure TCP)" value="4"/>
            </menupopup>
         </menulist>
-      </row>
-        <row>
-          <label control="ec2ui.createlb.elbport" value="Load Balancer Port:" />
-          <textbox id="ec2ui.createlb.elbport"  size="25" style="min-width: 8em"/>
+        <div id="createnewsns" style="visibility:hidden;display:none;">
+         <vbox>
+            <hbox>
+               <button label="Upload Certificate" id="displayText" oncommand="toggle();" style="min-width: 10em"/>
+            </hbox>
+            <hbox>
+               <div id="toggleText" style="display: none">
+                  <h1>Loading...</h1>
+               </div>
+            </hbox>
+         </vbox>
+        </div>
         </row>
         <row>
-          <label control="ec2ui.createlb.instanceport" value="Instance Port:" />
-          <textbox id="ec2ui.createlb.instanceport"  size="25" style="min-width: 8em"/>
+         <label control="ec2ui.createlb.elbport" value="Load Balancer Port:" />
+         <textbox id="ec2ui.createlb.elbport"  size="25" style="min-width: 8em"/>
         </row>
         <row>
-          <label control="ec2ui.createlb.availabilityzonelist" value="Availability Zone:" />
-          <menulist id="ec2ui.createlb.availabilityzonelist" />
+         <label control="ec2ui.createlb.instanceport" value="Instance Port:" />
+         <textbox id="ec2ui.createlb.instanceport"  size="25" style="min-width: 8em"/>
+        </row>
+        <row>
+         <label control="ec2ui.createlb.availabilityzonelist" value="Availability Zone:" />
+         <menulist id="ec2ui.createlb.availabilityzonelist" />
         </row>
      </rows>
     </grid>
   </wizardpage >
  <!-- Page 2 Configure Health Check  -->  
-  <wizardpage description="Step:2 Configure Healthcheck">
+  <wizardpage description="Configure Healthcheck">
      <grid flex="100%">
       <rows>
          <row  height="20px">
@@ -91,7 +105,7 @@
     </grid>
   </wizardpage>
   <!-- Page 3 Register Instance With Load balancer  --> 
-   <wizardpage onload="ec2_Createlb.test();" description="Step:3 Register Instance">
+   <wizardpage onload="ec2_Createlb.test();">
  <listbox id="theList" rows="10" width="550" seltype="multiple" onclick="ec2_Createlb.reg_unreg_instances(event)">
   <listhead>
      <listheader label="Select" width="50"/>
@@ -137,5 +151,41 @@ function numOnly(evt)
 	}	
 }
 
+</script>
+
+<script language="javascript">
+function toggle() {
+var ele = document.getElementById("toggleText");
+var text = document.getElementById("displayText");
+if(ele.style.display == "block") {
+ele.style.display = "none";
+text.innerHTML = "show";
+}
+else {
+ele.style.display = "block";
+text.innerHTML = "hide";
+}
+}
+function setVisibility(id) {
+var temp = document.getElementById(id).style.visibility;
+if (temp == 'hidden') {
+document.getElementById(id).style.visibility='visible';
+ document.getElementById (id).style.display='inline';
+}
+else if (temp == "visible") {
+document.getElementById(id).style.visibility='hidden';
+document.getElementById (id).style.display='none';
+}
+}
+function createTopic(id) {
+var temp = document.getElementById(id).value;
+if (temp == 'createnewtopic') {
+document.getElementById('createnewsns').style.visibility='visible';
+document.getElementById ('createnewsns').style.display='inline';
+}else{
+document.getElementById('createnewsns').style.visibility='hidden';
+document.getElementById ('createnewsns').style.display='none';
+}
+}
 </script>
 </wizard>

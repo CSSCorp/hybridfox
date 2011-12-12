@@ -136,8 +136,8 @@ function InstanceStatus(instanceId, availabilityZone, event, description, startT
     this.availabilityZone = availabilityZone;
     this.event = event;
     this.description = description;
-    this.startTime = startTime;
-    this.endTime = endTime;
+    this.startTime = startTime.strftime('%Y-%m-%d %H:%M:%S');
+    this.endTime = endTime.strftime('%Y-%m-%d %H:%M:%S');
 }
 
 function KeyPair(name, fingerprint) {
