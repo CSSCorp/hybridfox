@@ -852,7 +852,7 @@ var ec2ui_controller = {
 				endTime.setISO8601(getNodeValueByName(eventsSet[j], "notAfter"));
             }
 	    
-	    list.push(new InstanceStatus(instanceId, availabilityZone, event, description, startTime, endTime));
+	    list.push(new InstanceStatus(instanceId, availabilityZone, event, description, startTime || "", endTime || ""));
         }
 	
         ec2ui_model.updateInstanceStatus(list);
