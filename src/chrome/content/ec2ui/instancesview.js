@@ -744,6 +744,7 @@ var ec2ui_InstancesTreeView = {
 		this.selectionChanged();
         ec2ui_session.showBusyCursor(true);
         ec2ui_session.controller.describeInstances();
+        ec2ui_session.controller.describeInstanceStatus();
         this.sort();
         ec2ui_session.showBusyCursor(false);
     },
@@ -1183,7 +1184,7 @@ outer:
         var argStr = ec2ui_prefs.getSSHArgs();
         var cmd = ec2ui_prefs.getSSHCommand();
         var hostname = this.getIPFromHostname(instance);
-        this.openConnectionPort(instance);
+        //this.openConnectionPort(instance);
 
         if (isWindows(instance.platform)) {
             argStr = ec2ui_prefs.getRDPArgs();

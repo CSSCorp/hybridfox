@@ -2082,5 +2082,37 @@ var ec2ui_controller = {
         var items = getNodeValueByName(xmlDoc, "ServerCertificateMetadata");
         if (objResponse.callback)
             objResponse.callback(items);
+    },
+	
+	describeInstanceStatus : function(callback) {
+		ec2_httpclient.queryEC2("DescribeInstanceStatus", [], this, true, "oncompleteDescribeInstanceStatus", callback);
+    },
+    
+    oncompleteDescribeInstanceStatus : function (objResponse) {
+		var xmlDoc = objResponse.xmlDoc;
+        var list = new Array();
+        var items = xmlDoc.getElementsByTagName("item");
+        for (var i = 0; i < items.length; i++)
+        {
+	    var instanceId = getNodeValueByName(items[i], "instanceId");
+	    var availabilityZone = getNodeValueByName(items[i], "availabilityZone");
+		
+		var eventsSet = items[i].getElementsByTagName("eventsSet");      
+            for (var j = 0; j < eventsSet.length; j++)
+            {
+                var event = getNodeValueByName(eventsSet[j], "code");
+                var description = getNodeValueByName(eventsSet[j], "description");
+                var startTime = new Date();
+				startTime.setISO8601(getNodeValueByName(eventsSet[j], "notBefore"));
+                var endTime = new Date();
+				endTime.setISO8601(getNodeValueByName(eventsSet[j], "notAfter"));
+            }
+	    
+	    list.push(new InstanceStatus(instanceId, availabilityZone, event, description, startTime || "", endTime || ""));
+        }
+	
+        ec2ui_model.updateInstanceStatus(list);
+        if (objResponse.callback)
+            objResponse.callback(list);        
     }
 };

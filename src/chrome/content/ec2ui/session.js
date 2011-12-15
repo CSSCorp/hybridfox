@@ -28,6 +28,7 @@ var ec2ui_session =
             document.getElementById("ec2ui.images.view").view = ec2ui_AMIsTreeView;
             document.getElementById("ec2ui.keypairs.view").view = ec2ui_KeypairTreeView;
             document.getElementById("ec2ui.instances.view").view = ec2ui_InstancesTreeView;
+			document.getElementById("ec2ui.instanceevents.view").view = ec2ui_InstanceEventsTreeView;
             document.getElementById("ec2ui.securitygroups.view").view = ec2ui_SecurityGroupsTreeView;
             document.getElementById("ec2ui.permissions.view").view = ec2ui_PermissionsTreeView;
             document.getElementById("ec2ui.eip.view").view = ec2ui_ElasticIPTreeView;
@@ -37,8 +38,8 @@ var ec2ui_session =
             document.getElementById("ec2ui.bundleTasks.view").view = ec2ui_BundleTasksTreeView;
             document.getElementById("ec2ui.offerings.view").view = ec2ui_LeaseOfferingsTreeView;
             document.getElementById("ec2ui.rsvdInst.view").view = ec2ui_ReservedInstancesTreeView;
-	    document.getElementById("ec2ui.loadbalancer.view").view = ec2ui_LoadbalancerTreeView;
-	    document.getElementById("ec2ui.instancehealth.view").view = ec2ui_InstanceHealthTreeView;
+			document.getElementById("ec2ui.loadbalancer.view").view = ec2ui_LoadbalancerTreeView;
+			document.getElementById("ec2ui.instancehealth.view").view = ec2ui_InstanceHealthTreeView;
 
             // Enable about:blank to work if noscript is installed
             if("@maone.net/noscript-service;1" in Components.classes) {
