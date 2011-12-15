@@ -23,6 +23,7 @@
 <!ENTITY ec2ui.captions.images.instances.label "Your Instances">
 <!ENTITY ec2ui.captions.images.launchsecgroups.label "Security Groups">
 <!ENTITY ec2ui.captions.images.launchparams.label "User Data">
+<!ENTITY ec2ui.captions.images.scheduledevents.label "Scheduled Events">
 
 <!ENTITY ec2ui.images.id.label "ID">
 <!ENTITY ec2ui.images.manifest.label "Manifest">
@@ -487,7 +488,6 @@
 <!ENTITY ec2ui.InstanceHealth.ReasonCode.label "ReasonCode">
 
 <!ENTITY ec2ui.create.loadbalancer.tip "Create Loadbalancer">
-
 
 <!ENTITY ec2ui.instanceevent.event.label "Event">
 <!ENTITY ec2ui.instanceevent.description.label "Description">

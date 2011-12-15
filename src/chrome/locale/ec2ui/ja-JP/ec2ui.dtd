@@ -20,6 +20,7 @@
 <!ENTITY ec2ui.captions.images.instances.label "起動中のインスタンス">
 <!ENTITY ec2ui.captions.images.launchsecgroups.label "セキュリティグループ">
 <!ENTITY ec2ui.captions.images.launchparams.label "ユーザ・データ">
+<!ENTITY ec2ui.captions.images.scheduledevents.label "スケジュールされたイベント">
 
 <!ENTITY ec2ui.images.id.label "イメージID">
 <!ENTITY ec2ui.images.manifest.label "マニフェスト名">
@@ -482,3 +483,9 @@
 <!ENTITY ec2ui.InstanceHealth.ReasonCode.label "理由コード">
 
 <!ENTITY ec2ui.create.loadbalancer.tip "ロードバランサの作成">
+
+<!ENTITY ec2ui.instanceevent.event.label "イベント">
+<!ENTITY ec2ui.instanceevent.description.label "説明">
+<!ENTITY ec2ui.instanceevent.startTime.label "時間を開始">
+<!ENTITY ec2ui.instanceevent.endTime.label "終了時間">
+

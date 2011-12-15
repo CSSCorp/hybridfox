@@ -168,7 +168,7 @@
     </splitter>
     
     <groupbox orient="vertical" flex="1">
-      <caption label="Scheduled Events" />
+      <caption label="&ec2ui.captions.images.scheduledevents.label;" />
       <toolbar style="padding: 0px 3px; -moz-box-align: center">
         <toolbarbutton image="images/refresh.png"
             oncommand="ec2ui_InstanceEventsTreeView.refresh();"
