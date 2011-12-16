@@ -2092,7 +2092,9 @@ var ec2ui_controller = {
     },
 	
 	describeInstanceStatus : function(callback) {
-		ec2_httpclient.queryEC2("DescribeInstanceStatus", [], this, true, "oncompleteDescribeInstanceStatus", callback);
+		if(ec2ui_session.isAmazonEndpointSelected()){
+			ec2_httpclient.queryEC2("DescribeInstanceStatus", [], this, true, "oncompleteDescribeInstanceStatus", callback);
+		}
     },
     
     oncompleteDescribeInstanceStatus : function (objResponse) {

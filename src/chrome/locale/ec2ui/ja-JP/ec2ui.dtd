@@ -474,7 +474,7 @@
 <!ENTITY ec2ui.registerlb.state.label "状態">
 <!ENTITY ec2ui.registerlb.zone.label "ゾーン">
 
-<!ENTITY ec2ui.endisazone.Select.label "選択してください">
+<!ENTITY ec2ui.endisazone.Select.label "選択">
 <!ENTITY ec2ui.endisazone.AvailabilityZone.label "アベイラビリティゾーン">
 
 <!ENTITY ec2ui.InstanceHealth.Description.label "説明">
@@ -486,6 +486,6 @@
 
 <!ENTITY ec2ui.instanceevent.event.label "イベント">
 <!ENTITY ec2ui.instanceevent.description.label "説明">
-<!ENTITY ec2ui.instanceevent.startTime.label "時間を開始">
-<!ENTITY ec2ui.instanceevent.endTime.label "終了時間">
+<!ENTITY ec2ui.instanceevent.startTime.label "開始時刻">
+<!ENTITY ec2ui.instanceevent.endTime.label "終了時刻">
 
