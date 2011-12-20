@@ -1,5 +1,12 @@
 Hybridfox Changelog
 --------------------
+1.6.000165
+- FEATURE: EC2 Instance Status Monitoring
+- FEATURE: AWS Tagging
+- FIX: Modified Loadbalancer Checks
+- UI: Modified UI Dialogs
+- FIX: Some Error Fix for Eucalyptus
+
 1.6.000112
 - SUPPORT: For Firefox 6 and larger
 
