@@ -17,7 +17,7 @@ var ec2_httpclient = {
 	// Change the name since Eucalyptus 1.6.2 has a problem with Elasticfox.
     USER_AGENT : "Hybridfox/__VERSION__-__BUILD__",
 
-    API_VERSION : "2011-11-01",
+    API_VERSION : "2011-12-01",
     
     ELB_API_VERSION : "2011-04-05",
     

@@ -799,10 +799,13 @@ var ec2ui_controller = {
             var resId = getNodeValueByName(items.snapshotItem(i), "reservationId");
             var ownerId = getNodeValueByName(items.snapshotItem(i), "ownerId");
             var groups = new Array();
-            var groupIds = items.snapshotItem(i).getElementsByTagName("groupId");
-            for (var j = 0; j < groupIds.length; j++) {
-                groups.push(groupIds[j].firstChild.nodeValue);
+			var groupSet = items.snapshotItem(i).getElementsByTagName("groupSet")[0];
+			var groupItems = groupSet.getElementsByTagName("item");
+			for (var j = 0; j < groupItems.length; j++) {
+				var groupname = getNodeValueByName(groupItems[j], "groupName");
+                groups.push(groupname);
             }
+            
             var instancesSet = items.snapshotItem(i).getElementsByTagName("instancesSet")[0];
             var instanceItems = instancesSet.childNodes;
 
