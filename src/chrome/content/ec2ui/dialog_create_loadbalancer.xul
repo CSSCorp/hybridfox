@@ -11,44 +11,29 @@
   <script type="application/x-javascript" src="chrome://ec2ui/content/model.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/base64.js" />
   <!-- Page 1 create ;oad balancer -->
-  <wizardpage>
+  <wizardpage onpageadvanced="return Create_Loadbalancer_validate1();">
      <grid flex="100%">
       <rows>
         <row>
           <label control="ec2ui.createlb.Name" value="Load Balancer Name:" />
-          <textbox id="ec2ui.createlb.Name" size="25"  onkeypress="return noWhiteSpace(event);" style="min-width:8em"/>
+          <textbox id="ec2ui.createlb.Name" size="25" style="min-width:8em"/>
         </row>
         <row>
         <label control="ec2ui.createlb.Protocol" value="Protocol:" />
-        <menulist id="ec2ui.createlb.Protocol" oncommand="createTopic('ec2ui.createlb.Protocol')"  style="min-width: 8em">
+        <menulist id="ec2ui.createlb.Protocol" style="min-width: 8em">
            <menupopup id="ec2ui.createlb.Protocol">
-              <menuitem label="Select a Protocol" value="0"/>
               <menuitem label="HTTP" value="HTTP"/>
-              <menuitem label="HTTPS (Secure HTTP)" value="createnewtopic" id="createnewtopic"/>
               <menuitem label="TCP" value="TCP"/>
-              <menuitem label="SSL (Secure TCP)" value="4"/>
            </menupopup>
         </menulist>
-        <div id="createnewsns" style="visibility:hidden;display:none;">
-         <vbox>
-            <hbox>
-               <button label="Upload Certificate" id="displayText" oncommand="toggle();" style="min-width: 10em"/>
-            </hbox>
-            <hbox>
-               <div id="toggleText" style="display: none">
-                  <h1>Loading...</h1>
-               </div>
-            </hbox>
-         </vbox>
-        </div>
         </row>
         <row>
          <label control="ec2ui.createlb.elbport" value="Load Balancer Port:" />
-         <textbox id="ec2ui.createlb.elbport"  size="25" style="min-width: 8em"/>
+         <textbox id="ec2ui.createlb.elbport"  size="25" style="min-width: 8em" value="80"/>
         </row>
         <row>
          <label control="ec2ui.createlb.instanceport" value="Instance Port:" />
-         <textbox id="ec2ui.createlb.instanceport"  size="25" style="min-width: 8em"/>
+         <textbox id="ec2ui.createlb.instanceport"  size="25" style="min-width: 8em" value="80"/>
         </row>
         <row>
          <label control="ec2ui.createlb.availabilityzonelist" value="Availability Zone:" />
@@ -58,17 +43,17 @@
     </grid>
   </wizardpage >
  <!-- Page 2 Configure Health Check  -->  
-  <wizardpage description="Configure Healthcheck">
+  <wizardpage description="Configure Healthcheck" onpageadvanced="return Create_Loadbalancer_validate2();">
      <grid flex="100%">
       <rows>
          <row  height="20px">
             <h1 style="font-weight:bold;">Configuration Options:</h1>
          </row>
          <row>
-          <label control="ec2ui.createlb.pingprotocol" value="Ping Protocol:" />
+          <label control="ec2ui.createlb.pingprotocol" value="Ping Protocol:"
+            oncommand="document.getElementById('ec2ui.createlb.pingpath').disabled = (this.selectedItem.value != 'HTTP');" />
          <menulist id="ec2ui.createlb.pingprotocol" style="min-width: 8em">
            <menupopup id="ec2ui.createlb.pingprotocol">
-              <menuitem label="Select a Protocol" value="0"/>
               <menuitem label="HTTP" value="HTTP"/>
               <menuitem label="TCP" value="TCP"/>
            </menupopup>
@@ -76,30 +61,30 @@
         </row>
          <row>
           <label control="ec2ui.createlb.pingport" value="Ping Port:" />
-          <textbox id="ec2ui.createlb.pingport" size="25" style="min-width: 8em" onkeypress="return numOnly(event);"/>
+          <textbox id="ec2ui.createlb.pingport" size="25" style="min-width: 8em" onkeypress="return numOnly(event);" value="80"/>
         </row>
          <row>
           <label control="ec2ui.createlb.pingpath" value="Ping Path:" />
-          <textbox id="ec2ui.createlb.pingpath" size="25" style="min-width: 8em"/>
+          <textbox id="ec2ui.createlb.pingpath" size="25" style="min-width: 8em" value="/index.html"/>
         </row>
          <row height="20px">
             <h1 style="font-weight:bold;">Advanced Options:</h1>
          </row>
         <row>
           <label control="ec2ui.createlb.timeout" value="Response Timeout:" />
-          <textbox id="ec2ui.createlb.timeout" size="25" style="min-width: 8em" onkeypress="return numOnly(event);"/>
+          <textbox id="ec2ui.createlb.timeout" size="25" style="min-width: 8em" onkeypress="return numOnly(event);" value="5"/>
         </row>
         <row>
           <label control="ec2ui.createlb.Interval" value="Health Check Interval:" />
-          <textbox id="ec2ui.createlb.Interval" size="25" style="min-width: 8em" onkeypress="return numOnly(event);"/>
+          <textbox id="ec2ui.createlb.Interval" size="25" style="min-width: 8em" onkeypress="return numOnly(event);" value="30"/>
         </row>
         <row>
           <label control="ec2ui.createlb.uThreshold" value="Unhealthy Threshold:" />
-          <textbox id="ec2ui.createlb.uThreshold" size="25" style="min-width: 8em" onkeypress="return numOnly(event);"/>
+          <textbox id="ec2ui.createlb.uThreshold" size="25" style="min-width: 8em" onkeypress="return numOnly(event);" value="2"/>
         </row>
         <row>
           <label control="ec2ui.createlb.HThreshold" value="Healthy Threshold:" />
-          <textbox id="ec2ui.createlb.HThreshold" size="25" style="min-width: 8em" onkeypress="return numOnly(event);"/>
+          <textbox id="ec2ui.createlb.HThreshold" size="25" style="min-width: 8em" onkeypress="return numOnly(event);" value="10"/>
         </row>
        </rows>
     </grid>
@@ -119,73 +104,4 @@
   </listcols>
 </listbox>
 </wizardpage>
-<script type="text/javascript">
-function noWhiteSpace(evt)
-{	
-	var charCode = (evt.which) ? evt.which : window.event.keyCode;
-
-	if (charCode == 13)
-	{
-		return true;
-	}
-	else
-	{
-		var keyChar = String.fromCharCode(charCode);
-		var re = /\s/ ;
-		return !re.test(keyChar);
-	}	
-}
-function numOnly(evt)
-{	
-	var charCode = (evt.which) ? evt.which : window.event.keyCode;
-
-	if (charCode == 13)
-	{
-		return true;
-	}
-	else
-	{
-		var keyChar = String.fromCharCode(charCode);
-		var re = /[0-9]/
-		return re.test(keyChar);
-	}	
-}
-
-</script>
-
-<script language="javascript">
-function toggle() {
-var ele = document.getElementById("toggleText");
-var text = document.getElementById("displayText");
-if(ele.style.display == "block") {
-ele.style.display = "none";
-text.innerHTML = "show";
-}
-else {
-ele.style.display = "block";
-text.innerHTML = "hide";
-}
-}
-function setVisibility(id) {
-var temp = document.getElementById(id).style.visibility;
-if (temp == 'hidden') {
-document.getElementById(id).style.visibility='visible';
- document.getElementById (id).style.display='inline';
-}
-else if (temp == "visible") {
-document.getElementById(id).style.visibility='hidden';
-document.getElementById (id).style.display='none';
-}
-}
-function createTopic(id) {
-var temp = document.getElementById(id).value;
-if (temp == 'createnewtopic') {
-document.getElementById('createnewsns').style.visibility='visible';
-document.getElementById ('createnewsns').style.display='inline';
-}else{
-document.getElementById('createnewsns').style.visibility='hidden';
-document.getElementById ('createnewsns').style.display='none';
-}
-}
-</script>
 </wizard>
