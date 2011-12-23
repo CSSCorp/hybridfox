@@ -65,7 +65,7 @@
         </row>
          <row>
           <label control="ec2ui.createlb.pingpath" value="Ping Path:" />
-          <textbox id="ec2ui.createlb.pingpath" size="25" style="min-width: 8em" value="/index.html"/>
+          <textbox id="ec2ui.createlb.pingpath" size="25" style="min-width: 8em" value="index.html"/>
         </row>
          <row height="20px">
             <h1 style="font-weight:bold;">Advanced Options:</h1>
