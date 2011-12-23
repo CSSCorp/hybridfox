@@ -58,8 +58,8 @@ var ec2ui_session =
         }
 
         this.loadEndpointMap();
-		this.loadTemplateMap();
         this.switchEndpoints();
+		this.loadTemplateMap();
         this.args = this.parseURL();
         this.processURLArguments();
     },

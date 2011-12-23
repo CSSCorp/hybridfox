@@ -384,9 +384,10 @@ var ec2_httpclient = {
         }
 
         var sigValues = new Array();
-        sigValues.push(new Array("Action", action));
         sigValues.push(new Array("AWSAccessKeyId", this.accessCode));
-        sigValues.push(new Array("SignatureVersion","1"));
+        sigValues.push(new Array("Action", action));
+        sigValues.push(new Array("SignatureVersion","2"));
+        sigValues.push(new Array("SignatureMethod","HmacSHA256"));
         sigValues.push(new Array("Version",this.ELB_API_VERSION));
         sigValues.push(new Array("Timestamp",formattedTime));
 
@@ -396,22 +397,24 @@ var ec2_httpclient = {
         }
 
         // Sort the parameters by their lowercase name
-        sigValues.sort(this.sigParamCmp);
+        //sigValues.sort(this.sigParamCmp);
+        sigValues.sort();
 
         // Construct the string to sign and query string
-        var strSig = "";
+		var uri = parseUri(this.elbURL);
         var queryParams = "";
         for (var i = 0; i < sigValues.length; i++) {
-            strSig += sigValues[i][0] + sigValues[i][1];
             queryParams += sigValues[i][0] + "=" + encodeURIComponent(sigValues[i][1]);
-            if (i < sigValues.length-1)
+            if (i < sigValues.length-1) {
                 queryParams += "&";
+			}
         }
 
+        var strSig = "POST\n"+uri.host+"\n"+uri.path+"/\n"+queryParams;
         log("StrSig ["+strSig+"]");
         log("Params ["+queryParams+"]");
 
-        var sig = b64_hmac_sha1(this.secretKey, strSig);
+        var sig = b64_hmac_sha256(this.secretKey, strSig);
         log("Sig ["+sig+"]");
 
         queryParams += "&Signature="+encodeURIComponent(sig);
@@ -430,7 +433,7 @@ var ec2_httpclient = {
             }
             xmlhttp.open("POST", url, !isSync);
             xmlhttp.setRequestHeader("User-Agent", this.USER_AGENT);
-            xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
             xmlhttp.setRequestHeader("Content-Length", queryParams.length);
             xmlhttp.setRequestHeader("Connection", "close");
             this.startTimer(timerKey, 30000, xmlhttp.abort);
@@ -472,9 +475,10 @@ var ec2_httpclient = {
         }
 
         var sigValues = new Array();
-        sigValues.push(new Array("Action", action));
         sigValues.push(new Array("AWSAccessKeyId", this.accessCode));
-        sigValues.push(new Array("SignatureVersion","1"));
+        sigValues.push(new Array("Action", action));
+        sigValues.push(new Array("SignatureVersion","2"));
+        sigValues.push(new Array("SignatureMethod","HmacSHA256"));
         sigValues.push(new Array("Version",this.CW_API_VERSION));
         sigValues.push(new Array("Timestamp",formattedTime));
 
@@ -484,22 +488,24 @@ var ec2_httpclient = {
         }
 
         // Sort the parameters by their lowercase name
-        sigValues.sort(this.sigParamCmp);
+        //sigValues.sort(this.sigParamCmp);
+        sigValues.sort();
 
         // Construct the string to sign and query string
-        var strSig = "";
+		var uri = parseUri(this.cwURL);
         var queryParams = "";
         for (var i = 0; i < sigValues.length; i++) {
-            strSig += sigValues[i][0] + sigValues[i][1];
             queryParams += sigValues[i][0] + "=" + encodeURIComponent(sigValues[i][1]);
-            if (i < sigValues.length-1)
+            if (i < sigValues.length-1) {
                 queryParams += "&";
+			}
         }
 
+        var strSig = "POST\n"+uri.host+"\n"+uri.path+"/\n"+queryParams;
         log("StrSig ["+strSig+"]");
         log("Params ["+queryParams+"]");
 
-        var sig = b64_hmac_sha1(this.secretKey, strSig);
+        var sig = b64_hmac_sha256(this.secretKey, strSig);
         log("Sig ["+sig+"]");
 
         queryParams += "&Signature="+encodeURIComponent(sig);
@@ -518,7 +524,7 @@ var ec2_httpclient = {
             }
             xmlhttp.open("POST", url, !isSync);
             xmlhttp.setRequestHeader("User-Agent", this.USER_AGENT);
-            xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
             xmlhttp.setRequestHeader("Content-Length", queryParams.length);
             xmlhttp.setRequestHeader("Connection", "close");
             this.startTimer(timerKey, 30000, xmlhttp.abort);
@@ -560,9 +566,10 @@ var ec2_httpclient = {
         }
 
         var sigValues = new Array();
-        sigValues.push(new Array("Action", action));
         sigValues.push(new Array("AWSAccessKeyId", this.accessCode));
-        sigValues.push(new Array("SignatureVersion","1"));
+        sigValues.push(new Array("Action", action));
+        sigValues.push(new Array("SignatureVersion","2"));
+        sigValues.push(new Array("SignatureMethod","HmacSHA256"));
         sigValues.push(new Array("Version",this.CF_API_VERSION));
         sigValues.push(new Array("Timestamp",formattedTime));
 
@@ -572,22 +579,24 @@ var ec2_httpclient = {
         }
 
         // Sort the parameters by their lowercase name
-        sigValues.sort(this.sigParamCmp);
+        //sigValues.sort(this.sigParamCmp);
+        sigValues.sort();
 
         // Construct the string to sign and query string
-        var strSig = "";
+		var uri = parseUri(this.cfURL);
         var queryParams = "";
         for (var i = 0; i < sigValues.length; i++) {
-            strSig += sigValues[i][0] + sigValues[i][1];
             queryParams += sigValues[i][0] + "=" + encodeURIComponent(sigValues[i][1]);
-            if (i < sigValues.length-1)
+            if (i < sigValues.length-1) {
                 queryParams += "&";
+			}
         }
 
+        var strSig = "POST\n"+uri.host+"\n"+uri.path+"/\n"+queryParams;
         log("StrSig ["+strSig+"]");
         log("Params ["+queryParams+"]");
 
-        var sig = b64_hmac_sha1(this.secretKey, strSig);
+        var sig = b64_hmac_sha256(this.secretKey, strSig);
         log("Sig ["+sig+"]");
 
         queryParams += "&Signature="+encodeURIComponent(sig);
@@ -606,7 +615,7 @@ var ec2_httpclient = {
             }
             xmlhttp.open("POST", url, !isSync);
             xmlhttp.setRequestHeader("User-Agent", this.USER_AGENT);
-            xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
             xmlhttp.setRequestHeader("Content-Length", queryParams.length);
             xmlhttp.setRequestHeader("Connection", "close");
             this.startTimer(timerKey, 30000, xmlhttp.abort);
