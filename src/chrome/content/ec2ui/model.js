@@ -126,6 +126,19 @@ function Instance(resId, ownerId, groupList, instanceId, imageId, kernelId,
     this.rootDeviceType = rootDeviceType;
 }
 
+function InstanceStatus(instanceId, availabilityZone, event, description, startTime, endTime) {
+    this.instanceId = instanceId;
+    this.availabilityZone = availabilityZone;
+    this.event = event;
+    this.description = description;
+    if (startTime != "") {
+    this.startTime = startTime.strftime('%Y-%m-%d %H:%M:%S');
+    }
+    if (endTime != "") {    
+    this.endTime = endTime.strftime('%Y-%m-%d %H:%M:%S');
+    }
+}
+
 function KeyPair(name, fingerprint) {
     this.name = name;
     this.fingerprint = fingerprint;
@@ -299,6 +312,7 @@ var ec2ui_model = {
     bundleTasks       : null,
     offerings         : null,
     reservedInstances : null,
+	instancestatus    : null,
     subnets           : null,
     vpcs              : null,
     dhcpOptions       : null,
@@ -336,6 +350,7 @@ var ec2ui_model = {
         this.updateBundleTasks(null);
         this.updateLeaseOfferings(null);
         this.updateReservedInstances(null);
+		this.updateInstanceStatus(null);
         this.updateVpcs(null);
         this.updateSubnets(null);
         this.updateDhcpOptions(null);
@@ -522,6 +537,18 @@ var ec2ui_model = {
             ec2ui_session.controller.describeInstances();
         }
         return this.instances;
+    },
+	
+	updateInstanceStatus : function(list) {
+        this.instancestatus = list;
+        this.notifyComponents("instancestatus");
+    },
+
+    getInstanceStatus : function() {
+        if (this.instancestatus == null) {
+            ec2ui_session.controller.describeInstanceStatus();
+        }
+        return this.instancestatus;
     },
 
     updateKeypairs : function(list) {

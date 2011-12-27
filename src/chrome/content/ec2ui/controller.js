@@ -1259,10 +1259,13 @@ var ec2ui_controller = {
             var resId = getNodeValueByName(items.snapshotItem(i), "reservationId");
             var ownerId = getNodeValueByName(items.snapshotItem(i), "ownerId");
             var groups = new Array();
-            var groupIds = items.snapshotItem(i).getElementsByTagName("groupId");
-            for (var j = 0; j < groupIds.length; j++) {
-                groups.push(groupIds[j].firstChild.nodeValue);
+			var groupSet = items.snapshotItem(i).getElementsByTagName("groupSet")[0];
+			var groupItems = groupSet.getElementsByTagName("item");
+			for (var j = 0; j < groupItems.length; j++) {
+				var groupname = getNodeValueByName(groupItems[j], "groupName");
+                groups.push(groupname);
             }
+
             var instancesSet = items.snapshotItem(i).getElementsByTagName("instancesSet")[0];
             var instanceItems = instancesSet.childNodes;
 
@@ -1286,6 +1289,38 @@ var ec2ui_controller = {
         ec2ui_model.updateInstances(list);
         if (objResponse.callback)
             objResponse.callback(list);
+    },
+	
+	describeInstanceStatus : function(callback) {
+		ec2_httpclient.queryEC2("DescribeInstanceStatus", [], this, true, "oncompleteDescribeInstanceStatus", callback);
+	},
+	
+    oncompleteDescribeInstanceStatus : function (objResponse) {
+		var xmlDoc = objResponse.xmlDoc;
+        var list = new Array();
+        var items = xmlDoc.getElementsByTagName("item");
+        for (var i = 0; i < items.length; i++)
+		{
+			var instanceId = getNodeValueByName(items[i], "instanceId");
+			var availabilityZone = getNodeValueByName(items[i], "availabilityZone");
+			
+			var eventsSet = items[i].getElementsByTagName("eventsSet");
+			for (var j = 0; j < eventsSet.length; j++)
+			{
+                var event = getNodeValueByName(eventsSet[j], "code");
+                var description = getNodeValueByName(eventsSet[j], "description");
+                var startTime = new Date();
+				startTime.setISO8601(getNodeValueByName(eventsSet[j], "notBefore"));
+                var endTime = new Date();
+				endTime.setISO8601(getNodeValueByName(eventsSet[j], "notAfter"));
+            }
+	    
+	    list.push(new InstanceStatus(instanceId, availabilityZone, event, description, startTime || "", endTime || ""));
+        }
+	
+        ec2ui_model.updateInstanceStatus(list);
+        if (objResponse.callback)
+            objResponse.callback(list);        
     },
 	
 	walkTagSet : function(item, idName, tags) {

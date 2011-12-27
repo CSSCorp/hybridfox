@@ -12,7 +12,7 @@ var ec2_httpclient = {
 	// Change the name since Eucalyptus 1.6.2 has a problem with Elasticfox.
     USER_AGENT : "Hybridfox/__VERSION__-__BUILD__",
 
-    API_VERSION : "2010-08-31",
+    API_VERSION : "2011-12-01",
 
     VPN_CONFIG_PATH : "http://ec2-downloads.s3.amazonaws.com/",
 

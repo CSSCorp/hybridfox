@@ -56,6 +56,7 @@
   <script type="application/x-javascript" src="chrome://ec2ui/content/credential_manager.js" />
   <script type="application/x-javascript" src="chrome://global/content/contentAreaUtils.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/session.js" />
+  <script type="application/x-javascript" src="chrome://ec2ui/content/instancescheduleview.js"/>
   <script type="application/x-javascript" src="chrome://ec2ui/content/vpcsview.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/subnetsview.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/dhcpoptionsview.js" />

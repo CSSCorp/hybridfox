@@ -542,3 +542,8 @@
 <!ENTITY ec2ui.dialog.button.cancel.manage.label "Close">
 <!ENTITY ec2ui.dialog.button.extra1.manage.label "Add">
 <!ENTITY ec2ui.dialog.button.extra2.manage.label "Remove">
+
+<!ENTITY ec2ui.instanceevent.event.label "Event">
+<!ENTITY ec2ui.instanceevent.description.label "Description">
+<!ENTITY ec2ui.instanceevent.startTime.label "Start Time">
+<!ENTITY ec2ui.instanceevent.endTime.label "End Time">
