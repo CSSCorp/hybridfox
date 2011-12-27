@@ -234,7 +234,7 @@
 <!ENTITY ec2ui.addTag.label "Add Tag">
 
 <!ENTITY ec2ui.contextmenu.details.label "View Details">
-<!ENTITY ec2ui.contextmenu.copyid.label "Copy ID to clipboard">
+<!ENTITY ec2ui.contextmenu.copyid.label "Copy to clipboard">
 
 <!ENTITY ec2ui.images.contextmenu.register.label "Register a new AMI">
 <!ENTITY ec2ui.images.contextmenu.deregister.label "Deregister this AMI">
@@ -256,7 +256,7 @@
 <!ENTITY ec2ui.instances.contextmenu.unmonitor.label "Unmonitor">
 <!ENTITY ec2ui.instances.contextmenu.console.label "Show Console Output">
 <!ENTITY ec2ui.instances.contextmenu.password.label "Get Administrator Password">
-<!ENTITY ec2ui.instances.contextmenu.copyid.label "Copy Instance ID to clipboard">
+<!ENTITY ec2ui.instances.contextmenu.copyid.label "Instance ID">
 <!ENTITY ec2ui.instances.contextmenu.copypublic.label "Copy Public DNS Name to clipboard">
 <!ENTITY ec2ui.instances.contextmenu.copyprivate.label "Copy Private DNS Name to clipboard">
 <!ENTITY ec2ui.instances.contextmenu.copyprivateip.label "Copy Private IP Address to clipboard">

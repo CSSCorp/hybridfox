@@ -1292,7 +1292,9 @@ var ec2ui_controller = {
     },
 	
 	describeInstanceStatus : function(callback) {
-		ec2_httpclient.queryEC2("DescribeInstanceStatus", [], this, true, "oncompleteDescribeInstanceStatus", callback);
+		if(ec2ui_session.isAmazonEndpointSelected()) {
+			ec2_httpclient.queryEC2("DescribeInstanceStatus", [], this, true, "oncompleteDescribeInstanceStatus", callback);
+		}
 	},
 	
     oncompleteDescribeInstanceStatus : function (objResponse) {
@@ -1405,6 +1407,45 @@ var ec2ui_controller = {
                 res.tag = tag
                 addNameTagToModel(tag, res);
             }
+        }
+    },
+	
+	describeInstanceAttribute : function (instanceId, attribute, callback) {
+        var params = new Array();
+        params.push(["InstanceId", instanceId]);
+        params.push(["Attribute", attribute]);
+        ec2_httpclient.queryEC2("DescribeInstanceAttribute", params, this, true, "onCompleteDescribeInstanceAttribute", callback);
+    },
+
+    onCompleteDescribeInstanceAttribute : function (objResponse) {
+        var xmlDoc = objResponse.xmlDoc;
+        var items = xmlDoc.evaluate("/ec2:DescribeInstanceAttributeResponse/*",
+                                       xmlDoc,
+                                       this.getNsResolver(),
+                                       XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
+                                       null);
+
+        var value = getNodeValueByName(items.snapshotItem(2), "value");
+
+        if (objResponse.callback) {
+            objResponse.callback(value);
+        }
+    },
+
+    modifyInstanceAttribute : function (instanceId, attribute, callback) {
+        var params = new Array();
+        var name = attribute[0];
+        var value = attribute[1];
+
+        params.push(["InstanceId", instanceId]);
+        params.push([name + ".Value", value]);
+
+        ec2_httpclient.queryEC2("ModifyInstanceAttribute", params, this, true, "onCompleteModifyInstanceAttribute", callback);
+    },
+
+    onCompleteModifyInstanceAttribute : function (objResponse) {
+        if (objResponse.callback) {
+            objResponse.callback();
         }
     },
 
