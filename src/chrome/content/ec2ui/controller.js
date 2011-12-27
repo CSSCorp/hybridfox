@@ -193,7 +193,8 @@ var ec2ui_controller = {
         for(var i=0 ; i < items.snapshotLength; i++) {
             var id = getNodeValueByName(items.snapshotItem(i), "snapshotId");
             var volumeId = getNodeValueByName(items.snapshotItem(i), "volumeId");
-	    var volumeSize = getNodeValueByName(items.snapshotItem(i), "volumeSize");
+            var volumeSize = getNodeValueByName(items.snapshotItem(i), "volumeSize");
+            volumeSize = volumeSize.match(/^[0-9]+$/) ? volumeSize : "" ;
             var status = getNodeValueByName(items.snapshotItem(i), "status");
             var startTime = new Date();
             startTime.setISO8601(getNodeValueByName(items.snapshotItem(i), "startTime"));
