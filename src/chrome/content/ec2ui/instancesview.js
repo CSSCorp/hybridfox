@@ -996,6 +996,70 @@ var ec2ui_InstancesTreeView = {
         ec2ui_session.controller.stopInstances(instanceIds, force, wrap);
     },
 	
+	changeInstanceType: function() {
+        var instances = this.getSelectedInstanceNamedIds();
+        var instanceIds = instances[0];
+        var instanceLabels = instances[1];
+
+        if (instanceIds.length == 0) {
+            alert('Please select one instance.');
+            return
+        } else if (instanceIds.length > 1) {
+            alert('Cannot select multi instances.');
+            return;
+        }
+
+        var instanceId = instanceIds[0];
+        var instanceLabel = instanceLabels[0]
+        var returnValue = {accepted:false , result:null};
+
+        ec2ui_session.controller.describeInstanceAttribute(instanceId, "instanceType", function(value) {
+            openDialog('chrome://ec2ui/content/dialog_instance_type.xul',
+                       null,
+                       'chrome,centerscreen,modal',
+                       instanceLabel,
+                       value,
+                       returnValue);
+
+            if (returnValue.result == null) {
+                return;
+            }
+
+            var attribute = ['InstanceType', returnValue.result];
+            ec2ui_session.controller.modifyInstanceAttribute(instanceId, attribute, function() {
+                ec2ui_InstancesTreeView.refresh();
+                ec2ui_InstancesTreeView.selectByInstanceIds();
+            });
+        });
+    },
+
+    showTerminationProtection : function() {
+        var instances = this.getSelectedInstanceNamedIds();
+        var instanceIds = instances[0];
+        var instanceLabels = instances[1];
+
+        var statusList = new Array();
+
+        function pushStatusToArray(instanceLabel, status) {
+            statusList.push(status + " | " + instanceLabel);
+
+            if (statusList.length == instanceIds.length) {
+                alert(statusList.join("\n"));
+            }
+        }
+
+        function describeInstanceAttribute(instanceId, instanceLabel) {
+            ec2ui_session.controller.describeInstanceAttribute(instanceId, "disableApiTermination", function(value) {
+                value = (value == "true");
+                pushStatusToArray(instanceLabel, (value ? "enable" : "disable"));
+            });
+        }
+
+        for (var i = 0; i < instanceIds.length; i++) {
+            describeInstanceAttribute(instanceIds[i], instanceLabels[i]);
+        }
+    },
+	
 	showTerminationProtection : function() {
         var instances = this.getSelectedInstanceNamedIds();
         var instanceIds = instances[0];
