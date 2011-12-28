@@ -33,6 +33,9 @@
                 label="Terminate" style="color:red; font-weight:bold;"/>
             </menupopup>
           </menu>
+          <menuitem id="instances.context.changeInstanceType"
+            oncommand="ec2ui_InstancesTreeView.changeInstanceType();"
+            label="Change Instance Type" />
           <menuseparator />
           <menuitem oncommand="ec2ui_InstancesTreeView.launchMore();"
             label="Launch More of these" />
@@ -46,9 +49,6 @@
           <menuitem id="instances.context.createimage"
             oncommand="ec2ui_InstancesTreeView.showCreateImageDialog();"
             label="Create Image (EBS AMI)" />
-          <menuitem id="instances.context.changeInstanceType"
-            oncommand="ec2ui_InstancesTreeView.changeInstanceType();"
-            label="Change Instance Type" />
           <menuitem id="instances.context.monitor"
             oncommand="ec2ui_InstancesTreeView.monitorInstance();"
             label="Monitor" />
