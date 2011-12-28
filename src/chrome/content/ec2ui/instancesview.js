@@ -720,6 +720,33 @@ var ec2ui_InstancesTreeView = {
             }
         }
     },
+    
+    getSelectedInstanceIdsWithName : function() {
+        var instanceIds = new Array();
+        for(var i in this.instanceList) {
+            if (this.selection.isSelected(i)) {
+                instanceIds.push([this.instanceList[i].id, this.instanceList[i].name]);
+            }
+        }
+
+        return instanceIds;
+    },
+    
+    getSelectedInstanceNamedIds : function() {
+        var instanceIdsWithName = this.getSelectedInstanceIdsWithName();
+        var instanceIds = new Array();
+        var instances = new Array();
+
+        for (var i = 0; i < instanceIdsWithName.length; i++) {
+            var instanceId = instanceIdsWithName[i][0];
+            var instanceName = instanceIdsWithName[i][1];
+            instanceIds.push(instanceId);
+            if (!instanceName) { instanceName = '(no name)'; }
+            instances.push(instanceName + '@' + instanceId);
+        }
+
+        return [instanceIds, instances];
+    },
 
     selectionChanged : function(event) {
         // When an instance is selected, select the associated AMI, ARI and AKI
@@ -920,6 +947,124 @@ var ec2ui_InstancesTreeView = {
             }
         }
         ec2ui_session.controller.stopInstances(instanceIds, force, wrap);
+    },
+    
+    changeInstanceType: function() {
+        var instances = this.getSelectedInstanceNamedIds();
+        var instanceIds = instances[0];
+        var instanceLabels = instances[1];
+
+        if (instanceIds.length == 0) {
+            alert('Please select one instance.');
+            return
+        } else if (instanceIds.length > 1) {
+            alert('Cannot select multi instances.');
+            return;
+        }
+
+        var instanceId = instanceIds[0];
+        var instanceLabel = instanceLabels[0]
+        var returnValue = {accepted:false , result:null};
+
+        ec2ui_session.controller.describeInstanceAttribute(instanceId, "instanceType", function(value) {
+            openDialog('chrome://ec2ui/content/dialog_instance_type.xul',
+                       null,
+                       'chrome,centerscreen,modal',
+                       instanceLabel,
+                       value,
+                       returnValue);
+
+            if (returnValue.result == null) {
+                return;
+            }
+
+            var attribute = ['InstanceType', returnValue.result];
+            ec2ui_session.controller.modifyInstanceAttribute(instanceId, attribute, function() {
+                ec2ui_InstancesTreeView.refresh();
+                ec2ui_InstancesTreeView.selectByInstanceIds();
+            });
+        });
+    },
+
+    showTerminationProtection : function() {
+        var instances = this.getSelectedInstanceNamedIds();
+        var instanceIds = instances[0];
+        var instanceLabels = instances[1];
+
+        var statusList = new Array();
+
+        function pushStatusToArray(instanceLabel, status) {
+            statusList.push(status + " | " + instanceLabel);
+
+            if (statusList.length == instanceIds.length) {
+                alert(statusList.join("\n"));
+            }
+        }
+
+        function describeInstanceAttribute(instanceId, instanceLabel) {
+            ec2ui_session.controller.describeInstanceAttribute(instanceId, "disableApiTermination", function(value) {
+                value = (value == "true");
+                pushStatusToArray(instanceLabel, (value ? "enable" : "disable"));
+            });
+        }
+
+        for (var i = 0; i < instanceIds.length; i++) {
+            describeInstanceAttribute(instanceIds[i], instanceLabels[i]);
+        }
+    },
+	
+	showTerminationProtection : function() {
+        var instances = this.getSelectedInstanceNamedIds();
+        var instanceIds = instances[0];
+        var instanceLabels = instances[1];
+
+        var statusList = new Array();
+
+        function pushStatusToArray(instanceLabel, status) {
+            statusList.push(status + " | " + instanceLabel);
+
+            if (statusList.length == instanceIds.length) {
+                alert(statusList.join("\n"));
+            }
+        }
+
+        function describeInstanceAttribute(instanceId, instanceLabel) {
+            ec2ui_session.controller.describeInstanceAttribute(instanceId, "disableApiTermination", function(value) {
+                value = (value == "true");
+                pushStatusToArray(instanceLabel, (value ? "enable" : "disable"));
+            });
+        }
+
+        for (var i = 0; i < instanceIds.length; i++) {
+            describeInstanceAttribute(instanceIds[i], instanceLabels[i]);
+        }
+    },
+
+    changeTerminationProtection : function() {
+        var instanceIds = this.getSelectedInstanceIds();
+        var instanceId = instanceIds[0];
+        var me = this;
+
+        ec2ui_session.controller.describeInstanceAttribute(instanceId, "disableApiTermination", function(value) {
+            value = (value == "true")
+            var msg = null;
+
+            if (value) {
+                msg = "Termination Protection: enable -> disable ?";
+            } else {
+                msg = "Termination Protection: disable -> enable ?";
+            }
+
+            if (confirm(msg)) {
+                for (var i = 0; i < instanceIds.length; i++) {
+                  me.doChangeTerminationProtection(instanceIds[i], !value);
+                }
+            }
+        });
+    },
+
+    doChangeTerminationProtection : function(instanceId, enable) {
+        ec2ui_session.controller.modifyInstanceAttribute(instanceId, ["DisableApiTermination", enable]);
     },
 
     startInstance : function() {

@@ -16,6 +16,27 @@
           <menuitem oncommand="ec2ui_InstancesTreeView.tag(event);"
             label="&ec2ui.addTag.label;" />
           <menuseparator />
+          <menu label="Instance Lifecycle">
+            <menupopup>
+              <menuitem id="instances.context.start"
+                oncommand="ec2ui_InstancesTreeView.startInstance();"
+                label="Start" />
+              <menuitem oncommand="ec2ui_InstancesTreeView.rebootInstance();"
+                label="Reboot" />
+              <menuitem id="instances.context.stop"
+                oncommand="ec2ui_InstancesTreeView.stopInstance();"
+                label="Stop" />
+              <menuitem id="instances.context.forceStop"
+                oncommand="ec2ui_InstancesTreeView.forceStopInstance();"
+                label="Force Stop" />
+              <menuitem oncommand="ec2ui_InstancesTreeView.terminateInstance();"
+                label="Terminate" style="color:red; font-weight:bold;"/>
+            </menupopup>
+          </menu>
+          <menuitem id="instances.context.changeInstanceType"
+            oncommand="ec2ui_InstancesTreeView.changeInstanceType();"
+            label="Change Instance Type" />
+          <menuseparator />
           <menuitem oncommand="ec2ui_InstancesTreeView.launchMore();"
             label="&ec2ui.instances.contextmenu.launchmore.label;" />
           <menuitem oncommand="ec2ui_InstancesTreeView.associateWithEIP();"
@@ -25,21 +46,6 @@
           <menuitem id="instances.context.bundle"
             oncommand="ec2ui_InstancesTreeView.showBundleDialog();"
             label="&ec2ui.instances.contextmenu.bundle.label;" />
-          <menuitem oncommand="ec2ui_InstancesTreeView.rebootInstance();"
-            label="&ec2ui.instances.contextmenu.reboot.label;" />
-          <menuitem oncommand="ec2ui_InstancesTreeView.terminateInstance();"
-            label="&ec2ui.instances.contextmenu.terminate.label;" />
-          <menuseparator />
-           <menuitem id="instances.context.stop"
-            oncommand="ec2ui_InstancesTreeView.stopInstance();"
-            label="&ec2ui.instances.contextmenu.stop.label;" />
-          <menuitem id="instances.context.forceStop"
-            oncommand="ec2ui_InstancesTreeView.forceStopInstance();"
-            label="&ec2ui.instances.contextmenu.forcestop.label;" />
-          <menuitem id="instances.context.start"
-            oncommand="ec2ui_InstancesTreeView.startInstance();"
-            label="&ec2ui.instances.contextmenu.start.label;" />
-          <menuseparator />
           <menuitem id="instances.context.monitor"
             oncommand="ec2ui_InstancesTreeView.monitorInstance();"
             label="&ec2ui.instances.contextmenu.monitor.label;" />
@@ -53,12 +59,18 @@
             oncommand="ec2ui_InstancesTreeView.getAdminPassword(false);"
             label="&ec2ui.instances.contextmenu.password.label;" />
           <menuseparator />
-          <menuitem oncommand="ec2ui_InstancesTreeView.copyToClipBoard('id');"
-            label="&ec2ui.instances.contextmenu.copyid.label;" />
-          <menuitem oncommand="ec2ui_InstancesTreeView.copyToClipBoard('publicDnsName');"
-            label="&ec2ui.instances.contextmenu.copypublic.label;" />
-          <menuitem oncommand="ec2ui_InstancesTreeView.copyToClipBoard('privateDnsName');"
-            label="&ec2ui.instances.contextmenu.copyprivate.label;" />
+          <menu label="&ec2ui.contextmenu.copyid.label;">
+            <menupopup>
+              <menuitem oncommand="ec2ui_InstancesTreeView.copyToClipBoard('id');"
+                label="&ec2ui.instances.contextmenu.copyid.label;" />
+              <menuitem oncommand="ec2ui_InstancesTreeView.copyToClipBoard('publicDnsName');"
+                label="Public DNS Name" />
+              <menuitem oncommand="ec2ui_InstancesTreeView.copyToClipBoard('privateDnsName');"
+                label="Private DNS Name" />
+              <menuitem oncommand="ec2ui_InstancesTreeView.copyToClipBoard('privateIpAddress');"
+                label="Private IP Address" />
+            </menupopup>
+          </menu>
           <menuseparator />
           <menuitem id="instances.context.connect"
             oncommand="ec2ui_InstancesTreeView.connectToSelectedInstances();"
