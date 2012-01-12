@@ -656,6 +656,56 @@ var ec2ui_InstancesTreeView = {
             break;
         }
     },
+    
+    showTerminationProtection : function() {
+        var instances = this.getSelectedInstanceNamedIds();
+        var instanceIds = instances[0];
+        var instanceLabels = instances[1];
+
+        var statusList = new Array();
+
+        function pushStatusToArray(instanceLabel, status) {
+            statusList.push(status + " | " + instanceLabel);
+
+            if (statusList.length == instanceIds.length) {
+                alert(statusList.join("\n"));
+            }
+        }
+
+        function __describeInstanceAttribute__(instanceId, instanceLabel) {
+            ec2ui_session.controller.describeInstanceAttribute(instanceId, "disableApiTermination", function(value) {
+                value = (value == "true");
+                pushStatusToArray(instanceLabel, (value ? "enable" : "disable"));
+            });
+        }
+
+        for (var i = 0; i < instanceIds.length; i++) {
+            __describeInstanceAttribute__(instanceIds[i], instanceLabels[i]);
+        }
+    },
+
+    changeTerminationProtection : function() {
+        var instanceIds = this.getSelectedInstanceIds();
+        var instanceId = instanceIds[0];
+        var me = this;
+
+        ec2ui_session.controller.describeInstanceAttribute(instanceId, "disableApiTermination", function(value) {
+            value = (value == "true")
+            var msg = null;
+
+            if (value) {
+                msg = "Termination Protection: enable -> disable ?";
+            } else {
+                msg = "Termination Protection: disable -> enable ?";
+            }
+
+            if (confirm(msg)) {
+                for (var i = 0; i < instanceIds.length; i++) {
+                  me.doChangeTerminationProtection(instanceIds[i], !value);
+                }
+            }
+        });
+    },
 
     getAdminPassword : function(fSilent, instance) {
         // Since we are retrieving a new password, ensure that we are
@@ -812,6 +862,8 @@ var ec2ui_InstancesTreeView = {
             if(rootdevicetype){
                 document.getElementById("instances.context.stop").disabled = true;
                 document.getElementById("instances.context.forceStop").disabled = true;
+                document.getElementById("instances.context.showTerminationProtection").disabled = true;
+                document.getElementById("instances.context.changeTerminationProtection").disabled = true;
             }
 
         } else {
