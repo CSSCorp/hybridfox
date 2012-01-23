@@ -41,6 +41,7 @@ var ec2ui_session =
             document.getElementById("ec2ui.rsvdInst.view").view = ec2ui_ReservedInstancesTreeView;
 			document.getElementById("ec2ui.loadbalancer.view").view = ec2ui_LoadbalancerTreeView;
 			document.getElementById("ec2ui.instancehealth.view").view = ec2ui_InstanceHealthTreeView;
+			document.getElementById("ec2ui.servercertificate.view").view = ec2ui_ServerCertificateTreeView;
 			document.getElementById("ec2ui.cloudformation.view").view = ec2ui_CloudformationTreeView;
 			document.getElementById("ec2ui.cloudFormationResource.view").view = ec2ui_StackResourceTreeView;
 
@@ -180,6 +181,7 @@ var ec2ui_session =
 	case "Loadbalancer":
 	    if (this.isAmazonEndpointSelected()) {
 		 eval("ec2ui_LoadbalancerTreeView." + toCall);
+		 eval("ec2ui_ServerCertificateTreeView." + toCall);
 	    }
             break;
 	case "Monitoring":

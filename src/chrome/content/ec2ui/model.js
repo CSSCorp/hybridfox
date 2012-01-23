@@ -220,7 +220,7 @@ function ReservedInstance(id, type, az, start, duration, fPrice, uPrice, count, 
 //Loadbalancer
 
 function LoadBalancer(LoadBalancerName,CreatedTime,DNSName,Instances,
-                      Protocol,LoadBalancerPort,InstancePort,
+                      Protocol,LoadBalancerPort,InstancePort,SSLCertificateId,
                       Interval,Timeout,HealthyThreshold,UnhealthyThreshold,Target,
                       azone,CookieName,APolicyName,CookieExpirationPeriod,CPolicyName){
     this.LoadBalancerName = LoadBalancerName;
@@ -230,6 +230,7 @@ function LoadBalancer(LoadBalancerName,CreatedTime,DNSName,Instances,
     this.Protocol = Protocol;
     this.LoadBalancerPort = LoadBalancerPort;
     this.InstancePort = InstancePort;
+    this.SSLCertificateId = SSLCertificateId;
     this.Interval = Interval;
     this.Timeout = Timeout;
     this.HealthyThreshold = HealthyThreshold;
@@ -247,6 +248,14 @@ function InstanceHealth(Description,State,InstanceId,ReasonCode){
     this.State = State;
     this.InstanceId = InstanceId;
     this.ReasonCode = ReasonCode;
+}
+
+function ServerCertificate(ServerCertificateName, ServerCertificateId, Path, Arn, UploadDate){
+    this.ServerCertificateName = ServerCertificateName;
+    this.ServerCertificateId = ServerCertificateId;
+    this.Path = Path;
+    this.Arn = Arn;
+    this.UploadDate = UploadDate;
 }
 
 function Monitoring(Name,Value, MeasureName,Namespace){
@@ -310,6 +319,7 @@ var ec2ui_model = {
     reservedInstances : null,
     loadbalancer      : null,
     InstanceHealth    : null,
+    ServerCertificate : null,
     monitoring        : null,
     cloudformation    : null,
     resourceMap     : {
@@ -338,6 +348,7 @@ var ec2ui_model = {
         this.updateReservedInstances(null);
         this.updateLoadbalancer(null);
         this.updateInstanceHealth(null);
+        this.updateServerCertificate(null);
         this.updateMonitoring(null);
         this.updateCloudformation(null);
         this.updateDescriberesource(null);
@@ -574,6 +585,18 @@ var ec2ui_model = {
     updateMonitoring : function(list) {
         this.monitoring = list;
         this.notifyComponents("monitoring");
+    },
+    
+    updateServerCertificate : function(list) {
+        this.ServerCertificate = list;
+        this.notifyComponents("ServerCertificate");
+    },
+
+    getServerCertificate : function() {
+        if (this.ServerCertificate == null) {
+            ec2ui_session.controller.describeServerCertificate();
+        }
+        return this.ServerCertificate;
     },
 
     getMonitoring : function() {

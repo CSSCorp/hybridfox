@@ -129,5 +129,53 @@
         </tree>
       </groupbox>
     </vbox>
+    
+    <splitter style="max-width: 1px; height: 4px;"
+      persist="state" collapse="after" resizebefore="closest">
+      <grippy />
+    </splitter>
+    
+    <groupbox orient="vertical" flex="1">
+      <caption label="&ec2ui.upload.certificate.tip;" />
+      <popupset >
+          <menupopup id="certificate.tree.contextmenu"  onpopupshowing="ec2ui_LoadbalancerTreeView.enableOrDisableItems(event);">
+              <menuitem oncommand="ec2ui_ServerCertificateTreeView.viewDetails(event);"
+                label="View Details" />
+              <menuitem oncommand="ec2ui_ServerCertificateTreeView.copyToClipBoard('Arn');"
+                label="Copy Certificate URL" />
+              <menuitem oncommand="ec2ui_ServerCertificateTreeView.deleteServerCertificate()"
+                label="Delete Certificate" />
+          </menupopup>
+      </popupset>
+      <toolbar style="padding: 0px 3px; -moz-box-align: center">
+        <hbox>
+          <toolbarbutton image="images/refresh.png" oncommand="ec2ui_ServerCertificateTreeView.refresh()"
+          tooltiptext="&ec2ui.refresh.tip;" />
+          <toolbarbutton image="images/upload.png" oncommand="ec2ui_ServerCertificateTreeView.openServerCertAddWindow()"
+              style="-moz-box-pack:center;" tooltiptext="Upload Certificate" />
+          <toolbarbutton image="images/delete.png" oncommand="ec2ui_ServerCertificateTreeView.deleteServerCertificate()"
+              style="-moz-box-pack:center;" tooltiptext="Delete Uploaded Certificate" />          
+        </hbox>
+      </toolbar>
+      <tree id="ec2ui.servercertificate.view" seltype="single" ondblclick="ec2ui_ServerCertificateTreeView.viewDetails(event)" enableColumnDrag="true" flex="1">
+        <treecols>
+          <treecol id="ServerCertificate.ServerCertificateName" label="&ec2ui.servercert.servercertname.label;" flex="1"
+            persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter" />
+          <treecol id="ServerCertificate.ServerCertificateId" label="&ec2ui.servercert.servercertid.label;" flex="1"
+            persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter" />
+          <treecol id="ServerCertificate.Arn" label="&ec2ui.servercert.arnid.label;" flex="1"
+            persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter" />
+          <treecol id="ServerCertificate.Path" label="&ec2ui.servercert.path.label;" flex="1"
+            persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter" />
+          <treecol id="ServerCertificate.UploadDate" label="&ec2ui.servercert.uploaddate.label;" flex="1"
+            persist="width ordinal hidden sortDirection" />
+        </treecols>
+        <treechildren id="certificate.tree.children" context="certificate.tree.contextmenu" />
+      </tree>
+    </groupbox>    
   </tabpanel>
 </overlay>

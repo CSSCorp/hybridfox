@@ -1879,6 +1879,7 @@ var ec2ui_controller = {
                 var Protocol = getNodeValueByName(listener[k], "Protocol");
                 var LoadBalancerPort = getNodeValueByName(listener[k], "LoadBalancerPort");
                 var InstancePort = getNodeValueByName(listener[k], "InstancePort");
+				var SSLCertificateId = getNodeValueByName(listener[k], "SSLCertificateId");
             }
   
             var HealthCheck = items[i].getElementsByTagName("HealthCheck");      
@@ -1917,7 +1918,7 @@ var ec2ui_controller = {
 	    
 	    if (LoadBalancerName != '' && CreatedTime != '') {
 		list.push(new LoadBalancer(LoadBalancerName,CreatedTime, DNSName,
-					   Instances,Protocol,LoadBalancerPort,InstancePort,
+					   Instances,Protocol,LoadBalancerPort,InstancePort,SSLCertificateId,
 					   Interval,Timeout,
 					   HealthyThreshold,
 					   UnhealthyThreshold,
@@ -2157,16 +2158,53 @@ var ec2ui_controller = {
 	params.push(["ServerCertificateName", ServerCertificateName]);
 	params.push(["CertificateBody", CertificateBody]);
 	params.push(["PrivateKey", PrivateKey]);
-	if (Path != null) params.push(["Path", Path]);
-	ec2_httpclient.queryIAM("UploadServerCertificate", params, this, true, "oncompleteuploadserversertificate", callback);  
+	params.push(["Path", Path]);
+	ec2_httpclient.queryIAM("UploadServerCertificate", params, this, true, "oncompleteuploadservercertificate", callback);  
     },
     
     oncompleteuploadservercertificate :function (objResponse) {
         var xmlDoc = objResponse.xmlDoc;
-        var items = getNodeValueByName(xmlDoc, "ServerCertificateMetadata");
         if (objResponse.callback)
             objResponse.callback(items);
         
+    },
+	
+	describeServerCertificate : function (callback) {
+        ec2_httpclient.queryIAM("ListServerCertificates", [], this, true, "onCompleteDescribeServerCertificate", callback);
+    },
+
+    onCompleteDescribeServerCertificate : function (objResponse) {
+        var xmlDoc = objResponse.xmlDoc;
+		var list = new Array();
+        var items = xmlDoc.getElementsByTagName("member");
+        for (var i = 0; i < items.length; i++)
+        {
+            var ServerCertificateName = getNodeValueByName(items[i], "ServerCertificateName");
+			var ServerCertificateId = getNodeValueByName(items[i], "ServerCertificateId");
+            var Path = getNodeValueByName(items[i], "Path");
+            var Arn = getNodeValueByName(items[i], "Arn");
+			var UploadDate = getNodeValueByName(items[i], "UploadDate");
+	    
+			list.push(new ServerCertificate(ServerCertificateName, ServerCertificateId, Path, Arn, UploadDate));
+        }
+		
+		ec2ui_model.updateServerCertificate(list);
+        if (objResponse.callback)
+            objResponse.callback(items);
+    },
+	
+	
+	deleteServerCertificate : function (ServerCertificateName,callback) {
+		params = []
+		params.push(["ServerCertificateName", ServerCertificateName]);
+        ec2_httpclient.queryIAM("DeleteServerCertificate", params, this, true, "onCompleteDeleteServerCertificate", callback);
+    },
+
+    onCompleteDeleteServerCertificate : function (objResponse) {
+        var xmlDoc = objResponse.xmlDoc;
+		var items = getNodeValueByName(xmlDoc, "member");
+        if (objResponse.callback)
+            objResponse.callback(items); 
     },
     
     ListMetrics : function (callback) {

@@ -60,6 +60,7 @@
   <script type="application/x-javascript" src="chrome://ec2ui/content/session.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/loadbalancerview.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/instancehealthview.js" />
+  <script type="application/x-javascript" src="chrome://ec2ui/content/certificateview.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/monitoringview.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/cloudformationview.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/sha256.js" />

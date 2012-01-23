@@ -20,13 +20,20 @@
         </row>
         <row>
         <label control="ec2ui.createlb.Protocol" value="Protocol:" />
-        <menulist id="ec2ui.createlb.Protocol" style="min-width: 8em">
+        <menulist id="ec2ui.createlb.Protocol" style="min-width: 8em" oncommand="ec2_Createlb.selectedprotocol()">
            <menupopup id="ec2ui.createlb.Protocol">
               <menuitem label="HTTP" value="HTTP"/>
+              <menuitem  label="HTTPS" value="HTTPS"/>
               <menuitem label="TCP" value="TCP"/>
            </menupopup>
         </menulist>
         </row>
+        <div id="httpsrow" style="display:none;">
+        <row >
+         <label control="ec2ui.createlb.arn" value="ARN Path:" style="min-width: 10.5em" />
+         <textbox id="ec2ui.createlb.arn"  size="25" style="min-width: 8em" />
+        </row>
+        </div>
         <row>
          <label control="ec2ui.createlb.elbport" value="Load Balancer Port:" />
          <textbox id="ec2ui.createlb.elbport"  size="25" style="min-width: 8em" value="80"/>

@@ -2,9 +2,23 @@ var ec2_Createlb = {
     ec2ui_session : null,
     retVal : null,
     reginstanceid : new Array(),
+	
+	selectedprotocol : function() {
+		var valueselected = document.getElementById("ec2ui.createlb.Protocol").value;
+		if(valueselected == "HTTPS"){
+			document.getElementById("httpsrow").style.display = "block";
+		}else{
+			document.getElementById("httpsrow").style.display = "none";
+		}
+		
+	},
+	
     launch : function() {
     this.retVal.LoadBalancerName = document.getElementById("ec2ui.createlb.Name").value.trim();
 	this.retVal.Protocol = document.getElementById("ec2ui.createlb.Protocol").value.trim();
+	if(this.retVal.Protocol == 'HTTPS') {
+		this.retVal.arn = document.getElementById("ec2ui.createlb.arn").value.trim();
+	}
     this.retVal.elbport = document.getElementById("ec2ui.createlb.elbport").value.trim();
 	this.retVal.instanceport = document.getElementById("ec2ui.createlb.instanceport").value.trim();
 	this.retVal.pingprotocol = document.getElementById("ec2ui.createlb.pingprotocol").value.trim();

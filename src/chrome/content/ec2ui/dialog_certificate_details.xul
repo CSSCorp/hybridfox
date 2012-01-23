@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<!DOCTYPE window SYSTEM "chrome://ec2ui/locale/ec2ui.dtd">
+
+<dialog id="ec2ui.dialog.certificate.detail" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	buttons="accept" ondialogaccept="return true;"
+	onload="ec2_ServerCertificateDetails.init();" title="Certificate Details">
+
+	<script type="application/x-javascript" src="chrome://ec2ui/content/certificatedetaildialog.js" />
+	<script type="application/x-javascript" src="chrome://ec2ui/content/model.js" />
+
+	<vbox flex="1">
+		<grid flex="1">
+			<columns>
+				<column />
+				<column />
+				<column />
+			</columns>
+			<rows>
+				<row>
+					<label control="ec2ui.servercert.servercertname" value="Server Cert Name:" />
+					<textbox id="ec2ui.servercert.servercertname" size="40" readonly="true" />
+				</row>
+				<row>
+					<label control="ec2ui.servercert.servercertid" value="Server Cert ID:" />
+					<textbox id="ec2ui.servercert.servercertid" size="40" readonly="true" />
+				</row>
+                <row>
+					<label control="ec2ui.servercert.arnid" value="ARN ID:" />
+					<textbox id="ec2ui.servercert.arnid" size="40" readonly="true" />
+				</row>
+                <row>
+					<label control="ec2ui.servercert.path" value="Path:" />
+					<textbox id="ec2ui.servercert.path" size="40" readonly="true" />
+				</row>
+                <row>
+					<label control="ec2ui.servercert.uploaddate" value="Upload Date:" />
+					<textbox id="ec2ui.servercert.uploaddate" size="40" readonly="true" />
+				</row>
+			</rows>
+		</grid>
+	</vbox>
+</dialog>
+
