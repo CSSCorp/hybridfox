@@ -578,7 +578,7 @@ var ec2ui_controller = {
         if (placement.availabilityZone != null && placement.availabilityZone != "") {
             params.push(["Placement.AvailabilityZone", placement.availabilityZone]);
         }
-        params.push(["AddressingType", addressingType]);	//cmb: make the instance request with addressing type included.
+		//cmb: make the instance request with addressing type included.
         ec2_httpclient.queryEC2("RunInstances", params, this, true, "onCompleteRunInstances", callback);
     },
 
