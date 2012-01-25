@@ -579,6 +579,9 @@ var ec2ui_controller = {
             params.push(["Placement.AvailabilityZone", placement.availabilityZone]);
         }
 		//cmb: make the instance request with addressing type included.
+		if(!ec2ui_session.isAmazonEndpointSelected()){
+			params.push(["AddressingType", addressingType]);
+		}
         ec2_httpclient.queryEC2("RunInstances", params, this, true, "onCompleteRunInstances", callback);
     },
 
