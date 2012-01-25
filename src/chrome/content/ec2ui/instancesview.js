@@ -9,6 +9,8 @@ var ec2ui_InstancesTreeView = {
        'instance.state',
        'instance.publicDnsName',
        'instance.privateDnsName',
+       'instance.privateip',
+       'instance.publicip',
        'instance.keyName',
        'instance.groups',
        'instance.reason',

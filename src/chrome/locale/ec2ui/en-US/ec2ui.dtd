@@ -44,6 +44,8 @@
 <!ENTITY ec2ui.instances.state.label "State">
 <!ENTITY ec2ui.instances.publicDnsName.label "Public DNS">
 <!ENTITY ec2ui.instances.privateDnsName.label "Private DNS">
+<!ENTITY ec2ui.instances.publicip.label "Public IP">
+<!ENTITY ec2ui.instances.privateip.label "Private IP">
 <!ENTITY ec2ui.instances.monitoringState.label "Monitoring State">
 <!ENTITY ec2ui.instances.keyName.label "Key">
 <!ENTITY ec2ui.instances.reason.label "Reason">

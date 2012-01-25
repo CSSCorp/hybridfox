@@ -476,6 +476,8 @@ var ec2ui_controller = {
 
             var dnsName = getNodeValueByName(instanceItems[j], "dnsName");
             var privateDnsName = getNodeValueByName(instanceItems[j], "privateDnsName");
+			var privateip = getNodeValueByName(instanceItems[j], "privateIpAddress");
+			var publicip = getNodeValueByName(instanceItems[j], "ipAddress");
             var keyName = getNodeValueByName(instanceItems[j], "keyName");
             var reason = getNodeValueByName(instanceItems[j], "reason");
             var amiLaunchIdx = getNodeValueByName(instanceItems[j], "amiLaunchIndex");
@@ -512,6 +514,8 @@ var ec2ui_controller = {
                                    stateName,
                                    dnsName,
                                    privateDnsName,
+								   privateip || "",
+								   publicip || "",
                                    keyName,
                                    reason,
                                    amiLaunchIdx,

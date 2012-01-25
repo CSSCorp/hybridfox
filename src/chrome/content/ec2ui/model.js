@@ -85,7 +85,7 @@ function Volume(id, size, snapshotId, zone, status, createTime, instanceId, devi
 }
 
 function Instance(resId, ownerId, groupList, instanceId, imageId, kernelId,
-        ramdiskId, state, publicDnsName, privateDnsName, keyName, reason,
+        ramdiskId, state, publicDnsName, privateDnsName, privateip, publicip, keyName, reason,
         amiLaunchIdx, instanceType,rootDeviceType, launchTime, placement, platform, monitoringState, tag) {
     this.resId = resId;
     this.ownerId = ownerId;
@@ -97,6 +97,8 @@ function Instance(resId, ownerId, groupList, instanceId, imageId, kernelId,
     this.state = state;
     this.publicDnsName = publicDnsName;
     this.privateDnsName = privateDnsName;
+    this.privateip = privateip;
+    this.publicip = publicip;
     this.keyName = keyName;
     this.reason = reason;
     this.amiLaunchIdx = amiLaunchIdx;
