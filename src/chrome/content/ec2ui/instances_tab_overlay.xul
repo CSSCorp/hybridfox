@@ -143,6 +143,12 @@
           <treecol id="instance.monitoringState" label="&ec2ui.instances.monitoringState.label;"
             flex="2" persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
+          <treecol id="instance.ipAddress" label="&ec2ui.instances.ipaddress.label;"
+            flex="9" persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter" />
+          <treecol id="instance.privateip" label="&ec2ui.instances.privateip.label;"
+            flex="9" persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter" />
           <treecol id="instance.keyName" label="&ec2ui.instances.keyName.label;"
             flex="3" persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />

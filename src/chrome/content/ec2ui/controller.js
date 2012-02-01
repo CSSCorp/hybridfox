@@ -492,11 +492,12 @@ var ec2ui_controller = {
             var amiLaunchIdx = getNodeValueByName(instanceItems[j], "amiLaunchIndex");
             var instanceType = getNodeValueByName(instanceItems[j], "instanceType");
 	    var rootDeviceType = getNodeValueByName(instanceItems[j], "rootDeviceType");
+		var privateip = getNodeValueByName(instanceItems[j], "privateIpAddress");
+		var ipAddress = getNodeValueByName(instanceItems[j],"ipAddress");
             var monitoring = instanceItems[j].getElementsByTagName("monitoring")[0];
 	    if(monitoring){
 		var monitoringState = getNodeValueByName(monitoring, "state");
 	    }
-            
             var launchTime = new Date();
             launchTime.setISO8601(getNodeValueByName(instanceItems[j], "launchTime"));
 
@@ -523,6 +524,8 @@ var ec2ui_controller = {
                                    stateName,
                                    dnsName,
                                    privateDnsName,
+								   ipAddress || "",
+								   privateip || "",
                                    keyName,
                                    reason,
                                    amiLaunchIdx,
