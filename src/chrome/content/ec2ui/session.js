@@ -41,6 +41,7 @@ var ec2ui_session =
             document.getElementById("ec2ui.rsvdInst.view").view = ec2ui_ReservedInstancesTreeView;
 			document.getElementById("ec2ui.loadbalancer.view").view = ec2ui_LoadbalancerTreeView;
 			document.getElementById("ec2ui.instancehealth.view").view = ec2ui_InstanceHealthTreeView;
+			document.getElementById("ec2ui.servercertificate.view").view = ec2ui_ServerCertificateTreeView;
 
             // Enable about:blank to work if noscript is installed
             if("@maone.net/noscript-service;1" in Components.classes) {
@@ -155,9 +156,9 @@ var ec2ui_session =
             break;
         case "ec2ui.tabs.volumes":
             eval("ec2ui_VolumeTreeView." + toCall);
-	    if(this.isOpenstackEndpointSelected()){
-		eval("ec2ui_SnapshotTreeView." + toCall);
-	    }
+			if(this.isOpenstackEndpointSelected()){
+				eval("ec2ui_SnapshotTreeView." + toCall);
+			}
             break;
         case "ec2ui.tabs.bundleTasks":
         	if (this.isAmazonEndpointSelected()) {
@@ -173,10 +174,11 @@ var ec2ui_session =
 				eval("ec2ui_ReservedInstancesTreeView." + toCall);
 			}
             break;
-	case "ec2ui.tabs.loadbalancer":
+		case "ec2ui.tabs.loadbalancer":
             if (this.isAmazonEndpointSelected()) {
             	eval("ec2ui_LoadbalancerTreeView." + toCall);
-	    }
+				eval("ec2ui_ServerCertificateTreeView." + toCall);
+			}
             break;
         default:
             log ("This is an invalid tab: " + tabs.selectedItem.id);
@@ -332,7 +334,6 @@ var ec2ui_session =
     },
 
     setResourceTag : function(id, tag) {
-        if (!tag || tag.length == 0) return;
 
         tag = escape(tag);
         if (id.match(ec2ui_InstancesTreeView.instanceIdRegex)) {

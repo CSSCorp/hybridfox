@@ -29,11 +29,13 @@ var ec2_ImageRegistrar = {
             textbox.select();
             return false;
         }
-        var s3bucket = value.split('/')[0];
-        if (s3bucket.match(new RegExp("[A-Z]"))) {
-            alert(ec2ui_utils.getMessageProperty("ec2ui.msg.newimagedialog.alert.validateManifest.3"));
-            textbox.select();
-            return false;
+        if (this.ec2ui_session.isAmazonEndpointSelected()) {
+            var s3bucket = value.split('/')[0];
+            if (s3bucket.match(new RegExp("[A-Z]"))) {
+                alert(ec2ui_utils.getMessageProperty("ec2ui.msg.newimagedialog.alert.validateManifest.3"));
+                textbox.select();
+                return false;
+            }
         }
         var httppre = new RegExp("^http", "i");
         if (value.match(httppre) != null) {

@@ -2,43 +2,56 @@ var ec2_Createlb = {
     ec2ui_session : null,
     retVal : null,
     reginstanceid : new Array(),
+	
+	selectedprotocol : function() {
+		var valueselected = document.getElementById("ec2ui.createlb.Protocol").value;
+		if(valueselected == "HTTPS"){
+			document.getElementById("httpsrow").style.display = "block";
+		}else{
+			document.getElementById("httpsrow").style.display = "none";
+		}
+		
+	},
     launch : function() {
-    this.retVal.LoadBalancerName = document.getElementById("ec2ui.createlb.Name").value.trim();
-	this.retVal.Protocol = document.getElementById("ec2ui.createlb.Protocol").value.trim();
-    this.retVal.elbport = document.getElementById("ec2ui.createlb.elbport").value.trim();
-	this.retVal.instanceport = document.getElementById("ec2ui.createlb.instanceport").value.trim();
-	this.retVal.pingprotocol = document.getElementById("ec2ui.createlb.pingprotocol").value.trim();
-	this.retVal.pingport = document.getElementById("ec2ui.createlb.pingport").value.trim();
-	if (this.retVal.pingprotocol == 'HTTP') {
-		this.retVal.pingpath = document.getElementById("ec2ui.createlb.pingpath").value.trim();
-    }
-    this.retVal.Interval = document.getElementById("ec2ui.createlb.Interval").value.trim();
-	this.retVal.Timeout = document.getElementById("ec2ui.createlb.timeout").value.trim();
-	this.retVal.HealthyThreshold = document.getElementById("ec2ui.createlb.HThreshold").value.trim();
-	this.retVal.UnhealthyThreshold = document.getElementById("ec2ui.createlb.uThreshold").value.trim();
-	this.retVal.placement = document.getElementById("ec2ui.createlb.availabilityzonelist").selectedItem.value;
-	var listBox = document.getElementById('theList');
-	var idx = 0;
-	var nRowCount = listBox.getRowCount();
+		this.retVal.LoadBalancerName = document.getElementById("ec2ui.createlb.Name").value.trim();
+		this.retVal.Protocol = document.getElementById("ec2ui.createlb.Protocol").value.trim();
+		if(this.retVal.Protocol == 'HTTPS') {
+			this.retVal.arn = document.getElementById("ec2ui.createlb.arn").value.trim();
+		}
+		this.retVal.elbport = document.getElementById("ec2ui.createlb.elbport").value.trim();
+		this.retVal.instanceport = document.getElementById("ec2ui.createlb.instanceport").value.trim();
+		this.retVal.pingprotocol = document.getElementById("ec2ui.createlb.pingprotocol").value.trim();
+		this.retVal.pingport = document.getElementById("ec2ui.createlb.pingport").value.trim();
+		if (this.retVal.pingprotocol == 'HTTP') {
+			this.retVal.pingpath = document.getElementById("ec2ui.createlb.pingpath").value.trim();
+		}
+		this.retVal.Interval = document.getElementById("ec2ui.createlb.Interval").value.trim();
+		this.retVal.Timeout = document.getElementById("ec2ui.createlb.timeout").value.trim();
+		this.retVal.HealthyThreshold = document.getElementById("ec2ui.createlb.HThreshold").value.trim();
+		this.retVal.UnhealthyThreshold = document.getElementById("ec2ui.createlb.uThreshold").value.trim();
+		this.retVal.placement = document.getElementById("ec2ui.createlb.availabilityzonelist").selectedItem.value;
+		var listBox = document.getElementById('theList');
+		var idx = 0;
+		var nRowCount = listBox.getRowCount();
+		
+		this.retVal.Instances = "";
+		for(idx = 0; idx < nRowCount; idx++)
+		{
+			var cellID = "cellcheck"+idx;	    
+			var cell = document.getElementById(cellID);
+			if(cell.hasAttribute('checked','true'))
+			{
+			var cellinstance = "celliid"+idx;
+			var instance = document.getElementById(cellinstance);
+			var reginstanceid = instance.getAttribute('label');
+			this.retVal.Instances =  this.retVal.Instances + reginstanceid +",";
+			}
+		}
+		
+		
 	
-	this.retVal.Instances = "";
-	for(idx = 0; idx < nRowCount; idx++)
-	{
-	    var cellID = "cellcheck"+idx;	    
-	    var cell = document.getElementById(cellID);
-	    if(cell.hasAttribute('checked','true'))
-	    {
-		var cellinstance = "celliid"+idx;
-		var instance = document.getElementById(cellinstance);
-		var reginstanceid = instance.getAttribute('label');
-		this.retVal.Instances =  this.retVal.Instances + reginstanceid +",";
-	    }
-	}
-	
-	
-
-	this.retVal.ok = true;
-        return true;
+		this.retVal.ok = true;
+			return true;
     },
     
     init : function() {

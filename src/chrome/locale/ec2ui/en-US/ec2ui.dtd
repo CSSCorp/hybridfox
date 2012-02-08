@@ -490,6 +490,16 @@
 <!ENTITY ec2ui.InstanceHealth.ReasonCode.label "ReasonCode">
 
 <!ENTITY ec2ui.create.loadbalancer.tip "Create Loadbalancer">
+<!ENTITY ec2ui.upload.certificate.tip "Upload Certificate">
+
+<!ENTITY ec2ui.servercert.servercertid.label "Server Cert ID">
+<!ENTITY ec2ui.servercert.servercertname.label "Server Cert Name">
+<!ENTITY ec2ui.servercert.arnid.label "ARN ID">
+<!ENTITY ec2ui.servercert.path.label "Path">
+<!ENTITY ec2ui.servercert.uploaddate.label "Upload Date">
+
+
+<!ENTITY ec2ui.create.loadbalancer.tip "Create Loadbalancer">
 
 <!ENTITY ec2ui.instanceevent.event.label "Event">
 <!ENTITY ec2ui.instanceevent.description.label "Description">

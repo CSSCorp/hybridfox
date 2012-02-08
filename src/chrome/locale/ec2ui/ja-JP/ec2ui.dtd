@@ -138,7 +138,7 @@
 
 <!ENTITY ec2ui.platform.label "プラットフォーム">
 <!ENTITY ec2ui.availabilityZone.label "利用可能ゾーン">
-<!ENTITY ec2ui.addTag.label "タグ追加">
+<!ENTITY ec2ui.addTag.label "タグ追加/編集">
 
 <!ENTITY ec2ui.contextmenu.details.label "詳細">
 <!ENTITY ec2ui.contextmenu.copyid.label "IDをコピー">

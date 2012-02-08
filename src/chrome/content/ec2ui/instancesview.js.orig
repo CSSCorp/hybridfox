@@ -216,13 +216,6 @@ var ec2ui_InstancesTreeView = {
                               ec2ui_session,
                               retVal);
 
-            if (!ec2ui_session.isAmazonEndpointSelected()) {
-                // When Endpoint is not AWS, skip follow checks.(hybridfox's S3 client works only AWS Endpoint)
-                //   Check the bucket exist (and create if not exist).
-                //   Check the user owns the specified bucket.
-                break;
-            }
-
             if (retVal.ok) {
                 // Does the bucket exist?
                 if (!ec2ui_session.controller.doesS3BucketExist(retVal.bucketName)) {

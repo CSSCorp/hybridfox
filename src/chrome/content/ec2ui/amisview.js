@@ -133,8 +133,7 @@ var ec2ui_AMIsTreeView = {
             for (var i in list) {
                 inst = list[i];
                 inst.tag = tag;
-                ec2ui_session.setResourceTag(inst.id, tag);
-                tagging2ec2([inst.id], ec2ui_session, tag);
+                tagEC2Resource(inst, ec2ui_session);
             }
         }
         if (ec2ui_prefs.isRefreshOnChangeEnabled()) {
@@ -204,7 +203,11 @@ var ec2ui_AMIsTreeView = {
 
         if (retVal.ok) {
             var s3bucket = retVal.manifestPath.split('/')[0];
-            var bucketReg = ec2ui_session.controller.getS3BucketLocation(s3bucket);
+            if (ec2ui_session.isAmazonEndpointSelected()) {
+                var bucketReg = ec2ui_session.controller.getS3BucketLocation(s3bucket);
+            } else {
+                var bucketReg = ec2ui_utils.determineRegionFromString(ec2ui_session.getActiveEndpoint().name);
+            }
             this.callRegisterImageInRegion(retVal.manifestPath, bucketReg);
         }
     },

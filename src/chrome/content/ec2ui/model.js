@@ -234,6 +234,14 @@ function InstanceHealth(Description,State,InstanceId,ReasonCode){
     this.ReasonCode = ReasonCode;
 }
 
+function ServerCertificate(ServerCertificateName, ServerCertificateId, Path, Arn, UploadDate){
+    this.ServerCertificateName = ServerCertificateName;
+    this.ServerCertificateId = ServerCertificateId;
+    this.Path = Path;
+    this.Arn = Arn;
+    this.UploadDate = UploadDate;
+}
+
 String.prototype.trim = function() {
     return this.replace(/^\s+|\s+$/g,"");
 }
@@ -257,6 +265,7 @@ var ec2ui_model = {
     reservedInstances : null,
     loadbalancer      : null,
     InstanceHealth    : null,
+    ServerCertificate : null,
     resourceMap     : {
         instances : 0,
         volumes   : 1,
@@ -283,6 +292,7 @@ var ec2ui_model = {
         this.updateReservedInstances(null);
         this.updateLoadbalancer(null);
         this.updateInstanceHealth(null);
+        this.updateServerCertificate(null);
     },
 
     notifyComponents : function(interest) {
@@ -512,5 +522,17 @@ var ec2ui_model = {
             ec2ui_session.controller.describeInstanceHealth();
         }
         return this.InstanceHealth;
+    },
+    
+    updateServerCertificate : function(list) {
+        this.ServerCertificate = list;
+        this.notifyComponents("ServerCertificate");
+    },
+
+    getServerCertificate : function() {
+        if (this.ServerCertificate == null) {
+            ec2ui_session.controller.describeServerCertificate();
+        }
+        return this.ServerCertificate;
     }
 }

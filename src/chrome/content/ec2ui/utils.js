@@ -324,7 +324,9 @@ function tagEC2Resource(res, session, attr) {
     addNameTagToModel(tag, res);
     session.setResourceTag(res[attr], res.tag);
 
-    tagging2ec2([res[attr]], session, tag);
+    if (session.isAmazonEndpointSelected()) {
+        tagging2ec2([res[attr]], session, tag);
+    }
 }
 
 function tagging2ec2(resIds, session, tagString, disableDeleteTags) {
@@ -570,13 +572,19 @@ var ec2ui_utils = {
         var resIds = new Array();
         for (var i = 0; i < list.length; ++i) {
             res = list[i];
-            res.tag = concatTags(res.tag, tag);
+            if (session.isAmazonEndpointSelected()) {
+                res.tag = concatTags(res.tag, tag);
+            } else {
+                res.tag = tag;
+            }
             addNameTagToModel(res.tag, res);
             session.setResourceTag(res[attr], res.tag);
             resIds.push(res[attr]);
         }
 
-        tagging2ec2(resIds, session, tag, true);
+        if (session.isAmazonEndpointSelected()) {
+            tagging2ec2(resIds, session, tag, true);
+        }
     },
     
     winRegex : new RegExp(/^Windows/i),
