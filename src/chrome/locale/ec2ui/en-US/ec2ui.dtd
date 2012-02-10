@@ -498,9 +498,6 @@
 <!ENTITY ec2ui.servercert.path.label "Path">
 <!ENTITY ec2ui.servercert.uploaddate.label "Upload Date">
 
-
-<!ENTITY ec2ui.create.loadbalancer.tip "Create Loadbalancer">
-
 <!ENTITY ec2ui.instanceevent.event.label "Event">
 <!ENTITY ec2ui.instanceevent.description.label "Description">
 <!ENTITY ec2ui.instanceevent.startTime.label "Start Time">

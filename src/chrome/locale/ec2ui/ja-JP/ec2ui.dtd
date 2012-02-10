@@ -3,6 +3,9 @@
 <!ENTITY ec2ui.tools.manage.label "ツール">
 <!ENTITY ec2ui.accountids.manage.label "アカウントID">
 <!ENTITY ec2ui.about.label "About">
+<!ENTITY ec2ui.createTag.label "パブリック タグ作成">
+<!ENTITY ec2ui.deleteTag.label "パブリック タグ削除">
+<!ENTITY ec2ui.publictag.label "パブリック タグ">
 
 <!ENTITY ec2ui.tabs.instances.label "インスタンス">
 <!ENTITY ec2ui.tabs.images.label "マシン・イメージ">
@@ -41,6 +44,8 @@
 <!ENTITY ec2ui.instances.state.label "状態">
 <!ENTITY ec2ui.instances.publicDnsName.label "パブリックDNS">
 <!ENTITY ec2ui.instances.privateDnsName.label "プライベートDNS">
+<!ENTITY ec2ui.instances.publicip.label "パブリックIP">
+<!ENTITY ec2ui.instances.privateip.label "プライベートIP">
 <!ENTITY ec2ui.instances.monitoringState.label "モニタリング状態">
 <!ENTITY ec2ui.instances.keyName.label "キー・ペア">
 <!ENTITY ec2ui.instances.reason.label "理由">
@@ -483,9 +488,15 @@
 <!ENTITY ec2ui.InstanceHealth.ReasonCode.label "理由コード">
 
 <!ENTITY ec2ui.create.loadbalancer.tip "ロードバランサの作成">
+<!ENTITY ec2ui.upload.certificate.tip "証明書アップロード">
+
+<!ENTITY ec2ui.servercert.servercertid.label "サーバ証明書ID">
+<!ENTITY ec2ui.servercert.servercertname.label "サーバ証明書名">
+<!ENTITY ec2ui.servercert.arnid.label "ARN ID">
+<!ENTITY ec2ui.servercert.path.label "パス">
+<!ENTITY ec2ui.servercert.uploaddate.label "アップロード日付">
 
 <!ENTITY ec2ui.instanceevent.event.label "イベント">
 <!ENTITY ec2ui.instanceevent.description.label "説明">
 <!ENTITY ec2ui.instanceevent.startTime.label "開始時刻">
 <!ENTITY ec2ui.instanceevent.endTime.label "終了時刻">
-
