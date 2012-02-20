@@ -861,18 +861,20 @@ var ec2ui_InstancesTreeView = {
 	    document.getElementById("instances.context.stop").disabled = disablestop;
 	    document.getElementById("instances.context.forceStop").disabled = disablestop;
 	    document.getElementById("instances.context.start").disabled = disableStart;
+		document.getElementById("instances.context.changeInstanceType").disabled = disableStart;
 	    if(rootdevicetype){
                 document.getElementById("instances.context.stop").disabled = true;
 		document.getElementById("instances.context.forceStop").disabled = true;
 		document.getElementById("instances.context.start").disabled = true;
             }
-	}
-	else{
-	    document.getElementById("instances.context.stop").disabled = true;
-	    document.getElementById("instances.context.forceStop").disabled = true;
-	    document.getElementById("instances.context.start").disabled = true;
-
-	}
+		}
+		else{
+			document.getElementById("instances.context.stop").disabled = true;
+			document.getElementById("instances.context.forceStop").disabled = true;
+			document.getElementById("instances.context.start").disabled = true;
+			document.getElementById("instances.context.changeInstanceType").disabled = true;
+	
+		}
     },
     
     
