@@ -1033,33 +1033,7 @@ var ec2ui_InstancesTreeView = {
         });
     },
 
-    showTerminationProtection : function() {
-        var instances = this.getSelectedInstanceNamedIds();
-        var instanceIds = instances[0];
-        var instanceLabels = instances[1];
 
-        var statusList = new Array();
-
-        function pushStatusToArray(instanceLabel, status) {
-            statusList.push(status + " | " + instanceLabel);
-
-            if (statusList.length == instanceIds.length) {
-                alert(statusList.join("\n"));
-            }
-        }
-
-        function describeInstanceAttribute(instanceId, instanceLabel) {
-            ec2ui_session.controller.describeInstanceAttribute(instanceId, "disableApiTermination", function(value) {
-                value = (value == "true");
-                pushStatusToArray(instanceLabel, (value ? "enable" : "disable"));
-            });
-        }
-
-        for (var i = 0; i < instanceIds.length; i++) {
-            describeInstanceAttribute(instanceIds[i], instanceLabels[i]);
-        }
-    },
-	
 	showTerminationProtection : function() {
         var instances = this.getSelectedInstanceNamedIds();
         var instanceIds = instances[0];
