@@ -983,7 +983,7 @@ var ec2ui_controller = {
         return list;
     },
 
-    runInstances : function (imageId, kernelId, ramdiskId, minCount, maxCount, keyName, securityGroups, blockDeviceMappings, userData, properties, instanceType, placement, subnetId, ipAddress, addressingType, callback) {
+    runInstances : function (imageId, kernelId, ramdiskId, minCount, maxCount, keyName, securityGroups, userData, properties, instanceType, placement, addressingType, callback) {
         var params = []
         //Just checking for ec2 or not
         if (ec2ui_session.isEucalyptusEndpointSelected()) {
@@ -1005,7 +1005,7 @@ var ec2ui_controller = {
             }
         }
         
-	params.push(["InstanceType", instanceType]);
+        params.push(["InstanceType", instanceType]);
         params.push(["MinCount", minCount]);
         params.push(["MaxCount", maxCount]);
         if (keyName != null && keyName != "") {
@@ -1013,15 +1013,6 @@ var ec2ui_controller = {
         }
         for(var i in securityGroups) {
             params.push(["SecurityGroup."+(i+1), securityGroups[i]]);
-        }
-        if (blockDeviceMappings) {
-            // Added only these parameters, which was required to 
-            // resizing EBS. Other parameters should be added as well.
-            for(var i in blockDeviceMappings) {
-                var blockDeviceDefinition = blockDeviceMappings[i];
-                params.push(["BlockDeviceMapping."+(i+1)+".DeviceName", blockDeviceDefinition.deviceName]);
-                params.push(["BlockDeviceMapping."+(i+1)+".Ebs.VolumeSize", blockDeviceDefinition.volumeSize]);
-            }
         }
         if (userData != null) {
             var b64str = "Base64:";
@@ -1040,15 +1031,10 @@ var ec2ui_controller = {
         if (placement.availabilityZone != null && placement.availabilityZone != "") {
             params.push(["Placement.AvailabilityZone", placement.availabilityZone]);
         }
-        if (subnetId != null) {
-            params.push(["SubnetId", subnetId]);
-
-            if (ipAddress != null && ipAddress != "") {
-                params.push(["PrivateIpAddress", ipAddress]);
-            }
-        }
-	params.push(["AddressingType", addressingType]);
-		
+		//cmb: make the instance request with addressing type included.
+		if(!ec2ui_session.isAmazonEndpointSelected()){
+			params.push(["AddressingType", addressingType]);
+		}
         ec2_httpclient.queryEC2("RunInstances", params, this, true, "onCompleteRunInstances", callback);
     },
 

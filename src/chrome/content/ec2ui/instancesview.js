@@ -885,6 +885,7 @@ var ec2ui_InstancesTreeView = {
         if (count == null || count.trim().length == 0)
             return;
 
+        var me = this;
         var wrap = function(list) {
             if (ec2ui_prefs.isRefreshOnChangeEnabled()) {
                 ec2ui_InstancesTreeView.refresh();
@@ -904,8 +905,7 @@ var ec2ui_InstancesTreeView = {
            null,
            instance.instanceType,
            instance.placement,
-           instance.subnetId,
-           null,
+           "public",
            wrap);
     },
     

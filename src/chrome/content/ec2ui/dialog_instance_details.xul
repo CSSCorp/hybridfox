@@ -4,12 +4,12 @@
 
 <dialog id="ec2ui.dialog.instance.detail" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
   buttons="accept" ondialogaccept="return true;"
-  onload="ec2_InstanceDetails.init();" title="&ec2ui.dialog.title.instance_details;">
+  onload="ec2_InstanceDetails.init();" title="&ec2ui.dialog.title.instance_details;" >
 
   <script type="application/x-javascript" src="chrome://ec2ui/content/instancedetaildialog.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/model.js" />
 
-  <vbox flex="1">
+  <vbox flex="1" style="overflow-y: scroll;height:350px;">
     <grid flex="1">
       <columns>
         <column />
