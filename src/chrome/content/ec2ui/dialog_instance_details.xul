@@ -62,6 +62,10 @@
           <textbox id="ec2ui.instance.privatednsname" size="50" readonly="true" />
         </row>
         <row>
+          <label control="ec2ui.instance.publicip" value="&ec2ui.instances.publicip.label;:" />
+          <textbox id="ec2ui.instance.publicip" size="50" readonly="true" />
+        </row>
+        <row>
           <label control="ec2ui.instance.privateipaddress" value="&ec2ui.instances.detail.privateip.label;:" />
           <textbox id="ec2ui.instance.privateipaddress" size="50" readonly="true" />
         </row>

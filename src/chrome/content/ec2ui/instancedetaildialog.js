@@ -19,6 +19,7 @@ var ec2_InstanceDetails = {
         document.getElementById("ec2ui.instance.publicdnsname").value = instance.publicDnsName;
         document.getElementById("ec2ui.instance.privatednsname").value = instance.privateDnsName;
         document.getElementById("ec2ui.instance.privateipaddress").value = instance.privateIpAddress;
+        document.getElementById("ec2ui.instance.publicip").value = instance.publicip;
         document.getElementById("ec2ui.instance.monitoring").value = instance.monitoringState;
         document.getElementById("ec2ui.instance.keyname").value = instance.keyName;
         document.getElementById("ec2ui.instance.reason").value = instance.reason;

@@ -83,6 +83,8 @@
                 label="Private DNS Name" />
               <menuitem oncommand="ec2ui_InstancesTreeView.copyToClipBoard('privateIpAddress');"
                 label="Private IP Address" />
+              <menuitem oncommand="ec2ui_InstancesTreeView.copyToClipBoard('publicip');"
+                label="Public IP Address" />
             </menupopup>
           </menu>
           <menuseparator />
@@ -167,6 +169,9 @@
             flex="9" persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
           <treecol id="instance.privateIpAddress" label="&ec2ui.instances.privateIpAddress.label;"
+            flex="9" persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter" />
+          <treecol id="instance.publicip" label="&ec2ui.instances.publicip.label;"
             flex="9" persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
           <treecol id="instance.monitoringState" label="&ec2ui.instances.monitoringState.label;"

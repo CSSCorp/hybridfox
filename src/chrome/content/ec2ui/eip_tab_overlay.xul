@@ -36,9 +36,7 @@
           oncommand="ec2ui_ElasticIPTreeView.associateAddress();" />
         <toolbarbutton image="images/disassoc.png" tooltiptext="&ec2ui.eips.disassociate.tip;"
           oncommand="ec2ui_ElasticIPTreeView.disassociateAddress();" />
-        <toolbarbutton image="images/info.png" style="-moz-box-pack:center;"
-          oncommand="ec2ui_ElasticIPTreeView.tag();"
-          tooltiptext="&ec2ui.addTag.label;" />
+        
       </toolbar>
       <tree enableColumnDrag="true" seltype="single" id="ec2ui.eip.view"
         flex="1" ondblclick="ec2ui_ElasticIPTreeView.viewDetails(event)">
@@ -47,9 +45,6 @@
             persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
           <treecol id="eip.instanceid" label="&ec2ui.instances.id.label;" flex="3"
-            persist="width ordinal hidden sortDirection" />
-          <splitter class="tree-splitter" />
-          <treecol id="eip.tag" label="&ec2ui.tag.label;" flex="5"
             persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
         </treecols>
