@@ -4,12 +4,15 @@ var ec2_InstanceLauncher = {
     retVal : null,
     unusedSecGroupsList : null,
     usedSecGroupsList : null,
+    vpcMenu : null,
+    subnetMenu : null,
     unused : new Array(),
     used : new Array(),
 
     launch : function() {
         if (!this.validateMin()) return false;
         if (!this.validateMax()) return false;
+        if (!this.validateOverrideRootVolumeSize()) return false;
 
         this.retVal.imageId = this.image.id;
         this.retVal.kernelId = document.getElementById("ec2ui.newinstances.aki").value;
@@ -17,7 +20,24 @@ var ec2_InstanceLauncher = {
         this.retVal.instanceType = document.getElementById("ec2ui.newinstances.instancetypelist").selectedItem.value;
         this.retVal.minCount = document.getElementById("ec2ui.newinstances.min").value.trim();
         this.retVal.maxCount = document.getElementById("ec2ui.newinstances.max").value.trim();
+        this.retVal.overrideRootVolumeSize = document.getElementById("ec2ui.newinstances.overrideRootVolumeSize").value.trim();
         this.retVal.tag = document.getElementById("ec2ui.newinstances.tag").value.trim();
+        this.retVal.securityGroups = this.used;
+
+        var useVpc = document.getElementById("ec2ui.newinstances.usevpc").checked;
+        if (useVpc) {
+           var subnet = document.getElementById("ec2ui.newinstances.subnetId").selectedItem;
+           if (!subnet) {
+              alert("No subnet selected. Please select a subnet to continue.");
+              return false;
+           }
+           this.retVal.subnetId = subnet.value;
+           this.retVal.securityGroups = null;
+           this.retVal.ipAddress = document.getElementById("ec2ui.newinstances.ipAddress").value.trim();
+        } else {
+           this.retVal.subnetId = null;
+           this.retVal.ipAddress = null;
+        }
 
         // This will be an empty string if <none> is selected
         this.retVal.keyName = document.getElementById("ec2ui.newinstances.keypairlist").selectedItem.value;
@@ -28,7 +48,6 @@ var ec2_InstanceLauncher = {
             "availabilityZone": document.getElementById("ec2ui.newinstances.availabilityzonelist").selectedItem.value
         };
 
-        this.retVal.securityGroups = this.used;
         this.retVal.userData = document.getElementById("ec2ui.newinstances.userdata").value;
         if (this.retVal.userData == "") {
             this.retVal.userData = null;
@@ -37,10 +56,9 @@ var ec2_InstanceLauncher = {
         if (this.retVal.properties == "") {
             this.retVal.properties = null;
         }
-        	
-		// cmb: This adds the public/private addressing param to the return object.
-		this.retVal.addressingType = (document.getElementById("ec2ui.newinstances.addressingType").checked==true) ? "public" : "private";
         
+	this.retVal.addressingType = (document.getElementById("ec2ui.newinstances.addressingType").checked==true) ? "public" : "private";
+	
         this.retVal.ok = true;
 
         return true;
@@ -52,6 +70,23 @@ var ec2_InstanceLauncher = {
         if (val <= 0 || isNaN(val)) {
             alert(ec2ui_utils.getMessageProperty("ec2ui.msg.newinstancesdialog.alert.validateMin"));
             textbox.select();
+            return false;
+        }
+        return true;
+    },
+ 
+    /**
+     * @description Validates value entered in the Override Root Volume Size text box.
+     */
+    validateOverrideRootVolumeSize : function() {
+        // Assumes validateMin has been called
+        var overrideRootVolumeSizeTextBox = document.getElementById("ec2ui.newinstances.overrideRootVolumeSize");
+        if (overrideRootVolumeSizeTextBox.value.trim() == "")
+            return true;
+        var overrideRootVolumeSize = parseInt(overrideRootVolumeSizeTextBox.value);
+        if (overrideRootVolumeSize <= 0 || isNaN(overrideRootVolumeSize)) {
+            alert("Size of root volume must be a positive integer");
+            overrideRootVolumeSizeTextBox.select();
             return false;
         }
         return true;
@@ -102,6 +137,80 @@ var ec2_InstanceLauncher = {
         this.refreshDisplay();
     },
 
+    useVpcChanged : function() {
+        var useVpc = document.getElementById("ec2ui.newinstances.usevpc").checked;
+
+        // Reset VPC and Subnets
+        var count = this.vpcMenu.itemCount;
+        for(var i = count-1; i >= 0; i--) {
+            this.vpcMenu.removeItemAt(i);
+        }
+
+        var count = this.subnetMenu.itemCount;
+        for(var i = count-1; i >= 0; i--) {
+            this.subnetMenu.removeItemAt(i);
+        }
+
+        if (useVpc) {
+            this.subnetMenu.disabled = false;
+            this.vpcMenu.disabled = false;
+            document.getElementById("ec2ui.newinstances.ipAddress").disabled = false;
+            document.getElementById("ec2ui.newinstances.secgroups.unused").disabled = true;
+            document.getElementById("ec2ui.newinstances.secgroups.used").disabled = true;
+            this.used = []
+            for (var i = 0; i < this.usedSecGroupsList.getRowCount(); i++) {
+                var item = this.usedSecGroupsList.getItemAtIndex(i);
+                this.unused.push(item.label);
+            }
+
+            var vpcs = this.ec2ui_session.model.getVpcs();
+            for (var i in vpcs) {
+                this.vpcMenu.appendItem(vpcs[i].cidr + (vpcs[i].tag == null ? '' : " [" + vpcs[i].tag + "]"), vpcs[i].id);
+            }
+            this.vpcMenu.selectedIndex = 0;
+            this.vpcIdSelected();
+        }else{
+            this.subnetMenu.disabled = true;
+            this.vpcMenu.disabled = true;
+            document.getElementById("ec2ui.newinstances.ipAddress").disabled = true;
+            document.getElementById("ec2ui.newinstances.secgroups.unused").disabled = false;
+            document.getElementById("ec2ui.newinstances.secgroups.used").disabled = false;
+
+            this.unused = []
+            for (var i = 0; i < this.unusedSecGroupsList.getRowCount(); i++) {
+                var item = this.unusedSecGroupsList.getItemAtIndex(i);
+                if (item.label == "default")
+                    this.used.push(item.label);
+                else
+                    this.unused.push(item.label);
+            }
+        }
+
+        this.refreshDisplay();
+    },
+
+    vpcIdSelected : function() {
+        var sel = this.vpcMenu.selectedItem;
+
+        // Reset subnets
+        var count = this.subnetMenu.itemCount;
+        for(var i = count-1; i >= 0; i--) {
+            this.subnetMenu.removeItemAt(i);
+        }
+
+        if (sel.value != null && sel.value != '') {
+            var subnets = this.ec2ui_session.model.getSubnets();
+            for (var i in subnets) {
+                if (subnets[i].vpcId == sel.value) {
+                   this.subnetMenu.appendItem(subnets[i].cidr + (subnets[i].tag == null ? " (" : " [" + subnets[i].tag + "] (") + subnets[i].availableIp + " IPs available)", subnets[i].id)
+                }
+            }
+            this.subnetMenu.selectedIndex = 0;
+        }
+
+        this.refreshDisplay();
+    },
+
     loadUserDataFromFile : function(fBinary) {
         var nsIFilePicker = Components.interfaces.nsIFilePicker;
         var fp = Components.classes["@mozilla.org/filepicker;1"].createInstance(nsIFilePicker);
@@ -137,9 +246,9 @@ var ec2_InstanceLauncher = {
         this.image = window.arguments[0];
         this.ec2ui_session = window.arguments[1];
         this.retVal = window.arguments[2];
-	var image = window.arguments[0];
+        var image = window.arguments[0];
         var rootdevice = image.rootDeviceType;
-        // Get the list of keypair names visible to this user.
+	// Get the list of keypair names visible to this user.
         // This will trigger a DescribeKeyPairs if the model
         // doesn't have any keypair info yet. If there are no keypairs,
         // this dialog shouldn't be initialized any further.
@@ -159,37 +268,32 @@ var ec2_InstanceLauncher = {
 
         var typeMenu = document.getElementById("ec2ui.newinstances.instancetypelist");
         // Add the instance sizes based on AMI architecture
+	region = this.ec2ui_session.getActiveEndpoint();
         if (this.image.arch == "x86_64") {
             //Just checking for EC2 or not
-            if (this.ec2ui_session.isAmazonEndpointSelected()) {
+            if (region.type == "ec2") {
 		if(rootdevice == "ebs"){
-		   typeMenu.appendItem("t1.micro", "t1.micro");
-                   typeMenu.appendItem("m1.large", "m1.large");
-                   typeMenu.appendItem("m1.xlarge", "m1.xlarge");
-                   typeMenu.appendItem("c1.xlarge", "c1.xlarge");
-                   typeMenu.appendItem("m2.xlarge", "m2.xlarge");
-                   typeMenu.appendItem("m2.2xlarge", "m2.2xlarge");
-                   typeMenu.appendItem("m2.4xlarge", "m2.4xlarge");
+                typeMenu.appendItem("t1.micro", "t1.micro");
+                typeMenu.appendItem("m1.large", "m1.large");
+                typeMenu.appendItem("m1.xlarge", "m1.xlarge");
+                typeMenu.appendItem("c1.xlarge", "c1.xlarge");
+                typeMenu.appendItem("m2.xlarge", "m2.xlarge");
+                typeMenu.appendItem("m2.2xlarge", "m2.2xlarge");
+                typeMenu.appendItem("m2.4xlarge", "m2.4xlarge");
+                typeMenu.appendItem("cc1.4xlarge", "cc1.4xlarge");
+                typeMenu.appendItem("cg1.4xlarge", "cg1.4xlarge");
 		}
 		else {
-                   typeMenu.appendItem("m1.large", "m1.large");
-                   typeMenu.appendItem("m1.xlarge", "m1.xlarge");
-                   typeMenu.appendItem("c1.xlarge", "c1.xlarge");
-                   typeMenu.appendItem("m2.xlarge", "m2.xlarge");
-                   typeMenu.appendItem("m2.2xlarge", "m2.2xlarge");
-                   typeMenu.appendItem("m2.4xlarge", "m2.4xlarge");
-                   typeMenu.appendItem("cc1.4xlarge", "cc1.4xlarge");
-				   typeMenu.appendItem("cc2.8xlarge", "cc2.8xlarge");
-                   typeMenu.appendItem("cg1.4xlarge", "cg1.4xlarge");
-                }
-            }
-	    else if (!this.ec2ui_session.isOpenstackEndpointSelected()) {
-		typeMenu.appendItem("m1.tiny", "m1.tiny");
-		typeMenu.appendItem("m1.small", "m1.small");
-                typeMenu.appendItem("m1.medium", "m1.medium");
                 typeMenu.appendItem("m1.large", "m1.large");
-                typeMenu.appendItem("m1.xlarge", "m1.xlarge");                
+                typeMenu.appendItem("m1.xlarge", "m1.xlarge");
+                typeMenu.appendItem("c1.xlarge", "c1.xlarge");
+                typeMenu.appendItem("m2.xlarge", "m2.xlarge");
+                typeMenu.appendItem("m2.2xlarge", "m2.2xlarge");
+                typeMenu.appendItem("m2.4xlarge", "m2.4xlarge");
+                typeMenu.appendItem("cc1.4xlarge", "cc1.4xlarge");
+                typeMenu.appendItem("cg1.4xlarge", "cg1.4xlarge");
             }
+        }
             else {
                 typeMenu.appendItem("m1.small", "m1.small");
                 typeMenu.appendItem("c1.medium", "c1.medium");
@@ -197,19 +301,20 @@ var ec2_InstanceLauncher = {
                 typeMenu.appendItem("m1.xlarge", "m1.xlarge");
                 typeMenu.appendItem("c1.xlarge", "c1.xlarge");
             }
-        } else {
+        }
+	else {
             //Just checking for EC2 or not
-            if (this.ec2ui_session.isAmazonEndpointSelected()) {
+            if (region.type == "ec2") {
 		if(rootdevice == "ebs"){
-		   typeMenu.appendItem("t1.micro", "t1.micro");
-                   typeMenu.appendItem("m1.small", "m1.small");
-                   typeMenu.appendItem("c1.medium", "c1.medium");  
+		typeMenu.appendItem("t1.micro", "t1.micro");
+                typeMenu.appendItem("m1.small", "m1.small");
+                typeMenu.appendItem("c1.medium", "c1.medium");  
 		}
 		else{
-		   typeMenu.appendItem("m1.small", "m1.small");
-                   typeMenu.appendItem("c1.medium", "c1.medium"); 
+		typeMenu.appendItem("m1.small", "m1.small");
+                typeMenu.appendItem("c1.medium", "c1.medium"); 
 		}
-            }
+	    }
             else { 
                 typeMenu.appendItem("m1.small", "m1.small");
                 typeMenu.appendItem("c1.medium", "c1.medium");
@@ -241,6 +346,21 @@ var ec2_InstanceLauncher = {
         }
         availZoneMenu.selectedIndex = 0;
 
+        // vpcs
+        this.vpcMenu = document.getElementById("ec2ui.newinstances.vpcId");
+        this.vpcMenu.disabled = true;
+	
+	//Volume
+	if(rootdevice =="instance-store"){
+	 document.getElementById("ec2ui.newinstances.overrideRootVolumeSize").disabled = true;
+	}
+
+        // subnets
+        this.subnetMenu = document.getElementById("ec2ui.newinstances.subnetId");
+        this.subnetMenu.disabled = true;
+
+        document.getElementById("ec2ui.newinstances.ipAddress").disabled = true;
+
         // Grab handles to the unused and used security group lists.
         this.unusedSecGroupsList = document.getElementById("ec2ui.newinstances.secgroups.unused");
         this.usedSecGroupsList = document.getElementById("ec2ui.newinstances.secgroups.used");
@@ -249,22 +369,14 @@ var ec2_InstanceLauncher = {
         // if the model doesn't have any info yet.
         var securityGroups = this.ec2ui_session.model.getSecurityGroups();
 
-        // An administrator role user on Eucalyptus gets all user's SecurityGroups.
-        // "DescribeSecurityGroups" hasn't option for get only administrator role user's SecurityGroups.
-        // Get unique name SecurityGroups. (Controlled by securityGroupStorage hash)
-
         // Then add the default group to the used list. EC2 will do this anyway if no group is provided,
         // but this way it's obvious to the user what's happening.
-        var securityGroupStorage = {};
         i = 0;
         for (i in securityGroups) {
-            if (!(securityGroups[i].name in securityGroupStorage)) {
-                securityGroupStorage[securityGroups[i].name] = true;
-                if (securityGroups[i].name == "default") {
-                    this.used.push(securityGroups[i].name);
-                } else {
-                    this.unused.push(securityGroups[i].name);
-                }
+            if (securityGroups[i].name == "default") {
+                this.used.push(securityGroups[i].name);
+            } else {
+                this.unused.push(securityGroups[i].name);
             }
         }
 
@@ -301,14 +413,14 @@ var ec2_InstanceLauncher = {
             // The use of selectedIndex doesn't work predictably for
             // editable menulists
         }
-
-    	//Since EC2 doesn't support private addressing, disable it when the endpoint is of Amazon.
+        
+	//Since EC2 doesn't support private addressing, disable it when the endpoint is of Amazon.
     	if (this.ec2ui_session.isAmazonEndpointSelected()) {
     		document.getElementById("ec2ui.newinstances.addressingType").disabled="true";
     	} else {
     		document.getElementById("ec2ui.newinstances.addressingType").removeAttribute("disabled");
     	}
-
+	
         this.refreshDisplay();
     },
 
