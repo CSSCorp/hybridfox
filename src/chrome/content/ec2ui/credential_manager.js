@@ -194,6 +194,8 @@ var ec2ui_credentialManager = {
         }
 
         ec2ui_credentialsTreeView.setAccountCredentials(this.credentials);
+		window.close();
+		alert("New Credentials " + name + " added Successfully!");
     },
 
     packAccountNames : function(credentials) {
