@@ -197,9 +197,18 @@ var ec2ui_credentialManager = {
 
         ec2ui_credentialsTreeView.setAccountCredentials(this.credentials);		
 		window.close();
-		alert("New Credentials " + name + " added Successfully!");
-		
+		this.popup("Notification","New Credientials "+ name +" added successfully!");
     },
+	
+	popup :function(title, text) {  
+		try {  
+			Components.classes['@mozilla.org/alerts-service;1'].  
+              getService(Components.interfaces.nsIAlertsService).  
+              showAlertNotification(null, title, text, false, '', null);  
+			} catch(e) {  
+			// prevents runtime error on platforms that don't implement nsIAlertsService
+			}  
+	},
 
     packAccountNames : function(credentials) {
         var names = new Array();
