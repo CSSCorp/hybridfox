@@ -98,6 +98,7 @@
         oncommand="ec2ui_session.manageAccountIds();"  tooltiptext="&ec2ui.accountids.tip;" />
       <toolbarseparator />
       <spacer flex="10" />
+      <image id="loader"  style="display:none;" src='images/ajax-loader.gif'/>
       <toolbarbutton label="&ec2ui.tools.manage.label;" image="images/tools.png"
         oncommand="ec2ui_session.manageTools();"  tooltiptext="&ec2ui.tools.tip;" />
       <toolbarbutton label="&ec2ui.about.label;" image="images/about.png"

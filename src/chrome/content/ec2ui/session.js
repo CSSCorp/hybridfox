@@ -140,56 +140,80 @@ var ec2ui_session =
         
         switch (tabs.selectedItem.label) {
          case 'Instances':
+			document.getElementById("loader").style.display = "block";
             eval("ec2ui_InstancesTreeView." + toCall);
 			eval("ec2ui_InstanceEventsTreeView." + toCall);
+			document.getElementById("loader").style.display = "none";
             break;
         case 'Images':
             this.showBusyCursor(true);
+			document.getElementById("loader").style.display = "block";
             this.model.getSecurityGroups();
             this.model.getImages();
+			document.getElementById("loader").style.display = "none";
             this.showBusyCursor(false);
             break;
         case "KeyPairs":
+			document.getElementById("loader").style.display = "block";
             eval("ec2ui_KeypairTreeView." + toCall);
+			document.getElementById("loader").style.display = "none";
             break;
         case "Security Groups":
+			document.getElementById("loader").style.display = "block";
             eval("ec2ui_SecurityGroupsTreeView." + toCall);
+			document.getElementById("loader").style.display = "none";
             break;
         case "Elastic IPs":
+			document.getElementById("loader").style.display = "block";
             eval("ec2ui_ElasticIPTreeView." + toCall);
+			document.getElementById("loader").style.display = "none";
             break;
         case "Volumes and Snapshots":
+			document.getElementById("loader").style.display = "block";
             eval("ec2ui_VolumeTreeView." + toCall);
 	    if(this.isOpenstackEndpointSelected()){
 		eval("ec2ui_SnapshotTreeView." + toCall);
 	    }
+		document.getElementById("loader").style.display = "none";
             break;
         case "Bundle Tasks":
+			document.getElementById("loader").style.display = "block";
         	if (this.isAmazonEndpointSelected()) {
             	eval("ec2ui_BundleTasksTreeView." + toCall);
 			}
+			document.getElementById("loader").style.display = "none";
             break;
         case "Availability Zones":
+			document.getElementById("loader").style.display = "block";
             eval("ec2ui_AvailZoneTreeView." + toCall);
+			document.getElementById("loader").style.display = "none";
             break;
         case "Reserved Instances":
+			document.getElementById("loader").style.display = "block";
         	if (this.isAmazonEndpointSelected()) {
 				eval("ec2ui_LeaseOfferingsTreeView." + toCall);
 				eval("ec2ui_ReservedInstancesTreeView." + toCall);
 			}
+			document.getElementById("loader").style.display = "none";
             break;
 	case "Loadbalancer":
+		document.getElementById("loader").style.display = "block";
 	    if (this.isAmazonEndpointSelected()) {
 		 eval("ec2ui_LoadbalancerTreeView." + toCall);
 		 eval("ec2ui_ServerCertificateTreeView." + toCall);
 	    }
+		document.getElementById("loader").style.display = "none";
             break;
 	case "Monitoring":
+		document.getElementById("loader").style.display = "block";
             eval("ec2ui_MonitoringTreeView." + toCall);
+			document.getElementById("loader").style.display = "none";
             break;
         case "Cloudformation":
+			document.getElementById("loader").style.display = "block";
             eval("ec2ui_CloudformationTreeView." + toCall);
 			eval("ec2ui_StackResourceTreeView." + toCall);
+			document.getElementById("loader").style.display = "none";
             break;
         default:
             log ("This is an invalid tab: " + tabs.selectedItem.label);
