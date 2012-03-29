@@ -22,9 +22,14 @@
     <!-- Front End MetaData -->
     <em:localized>
       <Description>
+        <Description>
         <em:locale>ja-JP</em:locale>
         <em:name>Hybridfox</em:name>
         <em:description>A graphical interface to Amazon's EC2 web service.</em:description>
+      </Description>
+        <em:locale>zh-CN</em:locale>
+        <em:name>Hybridfox</em:name>
+        <em:description>Amazon 的 EC2 的 web service 图形管理界面.</em:description>
       </Description>
       <Description>
         <em:locale>en-US</em:locale>
@@ -33,8 +38,8 @@
       </Description>
     </em:localized>
     <em:name>Hybridfox</em:name>
-    <em:description>A graphical interface to Amazon's EC2 and Eucalyptus web service.</em:description>
-    <em:creator>James Greenfield (icons originally by Ken Saunders http://www.mouserunner.com)</em:creator>
+    <em:description>Amazon 的 EC2 和 Eucalyptus 的 Web Service 图形管理界面.</em:description>
+    <em:creator>由 James Greenfield 编写, 田保强 汉化 (图标由 Ken Saunders http://www.mouserunner.com)提供.</em:creator>
     <em:homepageURL>http:/code.google.com/p/hybridfox</em:homepageURL>
 <!--
     <em:updateURL>https://s3.amazonaws.com/ec2-downloads/ec2ui.rdf</em:updateURL>

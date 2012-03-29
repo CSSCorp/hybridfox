@@ -1,0 +1,522 @@
+<!ENTITY ec2ui.credentials.manage.label "安全证书">
+<!ENTITY ec2ui.endpoints.manage.label "域">
+<!ENTITY ec2ui.tools.manage.label "工具">
+<!ENTITY ec2ui.accountids.manage.label "账户 ID">
+<!ENTITY ec2ui.about.label "关于">
+<!ENTITY ec2ui.createTag.label "创建公共标签">
+<!ENTITY ec2ui.deleteTag.label "删除公共标签">
+<!ENTITY ec2ui.publictag.label "公共标签">
+
+<!ENTITY ec2ui.tabs.instances.label "　　实例　　">
+<!ENTITY ec2ui.tabs.images.label "　　镜像　　">
+<!ENTITY ec2ui.tabs.keypairs.label "　　密钥组　　">
+<!ENTITY ec2ui.tabs.secgroups.label "　　安全组　　">
+<!ENTITY ec2ui.tabs.availzones.label "　　供应区　　">
+<!ENTITY ec2ui.tabs.eips.label "　　弹性 IP　　">
+<!ENTITY ec2ui.tabs.volumes.label "　　EBS 卷和快照　　">
+<!ENTITY ec2ui.tabs.bundleTasks.label "　　打包任务　　">
+<!ENTITY ec2ui.tabs.leases.label "　　保留实例　　">
+<!ENTITY ec2ui.tabs.loadbalancer.label "　　负载均衡　　">
+
+<!ENTITY ec2ui.captions.images.images.label "镜像 (AMI/EMI)">
+<!ENTITY ec2ui.captions.images.attribs.label "启动权限">
+<!ENTITY ec2ui.captions.images.instances.label "正在运行的实例">
+<!ENTITY ec2ui.captions.images.launchsecgroups.label "安全组">
+<!ENTITY ec2ui.captions.images.launchparams.label "用户数据">
+<!ENTITY ec2ui.captions.images.scheduledevents.label "计划事件">
+
+<!ENTITY ec2ui.images.id.label "镜像ID">
+<!ENTITY ec2ui.images.manifest.label "清单名">
+<!ENTITY ec2ui.images.state.label "状态">
+<!ENTITY ec2ui.images.owner.label "所有者">
+<!ENTITY ec2ui.images.visibility.label "可视性">
+<!ENTITY ec2ui.images.architecture.label "系统架构">
+<!ENTITY ec2ui.images.rootDeviceType.label "根设备">
+<!ENTITY ec2ui.images.register.newimage.manifest.label "AMI/EMI 清单路径">
+
+<!ENTITY ec2ui.instances.resid.label "保留 ID">
+<!ENTITY ec2ui.instances.owner.label "所有者">
+<!ENTITY ec2ui.instances.groups.label "安全组">
+<!ENTITY ec2ui.instances.id.label "实例 ID">
+<!ENTITY ec2ui.instances.imageId.label "镜像 ID">
+<!ENTITY ec2ui.instances.kernelId.label "内核 ID">
+<!ENTITY ec2ui.instances.ramdiskId.label "虚拟内存 ID">
+<!ENTITY ec2ui.instances.state.label "状态">
+<!ENTITY ec2ui.instances.publicDnsName.label "公共 DNS">
+<!ENTITY ec2ui.instances.privateDnsName.label "私有 DNS">
+<!ENTITY ec2ui.instances.publicip.label "公共 IP">
+<!ENTITY ec2ui.instances.privateip.label "私有 IP">
+<!ENTITY ec2ui.instances.monitoringState.label "监视状态">
+<!ENTITY ec2ui.instances.keyName.label "密钥组">
+<!ENTITY ec2ui.instances.reason.label "原因">
+<!ENTITY ec2ui.instances.amiLaunchIdx.label "索引">
+<!ENTITY ec2ui.instances.instanceType.label "类型">
+<!ENTITY ec2ui.instances.rootDeviceType.label "根设备">
+<!ENTITY ec2ui.instances.launchTime.label "启动时间">
+
+<!ENTITY ec2ui.captions.kernels.akis.label "内核镜像 (AKI/EKI)">
+<!ENTITY ec2ui.captions.kernels.aris.label "虚拟内存 (ARI/ERI)">
+
+<!ENTITY ec2ui.kernels.id.label "AKI/EKI ID">
+<!ENTITY ec2ui.ramdisks.id.label "ARI/ERI ID">
+<!ENTITY ec2ui.machines.id.label "AMI/EMI ID">
+<!ENTITY ec2ui.tag.label "标签">
+
+<!ENTITY ec2ui.captions.keypairs.label "密钥组">
+<!ENTITY ec2ui.keypairs.name.label "密钥组名">
+<!ENTITY ec2ui.keypairs.fingerprint.label "指印">
+
+<!ENTITY ec2ui.captions.azones.label "供应区">
+<!ENTITY ec2ui.azones.name.label "区名">
+<!ENTITY ec2ui.azones.state.label "状态">
+
+<!ENTITY ec2ui.captions.eip.label "弹性 IP">
+<!ENTITY ec2ui.eip.address.label "地址">
+<!ENTITY ec2ui.eips.address.label "IP 地址">
+
+<!ENTITY ec2ui.captions.secgroups.groups.label "安全组">
+<!ENTITY ec2ui.captions.secgroups.permissions.label "组权限">
+
+<!ENTITY ec2ui.permissions.protocol.label "通讯协议">
+<!ENTITY ec2ui.permissions.fromport.label "接收端口/ICMP 类型">
+<!ENTITY ec2ui.permissions.toport.label "接收端口/ICMP 范围">
+<!ENTITY ec2ui.permissions.groups.label "发送方用户: 组">
+<!ENTITY ec2ui.permissions.cidrs.label "发送方 CIDR">
+<!ENTITY ec2ui.permissions.details.groups.label "发送方 (用户, 组)">
+
+<!ENTITY ec2ui.captions.volumes.volumes.label "新建 EBS 卷">
+<!ENTITY ec2ui.captions.volumes.snapshots.label "保存的快照">
+
+<!ENTITY ec2ui.volumes.id.label "卷 ID">
+<!ENTITY ec2ui.volumes.size.label "大小(GB)">
+<!ENTITY ec2ui.volumes.status.label "状态">
+<!ENTITY ec2ui.volumes.createTime.label "创建时间">
+<!ENTITY ec2ui.volumes.attachment.device.label "设备名">
+<!ENTITY ec2ui.volumes.attachment.status.label "挂载情况">
+<!ENTITY ec2ui.volumes.attachment.attachTime.label "挂载时间">
+<!ENTITY ec2ui.volumes.attachment.description.device "Linux 设备: /dev/sda 到 /dev/sdp">
+
+<!ENTITY ec2ui.snapshots.id.label "快照 ID">
+<!ENTITY ec2ui.snapshots.status.label "状态">
+<!ENTITY ec2ui.snapshots.startTime.label "创建时间">
+<!ENTITY ec2ui.snapshots.progress.label "进度">
+
+<!ENTITY ec2ui.captions.bundleTasks.label "打包任务">
+
+<!ENTITY ec2ui.bundleTasks.id.label "包 ID">
+<!ENTITY ec2ui.bundleTasks.state.label "打包状态">
+<!ENTITY ec2ui.bundleTasks.startTime.label "打包开始时间">
+<!ENTITY ec2ui.bundleTasks.updateTime.label "上次更新时间">
+<!ENTITY ec2ui.bundleTasks.s3.bucket.label "S3 Bucket">
+<!ENTITY ec2ui.bundleTasks.s3.prefix.label "S3 前缀">
+<!ENTITY ec2ui.bundleTasks.errorMessage.label "错误消息">
+
+<!ENTITY ec2ui.bundleInstance.s3.bucket.label "S3 Bucket 名">
+<!ENTITY ec2ui.bundleInstance.s3.image.label "镜像名">
+
+<!ENTITY ec2ui.captions.leases.offerings.label "提供的保留实例">
+<!ENTITY ec2ui.captions.leases.rsvdInst.label "已购买的保留实例">
+
+<!ENTITY ec2ui.offerings.id.label "提供 ID">
+<!ENTITY ec2ui.offerings.instType.label "实例类型">
+<!ENTITY ec2ui.offerings.duration.label "有效期(年)">
+<!ENTITY ec2ui.offerings.fixedPrice.label "一次性付费/实例 (US$)">
+<!ENTITY ec2ui.offerings.usagePrice.label "使用费/实例 (US$)">
+<!ENTITY ec2ui.offerings.description.label "说明">
+<!ENTITY ec2ui.offerings.totalPrice.label "一次性付费总计 (截止目前)">
+<!ENTITY ec2ui.offerings.captions.review.label "续期(选定实例数并点 '继续')">
+<!ENTITY ec2ui.offerings.captions.information.label "信息">
+<!ENTITY ec2ui.offerings.captions.payment.label "一次性付费详情">
+<!ENTITY ec2ui.offerings.purchaseOffering.tip "购买">
+<!ENTITY ec2ui.offerings.contextmenu.purchase.label "购买保留实例">
+
+<!ENTITY ec2ui.rsvdInst.id.label "保留实例 ID">
+<!ENTITY ec2ui.rsvdInst.instType.label "实例类型">
+<!ENTITY ec2ui.rsvdInst.duration.label "有效期(年)">
+<!ENTITY ec2ui.rsvdInst.remaining.label "剩余天数">
+<!ENTITY ec2ui.rsvdInst.fixedPrice.label "一次性付费/实例 (US$)">
+<!ENTITY ec2ui.rsvdInst.usagePrice.label "使用费/实例 (US$)">
+<!ENTITY ec2ui.rsvdInst.count.label "实例数">
+<!ENTITY ec2ui.rsvdInst.description.label "说明">
+<!ENTITY ec2ui.rsvdInst.state.label "状态">
+<!ENTITY ec2ui.rsvdInst.daysremaining.label "剩余天数">
+
+<!ENTITY ec2ui.platform.label "平台">
+<!ENTITY ec2ui.availabilityZone.label "供应区">
+<!ENTITY ec2ui.addTag.label "添加/编辑 标签">
+
+<!ENTITY ec2ui.contextmenu.details.label "查看详细信息">
+<!ENTITY ec2ui.contextmenu.copyid.label "复制到粘贴板">
+
+<!ENTITY ec2ui.images.contextmenu.register.label "注册新的 AMI/EMI">
+<!ENTITY ec2ui.images.contextmenu.deregister.label "注销 AMI/EMI">
+<!ENTITY ec2ui.images.contextmenu.migrate.label "迁移 AMI/EMI 并注册">
+<!ENTITY ec2ui.images.contextmenu.delete.label "删除 AMI/EMI 并注销">
+<!ENTITY ec2ui.images.contextmenu.launch.label "启动该 AMI/EMI 的实例">
+
+<!ENTITY ec2ui.instances.lifecycle.label "实例生命周期">
+<!ENTITY ec2ui.instances.lifecycle.start.label "启动">
+<!ENTITY ec2ui.instances.lifecycle.reboot.label "重启">
+<!ENTITY ec2ui.instances.lifecycle.stop.label "暂停">
+<!ENTITY ec2ui.instances.lifecycle.forcestop.label "强制暂停">
+<!ENTITY ec2ui.instances.lifecycle.terminate.label "终止">
+<!ENTITY ec2ui.instances.lifecycle.changetype.label "更改实例类型">
+
+<!ENTITY ec2ui.instances.termprotection.label "终止保护">
+<!ENTITY ec2ui.instances.showtermprotection.label "显示终止保护">
+<!ENTITY ec2ui.instances.changetermprotection.label "更改终止保护">
+
+<!ENTITY ec2ui.instances.contextmenu.launchmore.label "启动更多实例">
+<!ENTITY ec2ui.instances.contextmenu.attachebs.label "挂载 EBS 卷">
+<!ENTITY ec2ui.instances.contextmenu.bundle.label "打包到 AMI/EMI">
+<!ENTITY ec2ui.instances.contextmenu.reboot.label "重启">
+<!ENTITY ec2ui.instances.contextmenu.terminate.label "终止">
+<!ENTITY ec2ui.instances.contextmenu.stop.label "暂停">
+<!ENTITY ec2ui.instances.contextmenu.forcestop.label "强制暂停">
+<!ENTITY ec2ui.instances.contextmenu.start.label "开始">
+<!ENTITY ec2ui.instances.contextmenu.monitor.label "监视">
+<!ENTITY ec2ui.instances.contextmenu.unmonitor.label "取消监视">
+<!ENTITY ec2ui.instances.contextmenu.console.label "显示后台输出">
+<!ENTITY ec2ui.instances.contextmenu.password.label "获取管理员密码">
+<!ENTITY ec2ui.instances.contextmenu.copyid.label "实例 ID">
+<!ENTITY ec2ui.instances.contextmenu.copypublic.label "公有 DNS">
+<!ENTITY ec2ui.instances.contextmenu.copyprivate.label "私有 DNS">
+<!ENTITY ec2ui.instances.contextmenu.copyprivateip.label "私有 IP">
+<!ENTITY ec2ui.instances.contextmenu.copypublicip.label "公共 IP">
+<!ENTITY ec2ui.instances.contextmenu.connect.label "连接到公有 DNS">
+
+<!ENTITY ec2ui.addresses.contextmenu.associate.label "关联 弹性IP 到实例">
+<!ENTITY ec2ui.addresses.contextmenu.disassociate.label "解除该 弹性IP 关联">
+<!ENTITY ec2ui.addresses.contextmenu.release.label "释放该地址">
+<!ENTITY ec2ui.addresses.contextmenu.copy.label "复制 弹性IP 到粘贴板">
+
+<!ENTITY ec2ui.volume.contextmenu.createsnap.label "从该卷制作快照">
+<!ENTITY ec2ui.volume.contextmenu.attach.label "挂载该卷">
+<!ENTITY ec2ui.volume.contextmenu.detach.label "卸载该卷">
+<!ENTITY ec2ui.volume.contextmenu.forcedetach.label "强制卸载该卷">
+<!ENTITY ec2ui.volume.contextmenu.delete.label "删除该卷">
+<!ENTITY ec2ui.volume.contextmenu.create.label "新建卷">
+<!ENTITY ec2ui.volume.contextmenu.copyvolid.label "复制 卷ID 到粘贴板">
+
+<!ENTITY ec2ui.snapshot.contextmenu.createvol.label "从该快照新建卷">
+<!ENTITY ec2ui.snapshot.contextmenu.delete.label "删除该快照">
+<!ENTITY ec2ui.snapshot.contextmenu.copysnapid.label "复制 快照ID 到粘贴板">
+
+<!ENTITY ec2ui.bundleTasks.contextmenu.register.label "注册 AMI/EMI">
+<!ENTITY ec2ui.bundleTasks.contextmenu.cancel.label "取消打包任务">
+<!ENTITY ec2ui.bundleTasks.contextmenu.copybunid.label "复制打包ID到粘贴板">
+
+<!ENTITY ec2ui.credentials.tip "安全证书管理">
+<!ENTITY ec2ui.endpoints.tip "域管理">
+<!ENTITY ec2ui.tools.tip "本地工具管理">
+<!ENTITY ec2ui.accountids.tip "账户管理">
+<!ENTITY ec2ui.about.tip "关于本扩展">
+
+<!ENTITY ec2ui.refresh.tip "刷新">
+
+<!ENTITY ec2ui.images.powerup.tip "启动实例">
+<!ENTITY ec2ui.images.register.tip "注册 AMI/EMI">
+<!ENTITY ec2ui.images.deregister.tip "注销 AMI/EMI">
+
+<!ENTITY ec2ui.launchperms.add.tip "允许新用户启动该 AMI/EMI">
+<!ENTITY ec2ui.launchperms.remove.tip "撤销选定用户的权限">
+<!ENTITY ec2ui.launchperms.public.tip "允许所有人启动该 AMI/EMI">
+<!ENTITY ec2ui.launchperms.reset.tip "重置">
+
+<!ENTITY ec2ui.instances.reboot.tip "重启所选实例">
+<!ENTITY ec2ui.instances.powerdown.tip "终止所选实例">
+<!ENTITY ec2ui.instances.console.tip "显示后台输出">
+<!ENTITY ec2ui.instances.connect.tip "连接到实例">
+
+<!ENTITY ec2ui.keypairs.create.tip "新建密钥组">
+<!ENTITY ec2ui.keypairs.delete.tip "删除所选密钥组">
+<!ENTITY ec2ui.keypairs.contextmenu.create.label "新建密钥组">
+<!ENTITY ec2ui.keypairs.contextmenu.delete.label "删除所选密钥组">
+
+<!ENTITY ec2ui.eips.allocate.tip "分配新地址">
+<!ENTITY ec2ui.eips.associate.tip "关联所选地址">
+<!ENTITY ec2ui.eips.disassociate.tip "取消关联所选地址">
+<!ENTITY ec2ui.eips.release.tip "释放所选地址">
+
+<!ENTITY ec2ui.secgroups.create.tip "创建安全组">
+<!ENTITY ec2ui.secgroups.delete.tip "删除所选安全组">
+
+<!ENTITY ec2ui.secgroups.ownerId.label "所有者">
+<!ENTITY ec2ui.secgroups.name.label "名称">
+<!ENTITY ec2ui.secgroups.description.label "说明">
+
+<!ENTITY ec2ui.secgroups.contextmenu.authorize.label "授予权限">
+<!ENTITY ec2ui.secgroups.contextmenu.create.label "新建安全组">
+<!ENTITY ec2ui.secgroups.contextmenu.delete.label "删除该安全组">
+
+<!ENTITY ec2ui.permissions.authorize.tip "授予权限">
+<!ENTITY ec2ui.permissions.revoke.tip "撤销权限">
+
+<!ENTITY ec2ui.permissions.contextmenu.revoke.label "撤销该权限">
+
+<!ENTITY ec2ui.createvolfromsnap.tip "从该快照新建卷">
+<!ENTITY ec2ui.deletesnap.tip "删除该快照">
+<!ENTITY ec2ui.deletevol.tip "删除该卷">
+<!ENTITY ec2ui.createvol.tip "新建卷">
+<!ENTITY ec2ui.createsnapfromvol.tip "从该卷新建快照">
+<!ENTITY ec2ui.attachvol.tip "将该卷挂载到实例">
+<!ENTITY ec2ui.detachvol.tip "从实例上卸载该卷">
+
+<!ENTITY ec2ui.cancelBundleTask.tip "取消该打包任务">
+
+<!ENTITY ec2ui.instance.console.timestamp.label "时间戳">
+<!ENTITY ec2ui.instance.console.output.label "后台输出">
+<!ENTITY ec2ui.instance.console.encoding.label "编码">
+
+<!ENTITY ec2ui.instances.detail.amimanifest.label "AMI/EMI 清单">
+<!ENTITY ec2ui.instances.detail.monitoring.label "监视状态">
+<!ENTITY ec2ui.instances.detail.keyname.label "密钥组">
+<!ENTITY ec2ui.instances.detail.securitygrouplist.label "安全组">
+<!ENTITY ec2ui.instances.detail.reason.label "最近原因">
+<!ENTITY ec2ui.instances.detail.amiLaunchIdx.label "AMI/EMI 启动索引">
+<!ENTITY ec2ui.instances.detail.instanceType.label "实例类型">
+<!ENTITY ec2ui.instances.detail.eip.label "弹性 IP">
+<!ENTITY ec2ui.instances.detail.volumelist.label "EBS 卷">
+
+<!ENTITY ec2ui.copyS3.keys.captions.progress.label "AMI/EMI 迁移进度">
+<!ENTITY ec2ui.copyS3.keys.currentOperation.label "当前操作">
+<!ENTITY ec2ui.copyS3.keys.current.label "正在初始化 ...">
+<!ENTITY ec2ui.copyS3.keys.fileTransfer.label "文件传输状态">
+
+<!ENTITY ec2ui.deleteami.captions.progress.label "AMI/EMI 删除进度">
+<!ENTITY ec2ui.deleteami.currentOperation.label "当前操作">
+<!ENTITY ec2ui.deleteami.current.label "正在初始化 ...">
+
+<!ENTITY ec2ui.accountids.accountid.label "账户 ID">
+<!ENTITY ec2ui.accountids.displayname.label "显示名称">
+
+<!ENTITY ec2ui.creds.account.label "账户名称">
+<!ENTITY ec2ui.creds.akid.label "AWS 访问密钥(Access Key)">
+<!ENTITY ec2ui.creds.secretkey.label "AWS 私有访问密钥(Secret Access Key)">
+<!ENTITY ec2ui.creds.region.label "优先使用域">
+
+<!ENTITY ec2ui.endpoints.name.label "域">
+<!ENTITY ec2ui.endpoints.type.label "类型">
+<!ENTITY ec2ui.endpoints.url.label "Endpoint URL">
+<!ENTITY ec2ui.endpoints.version.label "API 版本">
+
+<!ENTITY ec2ui.tools.ssh.command.label "SSH 命令">
+<!ENTITY ec2ui.tools.ssh.args.label "SSH 参数">
+<!ENTITY ec2ui.tools.ssh.key.label "SSH 密钥模板">
+<!ENTITY ec2ui.tools.key.template.label "EC2 私有密钥模板">
+<!ENTITY ec2ui.tools.ssh.user.label "SSH 用户">
+<!ENTITY ec2ui.tools.rdp.command.label "RDP 命令">
+<!ENTITY ec2ui.tools.rdp.args.label "RDP 参数">
+<!ENTITY ec2ui.tools.description.home "${home} - 主目录地址.">
+<!ENTITY ec2ui.tools.description.keyname "${keyname} - 实例启动用的 EC2 密钥组.">
+<!ENTITY ec2ui.tools.description.host "${host} - EC2 实例的公有 DNS名.">
+<!ENTITY ec2ui.tools.description.key "${key} - (插补的)密钥模板">
+<!ENTITY ec2ui.tools.description.user "${user} - 配置的用户名.">
+<!ENTITY ec2ui.tools.description.pass "${pass} - Windows 实例的管理员密码.">
+
+<!ENTITY ec2ui.migrate.ami.regions.label "迁移到域">
+<!ENTITY ec2ui.migrate.ami.prefix.label "前缀">
+<!ENTITY ec2ui.migrate.ami.bucket.source.label "源 Bucket">
+<!ENTITY ec2ui.migrate.ami.bucket.source.label "目标 Bucket">
+
+<!ENTITY ec2ui.instances.lunch.ami.tag.label "AMI/EMI 标签">
+<!ENTITY ec2ui.instances.lunch.instancetypelist.label "实例类型">
+<!ENTITY ec2ui.instances.lunch.min.label "最小启动数">
+<!ENTITY ec2ui.instances.lunch.max.label "最大启动数">
+<!ENTITY ec2ui.instances.lunch.tag.label "新启动实例的标签">
+<!ENTITY ec2ui.instances.lunch.keypairlist.label "密钥组">
+<!ENTITY ec2ui.instances.lunch.properties.label "附加信息">
+<!ENTITY ec2ui.instances.lunch.addressingType.label "公有地址">
+<!ENTITY ec2ui.instances.lunch.secgroups.unused.label "可用安全组">
+<!ENTITY ec2ui.instances.lunch.secgroups.used.label "实例所在安全组">
+<!ENTITY ec2ui.instances.lunch.button.userdata.openFile.label "打开文件">
+<!ENTITY ec2ui.instances.lunch.button.userdata.openBinaryFile.label "打开二进制文件">
+
+<!ENTITY ec2ui.newpermission.captions.new.label "为安全组添加新权限">
+<!ENTITY ec2ui.newpermission.captions.protocol.label "协议详情">
+<!ENTITY ec2ui.newpermission.captions.hostNetwork.label "主机/网络详情">
+<!ENTITY ec2ui.newpermission.tab.external.label "外部连接">
+<!ENTITY ec2ui.newpermission.tab.group.label "组内连接">
+<!ENTITY ec2ui.newpermission.port.label "端口号">
+<!ENTITY ec2ui.newpermission.fromport.label "端口号范围">
+<!ENTITY ec2ui.newpermission.toport.label "目标端口">
+<!ENTITY ec2ui.newpermission.icmptype.label "ICMP 类型">
+<!ENTITY ec2ui.newpermission.icmpcode.label "ICMP 码">
+<!ENTITY ec2ui.newpermission.user.label "用户 ID">
+<!ENTITY ec2ui.newpermission.group.label "组">
+<!ENTITY ec2ui.newpermission.radio.host.label "主机">
+<!ENTITY ec2ui.newpermission.radio.network.label "网络">
+<!ENTITY ec2ui.newpermission.button.getHost.label "获取主机地址">
+<!ENTITY ec2ui.newpermission.button.getNetwork.label "获取网络地址范围">
+<!ENTITY ec2ui.newpermission.description.external "选定协议并指定主机/网络范围">
+<!ENTITY ec2ui.newpermission.description.group "选定要授权的用户和组">
+
+<!ENTITY ec2ui.retrycancel.requestId.label "请求 ID">
+<!ENTITY ec2ui.retrycancel.faultCode.label "错误代码">
+<!ENTITY ec2ui.retrycancel.details.label "详情">
+
+<!ENTITY ec2ui.secgroups.new.name.label "安全组名">
+<!ENTITY ec2ui.secgroups.new.description.label "说明">
+<!ENTITY ec2ui.secgroups.new.enableprot.host "要开启该主机的 SSH 和 RDP 连接吗?">
+<!ENTITY ec2ui.secgroups.new.enableprot.network "要开启主机所在网络的 SSH 和 RDP 连接吗?">
+<!ENTITY ec2ui.secgroups.new.enableprot.none "手动为该组授权">
+
+<!ENTITY ec2ui.images.menuitem.noFilter.label "无过滤">
+<!ENTITY ec2ui.images.menuitem.allAMIs.label "AMI/EMI">
+<!ENTITY ec2ui.images.menuitem.allAMIsEBS.label "带有 EBS 根设备的 AMI/EMI">
+<!ENTITY ec2ui.images.menuitem.allAMIsIS.label "带有实例存储根设备的 AMI/EMI">
+<!ENTITY ec2ui.images.menuitem.myAMIs.label "我的 AMI/EMI">
+<!ENTITY ec2ui.images.menuitem.myAMIsEBS.label "我的带有 EBS 根设备的 AMI/EMI">
+<!ENTITY ec2ui.images.menuitem.amazonAMIs.label "Amazon 的 AMI">
+<!ENTITY ec2ui.images.menuitem.amazonAMIsEBS.label "Amazon 的 带有 EBS 根设备的 AMI/EMI">
+<!ENTITY ec2ui.images.menuitem.allAKIs.label "AKI/EKI">
+<!ENTITY ec2ui.images.menuitem.allARIs.label "ARI/ERI">
+
+<!ENTITY ec2ui.instances.checkbox.terminated.label "不显示已 '终止' 的实例">
+
+<!ENTITY ec2ui.dialog.title.about "关于">
+<!ENTITY ec2ui.dialog.title.ami_details "AMI/EMI 详情">
+<!ENTITY ec2ui.dialog.title.attach_ebs_volume "挂载 EBS 卷到实例">
+<!ENTITY ec2ui.dialog.title.bundle_instance "将实例打包成 AMI/EMI">
+<!ENTITY ec2ui.dialog.title.bundle_task_details "打包任务详情">
+<!ENTITY ec2ui.dialog.title.console_output "实例后台输出">
+<!ENTITY ec2ui.dialog.title.copy_S3_keys "迁移 AMI/EMI">
+<!ENTITY ec2ui.dialog.title.create_security_group "新建安全组">
+<!ENTITY ec2ui.dialog.title.delete_ami "删除 AMI/EMI">
+<!ENTITY ec2ui.dialog.title.eip_details "弹性IP 详情">
+<!ENTITY ec2ui.dialog.title.instance_details "实例详情">
+<!ENTITY ec2ui.dialog.title.keypair_details "密钥组详情">
+<!ENTITY ec2ui.dialog.title.manage_accountids "账户 ID 管理">
+<!ENTITY ec2ui.dialog.title.manage_credentials "EC2 安全证书管理">
+<!ENTITY ec2ui.dialog.title.manage_endpoints "EC2 域管理">
+<!ENTITY ec2ui.dialog.title.manage_tools "EC2 工具管理">
+<!ENTITY ec2ui.dialog.title.migrate_ami "迁移 AMI/EMI 至其他域">
+<!ENTITY ec2ui.dialog.title.new_attachment "挂载 EBS 卷">
+<!ENTITY ec2ui.dialog.title.new_instances "启动新实例">
+<!ENTITY ec2ui.dialog.title.new_permission "追加权限">
+<!ENTITY ec2ui.dialog.title.new_volume "新建 EBS 卷">
+<!ENTITY ec2ui.dialog.title.offering_details "提供的保留实例详情">
+<!ENTITY ec2ui.dialog.title.permission_details "安全组详情">
+<!ENTITY ec2ui.dialog.title.purchase_offering "购买保留实例">
+<!ENTITY ec2ui.dialog.title.register_image "注册新的 AMI/EMI">
+<!ENTITY ec2ui.dialog.title.reserved_instances_details "保留实例详情">
+<!ENTITY ec2ui.dialog.title.retry_cancel "重试 或 取消?">
+<!ENTITY ec2ui.dialog.title.securitygroup_details "安全组详情">
+<!ENTITY ec2ui.dialog.title.select_eip "关联 弹性IP 到实例">
+<!ENTITY ec2ui.dialog.title.snapshot_details "快照详情">
+<!ENTITY ec2ui.dialog.title.volume_details "EBS 卷详情">
+<!ENTITY ec2ui.dialog.title.register_instances "注册实例">
+<!ENTITY ec2ui.dialog.title.deregister_instances "注销实例">
+<!ENTITY ec2ui.dialog.title.disable_avalibility_zone "禁用供应区">
+<!ENTITY ec2ui.dialog.title.enable_avalibility_zone "启用供应区">
+<!ENTITY ec2ui.dialog.title.loadbalancer_details "负载均衡详情">
+<!ENTITY ec2ui.dialog.title.Configure_Healthckeck "设置健康检查">
+<!ENTITY ec2ui.dialog.title.Create_Loadbalancer "新建负载均衡">
+
+<!ENTITY ec2ui.dialog.description.step1 "第 1 步: 负载均衡通讯协议">
+<!ENTITY ec2ui.dialog.description.step2 "第 2 步: 设置健康检查">
+<!ENTITY ec2ui.dialog.description.step3 "第 3 步: 注册实例">
+
+<!ENTITY ec2ui.dialog.button.accept.attach_ebs_volume.label "挂载">
+<!ENTITY ec2ui.dialog.button.accept.create_security_group.label "新建安全组">
+<!ENTITY ec2ui.dialog.button.accept.delete_ami.label "完成">
+<!ENTITY ec2ui.dialog.button.cancel.migrate_ami.label "取消">
+<!ENTITY ec2ui.dialog.button.accept.migrate_ami.label "迁移">
+<!ENTITY ec2ui.dialog.button.accept.new_attachment.label "挂载">
+<!ENTITY ec2ui.dialog.button.accept.new_instances.label "启动">
+<!ENTITY ec2ui.dialog.button.accept.new_permission.label "添加">
+<!ENTITY ec2ui.dialog.button.accept.new_volume.label "新建">
+<!ENTITY ec2ui.dialog.button.accept.purchase_offering.label "继续">
+<!ENTITY ec2ui.dialog.button.accept.register_image.label "注册 AMI/EMI">
+<!ENTITY ec2ui.dialog.button.accept.retry_cancel.label "重试">
+<!ENTITY ec2ui.dialog.button.accept.select_eip.label "关联">
+<!ENTITY ec2ui.dialog.button.accept.Register.label "注册">
+<!ENTITY ec2ui.dialog.button.accept.deregister.label "注销">
+<!ENTITY ec2ui.dialog.button.accept.enable.label "启用">
+<!ENTITY ec2ui.dialog.button.accept.disable.label "禁用">
+<!ENTITY ec2ui.dialog.button.accept.Configure.label "设置">
+
+<!ENTITY ec2ui.dialog.button.cancel.manage.label "关闭">
+<!ENTITY ec2ui.dialog.button.extra1.manage.label "添加">
+<!ENTITY ec2ui.dialog.button.extra2.manage.label "删除">
+
+<!ENTITY ec2ui.captions.loadbalancer.label "负载均衡">
+<!ENTITY ec2ui.captions.InstanceHealth.label "实例状态">
+
+<!ENTITY ec2ui.loadbalancer.name.label "负载均衡名称">
+<!ENTITY ec2ui.loadbalancer.creationtime.label "创建时间">
+<!ENTITY ec2ui.loadbalancer.dnsname.label "DNS 名称">
+<!ENTITY ec2ui.loadbalancer.instances.label "实例">
+<!ENTITY ec2ui.loadbalancer.zone.label "供应区">
+<!ENTITY ec2ui.loadbalancer.Interval.label "间隔">
+<!ENTITY ec2ui.loadbalancer.Timeout.label "超时">
+<!ENTITY ec2ui.loadbalancer.HealthyThreshold.label "健康">
+<!ENTITY ec2ui.loadbalancer.UnhealthyThreshold.label "不健康">
+<!ENTITY ec2ui.loadbalancer.Target.label "目标">
+<!ENTITY ec2ui.loadbalancer.Protocol.label "协议">
+<!ENTITY ec2ui.loadbalancer.LoadBalancerPort.label "负载均衡端口">
+<!ENTITY ec2ui.loadbalancer.InstancePort.label "实例端口">
+<!ENTITY ec2ui.loadbalancer.apppolicy.label "应用策略">
+<!ENTITY ec2ui.loadbalancer.lbpolicy.label "负载均衡策略">
+
+<!ENTITY ec2ui.loadbalancerview.Name.label "名称:">
+<!ENTITY ec2ui.loadbalancerview.creationtime.label "创建时间:">
+<!ENTITY ec2ui.loadbalancerview.dnsname.label "DNS名称:">
+<!ENTITY ec2ui.loadbalancerview.protocol.label "协议:">
+<!ENTITY ec2ui.loadbalancerview.lbport.label "负载均衡端口:">
+<!ENTITY ec2ui.loadbalancerview.iport.label "实例端口:">
+<!ENTITY ec2ui.loadbalancerview.interval.label "间隔:">
+<!ENTITY ec2ui.loadbalancerview.target.label "目标:">
+<!ENTITY ec2ui.loadbalancerview.HealthyThreshold.label "健康阈值:">
+<!ENTITY ec2ui.loadbalancerview.UnhealthyThreshold.label "不健康阈值:">
+<!ENTITY ec2ui.loadbalancerview.Timeout.label "超时:">
+<!ENTITY ec2ui.loadbalancerview.Instances.label "实例:">
+<!ENTITY ec2ui.loadbalancerview.AvailabilityZones.label "供应区:">
+<!ENTITY ec2ui.loadbalancerview.PingProtocol.label "Ping 协议:">
+<!ENTITY ec2ui.loadbalancerview.Port.label "Ping 端口:">
+<!ENTITY ec2ui.loadbalancerview.Path.label "Ping 路径:">
+
+<!ENTITY ec2ui.loadbalancer.contextmenu.viewdetails.label "查看详情">
+<!ENTITY ec2ui.loadbalancer.contextmenu.copydns.label "复制 DNS 名称">
+<!ENTITY ec2ui.loadbalancer.contextmenu.registerinstance.label "注册实例">
+<!ENTITY ec2ui.loadbalancer.contextmenu.deregisterinstance.label "注销实例">
+<!ENTITY ec2ui.loadbalancer.contextmenu.enableavailability.label "启用供应区">
+<!ENTITY ec2ui.loadbalancer.contextmenu.disableavailability.label "禁用供应区">
+<!ENTITY ec2ui.loadbalancer.contextmenu.disablestickness.label "禁用粘性">
+<!ENTITY ec2ui.loadbalancer.contextmenu.appstickness.label "应用粘性">
+<!ENTITY ec2ui.loadbalancer.contextmenu.loadbalancerstickness.label "负载均衡粘性">
+<!ENTITY ec2ui.loadbalancer.contextmenu.configurehealthcheck.label "设置健康检查">
+<!ENTITY ec2ui.loadbalancer.contextmenu.delete.label "删除负载均衡">
+
+<!ENTITY ec2ui.registerlb.register.label "注册">
+<!ENTITY ec2ui.registerlb.instanceid.label "实例 ID">
+<!ENTITY ec2ui.registerlb.state.label "状态">
+<!ENTITY ec2ui.registerlb.zone.label "区">
+
+<!ENTITY ec2ui.endisazone.Select.label "选择">
+<!ENTITY ec2ui.endisazone.AvailabilityZone.label "供应区">
+
+<!ENTITY ec2ui.InstanceHealth.Description.label "说明">
+<!ENTITY ec2ui.InstanceHealth.State.label "状态">
+<!ENTITY ec2ui.InstanceHealth.InstanceId.label "实例 ID">
+<!ENTITY ec2ui.InstanceHealth.ReasonCode.label "原因代码">
+
+<!ENTITY ec2ui.create.loadbalancer.tip "新建负载均衡">
+<!ENTITY ec2ui.upload.certificate.tip "上传安全证书">
+<!ENTITY ec2ui.certificate.upload.tip "上传证书">
+<!ENTITY ec2ui.certificate.delete.tip "删除证书">
+<!ENTITY ec2ui.upload.certificate.view.label "查看详细信息">
+<!ENTITY ec2ui.upload.certificate.copyurl.label "复制证书URL">
+<!ENTITY ec2ui.upload.certificate.delete.label "删除证书">
+
+
+<!ENTITY ec2ui.servercert.servercertid.label "服务器证书 ID">
+<!ENTITY ec2ui.servercert.servercertname.label "服务器证书名称">
+<!ENTITY ec2ui.servercert.arnid.label "ARN ID">
+<!ENTITY ec2ui.servercert.path.label "路径">
+<!ENTITY ec2ui.servercert.uploaddate.label "上传时间">
+
+<!ENTITY ec2ui.instanceevent.event.label "事件">
+<!ENTITY ec2ui.instanceevent.description.label "说明">
+<!ENTITY ec2ui.instanceevent.startTime.label "开始时间">
+<!ENTITY ec2ui.instanceevent.endTime.label "结束时间">
