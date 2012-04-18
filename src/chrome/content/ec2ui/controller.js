@@ -1981,7 +1981,7 @@ var ec2ui_controller = {
             objResponse.callback(items);        
     },
     
-    CreateLoadBalancer : function (LoadBalancerName,Protocol,arnl,elbport,instanceport,Zone,callback) {
+    CreateLoadBalancer : function (LoadBalancerName,Protocol,arn,elbport,instanceport,Zone,callback) {
 	var params = []
 	params.push(["LoadBalancerName", LoadBalancerName]);
 	
