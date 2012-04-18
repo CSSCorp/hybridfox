@@ -144,7 +144,7 @@ var ec2ui_LoadbalancerTreeView = {
         }
         if (retVal.ok) {
                 var Zone = retVal.placement;
-                ec2ui_session.controller.CreateLoadBalancer(retVal.LoadBalancerName,retVal.Protocol,retVal.elbport,retVal.instanceport,Zone);
+                ec2ui_session.controller.CreateLoadBalancer(retVal.LoadBalancerName,retVal.Protocol,retVal.arn,retVal.elbport,retVal.instanceport,Zone);
                 ec2ui_session.controller.ConfigureHealthCheck(retVal.LoadBalancerName,retVal.pingprotocol,retVal.pingport,retVal.pingpath,retVal.Interval,retVal.Timeout,retVal.HealthyThreshold,retVal.UnhealthyThreshold);
                 var Instancechk = retVal.Instances;
                 var newStr = Instancechk.substring(",", Instancechk.length-1);

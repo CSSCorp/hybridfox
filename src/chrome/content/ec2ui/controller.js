@@ -1989,7 +1989,7 @@ var ec2ui_controller = {
 	params.push(["Listeners.member.Protocol", Protocol]);
 	if (Protocol == "HTTPS")
 	{
-	    params.push(["Listeners.member.SSLCertificateId", "arn:aws:iam::322191361670:server-certificate/testCert"]);
+	    params.push(["Listeners.member.SSLCertificateId", arn]);
 	}
 	params.push(["Listeners.member.LoadBalancerPort", elbport]);
 	params.push(["Listeners.member.InstancePort", instanceport]);
