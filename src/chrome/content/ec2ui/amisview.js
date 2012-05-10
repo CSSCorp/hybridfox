@@ -32,6 +32,7 @@ var ec2ui_AMIsTreeView = {
         document.getElementById("amis.context.deregister").disabled = fDisabled;
         document.getElementById("amis.context.launch").disabled = fDisabled;
         document.getElementById("amis.context.delete").disabled = fDisabled;
+        document.getElementById("amis.context.request").disabled = fDisabled;
 
         // These context menu items don't apply to Windows instances
         // so enable them.
@@ -197,7 +198,6 @@ var ec2ui_AMIsTreeView = {
 
         if (retVal.ok) {
             this.newInstanceTag = retVal.tag || "";
-            alert(retVal.imageId);
             ec2ui_session.controller.requestSpotInstances(
                retVal.imageId,
                retVal.spotprice,
