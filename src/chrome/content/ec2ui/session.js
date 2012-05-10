@@ -29,7 +29,7 @@ var ec2ui_session =
             document.getElementById("ec2ui.images.view").view = ec2ui_AMIsTreeView;
             document.getElementById("ec2ui.keypairs.view").view = ec2ui_KeypairTreeView;
             document.getElementById("ec2ui.instances.view").view = ec2ui_InstancesTreeView;
-			document.getElementById("ec2ui.instanceevents.view").view = ec2ui_InstanceEventsTreeView;
+	    document.getElementById("ec2ui.instanceevents.view").view = ec2ui_InstanceEventsTreeView;
             document.getElementById("ec2ui.securitygroups.view").view = ec2ui_SecurityGroupsTreeView;
             document.getElementById("ec2ui.permissions.view").view = ec2ui_PermissionsTreeView;
             document.getElementById("ec2ui.eip.view").view = ec2ui_ElasticIPTreeView;
@@ -39,11 +39,13 @@ var ec2ui_session =
             document.getElementById("ec2ui.bundleTasks.view").view = ec2ui_BundleTasksTreeView;
             document.getElementById("ec2ui.offerings.view").view = ec2ui_LeaseOfferingsTreeView;
             document.getElementById("ec2ui.rsvdInst.view").view = ec2ui_ReservedInstancesTreeView;
-			document.getElementById("ec2ui.loadbalancer.view").view = ec2ui_LoadbalancerTreeView;
-			document.getElementById("ec2ui.instancehealth.view").view = ec2ui_InstanceHealthTreeView;
-			document.getElementById("ec2ui.servercertificate.view").view = ec2ui_ServerCertificateTreeView;
-			document.getElementById("ec2ui.cloudformation.view").view = ec2ui_CloudformationTreeView;
-			document.getElementById("ec2ui.cloudFormationResource.view").view = ec2ui_StackResourceTreeView;
+	    document.getElementById("ec2ui.loadbalancer.view").view = ec2ui_LoadbalancerTreeView;
+	    document.getElementById("ec2ui.instancehealth.view").view = ec2ui_InstanceHealthTreeView;
+	    document.getElementById("ec2ui.servercertificate.view").view = ec2ui_ServerCertificateTreeView;
+	    document.getElementById("ec2ui.cloudformation.view").view = ec2ui_CloudformationTreeView;
+	    document.getElementById("ec2ui.cloudFormationResource.view").view = ec2ui_StackResourceTreeView;
+	    document.getElementById("ec2ui.spotinstance.view").view = ec2ui_SpotInstanceTreeView;
+	    document.getElementById("ec2ui.pricehistory.view").view = ec2ui_PriceHistoryTreeView;
 
             // Enable about:blank to work if noscript is installed
             if("@maone.net/noscript-service;1" in Components.classes) {
@@ -139,81 +141,68 @@ var ec2ui_session =
         }
         
         switch (tabs.selectedItem.label) {
-         case 'Instances':
-			document.getElementById("loader").style.display = "block";
+         case 'Instances':			
             eval("ec2ui_InstancesTreeView." + toCall);
-			eval("ec2ui_InstanceEventsTreeView." + toCall);
-			document.getElementById("loader").style.display = "none";
+	    eval("ec2ui_InstanceEventsTreeView." + toCall);
+			
             break;
         case 'Images':
             this.showBusyCursor(true);
-			document.getElementById("loader").style.display = "block";
             this.model.getSecurityGroups();
             this.model.getImages();
-			document.getElementById("loader").style.display = "none";
             this.showBusyCursor(false);
             break;
         case "KeyPairs":
-			document.getElementById("loader").style.display = "block";
             eval("ec2ui_KeypairTreeView." + toCall);
-			document.getElementById("loader").style.display = "none";
             break;
         case "Security Groups":
-			document.getElementById("loader").style.display = "block";
             eval("ec2ui_SecurityGroupsTreeView." + toCall);
-			document.getElementById("loader").style.display = "none";
             break;
         case "Elastic IPs":
-			document.getElementById("loader").style.display = "block";
             eval("ec2ui_ElasticIPTreeView." + toCall);
-			document.getElementById("loader").style.display = "none";
             break;
         case "Volumes and Snapshots":
-			document.getElementById("loader").style.display = "block";
             eval("ec2ui_VolumeTreeView." + toCall);
 	    if(this.isOpenstackEndpointSelected()){
 		eval("ec2ui_SnapshotTreeView." + toCall);
 	    }
-		document.getElementById("loader").style.display = "none";
             break;
         case "Bundle Tasks":
-			document.getElementById("loader").style.display = "block";
         	if (this.isAmazonEndpointSelected()) {
             	eval("ec2ui_BundleTasksTreeView." + toCall);
 			}
-			document.getElementById("loader").style.display = "none";
             break;
         case "Availability Zones":
-			document.getElementById("loader").style.display = "block";
             eval("ec2ui_AvailZoneTreeView." + toCall);
-			document.getElementById("loader").style.display = "none";
             break;
         case "Reserved Instances":
-			document.getElementById("loader").style.display = "block";
         	if (this.isAmazonEndpointSelected()) {
 				eval("ec2ui_LeaseOfferingsTreeView." + toCall);
 				eval("ec2ui_ReservedInstancesTreeView." + toCall);
 			}
-			document.getElementById("loader").style.display = "none";
             break;
 	case "Loadbalancer":
-		document.getElementById("loader").style.display = "block";
 	    if (this.isAmazonEndpointSelected()) {
 		 eval("ec2ui_LoadbalancerTreeView." + toCall);
 		 eval("ec2ui_ServerCertificateTreeView." + toCall);
 	    }
-		document.getElementById("loader").style.display = "none";
             break;
 	case "Monitoring":
-		document.getElementById("loader").style.display = "block";
-            eval("ec2ui_MonitoringTreeView." + toCall);
-			document.getElementById("loader").style.display = "none";
+	    if (this.isAmazonEndpointSelected()) {
+		eval("ec2ui_MonitoringTreeView." + toCall);
+	    }
             break;
         case "Cloudformation":
-			document.getElementById("loader").style.display = "block";
-            eval("ec2ui_CloudformationTreeView." + toCall);
-			eval("ec2ui_StackResourceTreeView." + toCall);
-			document.getElementById("loader").style.display = "none";
+	    if (this.isAmazonEndpointSelected()) {			
+		eval("ec2ui_CloudformationTreeView." + toCall);
+		eval("ec2ui_StackResourceTreeView." + toCall);
+	    }
+            break;
+	 case "Spot Instance":
+	    if (this.isAmazonEndpointSelected()) {			
+		eval("ec2ui_SpotInstanceTreeView." + toCall);
+		eval("ec2ui_PriceHistoryTreeView." + toCall);
+	    }
             break;
         default:
             log ("This is an invalid tab: " + tabs.selectedItem.label);
@@ -622,7 +611,16 @@ var ec2ui_session =
 	    return true;
 	}
 	return false;
-    }
-	
+    },
+    
+    popup :function(title, text) {  
+	try {  
+	    Components.classes['@mozilla.org/alerts-service;1'].  
+            getService(Components.interfaces.nsIAlertsService).  
+            showAlertNotification(null, title, text, false, '', null);  
+	} catch(e) {  
+	    // prevents runtime error on platforms that don't implement nsIAlertsService
+	    }  
+    }	
     	
 };

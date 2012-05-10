@@ -34,6 +34,10 @@
                 oncommand="ec2ui_AMIsTreeView.launchNewInstances();"
                 label="Launch instance(s) of this AMI" />
               <menuseparator />
+              <menuitem id="amis.context.request"
+                oncommand="ec2ui_AMIsTreeView.requestspotprice();"
+                label="Request Spot Price" />
+              <menuseparator />
               <menuitem oncommand="ec2ui_AMIsTreeView.copyToClipBoard('id');"
                 label="&ec2ui.contextmenu.copyid.label;" />
             </menupopup>

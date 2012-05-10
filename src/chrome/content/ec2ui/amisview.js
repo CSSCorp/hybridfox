@@ -179,6 +179,40 @@ var ec2ui_AMIsTreeView = {
                this.newInstanceCallback);
         }
     },
+    
+    requestspotprice : function () {
+        var image = this.getSelectedImage();
+        if (image == null) return;
+        var retVal = {ok:null};
+        this.newInstanceTag = null;
+
+        window.openDialog(
+            "chrome://ec2ui/content/dialog_request_spotprice.xul",
+            null,
+            "chrome,centerscreen,modal",
+            image,
+            ec2ui_session,
+            retVal
+            );
+
+        if (retVal.ok) {
+            this.newInstanceTag = retVal.tag || "";
+            alert(retVal.imageId);
+            ec2ui_session.controller.requestSpotInstances(
+               retVal.imageId,
+               retVal.spotprice,
+               retVal.kernelId,
+               retVal.ramdiskId,
+               retVal.keyName,
+               retVal.securityGroups,
+               retVal.userData,
+               retVal.properties,
+               retVal.instanceType,
+               retVal.placement,
+               retVal.addressingType,  
+               this.newInstanceCallback);
+        }
+    },
 
     callRegisterImageInRegion : function(manifest, region) {
         var me = this;

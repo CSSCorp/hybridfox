@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<!DOCTYPE window SYSTEM "chrome://ec2ui/locale/ec2ui.dtd">
+
+<dialog id="ec2ui.dialog.spotinstance.detail" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  buttons="accept" ondialogaccept="return true;"
+  onload="ec2_SpotInstanceDetails.init();" title="Spot Instance Details">
+
+  <script type="application/x-javascript" src="chrome://ec2ui/content/spotinstancedetaildialog.js" />
+  <script type="application/x-javascript" src="chrome://ec2ui/content/model.js" />
+
+  <vbox flex="1" style="overflow-y: scroll;height:350px;">
+    <grid flex="1">
+      <columns>
+        <column />
+        <column />
+        <column />
+      </columns>
+      <rows>
+        <row>
+          <label control="ec2ui.spotinstance.requestid" value="Request ID:" />
+          <textbox id="ec2ui.spotinstance.requestid" size="50" readonly="true" />
+        </row>
+        <row>
+          <label control="ec2ui.spotinstance.instanceid" value="Instance ID:" />
+          <textbox id="ec2ui.spotinstance.instanceid" size="50" readonly="true" />
+        </row>
+        <row>
+          <label control="ec2ui.spotinstance.spotprice" value="Spot Price:" />
+          <textbox id="ec2ui.spotinstance.spotprice" size="50" readonly="true" />
+        </row>
+        <row>
+          <label control="ec2ui.spotinstance.state" value="State:" />
+          <textbox id="ec2ui.spotinstance.state" size="50" readonly="true" />
+        </row>
+        <row>
+          <label control="ec2ui.spotinstance.sptype" value="Spot Instance Type:" />
+          <textbox id="ec2ui.spotinstance.sptype" size="50" readonly="true" />
+        </row>
+        <row>
+          <label control="ec2ui.spotinstance.type" value="Instance Type:" />
+          <textbox id="ec2ui.spotinstance.type" size="50" readonly="true" />
+        </row>
+        <row>
+          <label control="ec2ui.spotinstance.imageid" value="Image ID:" />
+          <textbox id="ec2ui.spotinstance.imageid" size="50" readonly="true" />
+        </row>
+         <row>
+          <label control="ec2ui.spotinstance.key" value="Key Name:" />
+          <textbox id="ec2ui.spotinstance.key" size="50" readonly="true" />
+        </row>
+          <row>
+          <label control="ec2ui.spotinstance.creation" value="Creation Date:" />
+          <textbox id="ec2ui.spotinstance.creation" size="50" readonly="true" />
+        </row>
+           <row>
+          <label control="ec2ui.spotinstance.product" value="Product:" />
+          <textbox id="ec2ui.spotinstance.product" size="50" readonly="true" />
+        </row>
+            <row>
+          <label control="ec2ui.spotinstance.zone" value="Zone:" />
+          <textbox id="ec2ui.spotinstance.zone" size="50" readonly="true" />
+        </row>
+       
+      </rows>
+    </grid>
+  </vbox>
+</dialog>

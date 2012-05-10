@@ -1,0 +1,128 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<!DOCTYPE window SYSTEM "chrome://ec2ui/locale/ec2ui.dtd">
+
+<dialog id="ec2ui.dialog.spotinstances" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  buttons="accept,cancel" ondialogaccept="return ec2_InstanceLauncher.launch();" ondialogcancel="return true;"
+  onload="ec2_InstanceLauncher.init();" title="Request Spot Instance"
+  buttonlabelaccept="Request Spot Price">
+
+  <script type="application/x-javascript" src="chrome://ec2ui/content/utils.js" />
+  <script type="application/x-javascript" src="chrome://ec2ui/content/reqspotpricedialog.js" />
+  <script type="application/x-javascript" src="chrome://ec2ui/content/model.js" />
+  <script type="application/x-javascript" src="chrome://ec2ui/content/base64.js" />
+
+  <vbox flex="1" style="overflow-y: scroll;height:350px;">
+    <grid flex="1">
+      <columns>
+        <column />
+        <column />
+        <column />
+      </columns>
+      <rows>
+        <row>
+          <label control="ec2ui.spotinstances.ami" value="&ec2ui.machines.id.label;:" />
+          <textbox id="ec2ui.spotinstances.ami" size="40" value="1" readonly="true" />
+        </row>
+        <row>
+          <label control="ec2ui.spotinstances.ami.tag" value="&ec2ui.instances.lunch.ami.tag.label;:" />
+          <textbox id="ec2ui.spotinstances.ami.tag" size="40" value="1" readonly="true" />
+        </row>
+        <row>
+          <label control="ec2ui.spotinstances.ami.location" value="&ec2ui.instances.detail.amimanifest.label;:" />
+          <textbox id="ec2ui.spotinstances.ami.location" size="40" value="1" readonly="true" />
+        </row>
+        <row>
+          <label control="ec2ui.spotinstances.spotprice.tag" value="Spot Price:" />
+          <textbox id="ec2ui.spotinstances.spotprice.tag" size="40" value=""  />
+        </row>
+        <row>
+          <label control="ec2ui.spotinstances.aki" value="&ec2ui.kernels.id.label;:" />
+          <menulist id="ec2ui.spotinstances.aki" size="40" value=""
+            editable="true"/>
+        </row>
+        <row>
+          <label control="ec2ui.spotinstances.ari" value="&ec2ui.ramdisks.id.label;:" />
+          <menulist id="ec2ui.spotinstances.ari" size="40" value=""
+            editable="true"/>
+        </row>
+        <row>
+          <label control="ec2ui.spotinstances.instancetypelist" value="&ec2ui.instances.lunch.instancetypelist.label;:" />
+          <menulist id="ec2ui.spotinstances.instancetypelist" />
+        </row>
+        <row>
+          <label control="ec2ui.spotinstances.min" value="&ec2ui.instances.lunch.min.label;:" />
+          <textbox id="ec2ui.spotinstances.min" size="40" value="1" />
+        </row>
+        <row>
+          <label control="ec2ui.spotinstances.max" value="&ec2ui.instances.lunch.max.label;:" />
+          <textbox id="ec2ui.spotinstances.max" size="40" value="1" />
+        </row>
+        <row>
+          <label control="ec2ui.spotinstances.tag" value="&ec2ui.instances.lunch.tag.label;:" />
+          <textbox id="ec2ui.spotinstances.tag" size="40" value="" />
+        </row>
+        <row>
+          <label control="ec2ui.spotinstances.keypairlist" value="&ec2ui.instances.lunch.keypairlist.label;:" />
+          <menulist id="ec2ui.spotinstances.keypairlist" />
+        </row>
+        <row>
+          <label control="ec2ui.spotinstances.availabilityzonelist" value="&ec2ui.availabilityZone.label;:" />
+          <menulist id="ec2ui.spotinstances.availabilityzonelist" />
+        </row>
+        <row>
+          <label control="ec2ui.spotinstances.properties" value="&ec2ui.instances.lunch.properties.label;:" />
+          <textbox id="ec2ui.spotinstances.properties" size="40" />
+        </row>
+        <row>
+          <label control="ec2ui.spotinstances.addressingType" value="&ec2ui.instances.lunch.addressingType.label;:" />
+          <checkbox id="ec2ui.spotinstances.addressingType" checked="true" />
+        </row>
+        <groupbox flex="1">
+          <caption label="&ec2ui.captions.images.launchsecgroups.label;" />
+          <grid flex="1">
+            <columns>
+              <column />
+              <column />
+              <column />
+            </columns>
+            <rows>
+              <row>
+                <label control="ec2ui.spotinstances.secgroups.unused" value="&ec2ui.instances.lunch.secgroups.unused.label;" />
+                <spacer flex="1" />
+                <label control="ec2ui.spotinstances.secgroups.used" value="&ec2ui.instances.lunch.secgroups.used.label;" />
+              </row>
+              <row>
+                <listbox rows="3" id="ec2ui.spotinstances.secgroups.unused" seltype="multiple">
+                  <listcols>
+                    <listcol flex="1" />
+                  </listcols>
+                </listbox>
+                <vbox flex="1" pack="center">
+                  <button image="images/right.png"
+                    oncommand="ec2_InstanceLauncher.addSecurityGroup();" />
+                  <button image="images/left.png"
+                    oncommand="ec2_InstanceLauncher.removeSecurityGroup();" />
+                </vbox>
+                <listbox rows="3" id="ec2ui.spotinstances.secgroups.used" seltype="multiple">
+                  <listcols>
+                    <listcol flex="1" />
+                  </listcols>
+                </listbox>
+              </row>
+            </rows>
+          </grid>
+        </groupbox>
+        <groupbox flex="1">
+          <caption label="&ec2ui.captions.images.launchparams.label;" />
+          <textbox id="ec2ui.spotinstances.userdata" multiline="true" cols="50" rows="4" wrap="false"
+            style="font-family: monospace;" />
+          <hbox pack="end" flex="1">
+            <button label="&ec2ui.instances.lunch.button.userdata.openFile.label;" oncommand="ec2_InstanceLauncher.loadUserDataFromFile(false);" />
+            <button label="&ec2ui.instances.lunch.button.userdata.openBinaryFile.label;" oncommand="ec2_InstanceLauncher.loadUserDataFromFile(true);" />
+          </hbox>
+        </groupbox>
+      </rows>
+    </grid>
+  </vbox>
+</dialog>

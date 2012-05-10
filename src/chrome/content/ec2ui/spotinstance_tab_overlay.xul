@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://ec2ui/skin/ec2ui.css" type="text/css"?>
+<!DOCTYPE overlay SYSTEM "chrome://ec2ui/locale/ec2ui.dtd">
+
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <tabpanel id="spotinstance_tab" flex="1">
+    <vbox  flex="1">
+    <groupbox orient="vertical" flex="1" id="spotinstance.tree.holder">
+      <caption label="Spot Instances" />
+      <toolbar style="padding: 0px 3px; -moz-box-align: center">
+        <toolbarbutton image="images/refresh.png" oncommand="ec2ui_SpotInstanceTreeView.refresh()"
+          tooltiptext="&ec2ui.refresh.tip;" />
+        <toolbarbutton image="images/delete.png" oncommand="ec2ui_SpotInstanceTreeView.delete_spotprice()"
+          tooltiptext="Delete Spot Price" />
+      </toolbar>
+      <tree enableColumnDrag="true" id="ec2ui.spotinstance.view" flex="1" ondblclick="ec2ui_SpotInstanceTreeView.viewDetails(event)">
+        <treecols>
+          <treecol id="spotinstance.requestId" label="Request ID" flex="1" sortDirection="ascending"
+            persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter" />
+          <treecol id="spotinstance.spotPrice" label="Spot Price" flex="1" sortDirection="ascending"
+            persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter" />
+          <treecol id="spotinstance.type" label="Type" flex="1" sortDirection="ascending"
+            persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter" />
+          <treecol id="spotinstance.state" label="State" flex="1" sortDirection="ascending"
+            persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter" />
+          <treecol id="spotinstance.imageId" label="Image Id" flex="1" sortDirection="ascending"
+            persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter" />
+          <treecol id="spotinstance.keyName" label="Key Name" flex="1" sortDirection="ascending"
+            persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter" />
+          <treecol id="spotinstance.instanceType" label="Instance Type" flex="1" sortDirection="ascending"
+            persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter" />
+          <treecol id="spotinstance.instanceId" label="Instance Id" flex="1" sortDirection="ascending"
+            persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter" />
+          <treecol id="spotinstance.createTime" label="Creation Time" flex="1" sortDirection="ascending"
+            persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter" />
+          <treecol id="spotinstance.productDescription" label="Product" flex="1" sortDirection="ascending"
+            persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter" />
+          <treecol id="spotinstance.launchedAvailabilityZone" label="Zone" flex="1" sortDirection="ascending"
+            persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter" />
+        </treecols>
+        <treechildren id="spotinstance.tree.children" context="spotinstance.tree.contextmenu" />
+      </tree>
+    </groupbox>
+    <splitter style="width: 4px; max-height: 4px;" persist="state"
+        collapse="after" resizebefore="closest">
+        <grippy />
+    </splitter>
+    <groupbox orient="vertical" flex="1" id="spotinstance.tree.holder">
+      <caption label="Spot Price History" />
+      <toolbar style="padding: 0px 3px; -moz-box-align: center">
+        <toolbarbutton image="images/refresh.png" oncommand="ec2ui_PriceHistoryTreeView.refresh()"
+          tooltiptext="&ec2ui.refresh.tip;" />
+        <label value="Instance Type:" />
+        <menulist  label="Instance Type:" id="pricehistory.type" oncommand="ec2ui_PriceHistoryTreeView.selectedMetric()">
+        <menupopup>
+            <menuitem label="t1.micro" value="t1.micro"/>
+            <menuitem label="m1.small" value="m1.small"/>
+            <menuitem label="m1.large" value="m1.large"/>
+            <menuitem label="m1.xlarge" value="m1.xlarge"/>
+            <menuitem label="c1.medium" value="c1.medium"/>
+            <menuitem label="c1.xlarge" value="c1.xlarge"/>
+            <menuitem label="m2.xlarge" value="m2.xlarge"/>
+            <menuitem label="m2.2xlarge" value="m2.2xlarge"/>
+            <menuitem label="m2.4xlarge" value="m2.4xlarge"/>            
+        </menupopup>
+        </menulist>
+        <label value="Product:" />
+        <menulist  label="Product:" id="pricehistory.product" oncommand="ec2ui_PriceHistoryTreeView.selectedMetric()">
+          <menupopup>
+            <menuitem label="Linux/UNIX" value="Linux/UNIX"/>
+            <menuitem label="SUSE Linux" value="SUSE Linux"/>
+            <menuitem label="Windows" value="Windows"/>
+            <menuitem label="Linux/UNIX (Amazon VPC)" value="Linux/UNIX (Amazon VPC)"/>
+            <menuitem label="SUSE Linux (Amazon VPC)" value="SUSE Linux (Amazon VPC)"/>
+            <menuitem label="Windows (Amazon VPC)" value="Windows (Amazon VPC)"/>
+          </menupopup>
+        </menulist>
+        <label value="Zone:"/>
+           <menulist  id="ec2ui.pricehistory.Zonelist" oncommand="ec2ui_PriceHistoryTreeView.selectedMetric()" />
+      </toolbar>
+      <tree enableColumnDrag="true" id="ec2ui.pricehistory.view" flex="1">
+        <treecols>
+          <treecol id="pricehistory.instanceType" label="Instance Type" flex="1" sortDirection="ascending"
+            persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter" />
+          <treecol id="pricehistory.productDescription" label="Product" flex="1" sortDirection="ascending"
+            persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter" />
+          <treecol id="pricehistory.spotPrice" label="Spot Price" flex="1" sortDirection="ascending"
+            persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter" />
+          <treecol id="pricehistory.timestamp" label="Time" flex="1" sortDirection="ascending"
+            persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter" />
+          <treecol id="pricehistory.availabilityZone" label="Zone" flex="1" sortDirection="ascending"
+            persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter" />
+        </treecols>
+        <treechildren id="spotinstance.tree.children" context="spotinstance.tree.contextmenu" />
+      </tree>
+    </groupbox>
+    </vbox>
+  </tabpanel>
+</overlay>

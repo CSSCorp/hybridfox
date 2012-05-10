@@ -56,6 +56,30 @@
 
 <!ENTITY ec2ui.kernels.id.label "AKI ID">
 <!ENTITY ec2ui.ramdisks.id.label "ARI ID">
+<!ENTITY ec2ui.machines.id.label "AMI ID">
+
+<!ENTITY ec2ui.instances.lunch.ami.tag.label "AMI Tag">
+<!ENTITY ec2ui.instances.lunch.instancetypelist.label "Instance Type">
+<!ENTITY ec2ui.instances.lunch.min.label "Minimum number of instances">
+<!ENTITY ec2ui.instances.lunch.max.label "Maximum number of instances">
+<!ENTITY ec2ui.instances.lunch.tag.label "New Instance(s) Tag">
+<!ENTITY ec2ui.instances.lunch.keypairlist.label "KeyPair">
+<!ENTITY ec2ui.instances.lunch.properties.label "Additional Info">
+<!ENTITY ec2ui.instances.lunch.addressingType.label "Public Address">
+<!ENTITY ec2ui.instances.lunch.secgroups.unused.label "Available Groups">
+<!ENTITY ec2ui.instances.lunch.secgroups.used.label "Launch in">
+<!ENTITY ec2ui.instances.lunch.button.userdata.openFile.label "Open File">
+<!ENTITY ec2ui.instances.lunch.button.userdata.openBinaryFile.label "Open Binary File">
+
+<!ENTITY ec2ui.instances.detail.amimanifest.label "AMI Manifest">
+<!ENTITY ec2ui.instances.detail.monitoring.label "Monitoring">
+<!ENTITY ec2ui.instances.detail.keyname.label "Key Name">
+<!ENTITY ec2ui.instances.detail.securitygrouplist.label "Security Groups">
+<!ENTITY ec2ui.instances.detail.reason.label "Last Reason">
+<!ENTITY ec2ui.instances.detail.amiLaunchIdx.label "AMI Launch Index">
+<!ENTITY ec2ui.instances.detail.instanceType.label "Instance Type">
+<!ENTITY ec2ui.instances.detail.eip.label "Elastic IP">
+<!ENTITY ec2ui.instances.detail.volumelist.label "EBS Volumes">
 
 <!ENTITY ec2ui.captions.keypairs.label "Your Keypairs">
 <!ENTITY ec2ui.keypairs.name.label "Name">

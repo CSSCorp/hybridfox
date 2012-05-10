@@ -298,6 +298,29 @@ function Describeresource(Timestamp, ResourceStatus, StackId, LogicalResourceId,
     this.ResourceType = ResourceType;
 }
 
+function spotinstances(requestId, spotPrice, type, state, imageId, keyName,
+                       instanceType, instanceId, createTime, productDescription, launchedAvailabilityZone){
+    this.requestId = requestId;
+    this.spotPrice = spotPrice;
+    this.type = type;
+    this.state = state;
+    this.imageId = imageId;
+    this.keyName = keyName;
+    this.instanceType = instanceType;
+    this.instanceId = instanceId;
+    this.createTime = createTime;
+    this.productDescription = productDescription;
+    this.launchedAvailabilityZone = launchedAvailabilityZone;
+}
+
+function pricehistory(instanceType,productDescription,spotPrice,timestamp,availabilityZone ){
+    this.instanceType = instanceType;
+    this.productDescription = productDescription;
+    this.spotPrice = spotPrice;
+    this.timestamp = timestamp;
+    this.availabilityZone = availabilityZone;
+}
+
 String.prototype.trim = function() {
     return this.replace(/^\s+|\s+$/g,"");
 }
@@ -324,6 +347,8 @@ var ec2ui_model = {
     ServerCertificate : null,
     monitoring        : null,
     cloudformation    : null,
+    spotinstances     : null,
+    pricehistory      : null,
     resourceMap     : {
         instances : 0,
         volumes   : 1,
@@ -354,6 +379,8 @@ var ec2ui_model = {
         this.updateMonitoring(null);
         this.updateCloudformation(null);
         this.updateDescriberesource(null);
+        this.updateSpotInstances(null);
+        this.updatePriceHistory(null);
     },
 
     notifyComponents : function(interest) {
@@ -630,5 +657,30 @@ var ec2ui_model = {
             ec2ui_session.controller.Describeresource();
         }
         return this.Describeresource;
+    },
+    
+    
+    updatePriceHistory : function(list) {
+        this.pricehistory = list;
+        this.notifyComponents("pricehistory");
+    },
+
+    getPriceHistory : function() {
+        if (this.pricehistory == null) {
+            ec2ui_session.controller.decribePriceHistory();
+        }
+        return this.pricehistory;
+    },
+    
+    updateSpotInstances : function(list) {
+        this.spotinstances = list;
+        this.notifyComponents("spotinstances");
+    },
+
+    getSpotInstances : function() {
+        if (this.spotinstances == null) {
+            ec2ui_session.controller.decribeSpotInstance();
+        }
+        return this.spotinstances;
     }
 }

@@ -13,6 +13,7 @@
 <?xul-overlay href="chrome://ec2ui/content/loadbalancer_tab_overlay.xul"?>
 <?xul-overlay href="chrome://ec2ui/content/monitoring_tab_overlay.xul"?>
 <?xul-overlay href="chrome://ec2ui/content/cloudformation_tab_overlay.xul"?>
+<?xul-overlay href="chrome://ec2ui/content/spotinstance_tab_overlay.xul"?>
 
 <!DOCTYPE window SYSTEM "chrome://ec2ui/locale/ec2ui.dtd">
 <window id="ec2ui-window" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
@@ -65,6 +66,8 @@
   <script type="application/x-javascript" src="chrome://ec2ui/content/cloudformationview.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/sha256.js" />
   <script type="application/x-javascript" src="chrome://ec2ui/content/stackresourceview.js" />
+  <script type="application/x-javascript" src="chrome://ec2ui/content/spotinstanceview.js"/>
+  <script type="application/x-javascript" src="chrome://ec2ui/content/pricehistoryview.js"/>
 
   <stringbundleset id="stringbundleset">
     <stringbundle id="ec2ui.properties.bundle" src="chrome://ec2ui/locale/ec2ui.properties" />
@@ -97,8 +100,7 @@
       <toolbarbutton label="&ec2ui.accountids.manage.label;" image="images/accountids.png"
         oncommand="ec2ui_session.manageAccountIds();"  tooltiptext="&ec2ui.accountids.tip;" />
       <toolbarseparator />
-      <spacer flex="10" />
-      <image id="loader"  style="display:none;" src='images/ajax-loader.gif'/>
+      <spacer flex="10" />     
       <toolbarbutton label="&ec2ui.tools.manage.label;" image="images/tools.png"
         oncommand="ec2ui_session.manageTools();"  tooltiptext="&ec2ui.tools.tip;" />
       <toolbarbutton label="&ec2ui.about.label;" image="images/about.png"
@@ -122,6 +124,7 @@
         <tab label="&ec2ui.tabs.loadbalancer.label;" />
         <tab label="&ec2ui.tabs.monitoring.label;" />
         <tab label="&ec2ui.tabs.cloudformation.label;" />
+        <tab label="Spot Instance" />
       </tabs>
       </arrowscrollbox>
       <tabpanels flex="1">
@@ -137,6 +140,7 @@
         <tabpanel id="loadbalancer_tab"/>
         <tabpanel id="monitoring_tab"/>
         <tabpanel id="cloudformation_tab"/>
+        <tabpanel id="spotinstance_tab"/>
       </tabpanels>
     </tabbox>
   </vbox>

@@ -2394,5 +2394,139 @@ var ec2ui_controller = {
 	ec2ui_model.updateDescriberesource(list);
         if (objResponse.callback)
             objResponse.callback(list);
+    },
+    
+    decribeSpotInstance : function (callback) {
+        ec2_httpclient.queryEC2("DescribeSpotInstanceRequests", [], this, true, "onCompletedecribeSpotInstance", callback);
+    },
+
+    onCompletedecribeSpotInstance : function (objResponse) {
+        var xmlDoc = objResponse.xmlDoc;
+		var list = new Array();
+        var items = xmlDoc.getElementsByTagName("item");
+        for (var i = 0; i < items.length; i++)
+        {
+			var requestId = getNodeValueByName(items[i], "spotInstanceRequestId");
+			var spotPrice = getNodeValueByName(items[i], "spotPrice");
+			var type = getNodeValueByName(items[i], "type");
+			var state = getNodeValueByName(items[i], "state");
+			var imageId = getNodeValueByName(items[i], "imageId");
+			var keyName = getNodeValueByName(items[i], "keyName");
+			var instanceType = getNodeValueByName(items[i], "instanceType");
+			var instanceId = getNodeValueByName(items[i], "instanceId");
+			var createTime = getNodeValueByName(items[i], "createTime");
+			var productDescription = getNodeValueByName(items[i], "productDescription");
+			var launchedAvailabilityZone = getNodeValueByName(items[i], "launchedAvailabilityZone");
+			if (requestId != ''){
+				list.push(new spotinstances(requestId, spotPrice, type, state, imageId, keyName, instanceType, instanceId, createTime, productDescription, launchedAvailabilityZone ));
+			}
+        }
+	
+        ec2ui_model.updateSpotInstances(list);
+        if (objResponse.callback)
+            objResponse.callback(list);
+    },
+	
+	requestSpotInstances : function (imageId,spotprice,kernelId, ramdiskId, keyName, securityGroups, userData, properties, instanceType, placement, addressingType, callback) {
+        var params = []
+        //Just checking for ec2 or not
+	params.push(["LaunchSpecification.ImageId", imageId]);
+        if (kernelId != null && kernelId != "") {
+            params.push(["LaunchSpecification.KernelId", kernelId]);
+        }
+	if (ramdiskId != null && ramdiskId != "") {
+	    params.push(["LaunchSpecification.RamdiskId", ramdiskId]);
+	}
+	params.push(["SpotPrice",spotprice]);
+        params.push(["LaunchSpecification.InstanceType", instanceType]);
+        if (keyName != null && keyName != "") {
+            params.push(["LaunchSpecification.KeyName", keyName]);
+        }
+        for(var i in securityGroups) {
+            params.push(["LaunchSpecification.SecurityGroup."+(i+1), securityGroups[i]]);
+        }
+        if (userData != null) {
+            var b64str = "Base64:";
+            if (userData.indexOf(b64str) != 0) {
+                // This data needs to be encoded
+                userData = Base64.encode(userData);
+            } else {
+                userData = userData.substring(b64str.length);
+            }
+            log(userData);
+            params.push(["LaunchSpecification.UserData", userData]);
+        }
+        if (properties != null) {
+            params.push(["LaunchSpecification.AdditionalInfo", properties]);
+        }
+        if (placement.availabilityZone != null && placement.availabilityZone != "") {
+            params.push(["LaunchSpecification.Placement.AvailabilityZone", placement.availabilityZone]);
+        }
+		//cmb: make the instance request with addressing type included.
+		if(!ec2ui_session.isAmazonEndpointSelected()){
+			params.push(["LaunchSpecification.AddressingType", addressingType]);
+		}
+
+	alert("I came here");
+        ec2_httpclient.queryEC2("RequestSpotInstances", params, this, true, "onCompleterequestSpotInstances", callback);
+	ec2ui_session.popup("Spot Price Request","New Spot Price Request have been made for Image ID : "+ imageId +" successfully! Go to Spot Instance tab and check the status.");
+    },
+
+    onCompleterequestSpotInstances : function (objResponse) {
+        var xmlDoc = objResponse.xmlDoc;
+		var items = getNodeValueByName(xmlDoc, "items");
+
+    },
+	
+	cancelSpotInstances : function(requestId,callback){
+		var params = []
+		
+		params.push(["SpotInstanceRequestId", requestId]);
+
+		ec2_httpclient.queryEC2("CancelSpotInstanceRequests", params, this, true, "onCompleterequestSpotInstances", callback);
+	},
+	
+	onCompletecancelSpotInstances : function(){
+		var xmlDoc = objResponse.xmlDoc;
+		var items = getNodeValueByName(xmlDoc, "member");
+        if (objResponse.callback)
+            objResponse.callback(items);
+	},
+	
+	decribePriceHistory : function (type,product, zone,StartTime,callback) {
+		var params = []
+		//alert(GMTStartTime);		
+		//params.push(["Filter.2.Name","EndTime"]);
+		//params.push(["Filter.2.Value",ISOEndTime]);
+		params.push(["Filter.1.Name","availability-zone"]);
+		params.push(["Filter.1.Value",zone]);
+		params.push(["Filter.2.Name","product-description"]);
+		params.push(["Filter.2.Value",product]);
+		params.push(["Filter.3.Name","instance-type"]);
+		params.push(["Filter.3.Value",type]);
+		//params.push(["Filter.4.Name","timestamp"]);
+		//params.push(["Filter.4.Value",StartTime]);
+        ec2_httpclient.queryEC2("DescribeSpotPriceHistory", params, this, true, "onCompletedecribePriceHistory", callback);
+    },
+
+    onCompletedecribePriceHistory : function (objResponse) {
+        var xmlDoc = objResponse.xmlDoc;
+		var list = new Array();
+        var items = xmlDoc.getElementsByTagName("item");
+        for (var i = 0; i < items.length; i++)
+        {
+			var instanceType = getNodeValueByName(items[i], "instanceType");
+			var productDescription = getNodeValueByName(items[i], "productDescription");
+			var spotPrice = getNodeValueByName(items[i], "spotPrice");
+			var timestamp = getNodeValueByName(items[i], "timestamp");
+			var availabilityZone = getNodeValueByName(items[i], "availabilityZone");
+			if (spotPrice != ''){
+				list.push(new pricehistory(instanceType,productDescription,spotPrice,timestamp,availabilityZone ));
+			}
+        }
+	
+        ec2ui_model.updatePriceHistory(list);
+        if (objResponse.callback)
+            objResponse.callback(list);
     }
 };
