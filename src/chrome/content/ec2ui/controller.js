@@ -2467,7 +2467,6 @@ var ec2ui_controller = {
 			params.push(["LaunchSpecification.AddressingType", addressingType]);
 		}
 
-	alert("I came here");
         ec2_httpclient.queryEC2("RequestSpotInstances", params, this, true, "onCompleterequestSpotInstances", callback);
 	ec2ui_session.popup("Spot Price Request","New Spot Price Request have been made for Image ID : "+ imageId +" successfully! Go to Spot Instance tab and check the status.");
     },
