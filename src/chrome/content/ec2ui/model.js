@@ -55,10 +55,7 @@ function Snapshot(id, volumeId, volumeSize, status, startTime, progress, tag) {
     this.status = status;
     this.startTime = startTime.strftime('%Y-%m-%d %H:%M:%S');
     this.progress = progress;
-    if (tag) {
-        this.tag = tag;
-        addNameTagToModel(tag, this);
-    }
+    if (tag) this.tag = tag;
 }
 
 function Volume(id, size, snapshotId, zone, status, createTime, instanceId, device, attachStatus, attachTime, tag) {
@@ -78,10 +75,7 @@ function Volume(id, size, snapshotId, zone, status, createTime, instanceId, devi
             this.attachTime = attachTime;
         }
     }
-    if (tag) {
-        this.tag = tag;
-        addNameTagToModel(tag, this);
-    }
+    if (tag) this.tag = tag;
 }
 
 function Instance(resId, ownerId, groupList, instanceId, imageId, kernelId,
@@ -112,10 +106,7 @@ function Instance(resId, ownerId, groupList, instanceId, imageId, kernelId,
     this.placement = placement;
     this.platform = platform;
     this.monitoringState = monitoringState;
-    if (tag) {
-        this.tag = tag;
-        addNameTagToModel(tag, this);
-    }
+    if (tag) this.tag = tag;
 }
 
 function InstanceStatus(instanceId, availabilityZone, event, description, startTime, endTime) {

@@ -108,7 +108,7 @@ var ec2ui_InstancesTreeView = {
         }
 
         if (instances.length == 1) {
-            tagEC2Resource(instances[0], ec2ui_session);
+            tagResource(instances[0], ec2ui_session);
         } else {
             ec2ui_utils.tagMultipleResources(instances, ec2ui_session);
         }

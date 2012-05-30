@@ -184,7 +184,7 @@ var BaseImagesView = {
         var res = this.getSelectedImage();
 
         if (res) {
-            tagEC2Resource(res, ec2ui_session);
+            tagResource(res, ec2ui_session);
             this.selectByImageId(res.id);
         }
     },
