@@ -102,6 +102,10 @@
           <textbox id="ec2ui.instance.tag" size="50" readonly="true" />
         </row>
         <row>
+          <label control="ec2ui.instance.publictag" value="&ec2ui.publictag.label;:" />
+          <textbox id="ec2ui.instance.publictag" size="50" readonly="true" />
+        </row>
+        <row>
           <label control="ec2ui.instance.eip" value="&ec2ui.instances.detail.eip.label;:" />
           <textbox id="ec2ui.instance.eip" size="50" readonly="true" />
         </row>

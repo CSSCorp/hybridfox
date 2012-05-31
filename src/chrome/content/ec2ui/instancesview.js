@@ -20,6 +20,7 @@ var ec2ui_InstancesTreeView = {
        'instance.launchTimeDisp',
        'instance.monitoringState',
        'instance.placement.availabilityZone',
+       'instance.publictag',
        'instance.tag',
     ],
     treeBox: null,
@@ -115,6 +116,24 @@ var ec2ui_InstancesTreeView = {
 
         this.selectByInstanceIds(instances);
     },
+    
+    createtag : function(){
+        var instance = this.getSelectedInstance();
+        if (instance == null) {
+            return;
+        }
+        var tagging = null;
+        var awstag = prompt('Tag your instance ('+ instance.id +') with eg: key:value,key2:value2',tagging);
+        var tags = awstag.split(",");
+        for(i = 0; i < tags.length; i++){
+            var keyval = tags[i].split(":");
+            var key = keyval[0];
+            var value = keyval[1];
+            ec2ui_session.controller.createEC2Tag(instance.id, key, value);
+        }
+    },
+    
+    
 
     viewDetails : function(event) {
         var instance = this.getSelectedInstance();
@@ -881,6 +900,8 @@ var ec2ui_InstancesTreeView = {
             document.getElementById("instances.context.start").disabled = true;
             document.getElementById("instances.context.stop").disabled = true;
             document.getElementById("instances.context.forceStop").disabled = true;
+            document.getElementById("instances.context.createtag").disabled = true;
+            document.getElementById("instances.context.deletetag").disabled = true;
         }
        
 

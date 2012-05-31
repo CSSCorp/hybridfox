@@ -493,6 +493,19 @@ var ec2ui_controller = {
                 var kernelId = getNodeValueByName(instanceItems[j], "kernelId");
                 var ramdiskId = getNodeValueByName(instanceItems[j], "ramdiskId");
             }
+	    
+	    var taglist = new Array();
+	    var tagset = instanceItems[j].getElementsByTagName("tagSet")[0];
+            if(tagset){
+                var tagItems = tagset.getElementsByTagName("item");
+                for (var j = 0; j < tagItems.length; j++) {
+                    var key = getNodeValueByName(tagItems[j], "key");
+		    var value = getNodeValueByName(tagItems[j], "value");
+		    var publictag = key+":"+value;
+                    taglist.push(publictag);
+                }  
+            }
+	    
 			
             list.push(new Instance(resId,
                                    ownerId,
@@ -514,7 +527,8 @@ var ec2ui_controller = {
                                    launchTime,
                                    placement,
                                    platform,
-                                   monitoringState || ""));
+                                   monitoringState || "",
+				   taglist));
         }
 
         return list;
@@ -2095,5 +2109,21 @@ var ec2ui_controller = {
         ec2ui_model.updateInstanceStatus(list);
         if (objResponse.callback)
             objResponse.callback(list);        
+    },
+    
+    createEC2Tag : function(instance,key,value,callback){
+	params = []
+	params.push(["ResourceId", instance]);
+	params.push(["Tag.1.Key", key]);
+	params.push(["Tag.1.Value", value]);
+       
+	ec2_httpclient.queryEC2("CreateTags", params, this, true, "oncompletecreateEC2Tag", callback);  
+    },
+    
+    oncompletecreateEC2Tag : function (objResponse) {
+        var xmlDoc = objResponse.xmlDoc;
+        var items = getNodeValueByName(xmlDoc, "member");
+        if (objResponse.callback)
+            objResponse.callback(items);
     }
 };

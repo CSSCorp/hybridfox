@@ -16,6 +16,10 @@
           <menuitem oncommand="ec2ui_InstancesTreeView.tag(event);"
             label="&ec2ui.addTag.label;" />
           <menuseparator />
+          <menuitem id="instances.context.createtag" oncommand="ec2ui_InstancesTreeView.createtag(event);"
+            label="&ec2ui.createTag.label;" />
+          <menuitem id="instances.context.deletetag" oncommand="ec2ui_InstancesTreeView.deletetag(event);"
+            label="&ec2ui.deleteTag.label;" />
           <menu label="Instance Lifecycle">
             <menupopup>
               <menuitem id="instances.context.start"
@@ -184,6 +188,9 @@
             persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
           <treecol id="instance.tag" label="&ec2ui.tag.label;" flex="1"
+            persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter" />
+           <treecol id="instance.publictag" label="&ec2ui.publictag.label;" flex="1"
             persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
           <treecol id="instance.platform" label="&ec2ui.platform.label;"

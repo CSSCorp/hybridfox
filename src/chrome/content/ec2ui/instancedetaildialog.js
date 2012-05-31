@@ -29,6 +29,7 @@ var ec2_InstanceDetails = {
         document.getElementById("ec2ui.instance.availabilityZone").value = instance.placement.availabilityZone;
         document.getElementById("ec2ui.instance.platform").value = instance.platform;
         document.getElementById("ec2ui.instance.tag").value = instance.tag || "";
+        document.getElementById("ec2ui.instance.publictag").value = instance.publictag || "";
 
         var secGroups = document.getElementById("ec2ui.instance.securitygrouplist");
         for(var i in instance.groupList) {
