@@ -266,7 +266,7 @@ var ec2ui_controller = {
             var platform = getNodeValueByName(items.snapshotItem(i), "platform");
             var aki = getNodeValueByName(items.snapshotItem(i), "kernelId");
             var ari = getNodeValueByName(items.snapshotItem(i), "ramdiskId");
-
+	    
             list.push(new AMI(imageId,
                           imageLocation,
                           imageState,
@@ -2121,6 +2121,21 @@ var ec2ui_controller = {
     },
     
     oncompletecreateEC2Tag : function (objResponse) {
+        var xmlDoc = objResponse.xmlDoc;
+        var items = getNodeValueByName(xmlDoc, "member");
+        if (objResponse.callback)
+            objResponse.callback(items);
+    },
+    
+    deleteEC2Tag : function(resourceid,keyname,callback){
+	params = []
+	params.push(["ResourceId", resourceid]);
+	params.push(["Tag.1.Key", keyname]);
+       
+	ec2_httpclient.queryEC2("DeleteTags", params, this, true, "oncompletedeleteEC2Tag", callback);  
+    },
+    
+    oncompletedeleteEC2Tag : function (objResponse) {
         var xmlDoc = objResponse.xmlDoc;
         var items = getNodeValueByName(xmlDoc, "member");
         if (objResponse.callback)

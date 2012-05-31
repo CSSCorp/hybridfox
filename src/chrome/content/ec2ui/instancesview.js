@@ -133,7 +133,20 @@ var ec2ui_InstancesTreeView = {
         }
     },
     
-    
+    deletetag : function(){
+        var instance = this.getSelectedInstance();
+        if(instance == null){
+            return;
+        }
+        var me = this;
+        var wrap = function() {
+            if (ec2ui_prefs.isRefreshOnChangeEnabled()) {
+                me.refresh();
+            }
+        }
+        ec2ui_session.deleteEC2Tag(instance);
+        wrap();
+    },    
 
     viewDetails : function(event) {
         var instance = this.getSelectedInstance();

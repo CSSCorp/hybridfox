@@ -450,6 +450,10 @@ var ec2ui_utils = {
         } catch(e) {
             return "";
         }
-    },
+    }
+    
+    
+    
+    
 };
 

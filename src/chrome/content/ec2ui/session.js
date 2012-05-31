@@ -581,6 +581,30 @@ var ec2ui_session =
 	    return true;
 	}
 	return false;
+    },
+    
+    deleteEC2Tag : function(resource){
+        var retVal = {ok:null};
+        window.openDialog(
+            "chrome://ec2ui/content/dialog_delete_tag.xul",
+            null,
+            "chrome,centerscreen,modal",
+            ec2ui_session,
+            resource,
+            retVal
+            );
+        
+        if (retVal.ok) {
+            var deletekeychk = retVal.deletekey;
+            var newStr = deletekeychk.substring(",", deletekeychk.length-1);
+	    var keyid = new String(newStr);
+	    var keyname = new Array();
+	    keyname = keyid.split(",");
+	    for(var a=0;a<keyname.length;a++)
+	    {
+                ec2ui_session.controller.deleteEC2Tag(retVal.resourceid,keyname[a]);
+	    }            
+        }
     }
 	
     	
