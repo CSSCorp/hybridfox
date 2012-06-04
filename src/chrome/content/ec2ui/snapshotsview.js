@@ -1,6 +1,6 @@
 var ec2ui_SnapshotTreeView = {
     COLNAMES: ['snap.id', 'snap.volumeId', 'snap.volumeSize', 'snap.status', 'snap.startTime',
-              'snap.progress', 'snap.tag'],
+              'snap.progress','snap.publictag', 'snap.tag'],
     imageIdRegex : new RegExp("^snap-"),
 
     getSearchText : function() {
@@ -54,6 +54,39 @@ var ec2ui_SnapshotTreeView = {
 
         ec2ui_session.controller.deleteSnapshot(image.id, wrap);
     },
+    
+    createtag : function(){
+        var image = this.getSelectedImage();
+        if (image == null) return;
+        var tagging = null;
+        var awstag = prompt('Tag your instance ('+ image.id +') with eg: key:value,key2:value2',tagging);
+        var wrap = function() {
+            if (ec2ui_prefs.isRefreshOnChangeEnabled()) {
+                me.refresh();
+            }
+        }
+        var tags = awstag.split(",");
+        for(i = 0; i < tags.length; i++){
+            var keyval = tags[i].split(":");
+            var key = keyval[0];
+            var value = keyval[1];
+            ec2ui_session.controller.createEC2Tag(image.id, key, value);
+        }
+        wrap();
+    },
+    
+    deletetag : function(){
+        var image = this.getSelectedImage();
+        if (image == null) return;
+        var me = this;
+        var wrap = function() {
+            if (ec2ui_prefs.isRefreshOnChangeEnabled()) {
+                me.refresh();
+            }
+        }
+        ec2ui_session.deleteEC2Tag(image);
+        wrap();
+    }, 
 
     createVolume : function () {
         var image = this.getSelectedImage();

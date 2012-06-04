@@ -162,10 +162,24 @@ var ec2ui_controller = {
 			}
 		  }
                 }
+	    var taglist = new Array();	
+	    var tagSet = items.snapshotItem(i).getElementsByTagName("tagSet");
+	    if(tagSet){
+		var item = items.snapshotItem(i).getElementsByTagName("item");
+		for (var k = 0; k < item.length; k++)
+		{
+		    var key = getNodeValueByName(item[k], "key");
+		    var value = getNodeValueByName(item[k], "value");
+		    if(key !='' & value != ''){
+			var publictag = key+":"+value;
+			taglist.push(publictag);
+		    }
+		}
+	    }
             // Make sure there is an attachment
 
 	   
-            list.push(new Volume(id, size, snapshotId, zone, status, createTime, instanceId, device, attachStatus, attachTime || ""));
+            list.push(new Volume(id, size, snapshotId, zone, status, createTime, instanceId, device, attachStatus, attachTime || "",taglist));
         }
 
         this.addResourceTags(list, ec2ui_session.model.resourceMap.volumes, "id");
@@ -195,7 +209,21 @@ var ec2ui_controller = {
             var startTime = new Date();
             startTime.setISO8601(getNodeValueByName(items.snapshotItem(i), "startTime"));
             var progress = getNodeValueByName(items.snapshotItem(i), "progress");
-            list.push(new Snapshot(id, volumeId, volumeSize, status, startTime, progress));
+	    var taglist = new Array();	
+	    var tagSet = items.snapshotItem(i).getElementsByTagName("tagSet");
+	    if(tagSet){
+		var item = items.snapshotItem(i).getElementsByTagName("item");
+		for (var k = 0; k < item.length; k++)
+		{
+		    var key = getNodeValueByName(item[k], "key");
+		    var value = getNodeValueByName(item[k], "value");
+		    if(key !='' & value != ''){
+			var publictag = key+":"+value;
+			taglist.push(publictag);
+		    }
+		}
+	    }
+            list.push(new Snapshot(id, volumeId, volumeSize, status, startTime, progress,taglist));
         }
 
         this.addResourceTags(list, ec2ui_session.model.resourceMap.snapshots, "id");

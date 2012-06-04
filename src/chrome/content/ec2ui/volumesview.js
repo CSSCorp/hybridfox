@@ -21,7 +21,7 @@ var ec2ui_VolumeTreeView = {
     COLNAMES:
     ['vol.id','vol.size','vol.snapshotId','vol.availabilityZone','vol.status',
     'vol.createTime', 'vol.instanceId', 'vol.device', 'vol.attachStatus',
-    'vol.attachTime', 'vol.tag'],
+    'vol.attachTime', 'vol.publictag', 'vol.tag'],
     imageIdRegex : new RegExp("^vol-"),
 
     getSearchText : function() {
@@ -144,6 +144,39 @@ var ec2ui_VolumeTreeView = {
 
         return retVal.ok;
     },
+    
+    createtag : function(){
+        var image = this.getSelectedImage();
+        if (image == null) return;
+        var tagging = null;
+        var awstag = prompt('Tag your instance ('+ image.id +') with eg: key:value,key2:value2',tagging);
+        var wrap = function() {
+            if (ec2ui_prefs.isRefreshOnChangeEnabled()) {
+                me.refresh();
+            }
+        }
+        var tags = awstag.split(",");
+        for(i = 0; i < tags.length; i++){
+            var keyval = tags[i].split(":");
+            var key = keyval[0];
+            var value = keyval[1];
+            ec2ui_session.controller.createEC2Tag(image.id, key, value);
+        }
+        wrap();
+    },
+    
+    deletetag : function(){
+        var image = this.getSelectedImage();
+        if (image == null) return;
+        var me = this;
+        var wrap = function() {
+            if (ec2ui_prefs.isRefreshOnChangeEnabled()) {
+                me.refresh();
+            }
+        }
+        ec2ui_session.deleteEC2Tag(image);
+        wrap();
+    }, 
 
     deleteVolume : function () {
         var image = this.getSelectedImage();

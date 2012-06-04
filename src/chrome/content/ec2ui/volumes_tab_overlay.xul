@@ -16,6 +16,11 @@
             <menuitem oncommand="ec2ui_VolumeTreeView.tag(event);"
               label="&ec2ui.addTag.label;" />
             <menuseparator />
+            <menuitem id="volumes.context.createtag" oncommand="ec2ui_VolumeTreeView.createtag(event);"
+            label="&ec2ui.createTag.label;" />
+           <menuitem id="volumes.context.deletetag" oncommand="ec2ui_VolumeTreeView.deletetag(event);"
+            label="&ec2ui.deleteTag.label;" />
+            <menuseparator />
             <menuitem id="volumes.context.attach"
               oncommand="ec2ui_VolumeTreeView.attachVolume();"
               label="&ec2ui.volume.contextmenu.attach.label;" />
@@ -69,6 +74,7 @@
             <toolbarbutton image="images/info.png" style="-moz-box-pack:center;"
               oncommand="ec2ui_VolumeTreeView.tag();"
               tooltiptext="&ec2ui.addTag.label;" />
+            
           </hbox>
         </toolbar>
         <tree id="ec2ui.volumes.view" seltype="single" enableColumnDrag="true"
@@ -109,6 +115,9 @@
             <treecol id="vol.tag" label="&ec2ui.tag.label;" flex="1"
               persist="width ordinal hidden sortDirection" />
             <splitter class="tree-splitter" />
+            <treecol id="vol.publictag" label="&ec2ui.publictag.label;" flex="1"
+              persist="width ordinal hidden sortDirection" />
+            <splitter class="tree-splitter" />
           </treecols>
           <treechildren context="ec2ui.volumes.contextmenu"/>
         </tree>
@@ -125,6 +134,11 @@
               label="&ec2ui.contextmenu.details.label;" />
             <menuitem oncommand="ec2ui_SnapshotTreeView.tag(event);"
               label="&ec2ui.addTag.label;" />
+             <menuseparator />
+            <menuitem id="snapshots.context.createtag" oncommand="ec2ui_SnapshotTreeView.createtag(event);"
+            label="&ec2ui.createTag.label;" />
+           <menuitem id="snapshots.context.deletetag" oncommand="ec2ui_SnapshotTreeView.deletetag(event);"
+            label="&ec2ui.deleteTag.label;" />
             <menuseparator />
             <menuitem oncommand="ec2ui_SnapshotTreeView.createVolume();"
               label="&ec2ui.snapshot.contextmenu.createvol.label;" />
@@ -180,6 +194,8 @@
               persist="width ordinal hidden sortDirection" />
             <splitter class="tree-splitter" />
             <treecol id="snap.tag" label="&ec2ui.tag.label;" flex="1"
+              persist="width ordinal hidden sortDirection" />
+            <treecol id="snap.publictag" label="&ec2ui.publictag.label;" flex="1"
               persist="width ordinal hidden sortDirection" />
           </treecols>
           <treechildren context="ec2ui.snapshots.contextmenu"/>

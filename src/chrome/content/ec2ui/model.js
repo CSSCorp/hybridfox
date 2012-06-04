@@ -48,17 +48,18 @@ function AMI(id, location, state, owner, isPublic, arch, rootDeviceType, platfor
     this.ari = ari;
 }
 
-function Snapshot(id, volumeId, volumeSize, status, startTime, progress, tag) {
+function Snapshot(id, volumeId, volumeSize, status, startTime, progress, taglist,tag) {
     this.id = id;
     this.volumeId = volumeId;
     this.volumeSize = volumeSize;
     this.status = status;
     this.startTime = startTime.strftime('%Y-%m-%d %H:%M:%S');
     this.progress = progress;
+    this.publictag = taglist;
     if (tag) this.tag = tag;
 }
 
-function Volume(id, size, snapshotId, zone, status, createTime, instanceId, device, attachStatus, attachTime, tag) {
+function Volume(id, size, snapshotId, zone, status, createTime, instanceId, device, attachStatus, attachTime,taglist, tag) {
     this.id = id;
     this.size = size;
     this.snapshotId = snapshotId;
@@ -75,6 +76,7 @@ function Volume(id, size, snapshotId, zone, status, createTime, instanceId, devi
             this.attachTime = attachTime;
         }
     }
+    this.publictag = taglist;
     if (tag) this.tag = tag;
 }
 
