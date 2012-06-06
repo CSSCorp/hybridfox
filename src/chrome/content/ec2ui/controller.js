@@ -149,10 +149,11 @@ var ec2ui_controller = {
             var attachStatus = "";
             var attachTime = new Date();
             // Make sure there is an attachment
+	    var attachmentSet = getNodeValueByName(items.snapshotItem(i), "attachmentSet")
             if (items.snapshotItem(i).getElementsByTagName("attachmentSet")[0].firstChild) {
                 instanceId = getNodeValueByName(items.snapshotItem(i), "instanceId");
                 device = getNodeValueByName(items.snapshotItem(i), "device");
-                attachStatus = items.snapshotItem(i).getElementsByTagName("status")[1].firstChild;
+                attachStatus = getNodeValueByName(items.snapshotItem(i), "status");
                 if (attachStatus) {
                     attachStatus = attachStatus.nodeValue;
                 }
