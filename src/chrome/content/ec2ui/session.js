@@ -282,7 +282,22 @@ var ec2ui_session =
 
             // Set the active tab to the last tab we were viewing
             document.getElementById("ec2ui.tabs").selectedIndex = ec2ui_prefs.getCurrentTab();
-
+	    
+	    var reservedtab = document.getElementById("ec2ui.tabs.leases");
+	    var bundeltab = document.getElementById("ec2ui.tabs.bundleTasks");
+	    var vpcstab = document.getElementById("ec2ui.tabs.vpcs");
+	    var vpnstab = document.getElementById("ec2ui.tabs.vpns");
+	    if(this.isAmazonEndpointSelected()){		
+		reservedtab.setAttribute("hidden", false);
+		bundeltab.setAttribute("hidden", false);
+		vpcstab.setAttribute("hidden", false);
+		vpnstab.setAttribute("hidden", false);
+	    }else{
+		reservedtab.setAttribute("hidden", true);
+		bundeltab.setAttribute("hidden", true);
+		vpcstab.setAttribute("hidden", true);
+		vpnstab.setAttribute("hidden", true);
+	    }
             // The current tab's view needs to either
             // be invalidated or refreshed
             this.tabSelectionChanged();
@@ -583,7 +598,22 @@ var ec2ui_session =
 
             // Set the active tab to the last tab we were viewing
             document.getElementById("ec2ui.tabs").selectedIndex = ec2ui_prefs.getCurrentTab();
-
+	    
+	    var reservedtab = document.getElementById("ec2ui.tabs.leases");
+	    var bundeltab = document.getElementById("ec2ui.tabs.bundleTasks");
+	    var vpcstab = document.getElementById("ec2ui.tabs.vpcs");
+	    var vpnstab = document.getElementById("ec2ui.tabs.vpns");
+	    if(this.isAmazonEndpointSelected()){		
+		reservedtab.setAttribute("hidden", false);
+		bundeltab.setAttribute("hidden", false);
+		vpcstab.setAttribute("hidden", false);
+		vpnstab.setAttribute("hidden", false);
+	    }else{
+		reservedtab.setAttribute("hidden", true);
+		bundeltab.setAttribute("hidden", true);
+		vpcstab.setAttribute("hidden", true);
+		vpnstab.setAttribute("hidden", true);
+	    }
             // The current tab's view needs to either
             // be invalidated or refreshed
             this.tabSelectionChanged();
