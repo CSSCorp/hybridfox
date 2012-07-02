@@ -656,7 +656,9 @@ var ec2ui_controller = {
             var groups = new Array();
             var groupIds = items.snapshotItem(i).getElementsByTagName("groupId");
             for (var j = 0; j < groupIds.length; j++) {
-                groups.push(groupIds[j].firstChild.nodeValue);
+		if(groupIds[j].firstChild!=null){
+                	groups.push(groupIds[j].firstChild.nodeValue);
+		}
             }
             if (items.snapshotItem(i).nodeName){
                 var instancesSet = items.snapshotItem(i).getElementsByTagName("instancesSet")[0];

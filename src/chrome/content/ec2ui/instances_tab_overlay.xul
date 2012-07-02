@@ -102,6 +102,12 @@
           <toolbarbutton image="images/refresh.png"
             oncommand="ec2ui_InstancesTreeView.refresh()"
             tooltiptext="&ec2ui.refresh.tip;" />
+        <toolbarbutton image="images/stop.png" style="-moz-box-pack:center;"
+            oncommand="ec2ui_InstancesTreeView.stopInstance();"
+            tooltiptext="&ec2ui.instances.stop.tip;" />
+        <toolbarbutton image="images/start.png" style="-moz-box-pack:center;"
+            oncommand="ec2ui_InstancesTreeView.startInstance();"
+            tooltiptext="&ec2ui.instances.start.tip;" />
           <toolbarbutton image="images/reboot.png" style="-moz-box-pack:center;"
             oncommand="ec2ui_InstancesTreeView.rebootInstance();"
             tooltiptext="&ec2ui.instances.reboot.tip;" />

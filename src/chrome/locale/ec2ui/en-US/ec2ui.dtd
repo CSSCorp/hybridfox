@@ -214,6 +214,8 @@
 <!ENTITY ec2ui.instances.powerdown.tip "Terminate Selected Instances">
 <!ENTITY ec2ui.instances.console.tip "Show Console Output">
 <!ENTITY ec2ui.instances.connect.tip "Connect To Instance">
+<!ENTITY ec2ui.instances.stop.tip "Stop Selected Instance">
+<!ENTITY ec2ui.instances.start.tip "Start Selected Instance">
 
 <!ENTITY ec2ui.keypairs.create.tip "Create a new keypair">
 <!ENTITY ec2ui.keypairs.delete.tip "Delete selected keypair">

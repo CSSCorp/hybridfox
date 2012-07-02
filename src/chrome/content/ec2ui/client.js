@@ -155,18 +155,24 @@ var ec2_httpclient = {
                 rsp = this.queryEC2Impl(action, params, objActions, isSync, reqType, callback);
                 if (rsp.hasErrors) {
                     var msg = ec2ui_utils.getMessageProperty("ec2ui.msg.client.dialog.queryEC2", [action]);
-                    if (!this.errorDialog(
-                        msg,
-                        rsp.faultCode,
-                        rsp.requestId,
-                        rsp.faultString)) {
-                        break;
-                    }
+
+		var image = null;  
+			  var win = Components.classes['@mozilla.org/embedcomp/window-watcher;1'].  
+                      		getService(Components.interfaces.nsIWindowWatcher).  
+                      		openWindow(null, 'chrome://global/content/alerts/alert.xul',  
+                                  '_blank', 'chrome,titlebar=no,popup=yes,timeout=20', null);  
+			  win.arguments = [image, msg, rsp.faultCode+" "+rsp.faultString, false, ''];
+			break;
                 } else {
                    break;
                 }
             } catch (e) {
-                alert (ec2ui_utils.getMessageProperty("ec2ui.msg.client.alert.queryEC2", [action, e]));
+                var image = null;
+                          var win = Components.classes['@mozilla.org/embedcomp/window-watcher;1'].
+                                getService(Components.interfaces.nsIWindowWatcher).
+                                openWindow(null, 'chrome://global/content/alerts/alert.xul',
+                                  '_blank', 'chrome,titlebar=no,popup=yes,timeout=20', null);
+                          win.arguments = [image, "Exception: ", ec2ui_utils.getMessageProperty("ec2ui.msg.client.alert.queryEC2", [action, e]), false, ''];
                 rsp = null;
                 break;
             }
@@ -783,5 +789,5 @@ var ec2_httpclient = {
         window.clearTimeout(timer);
         timer = null;
         return true;
-    }
+    } 
 }

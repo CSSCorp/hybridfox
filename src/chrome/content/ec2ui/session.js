@@ -52,10 +52,17 @@ var ec2ui_session =
             this.initialized = true;
         }
 
-        this.loadEndpointMap();
-        this.switchEndpoints();
-        this.args = this.parseURL();
-        this.processURLArguments();
+	//Catch potential exceptions that may prevent proper loading
+	//Introduced since an exception was rised due to inexistent variables in context for callback function
+	try{
+        	this.loadEndpointMap();
+        	this.switchEndpoints();
+        	this.args = this.parseURL();
+        	this.processURLArguments();
+	}catch(err){}
+	//populate current tab
+        this.tabSelectionChanged();
+
     },
 
     parseURL : function () {

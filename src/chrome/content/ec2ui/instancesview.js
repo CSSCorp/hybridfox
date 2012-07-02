@@ -859,7 +859,7 @@ var ec2ui_InstancesTreeView = {
     },
 
     refresh : function() {
-		this.selectionChanged();
+	this.selectionChanged();
         ec2ui_session.showBusyCursor(true);
         ec2ui_session.controller.describeInstances();
         ec2ui_session.controller.describeInstanceStatus();
@@ -892,7 +892,7 @@ var ec2ui_InstancesTreeView = {
 
         // If this is not a Windows Instance, Disable the following
         // context menu items.
-        if(ec2ui_session.isAmazonEndpointSelected()){
+        if(ec2ui_session.isAmazonEndpointSelected() || ec2ui_session.isCloudstackEndpointSelected()){
             document.getElementById("instances.context.bundle").disabled = fDisabled;
             document.getElementById("instances.context.getPassword").disabled = fDisabled;
             document.getElementById("instances.context.monitor").disabled = disableMonitor;
