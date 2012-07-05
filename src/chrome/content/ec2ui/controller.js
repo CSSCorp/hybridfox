@@ -125,18 +125,13 @@ var ec2ui_controller = {
 
     onCompleteDescribeVolumes : function (objResponse) {
         var xmlDoc = objResponse.xmlDoc;
-        var list = new Array();
 
-	var xpath = "/ec2:DescribeVolumesResponse/ec2:volumeSet/ec2:item";
-	if(ec2ui_session.isCloudstackEndpointSelected()){
-                xpath = xpath.replace(/ec2\:/g,"");
-        }
-        var items = xmlDoc.evaluate(xpath,
+        var list = new Array();
+        var items = xmlDoc.evaluate("/ec2:DescribeVolumesResponse/ec2:volumeSet/ec2:item",
                                     xmlDoc,
                                     this.getNsResolver(),
                                     XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
                                     null);
-
         for(var i=0 ; i < items.snapshotLength; i++) {
             var id = getNodeValueByName(items.snapshotItem(i), "volumeId");
             var size = getNodeValueByName(items.snapshotItem(i), "size");
@@ -182,6 +177,7 @@ var ec2ui_controller = {
 		}
 	    }
             // Make sure there is an attachment
+
 	   
             list.push(new Volume(id, size, snapshotId, zone, status, createTime, instanceId, device, attachStatus, attachTime || "",taglist));
         }
@@ -200,12 +196,7 @@ var ec2ui_controller = {
         var xmlDoc = objResponse.xmlDoc;
 
         var list = new Array();
-
-	var xpath = "/ec2:DescribeSnapshotsResponse/ec2:snapshotSet/ec2:item";
-        if(ec2ui_session.isCloudstackEndpointSelected()){
-                xpath = xpath.replace(/ec2\:/g,"");
-        }
-        var items = xmlDoc.evaluate(xpath,
+        var items = xmlDoc.evaluate("/ec2:DescribeSnapshotsResponse/ec2:snapshotSet/ec2:item",
                                     xmlDoc,
                                     this.getNsResolver(),
                                     XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
@@ -237,7 +228,6 @@ var ec2ui_controller = {
 
         this.addResourceTags(list, ec2ui_session.model.resourceMap.snapshots, "id");
         ec2ui_model.updateSnapshots(list);
-
         if (objResponse.callback)
             objResponse.callback(list);
     },
@@ -249,11 +239,7 @@ var ec2ui_controller = {
     onCompleteDescribeImage: function (objResponse) {
         var xmlDoc = objResponse.xmlDoc;
 
-	var xpath = "/ec2:DescribeImagesResponse/ec2:imagesSet/ec2:item";
-        if(ec2ui_session.isCloudstackEndpointSelected()){
-                xpath = xpath.replace(/ec2\:/g,"");
-        }
-        var items = xmlDoc.evaluate(xpath,
+        var items = xmlDoc.evaluate("/ec2:DescribeImagesResponse/ec2:imagesSet/ec2:item",
                                     xmlDoc,
                                     this.getNsResolver(),
                                     XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
@@ -290,11 +276,7 @@ var ec2ui_controller = {
 
         var list = new Array();
         var img = null;
-	var xpath = "/ec2:DescribeImagesResponse/ec2:imagesSet/ec2:item";
-        if(ec2ui_session.isCloudstackEndpointSelected()){
-                xpath = xpath.replace(/ec2\:/g,"");
-        }
-        var items = xmlDoc.evaluate(xpath,
+        var items = xmlDoc.evaluate("/ec2:DescribeImagesResponse/ec2:imagesSet/ec2:item",
                                     xmlDoc,
                                     this.getNsResolver(),
                                     XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
@@ -326,7 +308,6 @@ var ec2ui_controller = {
         }
 	this.addResourceTags(list, ec2ui_session.model.resourceMap.images, "id");
         ec2ui_model.updateImages(list);
-
         if (objResponse.callback)
             objResponse.callback(list);
     },
@@ -340,12 +321,7 @@ var ec2ui_controller = {
 
         var list = new Array();
         var img = null;
-
-	var xpath = "/ec2:DescribeReservedInstancesOfferingsResponse/ec2:reservedInstancesOfferingsSet/ec2:item";
-        if(ec2ui_session.isCloudstackEndpointSelected()){
-                xpath = xpath.replace(/ec2\:/g,"");
-        }
-        var items = xmlDoc.evaluate(xpath,
+        var items = xmlDoc.evaluate("/ec2:DescribeReservedInstancesOfferingsResponse/ec2:reservedInstancesOfferingsSet/ec2:item",
                                     xmlDoc,
                                     this.getNsResolver(),
                                     XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
@@ -656,9 +632,7 @@ var ec2ui_controller = {
             var groups = new Array();
             var groupIds = items.snapshotItem(i).getElementsByTagName("groupId");
             for (var j = 0; j < groupIds.length; j++) {
-		if(groupIds[j].firstChild!=null){
-                	groups.push(groupIds[j].firstChild.nodeValue);
-		}
+                groups.push(groupIds[j].firstChild.nodeValue);
             }
             if (items.snapshotItem(i).nodeName){
                 var instancesSet = items.snapshotItem(i).getElementsByTagName("instancesSet")[0];
@@ -843,16 +817,11 @@ var ec2ui_controller = {
         var xmlDoc = objResponse.xmlDoc;
 
         var list = new Array();
-	var xpath = "/ec2:DescribeInstancesResponse/ec2:reservationSet/ec2:item";
-	if(ec2ui_session.isCloudstackEndpointSelected()){
-		xpath = xpath.replace(/ec2\:/g,"");
-	}
-        var items = xmlDoc.evaluate(xpath,
+        var items = xmlDoc.evaluate("/ec2:DescribeInstancesResponse/ec2:reservationSet/ec2:item",
                                     xmlDoc,
                                     this.getNsResolver(),
                                     XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
                                     null);
-
         for(var i=0 ; i < items.snapshotLength; i++) {
             var resId = getNodeValueByName(items.snapshotItem(i), "reservationId");
             var ownerId = getNodeValueByName(items.snapshotItem(i), "ownerId");
@@ -1471,11 +1440,7 @@ var ec2ui_controller = {
         var xmlDoc = objResponse.xmlDoc;
 
         var list = new Array();
-	var xpath = "/ec2:DescribeSecurityGroupsResponse/ec2:securityGroupInfo/ec2:item";
-	if(ec2ui_session.isCloudstackEndpointSelected()){
-                xpath = xpath.replace(/ec2\:/g,"");
-        }
-        var items = xmlDoc.evaluate(xpath,
+        var items = xmlDoc.evaluate("/ec2:DescribeSecurityGroupsResponse/ec2:securityGroupInfo/ec2:item",
                                     xmlDoc,
                                     this.getNsResolver(),
                                     XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
@@ -1748,13 +1713,9 @@ var ec2ui_controller = {
 
     onCompleteDescribeRegions : function (objResponse) {
         var xmlDoc = objResponse.xmlDoc;
-        if(ec2ui_session.isAmazonEndpointSelected()||ec2ui_session.isCloudstackEndpointSelected()){
-
-	    var xpath = "/ec2:DescribeRegionsResponse/ec2:regionInfo/ec2:item";
-	    if(ec2ui_session.isCloudstackEndpointSelected()){
-		xpath = xpath.replace(/ec2\:/g,"");
-	    }
-            var items = xmlDoc.evaluate(xpath,
+        if(ec2ui_session.isAmazonEndpointSelected())
+        {
+            var items = xmlDoc.evaluate("/ec2:DescribeRegionsResponse/ec2:regionInfo/ec2:item",
                                     xmlDoc,
                                     this.getNsResolver(),
                                     XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,

@@ -227,9 +227,6 @@
 <!ENTITY ec2ui.instances.powerdown.tip "终止所选实例">
 <!ENTITY ec2ui.instances.console.tip "显示后台输出">
 <!ENTITY ec2ui.instances.connect.tip "连接到实例">
-<!ENTITY ec2ui.instances.stop.tip "暂停">
-<!ENTITY ec2ui.instances.start.tip "启动">
-
 
 <!ENTITY ec2ui.keypairs.create.tip "新建密钥组">
 <!ENTITY ec2ui.keypairs.delete.tip "删除所选密钥组">

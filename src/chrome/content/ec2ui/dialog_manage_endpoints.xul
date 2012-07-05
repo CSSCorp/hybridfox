@@ -51,7 +51,6 @@
 		<menuitem id="ec2ui.endpoints.type.euca" label="Eucalyptus" value="euca"/>
 		<menuitem d="ec2ui.endpoints.type.nova" label="Openstack" value="nova"/>
 		<menuitem id="ec2ui.endpoints.type.nebula" label="OpenNebula" value="nebula"/>
-		<menuitem id="ec2ui.endpoints.type.cloudstack" label="CloudStack" value="cloudstack"/>
 	     </menupopup>
 	  </menulist>
         </row>

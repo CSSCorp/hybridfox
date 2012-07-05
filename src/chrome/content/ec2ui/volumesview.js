@@ -30,7 +30,7 @@ var ec2ui_VolumeTreeView = {
 
     refresh : function() {
         ec2ui_session.showBusyCursor(true);
-        ec2ui_session.controller.describeVolumes(this.displayImages);
+        ec2ui_session.controller.describeVolumes();
         ec2ui_session.showBusyCursor(false);
     },
 
@@ -55,50 +55,19 @@ var ec2ui_VolumeTreeView = {
     },
 
     displayImages : function (imageList) {
-	//quickfix see diplayImages at baseimageview.js for detailed description
-	imageList = ec2ui_session.model.getVolumes();
-	//end of fix
+        if (ec2ui_prefs.isRefreshOnChangeEnabled()) {
+            // Determine if there are any pending operations
+            if (this.pendingUpdates()) {
+                this.startRefreshTimer("",
+                                       this.refresh);
+            } else {
+                this.stopRefreshTimer("ec2ui_VolumeTreeView");
+            }
+        } else {
+            this.stopRefreshTimer("ec2ui_VolumeTreeView");
+        }
 
-	/*
-	  If this function is invoked as callback, we have a different context, 
-	  and fails to execute. Check if function exists until we fix contexts...
-	  //TODO
-	*/
-	if(typeof this.pendingUpdates == 'function'){
-        	if (ec2ui_prefs.isRefreshOnChangeEnabled()) {
-        	    // Determine if there are any pending operations
-        	    if (this.pendingUpdates()) {
-        	        this.startRefreshTimer("",
-        	                               this.refresh);
-        	    } else {
-        	        this.stopRefreshTimer("ec2ui_VolumeTreeView");
-        	    }
-        	} else {
-        	    this.stopRefreshTimer("ec2ui_VolumeTreeView");
-        	}
-	}
-	/*
-		Here we display all volumes data to be shown. 
-		Put this for cloudstack, since works for sure, 
-		but I think, it can be propagated to the rest.
-	*/
-	if(ec2ui_session.isCloudstackEndpointSelected()&&this.treeBox!==undefined){
-                if(this.imageList!=null){
-                        this.treeBox.rowCountChanged(0, -this.imageList.length);
-                }
-                this.imageList = imageList;
-                this.treeBox.rowCountChanged(0, this.imageList.length);
-                this.sort();
-
-                // reselect old selection
-                if (this.selectedImageId) {
-                    this.selectByImageId(this.selectedImageId);
-                } else {
-                    this.selection.clearSelection();
-                }
-	}else{
-	        BaseImagesView.displayImages.call(this, imageList);
-	}
+        BaseImagesView.displayImages.call(this, imageList);
     },
 
     viewDetails : function(event) {

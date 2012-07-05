@@ -25,6 +25,7 @@ var ec2ui_session =
             this.client = ec2_httpclient;
             ec2ui_prefs.init();
             this.preferences = ec2ui_prefs;
+
             document.getElementById("ec2ui.images.view").view = ec2ui_AMIsTreeView;
             document.getElementById("ec2ui.keypairs.view").view = ec2ui_KeypairTreeView;
             document.getElementById("ec2ui.instances.view").view = ec2ui_InstancesTreeView;
@@ -38,31 +39,27 @@ var ec2ui_session =
             document.getElementById("ec2ui.bundleTasks.view").view = ec2ui_BundleTasksTreeView;
             document.getElementById("ec2ui.offerings.view").view = ec2ui_LeaseOfferingsTreeView;
             document.getElementById("ec2ui.rsvdInst.view").view = ec2ui_ReservedInstancesTreeView;
-	    document.getElementById("ec2ui.loadbalancer.view").view = ec2ui_LoadbalancerTreeView;
-	    document.getElementById("ec2ui.instancehealth.view").view = ec2ui_InstanceHealthTreeView;
-	    document.getElementById("ec2ui.servercertificate.view").view = ec2ui_ServerCertificateTreeView;
+			document.getElementById("ec2ui.loadbalancer.view").view = ec2ui_LoadbalancerTreeView;
+			document.getElementById("ec2ui.instancehealth.view").view = ec2ui_InstanceHealthTreeView;
+			document.getElementById("ec2ui.servercertificate.view").view = ec2ui_ServerCertificateTreeView;
+
             // Enable about:blank to work if noscript is installed
             if("@maone.net/noscript-service;1" in Components.classes) {
                 (Components.classes ["@maone.net/noscript-service;1"].getService().wrappedJSObject).setJSEnabled("about:blank", true);
             }
+
             this.loadAccountIdMap();
             this.loadCredentials();
             this.switchCredentials();
             this.loadAllTags();
+
             this.initialized = true;
         }
 
-	//Catch potential exceptions that may prevent proper loading
-	//Introduced since an exception was rised due to inexistent variables in context for callback function
-	try{
-        	this.loadEndpointMap();
-        	this.switchEndpoints();
-        	this.args = this.parseURL();
-        	this.processURLArguments();
-	}catch(err){}
-	//populate current tab
-        this.tabSelectionChanged();
-
+        this.loadEndpointMap();
+        this.switchEndpoints();
+        this.args = this.parseURL();
+        this.processURLArguments();
     },
 
     parseURL : function () {
@@ -143,8 +140,10 @@ var ec2ui_session =
             eval("ec2ui_InstancesTreeView." + toCall);
             break;
         case 'ec2ui.tabs.images':
-	    //refresh information on Images Tab
-	    eval("ec2ui_AMIsTreeView."+toCall);
+            this.showBusyCursor(true);
+            this.model.getSecurityGroups();
+            this.model.getImages();
+            this.showBusyCursor(false);
             break;
         case "ec2ui.tabs.keypairs":
             eval("ec2ui_KeypairTreeView." + toCall);
@@ -157,7 +156,7 @@ var ec2ui_session =
             break;
         case "ec2ui.tabs.volumes":
             eval("ec2ui_VolumeTreeView." + toCall);
-			if(this.isOpenstackEndpointSelected()||this.isCloudstackEndpointSelected()){
+			if(this.isOpenstackEndpointSelected()){
 				eval("ec2ui_SnapshotTreeView." + toCall);
 			}
             break;
@@ -254,24 +253,11 @@ var ec2ui_session =
 
             // Since we are switching creds, ensure that
             // all the views are redrawn
-	    //Add a catch clause so that invalidation errors do not prevent correct initialization
-	    try{
-            	this.model.invalidate();
-	    }catch(err){}
+            this.model.invalidate();
+
             // Set the active tab to the last tab we were viewing
             document.getElementById("ec2ui.tabs").selectedIndex = ec2ui_prefs.getCurrentTab();
-	    var elbtab = document.getElementById("ec2ui.tabs.loadbalancer");
-	    var reservedtab = document.getElementById("ec2ui.tabs.leases");
-	    var bundletab = document.getElementById("ec2ui.tabs.bundleTasks");
-	    if(this.isAmazonEndpointSelected()){
-		elbtab.setAttribute("hidden", false);
-		reservedtab.setAttribute("hidden", false);
-		bundletab.setAttribute("hidden", false);
-	    }else{
-		elbtab.setAttribute("hidden", true);
-		reservedtab.setAttribute("hidden", true);
-		bundletab.setAttribute("hidden", true);
-	    }
+
             // The current tab's view needs to either
             // be invalidated or refreshed
             this.tabSelectionChanged();
@@ -475,18 +461,7 @@ var ec2ui_session =
 
             // Set the active tab to the last tab we were viewing
             document.getElementById("ec2ui.tabs").selectedIndex = ec2ui_prefs.getCurrentTab();
-	    var elbtab = document.getElementById("ec2ui.tabs.loadbalancer");
-	    var reservedtab = document.getElementById("ec2ui.tabs.leases");
-	    var bundletab = document.getElementById("ec2ui.tabs.bundleTasks");
-	    if(this.isAmazonEndpointSelected()){
-		elbtab.setAttribute("hidden", false);
-		reservedtab.setAttribute("hidden", false);
-		bundletab.setAttribute("hidden", false);
-	    }else{
-		elbtab.setAttribute("hidden", true);
-		reservedtab.setAttribute("hidden", true);
-		bundletab.setAttribute("hidden", true);
-	    }
+
             // The current tab's view needs to either
             // be invalidated or refreshed
             this.tabSelectionChanged();
@@ -606,14 +581,6 @@ var ec2ui_session =
 	    return true;
 	}
 	return false;
-    },
-
-    isCloudstackEndpointSelected: function () {
-            var activeEndpointType = this.getActiveEndpoint().type;
-            if (activeEndpointType.search(/cloudstack/)!=-1) { //if active endpoint type ends with "cloudstack"
-                    return true;
-            }
-            return false;
     },
     
     deleteEC2Tag : function(resource){

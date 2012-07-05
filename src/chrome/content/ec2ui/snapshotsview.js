@@ -95,6 +95,8 @@ var ec2ui_SnapshotTreeView = {
     },
 
     displayImages : function (imageList) {
+        BaseImagesView.displayImages.call(this, imageList);
+
         if (ec2ui_prefs.isRefreshOnChangeEnabled()) {
             // Determine if there are any pending operations
             if (this.pendingUpdates()) {
@@ -106,37 +108,6 @@ var ec2ui_SnapshotTreeView = {
         } else {
             this.stopRefreshTimer("ec2ui_SnapshotTreeView");
         }
-
-	/*
-                Here we display all snapshots data to be shown.
-                Put this for cloudstack, since works for sure,
-                but I think, it can be propagated to the rest.
-        */
-        if(ec2ui_session.isCloudstackEndpointSelected()){
-                /*
-                        this is a quickfix for data not being propagated
-                        see displayImage at baseimageviews.js for details
-                */
-                imageList = ec2ui_model.snapshots;
-		/*end of quickfix*/
-
-		if(this.imageList!=null){
-			this.treeBox.rowCountChanged(0, -this.imageList.length);
-		}
-                this.imageList = imageList;
-                this.treeBox.rowCountChanged(0, this.imageList.length);
-                this.sort();
-
-                // reselect old selection
-                if (this.selectedImageId) {
-                    this.selectByImageId(this.selectedImageId);
-                } else {
-                    this.selection.clearSelection();
-                }
-        }else{
-                BaseImagesView.displayImages.call(this, imageList);
-        }
-
     },
 
     pendingUpdates : function() {

@@ -213,8 +213,6 @@
 <!ENTITY ec2ui.instances.powerdown.tip "選択したインスタンスを停止">
 <!ENTITY ec2ui.instances.console.tip "コンソール出力を表示">
 <!ENTITY ec2ui.instances.connect.tip "インスタンスに接続">
-<!ENTITY ec2ui.instances.stop.tip "一時停止">
-<!ENTITY ec2ui.instances.start.tip "開始">
 
 <!ENTITY ec2ui.keypairs.create.tip "新しいキー・ペアを作成">
 <!ENTITY ec2ui.keypairs.delete.tip "選択したキー・ペアを削除">

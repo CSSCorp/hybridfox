@@ -859,7 +859,7 @@ var ec2ui_InstancesTreeView = {
     },
 
     refresh : function() {
-	this.selectionChanged();
+		this.selectionChanged();
         ec2ui_session.showBusyCursor(true);
         ec2ui_session.controller.describeInstances();
         ec2ui_session.controller.describeInstanceStatus();
@@ -892,7 +892,7 @@ var ec2ui_InstancesTreeView = {
 
         // If this is not a Windows Instance, Disable the following
         // context menu items.
-        if(ec2ui_session.isAmazonEndpointSelected() || ec2ui_session.isCloudstackEndpointSelected()){
+        if(ec2ui_session.isAmazonEndpointSelected()){
             document.getElementById("instances.context.bundle").disabled = fDisabled;
             document.getElementById("instances.context.getPassword").disabled = fDisabled;
             document.getElementById("instances.context.monitor").disabled = disableMonitor;
@@ -906,22 +906,7 @@ var ec2ui_InstancesTreeView = {
                 document.getElementById("instances.context.showTerminationProtection").disabled = true;
                 document.getElementById("instances.context.changeTerminationProtection").disabled = true;
             }
-        } else if(ec2ui_session.isEucalyptusEndpointSelected() || ec2ui_session.isOpenstackEndpointSelected()){
-            document.getElementById("instances.context.bundle").disabled = fDisabled;
-            document.getElementById("instances.context.getPassword").disabled = fDisabled;
-            document.getElementById("instances.context.monitor").disabled = true;
-            document.getElementById("instances.context.unmonitor").disabled = true;
-            document.getElementById("instances.context.start").disabled = disableStart;
-            document.getElementById("instances.context.stop").disabled = disableStop;
-            document.getElementById("instances.context.forceStop").disabled = disableStop;
-            document.getElementById("instances.context.showTerminationProtection").disabled = true;
-            document.getElementById("instances.context.changeTerminationProtection").disabled = true;
-            document.getElementById("instances.context.createtag").disabled = true;
-            document.getElementById("instances.context.deletetag").disabled = true;
-            if(rootdevicetype){
-                document.getElementById("instances.context.stop").disabled = true;
-                document.getElementById("instances.context.forceStop").disabled = true;
-            }
+
         } else {
             document.getElementById("instances.context.monitor").disabled = true;
             document.getElementById("instances.context.unmonitor").disabled = true;

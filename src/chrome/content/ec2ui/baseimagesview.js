@@ -119,7 +119,7 @@ var BaseImagesView = {
 
     refresh : function() {
         ec2ui_session.showBusyCursor(true);
-        ec2ui_session.controller.describeImages(true, this.displayImages);
+        ec2ui_session.controller.describeImages(true);
         ec2ui_session.showBusyCursor(false);
     },
 
@@ -163,37 +163,21 @@ var BaseImagesView = {
     },
 
     displayImages : function (imageList) {
-	/*
-	  temp workaround to issue: 
-	  callback function is correctly passed, 
-	  but we get a treeBox undefined, 
-	  because is invoked from controller.js without 
-	  baseimageview.js context
-	  preventing information to be correctly refreshed.
-	  //TODO see how to pass callbacks and object, so that
-		can be invoked on desired context
-	*/
-	imageList = ec2ui_session.model.images;
-	/*End of workaround*/
         if (imageList == null) {
             imageList = [];
         }
-	//Add a check to avoid getting alerts due to undefined object called from another context
-	if(this.treeBox !== undefined){
-		if(this.imageList!=null){
-	        	this.treeBox.rowCountChanged(0, -this.imageList.length);
-		}
-        	this.imageList = imageList;
-        	this.treeBox.rowCountChanged(0, this.imageList.length);
-        	this.sort();
 
-        	// reselect old selection
-        	if (this.selectedImageId) {
-        	    this.selectByImageId(this.selectedImageId);
-        	} else {
-        	    this.selection.clearSelection();
-        	}
-	}
+        this.treeBox.rowCountChanged(0, -this.imageList.length);
+        this.imageList = imageList;
+        this.treeBox.rowCountChanged(0, this.imageList.length);
+        this.sort();
+
+        // reselect old selection
+        if (this.selectedImageId) {
+            this.selectByImageId(this.selectedImageId);
+        } else {
+            this.selection.clearSelection();
+        }
     },
 
     tag : function(event) {

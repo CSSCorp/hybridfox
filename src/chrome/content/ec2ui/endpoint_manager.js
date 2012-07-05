@@ -58,12 +58,6 @@ var ec2ui_endpointManager = {
                 else if(sel.type == ("nova")){
             	    document.getElementById("ec2ui.endpoints.type").selectedIndex = 2;
                 }
-                else if(sel.type == ("nebula")){
-                    document.getElementById("ec2ui.endpoints.type").selectedIndex = 3;
-                }
-		else if(sel.type == ("cloudstack")){
-                    document.getElementById("ec2ui.endpoints.type").selectedIndex = 4;
-                }
             document.getElementById("ec2ui.endpoints.url").value = sel.url;
         }
     }
