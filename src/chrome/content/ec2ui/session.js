@@ -257,7 +257,20 @@ var ec2ui_session =
 
             // Set the active tab to the last tab we were viewing
             document.getElementById("ec2ui.tabs").selectedIndex = ec2ui_prefs.getCurrentTab();
-
+	    
+	    var elbtab = document.getElementById("ec2ui.tabs.loadbalancer");
+	    var reservedtab = document.getElementById("ec2ui.tabs.leases");
+	    var bundletab = document.getElementById("ec2ui.tabs.bundleTasks");
+	    if(this.isAmazonEndpointSelected()){
+		elbtab.setAttribute("hidden", false);
+		reservedtab.setAttribute("hidden", false);
+		bundletab.setAttribute("hidden", false);
+	    }else{
+		elbtab.setAttribute("hidden", true);
+		reservedtab.setAttribute("hidden", true);
+		bundletab.setAttribute("hidden", true);
+	    }
+	    
             // The current tab's view needs to either
             // be invalidated or refreshed
             this.tabSelectionChanged();
@@ -461,7 +474,19 @@ var ec2ui_session =
 
             // Set the active tab to the last tab we were viewing
             document.getElementById("ec2ui.tabs").selectedIndex = ec2ui_prefs.getCurrentTab();
-
+	    
+	    var elbtab = document.getElementById("ec2ui.tabs.loadbalancer");
+	    var reservedtab = document.getElementById("ec2ui.tabs.leases");
+	    var bundletab = document.getElementById("ec2ui.tabs.bundleTasks");
+	    if(this.isAmazonEndpointSelected()){
+		elbtab.setAttribute("hidden", false);
+		reservedtab.setAttribute("hidden", false);
+		bundletab.setAttribute("hidden", false);
+	    }else{
+		elbtab.setAttribute("hidden", true);
+		reservedtab.setAttribute("hidden", true);
+		bundletab.setAttribute("hidden", true);
+	    }
             // The current tab's view needs to either
             // be invalidated or refreshed
             this.tabSelectionChanged();
