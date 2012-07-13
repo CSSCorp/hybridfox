@@ -39,7 +39,7 @@
           </menu>
           <menuitem id="instances.context.changeInstanceType"
             oncommand="ec2ui_InstancesTreeView.changeInstanceType();"
-            label="Change Instance Type" />
+            label="&ec2ui.instances.contextmenu.changeInstanceType.label;" />
           <menuseparator />
           <menuitem oncommand="ec2ui_InstancesTreeView.launchMore();"
             label="&ec2ui.instances.contextmenu.launchmore.label;" />

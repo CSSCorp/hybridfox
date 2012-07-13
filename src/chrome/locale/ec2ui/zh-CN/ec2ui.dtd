@@ -184,6 +184,7 @@
 <!ENTITY ec2ui.instances.contextmenu.copyprivateip.label "私有 IP">
 <!ENTITY ec2ui.instances.contextmenu.copypublicip.label "公共 IP">
 <!ENTITY ec2ui.instances.contextmenu.connect.label "连接到公有 DNS">
+<!ENTITY ec2ui.instances.contextmenu.changeInstanceType.label "更改实例类型">
 
 <!ENTITY ec2ui.addresses.contextmenu.associate.label "关联 弹性IP 到实例">
 <!ENTITY ec2ui.addresses.contextmenu.disassociate.label "解除该 弹性IP 关联">

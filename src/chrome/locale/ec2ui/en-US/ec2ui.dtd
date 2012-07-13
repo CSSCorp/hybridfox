@@ -171,6 +171,7 @@
 <!ENTITY ec2ui.instances.contextmenu.copypublic.label "Copy Public DNS Name to clipboard">
 <!ENTITY ec2ui.instances.contextmenu.copyprivate.label "Copy Private DNS Name to clipboard">
 <!ENTITY ec2ui.instances.contextmenu.connect.label "Connect to Public DNS Name">
+<!ENTITY ec2ui.instances.contextmenu.changeInstanceType.label "Change Instance Type">
 
 <!ENTITY ec2ui.addresses.contextmenu.associate.label "Associate Elastic IP with Instance">
 <!ENTITY ec2ui.addresses.contextmenu.disassociate.label "Disassociate this address">

@@ -170,6 +170,7 @@
 <!ENTITY ec2ui.instances.contextmenu.copypublic.label "パブリックDNSをコピー">
 <!ENTITY ec2ui.instances.contextmenu.copyprivate.label "プライベートDNSをコピー">
 <!ENTITY ec2ui.instances.contextmenu.connect.label "パブリックDNSへ接続">
+<!ENTITY ec2ui.instances.contextmenu.changeInstanceType.label "インスタンスの種類を変更">
 
 <!ENTITY ec2ui.addresses.contextmenu.associate.label "ElasticIPをインスタンスに関連付け">
 <!ENTITY ec2ui.addresses.contextmenu.disassociate.label "インスタンスへの関連付けを解除">

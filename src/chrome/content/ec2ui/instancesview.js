@@ -900,6 +900,7 @@ var ec2ui_InstancesTreeView = {
             document.getElementById("instances.context.start").disabled = disableStart;
             document.getElementById("instances.context.stop").disabled = disableStop;
             document.getElementById("instances.context.forceStop").disabled = disableStop;
+            document.getElementById("instances.context.changeInstanceType").disabled = disableStart;
             if(rootdevicetype){
                 document.getElementById("instances.context.stop").disabled = true;
                 document.getElementById("instances.context.forceStop").disabled = true;
@@ -917,7 +918,7 @@ var ec2ui_InstancesTreeView = {
             document.getElementById("instances.context.showTerminationProtection").disabled = true;
             document.getElementById("instances.context.changeTerminationProtection").disabled = true;
             document.getElementById("instances.context.createtag").disabled = true;
-            document.getElementById("instances.context.deletetag").disabled = true;
+            document.getElementById("instances.context.deletetag").disabled = true;            
             if(rootdevicetype){
                 document.getElementById("instances.context.stop").disabled = true;
                 document.getElementById("instances.context.forceStop").disabled = true;
@@ -930,6 +931,7 @@ var ec2ui_InstancesTreeView = {
             document.getElementById("instances.context.forceStop").disabled = true;
             document.getElementById("instances.context.createtag").disabled = true;
             document.getElementById("instances.context.deletetag").disabled = true;
+            document.getElementById("instances.context.changeInstanceType").disabled = true;
         }
        
 
