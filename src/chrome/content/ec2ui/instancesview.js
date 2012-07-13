@@ -918,7 +918,7 @@ var ec2ui_InstancesTreeView = {
             document.getElementById("instances.context.showTerminationProtection").disabled = true;
             document.getElementById("instances.context.changeTerminationProtection").disabled = true;
             document.getElementById("instances.context.createtag").disabled = true;
-            document.getElementById("instances.context.deletetag").disabled = true;            
+            document.getElementById("instances.context.deletetag").disabled = true;
             if(rootdevicetype){
                 document.getElementById("instances.context.stop").disabled = true;
                 document.getElementById("instances.context.forceStop").disabled = true;
