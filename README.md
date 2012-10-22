@@ -52,6 +52,28 @@ It would be nice if the community gets involved and extends this a little furthe
 
 *Caveat:* Hybridfox is an extension of an earlier version of Elasticfox, 1.6.x.
 
+# All About the Versions
+
+Hybridfox development is more focused on supporting all features of popular Private Cloud frameworks without breaking the EC2 functionality.
+
+## 1.7! Whats that?
+
+Thanks to David Kavanagh, from Eucalyptus Inc. We are out with 1.7, hybridfox, with all the features of Hybridfox and the latest of features of Elasticfox. Apart from that he has also included some cool features like.
+
+* Specifying an Endpoint(Region) as Eucalytpus or not
+* Defining a Default account for a particular region
+* Support for latest AWS Signing convention(which is also the Eucalyptus Enterprise's convention)
+
+Please feel free to, Download, Play and Rant in of any issues.
+
+## 1.6 & 1.7 - Japanese
+
+Thanks Ryo Watanabe for localizing Hybridfox to Japanese 
+
+## 1.6 - Simplified Chinese
+
+Thanks Punkboyee for localizing Hybridfox to Simplified Chinese
+
 # Original Readme
 
 This is a Mozilla Firefox extension for interacting with Amazon EC2. The source code
