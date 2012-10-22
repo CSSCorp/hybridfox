@@ -7,12 +7,13 @@ Hybridfox now allows addition and removal of any of the regions.
 * Now Hybridfox Localized for Japanese and Simplified Chinese.
 * Hybridfox EXT with experimental support for AWS Cloudformation,Monitoring and Spot Instances
 
+Here are the list of various download types
 
-[1.6 Download Now](http://hybridfox.googlecode.com/files/hybridfox-1.6.000236.xpi)
-[1.6 with Cloud Stack Download Now] http://hybridfox.googlecode.com/files/hybridfox-1.6.000224.xpi 
-[1.7 Download Now](http://hybridfox.googlecode.com/files/hybridfox-1.7.000177.xpi)
-[1.6-EXT (Beta) Download Now](http://hybridfox.googlecode.com/files/hybridfox-ext-1.6.000208.xpi)
-[1.6 Chinese (Beta) Download Now](http://hybridfox.googlecode.com/files/hybridfox-1.6.000208.xpi)
+* [1.6 Download Now](http://hybridfox.googlecode.com/files/hybridfox-1.6.000236.xpi)
+* [1.6 with Cloud Stack Download Now](http://hybridfox.googlecode.com/files/hybridfox-1.6.000224.xpi)
+* [1.7 Download Now](http://hybridfox.googlecode.com/files/hybridfox-1.7.000177.xpi)
+* [1.6-EXT (Beta) Download Now](http://hybridfox.googlecode.com/files/hybridfox-ext-1.6.000208.xpi)
+* [1.6 Chinese (Beta) Download Now](http://hybridfox.googlecode.com/files/hybridfox-1.6.000208.xpi)
 
 # What is Hybridfox?
 
