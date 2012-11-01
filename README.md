@@ -1,3 +1,9 @@
+# What is Hybridfox?
+
+Hybridfox is a Firefox add-on that attempts to get the best of popular public and private Cloud Computing environments. Currently it supports [AWS](http://aws.amazon.com), [Eucalyptus](http://open.eucalyptus.com/ Eucalyptus), [OpenStack](http://openstack.org/), [OpenNebula](http://opennebula.org/) and [HP Cloud](http://hpcloud.com/) environments. The idea is to use a tool providing a single interface to switch seamlessly between multiple cloud accounts in order to manage your "Cloud Computing" environment. It offers complete GUI for Amazon Web Services like [Elastic Load Balancer](http://aws.amazon.com/elasticloadbalancing/), [CloudWatch](http://aws.amazon.com/cloudwatch/), [Spot Instances](http://aws.amazon.com/ec2/spot-instances/) and [CloudFormation](http://aws.amazon.com/cloudformation/). 
+
+It is also localized in Japanese and Chinese languages with the help of community support
+
 # Get The Latest Hybridfox
 
 Hybridfox now allows addition and removal of any of the regions.
@@ -14,13 +20,6 @@ Here are the list of various download types
 * [1.7 Download Now](http://hybridfox.googlecode.com/files/hybridfox-1.7.000177.xpi)
 * [1.6-EXT (Beta) Download Now](http://hybridfox.googlecode.com/files/hybridfox-ext-1.6.000208.xpi)
 * [1.6 Chinese (Beta) Download Now](http://hybridfox.googlecode.com/files/hybridfox-1.6.000208.xpi)
-
-# What is Hybridfox?
-
-Hybridfox is a Firefox add-on that attempts to get the best of popular public and private Cloud Computing environments. Currently it supports [AWS](http://aws.amazon.com), [Eucalyptus](http://open.eucalyptus.com/ Eucalyptus), [OpenStack](http://openstack.org/), [OpenNebula](http://opennebula.org/) and [HP Cloud](http://hpcloud.com/) environments. The idea is to use a tool providing a single interface to switch seamlessly between multiple cloud accounts in order to manage your "Cloud Computing" environment. It offers complete GUI for Amazon Web Services like [Elastic Load Balancer](http://aws.amazon.com/elasticloadbalancing/), [CloudWatch](http://aws.amazon.com/cloudwatch/), [Spot Instances](http://aws.amazon.com/ec2/spot-instances/) and [CloudFormation](http://aws.amazon.com/cloudformation/). 
-
-It is also localized in Japanese and Chinese languages with the help of community support
-
 
 # What can Hybridfox do?
 
