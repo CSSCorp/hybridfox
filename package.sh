@@ -7,15 +7,15 @@ BASE=`basename build/*-*.*.*`
 pushd build/$BASE > /dev/null 
   # package an xpi
   echo "+ Creating dist/$BASE.xpi"
-  zip -9 ../../dist/$BASE.xpi install.* chrome.manifest chrome/ec2ui.jar README LICENSE
+  zip -9 ../../dist/$BASE.xpi install.* chrome.manifest chrome/ec2ui.jar README.md LICENSE
 
-  cp README LICENSE ../../dist
+  cp README.md LICENSE ../../dist
 popd > /dev/null
 
 pushd dist > /dev/null
   # package the extension as a zip file
   echo "+ Creating dist/$BASE.zip"
-  zip -9 $BASE.zip $BASE.xpi README LICENSE
+  zip -9 $BASE.zip $BASE.xpi README.md LICENSE
 popd > /dev/null
 
 # create source tarball
@@ -25,4 +25,5 @@ tar czf dist/$BASE-src.tgz -C build $BASE-src
 # rdf describing updates, legacy naming to support old versions that
 # still expect this rdf file
 cp build/$BASE/ec2ui.rdf dist/ec2ui.rdf
+
 

@@ -9,9 +9,8 @@ function get_dir_revision() {
     local last_rev
 
     # Generate a release number for the entire branch
-    last_rev=$(hg log $1 -b default -l 1 | grep 'changeset')
-    changeset=${last_rev#*:}
-    pkg_release=${changeset%:*}
+    last_rev=$(git log --pretty=format:'%h' | wc -l)
+    pkg_release=${last_rev%:*}
     if [ -z "$pkg_release" ] ; then
     pkg_release=0
     fi
@@ -40,7 +39,7 @@ echo "+ Bulding $PKG_NAME version $PKG_VERSION-$PKG_RELEASE"
 
 # setup source for building
 rm -rf build && mkdir -p build/$BASE
-rsync -azC --exclude '*.swp' --exclude '*~' src/ README LICENSE build/$BASE/.
+rsync -azC --exclude '*.swp' --exclude '*~' src/ README.md LICENSE build/$BASE/.
 
 pushd build/$BASE > /dev/null
   # change from development manifest
@@ -64,4 +63,5 @@ popd > /dev/null
 
 # prepare source for bundling
 mkdir -p build/$BASE-src
-rsync -azC BUILDING LICENSE README *.sh src build/$BASE-src
+rsync -azC BUILDING LICENSE README.md *.sh src build/$BASE-src
+
