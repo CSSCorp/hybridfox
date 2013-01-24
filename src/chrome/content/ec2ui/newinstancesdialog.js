@@ -163,37 +163,44 @@ var ec2_InstanceLauncher = {
             //Just checking for EC2 or not
             if (this.ec2ui_session.isAmazonEndpointSelected()) {
 		if(rootdevice == "ebs"){
-		   		   typeMenu.appendItem("t1.micro", "t1.micro");
-				   typeMenu.appendItem("c1.medium", "c1.medium");
-				   typeMenu.appendItem("m1.medium", "m1.medium");	 	
-                   typeMenu.appendItem("m1.large", "m1.large");
-                   typeMenu.appendItem("m1.xlarge", "m1.xlarge");
-                   typeMenu.appendItem("c1.xlarge", "c1.xlarge");
-                   typeMenu.appendItem("m2.xlarge", "m2.xlarge");
-                   typeMenu.appendItem("m2.2xlarge", "m2.2xlarge");
-                   typeMenu.appendItem("m2.4xlarge", "m2.4xlarge");
-				   typeMenu.appendItem("cc1.4xlarge", "cc1.4xlarge");
-				   typeMenu.appendItem("cc2.8xlarge", "cc2.8xlarge");
-                   typeMenu.appendItem("cg1.4xlarge", "cg1.4xlarge");
+		    typeMenu.appendItem("t1.micro", "t1.micro");		    
+		    typeMenu.appendItem("m1.small", "m1.small");
+		    typeMenu.appendItem("m1.medium", "m1.medium");
+		    typeMenu.appendItem("m1.large", "m1.large");
+		    typeMenu.appendItem("m1.xlarge", "m1.xlarge");
+		    typeMenu.appendItem("m2.xlarge", "m2.xlarge");
+		    typeMenu.appendItem("m2.2xlarge", "m2.2xlarge");
+		    typeMenu.appendItem("m2.4xlarge", "m2.4xlarge");		    
+		    typeMenu.appendItem("m3.xlarge", "m1.xlarge");
+		    typeMenu.appendItem("m3.xlarge", "m1.2xlarge");
+		    typeMenu.appendItem("c1.medium", "c1.medium");
+		    typeMenu.appendItem("c1.xlarge", "c1.xlarge");
+		    typeMenu.appendItem("cc2.8xlarge", "cc2.8xlarge");
+		    typeMenu.appendItem("cr1.8xlarge", "cr1.8xlarge");
+		    typeMenu.appendItem("cg1.4xlarge", "cg1.4xlarge");
+		    typeMenu.appendItem("hi1.4xlarge", "hi1.4xlarge");
 		}
 		else {
-                   typeMenu.appendItem("m1.small", "m1.small");
-				   typeMenu.appendItem("c1.medium", "c1.medium");
-				   typeMenu.appendItem("m1.medium", "m1.medium");
-				   typeMenu.appendItem("m1.large", "m1.large");
-                   typeMenu.appendItem("m1.xlarge", "m1.xlarge");
-                   typeMenu.appendItem("c1.xlarge", "c1.xlarge");
-                   typeMenu.appendItem("m2.xlarge", "m2.xlarge");
-                   typeMenu.appendItem("m2.2xlarge", "m2.2xlarge");
-                   typeMenu.appendItem("m2.4xlarge", "m2.4xlarge");
-                   typeMenu.appendItem("cc1.4xlarge", "cc1.4xlarge");
-				   typeMenu.appendItem("cc2.8xlarge", "cc2.8xlarge");
-                   typeMenu.appendItem("cg1.4xlarge", "cg1.4xlarge");
+		    typeMenu.appendItem("m1.small", "m1.small");
+		    typeMenu.appendItem("m1.medium", "m1.medium");
+		    typeMenu.appendItem("m1.large", "m1.large");
+		    typeMenu.appendItem("m1.xlarge", "m1.xlarge");
+		    typeMenu.appendItem("m2.xlarge", "m2.xlarge");
+		    typeMenu.appendItem("m2.2xlarge", "m2.2xlarge");
+		    typeMenu.appendItem("m2.4xlarge", "m2.4xlarge");		    
+		    typeMenu.appendItem("m3.xlarge", "m1.xlarge");
+		    typeMenu.appendItem("m3.xlarge", "m1.2xlarge");
+		    typeMenu.appendItem("c1.medium", "c1.medium");
+		    typeMenu.appendItem("c1.xlarge", "c1.xlarge");
+		    typeMenu.appendItem("cc2.8xlarge", "cc2.8xlarge");
+		    typeMenu.appendItem("cr1.8xlarge", "cr1.8xlarge");
+		    typeMenu.appendItem("cg1.4xlarge", "cg1.4xlarge");
+		    typeMenu.appendItem("hi1.4xlarge", "hi1.4xlarge");
                 }
             }
 	    else if (!this.ec2ui_session.isOpenstackEndpointSelected()) {
-				typeMenu.appendItem("m1.tiny", "m1.tiny");
-				typeMenu.appendItem("m1.small", "m1.small");
+		typeMenu.appendItem("m1.tiny", "m1.tiny");
+		typeMenu.appendItem("m1.small", "m1.small");
                 typeMenu.appendItem("m1.medium", "m1.medium");
                 typeMenu.appendItem("m1.large", "m1.large");
                 typeMenu.appendItem("m1.xlarge", "m1.xlarge");                
@@ -209,21 +216,15 @@ var ec2_InstanceLauncher = {
             //Just checking for EC2 or not
             if (this.ec2ui_session.isAmazonEndpointSelected()) {
 		if(rootdevice == "ebs"){
-		   		   typeMenu.appendItem("t1.micro", "t1.micro");
-                   typeMenu.appendItem("m1.small", "m1.small");
-                   typeMenu.appendItem("c1.medium", "c1.medium");
-				   typeMenu.appendItem("m1.medium", "m1.medium"); 	  
+		    typeMenu.appendItem("t1.micro", "t1.micro");
+                    typeMenu.appendItem("m1.small", "m1.small");                    
+		    typeMenu.appendItem("m1.medium", "m1.medium");
+		    typeMenu.appendItem("c1.medium", "c1.medium");
 		}
 		else{
-		   		   typeMenu.appendItem("m1.small", "m1.small");
-				   typeMenu.appendItem("c1.medium", "c1.medium");
-				   typeMenu.appendItem("m1.medium", "m1.medium");
-				   typeMenu.appendItem("m1.large", "m1.large");
-                   typeMenu.appendItem("m1.xlarge", "m1.xlarge");
-                   typeMenu.appendItem("c1.xlarge", "c1.xlarge");
-                   typeMenu.appendItem("m2.xlarge", "m2.xlarge");
-                   typeMenu.appendItem("m2.2xlarge", "m2.2xlarge");
-                   typeMenu.appendItem("m2.4xlarge", "m2.4xlarge");
+                    typeMenu.appendItem("m1.small", "m1.small");                    
+		    typeMenu.appendItem("m1.medium", "m1.medium");
+		    typeMenu.appendItem("c1.medium", "c1.medium");
 		}
             }
             else { 
