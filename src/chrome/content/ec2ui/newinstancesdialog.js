@@ -171,8 +171,8 @@ var ec2_InstanceLauncher = {
 		    typeMenu.appendItem("m2.xlarge", "m2.xlarge");
 		    typeMenu.appendItem("m2.2xlarge", "m2.2xlarge");
 		    typeMenu.appendItem("m2.4xlarge", "m2.4xlarge");		    
-		    typeMenu.appendItem("m3.xlarge", "m1.xlarge");
-		    typeMenu.appendItem("m3.xlarge", "m1.2xlarge");
+		    typeMenu.appendItem("m3.xlarge", "m3.xlarge");
+		    typeMenu.appendItem("m3.2xlarge", "m3.2xlarge");
 		    typeMenu.appendItem("c1.medium", "c1.medium");
 		    typeMenu.appendItem("c1.xlarge", "c1.xlarge");
 		    typeMenu.appendItem("cc2.8xlarge", "cc2.8xlarge");
@@ -188,8 +188,8 @@ var ec2_InstanceLauncher = {
 		    typeMenu.appendItem("m2.xlarge", "m2.xlarge");
 		    typeMenu.appendItem("m2.2xlarge", "m2.2xlarge");
 		    typeMenu.appendItem("m2.4xlarge", "m2.4xlarge");		    
-		    typeMenu.appendItem("m3.xlarge", "m1.xlarge");
-		    typeMenu.appendItem("m3.xlarge", "m1.2xlarge");
+		    typeMenu.appendItem("m3.xlarge", "m3.xlarge");
+		    typeMenu.appendItem("m3.2xlarge", "m3.2xlarge");
 		    typeMenu.appendItem("c1.medium", "c1.medium");
 		    typeMenu.appendItem("c1.xlarge", "c1.xlarge");
 		    typeMenu.appendItem("cc2.8xlarge", "cc2.8xlarge");
